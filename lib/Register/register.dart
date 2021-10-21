@@ -24,7 +24,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final l = Logger();
-  var googleDetails;
+  var googleDetails, googleId;
   bool secureText = true;
   bool secureText1 = true;
   List<Map<String, dynamic>> items = [
@@ -77,7 +77,7 @@ class _RegisterState extends State<Register> {
       'fcm': "",
       'reference_code': referralcode.text.toString(),
       'class': standard.text.toString(),
-      'google_id': widget.googleuser.id.toString()
+      'google_id': googleId.toString()
     }).then((value) async {
       var decodeDetails = json.decode(value.body);
       print(decodeDetails);
@@ -141,9 +141,11 @@ class _RegisterState extends State<Register> {
       if (widget.googleuser == null) {
         username.text = ''.toString();
         email.text = ''.toString();
+        googleId = ''.toString();
       } else {
         username.text = widget.googleuser.displayName;
         email.text = widget.googleuser.email;
+        googleId = widget.googleuser.id;
       }
     });
   }
