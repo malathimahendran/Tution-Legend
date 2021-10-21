@@ -1,48 +1,107 @@
-// import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:hexcolor/hexcolor.dart';
-// import 'package:shimmer/shimmer.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:tutionmaster/Slider/carosalSlider.dart';
 
-// class SplashScreen extends StatefulWidget {
-//   SplashScreen({Key? key}) : super(key: key);
+import '../SHARED PREFERENCES/shared_preferences.dart';
 
-//   @override
-//   _SplashScreenState createState() => _SplashScreenState();
-// }
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
 
-// class _SplashScreenState extends State<SplashScreen> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         body: Container(
-//       child: Center(
-//         child: Container(
-//           child: Stack(
-//             alignment: Alignment.center,
-//             children: <Widget>[
-//               // Opacity(
-//               //   opacity: 0.5,
-//               //   child: Image.asset('assests/images/tree.jpg'),
-//               // ),
-//               Shimmer.fromColors(
-//                   period: Duration(seconds: 4),
-//                   baseColor: Colors.white,
-//                   highlightColor: Colors.white,
-//                   child: Container(
-//                     padding: EdgeInsets.all(16.0),
-//                     child: Text("Tution Legend",
-//                         style: GoogleFonts.poppins(
-//                             textStyle: TextStyle(
-//                           fontSize: 25.0,
-//                           fontWeight: FontWeight.bold,
-//                           color: Colors.pink,
-//                           // fontFamily: 'Pacifico',
-//                         ))),
-//                   )),
-//             ],
-//           ),
-//         ),
-//       ),
-//     ));
-//   }
-// }
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  var selectHere;
+  @override
+  void initState() {
+    super.initState();
+
+    selectingHere().whenComplete(() {
+      Future.delayed(Duration(seconds: 2), () {
+        Navigator.popAndPushNamed(
+            context, selectHere == null ? 'carosalSlider' : 'homescreen');
+      });
+    });
+  }
+
+  Future selectingHere() async {
+    await Shared().shared().then((val) {
+      selectHere = val.getStringList('storeData');
+      print(selectHere);
+      // l.wtf('in splashscreen selectingHereFunction');
+    });
+
+    // var shared = await SharedPreferences.getInstance();
+    // setState(() {
+    //   selectHere = shared.getStringList('pic');
+    // });
+    // print(selectHere);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+    var status = MediaQuery.of(context).padding.top;
+    return Scaffold(
+        body: Container(
+      margin: EdgeInsets.only(
+        top: status,
+      ),
+      height: height,
+      width: width,
+      child: Column(
+        children: [
+          Container(
+            height: (height - status) * 0.5,
+          ),
+          Container(
+            height: (height - status) * 0.5,
+            child: Column(
+              children: [
+                // Container(
+                //   child: Image.asset(''),
+                // ),
+                Shimmer.fromColors(
+                  period: Duration(seconds: 4),
+                  baseColor: Colors.green,
+                  highlightColor: Colors.red,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('TUITION',
+                          style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                            fontSize: 22.0,
+                            // fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                            fontFamily: 'Pacifico',
+                          ))),
+                      SizedBox(
+                        width: width * 0.015,
+                      ),
+                      Text('LEGEND',
+                          style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                            fontSize: 22.0,
+                            // fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                            fontFamily: 'Pacifico',
+                          )))
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [Text('TUITION'), Text('LEGEND')],
+          // )
+        ],
+      ),
+    ));
+  }
+}

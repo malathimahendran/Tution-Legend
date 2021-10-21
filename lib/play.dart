@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -11,31 +12,60 @@ class Play extends StatefulWidget {
 }
 
 class _PlayState extends State<Play> {
+  YoutubePlayerController? _controller;
   final l = Logger();
 
   @override
+  void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+    ]);
+    super.initState();
+  }
+
+  void dispose() {
+    _controller?.dispose();
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    // ]);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var heights = MediaQuery.of(context).orientation;
-    l.i(heights);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.landscapeLeft,
+    // ]);
+    _controller = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(widget.link)!,
+      flags: const YoutubePlayerFlags(
+        // controlsVisibleAtStart: true,
+        hideControls: false,
+        autoPlay: false,
+        isLive: false,
+      ),
+    );
+
+    // var heights = MediaQuery.of(context).orientation;
+    // l.i(heights);
 
     l.e(widget.link);
-    return Scaffold(
-      body: Container(
-        height: heights == Orientation.landscape ? double.infinity : 200,
-        child: Center(
-          child: Container(
-            height: 200,
-            width: double.infinity,
-            child: YoutubePlayer(
-                controller: YoutubePlayerController(
-              initialVideoId: YoutubePlayer.convertUrlToId(widget.link)!,
-              flags: const YoutubePlayerFlags(
-                // controlsVisibleAtStart: true,
-                hideControls: false,
-                autoPlay: false,
-                isLive: false,
-              ),
-            )),
+    return WillPopScope(
+      onWillPop: () async {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+        ]);
+        // _controller.toggleFullScreenMode();
+        return Future.value(true);
+      },
+      child: Scaffold(
+        body: Container(
+          child: Center(
+            child: Container(
+              height: double.infinity,
+              width: double.infinity,
+              child: YoutubePlayer(controller: _controller!),
+            ),
           ),
         ),
       ),
