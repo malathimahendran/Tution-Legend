@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
+import 'package:tutionmaster/SplashScreen/splashscreen.dart';
 
 import 'HomePage/try.dart';
 import 'Login/loginpage.dart';
@@ -42,9 +43,10 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      // home: HomeScreen(),
-      initialRoute: 'carosalSlider',
+      // home: SplashScreen(),
+      initialRoute: 'splashscreen',
       routes: {
+        'splashscreen': (context) => SplashScreen(),
         'carosalSlider': (context) => Carosel(),
         'loginpage': (context) => LoginPage(),
         'startlearning': (context) => StartLearning(),

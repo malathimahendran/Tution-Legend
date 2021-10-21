@@ -164,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
           MaterialPageRoute(
               builder: (context) => Register(
                     googleuser: googleUser,
-                    deviceid: deviceId,
+                    deviceId: deviceId,
                   )));
     } else {
       final snackBar = SnackBar(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:tutionmaster/ProfilePage/logout.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
 
@@ -371,7 +372,7 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               Container(
-                height: (height - status) * 0.16,
+                height: (height - status) * 0.13,
                 width: width * 0.9,
                 child: Card(
                     child: Padding(
@@ -388,6 +389,41 @@ class _ProfileState extends State<Profile> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     color: HexColor('#FFFFFF')),
+              ),
+              InkWell(
+                onTap: () {
+                  LogOutForAll.outTemporary(context);
+                },
+                child: Container(
+                  height: (height - status) * 0.08,
+                  width: width * 0.9,
+                  child: Card(
+                      child: Padding(
+                          padding: EdgeInsets.only(top: 10, left: 10),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.logout,
+                                color: HexColor('#023129'),
+                              ),
+                              SizedBox(
+                                width: width * 0.02,
+                              ),
+                              Text(
+                                'Logout',
+                                style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: HexColor('#B91124'),
+                                        fontSize: 13)),
+                              ),
+                            ],
+                          )),
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      color: HexColor('#FFFFFF')),
+                ),
               ),
             ],
           ),
