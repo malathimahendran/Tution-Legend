@@ -2,6 +2,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'dart:convert';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:select_form_field/select_form_field.dart';
@@ -13,10 +18,9 @@ import 'package:logger/logger.dart';
 
 class Register extends StatefulWidget {
   // const Register({Key? key, String? deviceId}) : super(key: key);
-  Register({this.deviceId, this.googleuser, this.deviceid});
+  Register({this.deviceId, this.googleuser});
   final deviceId;
   final googleuser;
-  final deviceid;
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -56,7 +60,7 @@ class _RegisterState extends State<Register> {
   var fcm = TextEditingController();
   var confirmpassword = TextEditingController();
   var referralcode = TextEditingController();
-
+  String? originalGoogleId;
   get read => null;
   @override
   void initState() {
@@ -65,7 +69,8 @@ class _RegisterState extends State<Register> {
   }
 
   registerApi() async {
-    print(widget.deviceId);
+    print('${widget.deviceId} line no 67');
+    print('${widget.googleuser} line no 68');
     var url =
         Uri.parse('http://www.cviacserver.tk/tuitionlegend/register/sign_up');
     var response = await http.post(url, body: {
@@ -73,11 +78,11 @@ class _RegisterState extends State<Register> {
       'email': email.text.toString(),
       'phone': mobileno.text.toString(),
       'password': password.text.toString(),
-      'device_id': widget.deviceid.toString(),
+      'device_id': widget.deviceId.toString(),
       'fcm': "",
       'reference_code': referralcode.text.toString(),
       'class': standard.text.toString(),
-      'google_id': widget.googleuser.id.toString()
+      'google_id': originalGoogleId.toString()
     }).then((value) async {
       var decodeDetails = json.decode(value.body);
       print(decodeDetails);
@@ -141,9 +146,11 @@ class _RegisterState extends State<Register> {
       if (widget.googleuser == null) {
         username.text = ''.toString();
         email.text = ''.toString();
+        originalGoogleId = ''.toString();
       } else {
         username.text = widget.googleuser.displayName;
         email.text = widget.googleuser.email;
+        originalGoogleId = widget.googleuser.id.toString();
       }
     });
   }
@@ -165,66 +172,70 @@ class _RegisterState extends State<Register> {
       body: Container(
         height: height,
         width: width,
-        margin: EdgeInsets.only(
-          top: status,
-        ),
+        // margin: EdgeInsets.only(
+        //   top: status,
+        // ),
+        padding: EdgeInsets.only(top: status),
         decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/RegisterPage/registerbackground.png'),
-                fit: BoxFit.fill)),
+          color: Colors.red.shade300,
+          image: DecorationImage(
+              image: AssetImage('assets/RegisterPage/registerbackground.png'),
+              fit: BoxFit.fill),
+        ),
         // backgroundColor: Color(0xF2F9F9F9),
 
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.only(top: ((height - status) * 0.2) * 0.2),
-                height: (height - status) * 0.15,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                            width: width * 0.25,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.popAndPushNamed(context, 'loginpage');
-                              },
-                              child: Icon(
-                                Icons.arrow_back,
-                                size: 30,
-                                color: HexColor('#545454'),
-                              ),
-                            )),
-                        Container(
-                          width: width * 0.75,
-                          child: Text("Let's Get Started",
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                                // fontFamily: 'Pacifico',
-                              ))),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: ((height - status)) * 0.01,
-                    ),
-                    Text('Create Your Account',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                          fontSize: 12.0,
-                          color: Colors.black,
-                          // fontFamily: 'Pacifico',
-                        )))
-                  ],
-                ),
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(top: ((height - status) * 0.2) * 0.2),
+              height: (height - status) * 0.15,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                          width: width * 0.25,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.popAndPushNamed(context, 'loginpage');
+                            },
+                            child: Icon(
+                              Icons.arrow_back,
+                              size: 30,
+                              color: HexColor('#545454'),
+                            ),
+                          )),
+                      Container(
+                        width: width * 0.75,
+                        child: Text("Let's Get Started",
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              // fontFamily: 'Pacifico',
+                            ))),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: ((height - status)) * 0.01,
+                  ),
+                  Text('Create Your Account',
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                        fontSize: 12.0,
+                        color: Colors.black,
+                        // fontFamily: 'Pacifico',
+                      )))
+                ],
               ),
-              Container(
-                height: height,
-                width: width,
+            ),
+            Container(
+              height: (height - status) * 0.85,
+              width: width,
+              child: SingleChildScrollView(
+                // reverse: true,
                 child: Column(
                   children: [
                     Textfield(
@@ -382,7 +393,7 @@ class _RegisterState extends State<Register> {
                           color: HexColor('#3F3F3F'),
                         )),
                     SizedBox(
-                      height: ((height - status)) * 0.03,
+                      height: ((height - status)) * 0.05,
                     ),
                     Container(
                       width: width * 0.8,
@@ -441,8 +452,8 @@ class _RegisterState extends State<Register> {
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
