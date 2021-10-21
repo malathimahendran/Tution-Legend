@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "244674719876",
+    "project_id": "tutionlegend-107d5",
+    "storage_bucket": "tutionlegend-107d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244674719876:android:4e9f702e6882883fb7d2d1",
+        "android_client_info": {
+          "package_name": "com.example.tutionmaster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "244674719876-pt94pjj7p96hkfja5evldd4saifjc2g9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tutionmaster",
+            "certificate_hash": "574b1fb4dc578c7f14253cbb7bc4d16fd712044f"
+          }
+        },
+        {
+          "client_id": "244674719876-k3ta3e3qh76dlgg84a8giqr8psc8ah2p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWBZVu3PiuNh8H7lfj5w2sH-ldg97kDyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "244674719876-k3ta3e3qh76dlgg84a8giqr8psc8ah2p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
