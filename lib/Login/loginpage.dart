@@ -23,15 +23,24 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  var hintText, icon, user, storeGoogleUserData;
+  var hintText,
+      icon,
+      user,
+      storeGoogleUserData,
+      userDetails,
+      userName,
+      storeemail,
+      phone,
+      standard;
   var controller;
   var email = TextEditingController();
   var password = TextEditingController();
   bool isChecked = false;
-  var googleDisplayName, googleDisplayEmail, googleId;
+  var googleDisplayName, googleDisplayEmail, googleId, photourl, profileImage;
   var fcm_token;
   String? deviceId, _deviceId;
   GoogleSignInAccount? googleUser;
+
   signInWithGoogle() async {
     googleUser = await GoogleSignIn().signIn();
     print(googleUser?.displayName);
@@ -40,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
     googleDisplayName = googleUser!.displayName;
     googleDisplayEmail = googleUser!.email;
     googleId = googleUser!.id;
+    photourl = googleUser!.photoUrl;
     // List<String> details = [
     //   googleDisplayName,
     //   googleDisplayEmail,
@@ -104,11 +114,11 @@ class _LoginPageState extends State<LoginPage> {
       String email = decodeDetails['user'][0]['email'].toString();
       String phone = decodeDetails['user'][0]['phone'].toString();
       String standard = decodeDetails['user'][0]['class'].toString();
-      // List<String> details = [userName, email, phone, standard, token];
-      // Shared().shared().then((value) async {
-      //   var storeData = await value.setStringList('storeData', details);
-      //   print(storeData);
-      // });
+      List<String> details = [userName, email, phone, standard, token];
+      Shared().shared().then((value) async {
+        var storeData = await value.setStringList('storeData', details);
+        print(storeData);
+      });
 
       print(user);
       print(71);
@@ -146,16 +156,21 @@ class _LoginPageState extends State<LoginPage> {
     print(googleId);
     print(googleDisplayEmail);
     print(deviceId);
+    print(photourl);
     print(140);
     var url = Uri.parse(
         'http://www.cviacserver.tk/tuitionlegend/register/google_login');
     var response = await http.post(url, body: {
       'device_id': deviceId,
+      // 'device_id': 34.toString(),
       'email': googleDisplayEmail,
-      'google_id': googleId
+      'google_id': googleId,
     });
     var decodeDetail = json.decode(response.body);
     print(decodeDetail);
+    userDetails = decodeDetail['user_details'];
+    print("$userDetails" + "161line");
+
     var statusCode = response.statusCode;
     var status = decodeDetail['status'];
     if (status == false) {
@@ -180,6 +195,22 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomeScreen()));
     }
+    userName = userDetails[0]['user_name'].toString();
+    storeemail = userDetails[0]['email'].toString();
+    phone = userDetails[0]['phone'].toString();
+    standard = userDetails[0]['class'].toString();
+    profileImage = userDetails[0]['profile_image'].toString();
+    List<String> details = [
+      userName,
+      storeemail,
+      phone,
+      standard,
+      profileImage
+    ];
+    Shared().shared().then((value) async {
+      var storeData = await value.setStringList('storeData', details);
+      print(storeData);
+    });
   }
 
   @override
@@ -191,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
     // var height1=height-status;
 
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       // appBar: AppBar(
       //   flexibleSpace: Container(
       //     height: (height - status) * 0.30,
