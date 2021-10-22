@@ -10,17 +10,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:select_form_field/select_form_field.dart';
+import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/Login/loginpage.dart';
 import 'package:http/http.dart' as http;
+import 'package:tutionmaster/ProfilePage/logout.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/StartingLearningPage/startlearning.dart';
 import 'package:logger/logger.dart';
 
 class Register extends StatefulWidget {
-  // const Register({Key? key, String? deviceId}) : super(key: key);
-  Register({this.deviceId, this.googleuser});
   final deviceId;
   final googleuser;
+  // const Register({Key? key, String? deviceId}) : super(key: key);
+  Register({this.deviceId, this.googleuser});
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -115,14 +117,14 @@ class _RegisterState extends State<Register> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-        if (googleId == "" && googleId == null) {
+        if (googleId == "" || googleId == null) {
           print('$googleId ,line 102');
           print('inside if');
-          Navigator.popAndPushNamed(context, 'loginpage');
+          Navigator.popAndPushNamed(context, AllRouteNames.loginpage);
         } else {
           print('$googleId ,line 107');
           print('inside else');
-          Navigator.popAndPushNamed(context, 'homescreen');
+          Navigator.popAndPushNamed(context, AllRouteNames.homescreen);
         }
         // Navigator.push(
         //     context, MaterialPageRoute(builder: (context) => LoginPage()));
@@ -144,10 +146,12 @@ class _RegisterState extends State<Register> {
   getGoogleData() {
     setState(() {
       if (widget.googleuser == null) {
+        l.i('inside if');
         username.text = ''.toString();
         email.text = ''.toString();
         originalGoogleId = ''.toString();
       } else {
+        l.i('inside else');
         username.text = widget.googleuser.displayName;
         email.text = widget.googleuser.email;
         originalGoogleId = widget.googleuser.id.toString();
@@ -167,293 +171,301 @@ class _RegisterState extends State<Register> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
-    return Scaffold(
-      // resizeToAvoidBottomInset: false,
-      body: Container(
-        height: height,
-        width: width,
-        // margin: EdgeInsets.only(
-        //   top: status,
-        // ),
-        padding: EdgeInsets.only(top: status),
-        decoration: BoxDecoration(
-          color: Colors.red.shade300,
-          image: DecorationImage(
-              image: AssetImage('assets/RegisterPage/registerbackground.png'),
-              fit: BoxFit.fill),
-        ),
-        // backgroundColor: Color(0xF2F9F9F9),
+    return WillPopScope(
+      onWillPop: () {
+        LogOutForAll.outTemporary(context);
+        return Future.value(true);
+      },
+      child: Scaffold(
+        // resizeToAvoidBottomInset: false,
+        body: Container(
+          height: height,
+          width: width,
+          // margin: EdgeInsets.only(
+          //   top: status,
+          // ),
+          padding: EdgeInsets.only(top: status),
+          decoration: BoxDecoration(
+            color: Colors.red.shade300,
+            image: DecorationImage(
+                image: AssetImage('assets/RegisterPage/registerbackground.png'),
+                fit: BoxFit.fill),
+          ),
+          // backgroundColor: Color(0xF2F9F9F9),
 
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.only(top: ((height - status) * 0.2) * 0.2),
-              height: (height - status) * 0.15,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                          width: width * 0.25,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.popAndPushNamed(context, 'loginpage');
-                            },
-                            child: Icon(
-                              Icons.arrow_back,
-                              size: 30,
-                              color: HexColor('#545454'),
-                            ),
-                          )),
-                      Container(
-                        width: width * 0.75,
-                        child: Text("Let's Get Started",
-                            style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              // fontFamily: 'Pacifico',
-                            ))),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: ((height - status)) * 0.01,
-                  ),
-                  Text('Create Your Account',
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                        fontSize: 12.0,
-                        color: Colors.black,
-                        // fontFamily: 'Pacifico',
-                      )))
-                ],
-              ),
-            ),
-            Container(
-              height: (height - status) * 0.85,
-              width: width,
-              child: SingleChildScrollView(
-                // reverse: true,
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(top: ((height - status) * 0.2) * 0.2),
+                height: (height - status) * 0.15,
                 child: Column(
                   children: [
-                    Textfield(
-                      hintText: 'UserName',
-                      controller: username,
-                      icon: Icon(Icons.person, color: HexColor('#3F3F3F')),
-                    ),
-                    SizedBox(
-                      height: ((height - status)) * 0.03,
-                    ),
-                    Textfield(
-                        type: TextInputType.number,
-                        hintText: 'MobileNo',
-                        controller: mobileno,
-                        icon: Icon(Icons.phone_iphone,
-                            color: HexColor('#3F3F3F'))),
-                    SizedBox(
-                      height: ((height - status)) * 0.03,
-                    ),
-                    Textfield(
-                        read: widget.googleuser != null ? true : false,
-                        type: TextInputType.emailAddress,
-                        hintText: 'Email',
-                        controller: email,
-                        icon: Icon(Icons.email, color: HexColor('#3F3F3F'))),
-                    SizedBox(
-                      height: ((height - status)) * 0.03,
-                    ),
-                    Textfield(
-                        read: true,
-                        hintText: 'CBSE',
-                        controller: boardofeducation,
-                        icon: Icon(Icons.cast_for_education,
-                            color: HexColor('#3F3F3F'))),
-                    SizedBox(
-                      height: ((height - status)) * 0.03,
-                    ),
-                    Container(
-                      width: width * 0.8,
-                      height: height * 0.06,
-                      child: SelectFormField(
-                        controller: standard,
-                        changeIcon: true,
-                        dialogTitle: 'Pick a item',
-                        dialogCancelBtn: 'CANCEL',
-                        enableSearch: true,
-                        // dialogSearchHint: 'Standard',
-                        items: items,
-                        decoration: InputDecoration(
-                            hintText: 'Standard',
-                            hintStyle: GoogleFonts.poppins(
-                                textStyle: TextStyle(fontSize: 12)),
-                            filled: true,
-                            suffixIcon: Icon(
-                              Icons.arrow_drop_down,
-                            ),
-                            fillColor: Colors.white,
-                            disabledBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
-                              borderSide:
-                                  BorderSide(color: Colors.teal, width: 1),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
-                              borderSide:
-                                  BorderSide(color: Colors.teal, width: 1),
-                            ),
-                            // contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
-                              borderSide: BorderSide(
-                                  color: Color(0xF2FFFFFF), width: 1),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
-                              borderSide: BorderSide(color: Color(0xF227DEBF)),
-                            ),
-                            prefixIcon:
-                                Icon(Icons.school, color: HexColor('#3F3F3F'))),
-                      ),
-                    ),
-                    Visibility(
-                        visible: widget.googleuser == null ? true : false,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: ((height - status)) * 0.03,
-                            ),
-                            Textfield(
-                              suffixicon: IconButton(
-                                color: HexColor('#3F3F3F'),
-                                icon: secureText1
-                                    ? Icon(Icons.visibility_off)
-                                    : Icon(Icons.visibility),
-                                onPressed: () {
-                                  setState(() {
-                                    secureText1 = !secureText1;
-                                  });
-                                },
-                              ),
-                              obscuretext: secureText1,
-                              hintText: 'Password',
-                              controller: password,
-                              icon:
-                                  Icon(Icons.lock, color: HexColor('#3F3F3F')),
-                            ),
-                            SizedBox(
-                              height: ((height - status)) * 0.03,
-                            ),
-                            Textfield(
-                                suffixicon: IconButton(
-                                  color: HexColor('#3F3F3F'),
-                                  icon: secureText
-                                      ? Icon(Icons.visibility_off)
-                                      : Icon(Icons.visibility),
-                                  onPressed: () {
-                                    setState(() {
-                                      secureText = !secureText;
-                                    });
-                                  },
-                                ),
-                                validator: (val) {
-                                  call(String values) {
-                                    if (values.isEmpty) {
-                                      return "Confirm Password is required";
-                                    } else if (values != password.text) {
-                                      return "Password does not match";
-                                    } else {
-                                      return null;
-                                    }
-                                  }
-
-                                  return call(val);
-                                },
-                                obscuretext: secureText,
-                                hintText: 'Confirm Password',
-                                controller: confirmpassword,
-                                icon: Icon(Icons.lock,
-                                    color: HexColor('#3F3F3F'))),
-                          ],
-                        )),
-                    SizedBox(
-                      height: ((height - status)) * 0.03,
-                    ),
-                    Textfield(
-                        type: TextInputType.number,
-                        hintText: 'Referral Code',
-                        controller: referralcode,
-                        icon: Icon(
-                          Icons.qr_code,
-                          color: HexColor('#3F3F3F'),
-                        )),
-                    SizedBox(
-                      height: ((height - status)) * 0.05,
-                    ),
-                    Container(
-                      width: width * 0.8,
-                      height: height * 0.05,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            registerApi();
-                          },
-                          child: Text(
-                            'Create Account',
-                            style: GoogleFonts.poppins(),
-                          ),
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.red),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              )))),
-                    ),
-                    SizedBox(
-                      height: ((height - status)) * 0.03,
-                    ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Already have an account?',
-                          style: GoogleFonts.poppins(),
-                        ),
-                        SizedBox(
-                          width: 2,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.popAndPushNamed(context, 'loginpage');
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => LoginPage()));
-                          },
-                          child: Text('SignIn',
+                        Container(
+                            width: width * 0.25,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.popAndPushNamed(
+                                    context, AllRouteNames.loginpage);
+                              },
+                              child: Icon(
+                                Icons.arrow_back,
+                                size: 30,
+                                color: HexColor('#545454'),
+                              ),
+                            )),
+                        Container(
+                          width: width * 0.75,
+                          child: Text("Let's Get Started",
                               style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    fontSize: 16,
-                                    decoration: TextDecoration.underline,
-                                    color: HexColor('#514880')),
-                              )),
+                                  textStyle: TextStyle(
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                // fontFamily: 'Pacifico',
+                              ))),
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: ((height - status)) * 0.03,
+                      height: ((height - status)) * 0.01,
                     ),
+                    Text('Create Your Account',
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.black,
+                          // fontFamily: 'Pacifico',
+                        )))
                   ],
                 ),
               ),
-            ),
-          ],
+              Container(
+                height: (height - status) * 0.85,
+                width: width,
+                child: SingleChildScrollView(
+                  // reverse: true,
+                  child: Column(
+                    children: [
+                      Textfield(
+                        hintText: 'UserName',
+                        controller: username,
+                        icon: Icon(Icons.person, color: HexColor('#3F3F3F')),
+                      ),
+                      SizedBox(
+                        height: ((height - status)) * 0.03,
+                      ),
+                      Textfield(
+                          type: TextInputType.number,
+                          hintText: 'MobileNo',
+                          controller: mobileno,
+                          icon: Icon(Icons.phone_iphone,
+                              color: HexColor('#3F3F3F'))),
+                      SizedBox(
+                        height: ((height - status)) * 0.03,
+                      ),
+                      Textfield(
+                          read: widget.googleuser != null ? true : false,
+                          type: TextInputType.emailAddress,
+                          hintText: 'Email',
+                          controller: email,
+                          icon: Icon(Icons.email, color: HexColor('#3F3F3F'))),
+                      SizedBox(
+                        height: ((height - status)) * 0.03,
+                      ),
+                      Textfield(
+                          read: true,
+                          hintText: 'CBSE',
+                          controller: boardofeducation,
+                          icon: Icon(Icons.cast_for_education,
+                              color: HexColor('#3F3F3F'))),
+                      SizedBox(
+                        height: ((height - status)) * 0.03,
+                      ),
+                      Container(
+                        width: width * 0.8,
+                        height: height * 0.06,
+                        child: SelectFormField(
+                          controller: standard,
+                          changeIcon: true,
+                          dialogTitle: 'Pick a item',
+                          dialogCancelBtn: 'CANCEL',
+                          enableSearch: true,
+                          // dialogSearchHint: 'Standard',
+                          items: items,
+                          decoration: InputDecoration(
+                              hintText: 'Standard',
+                              hintStyle: GoogleFonts.poppins(
+                                  textStyle: TextStyle(fontSize: 12)),
+                              filled: true,
+                              suffixIcon: Icon(
+                                Icons.arrow_drop_down,
+                              ),
+                              fillColor: Colors.white,
+                              disabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                borderSide:
+                                    BorderSide(color: Colors.teal, width: 1),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                borderSide:
+                                    BorderSide(color: Colors.teal, width: 1),
+                              ),
+                              // contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                borderSide: BorderSide(
+                                    color: Color(0xF2FFFFFF), width: 1),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                                borderSide:
+                                    BorderSide(color: Color(0xF227DEBF)),
+                              ),
+                              prefixIcon: Icon(Icons.school,
+                                  color: HexColor('#3F3F3F'))),
+                        ),
+                      ),
+                      Visibility(
+                          visible: widget.googleuser == null ? true : false,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: ((height - status)) * 0.03,
+                              ),
+                              Textfield(
+                                suffixicon: IconButton(
+                                  color: HexColor('#3F3F3F'),
+                                  icon: secureText1
+                                      ? Icon(Icons.visibility_off)
+                                      : Icon(Icons.visibility),
+                                  onPressed: () {
+                                    setState(() {
+                                      secureText1 = !secureText1;
+                                    });
+                                  },
+                                ),
+                                obscuretext: secureText1,
+                                hintText: 'Password',
+                                controller: password,
+                                icon: Icon(Icons.lock,
+                                    color: HexColor('#3F3F3F')),
+                              ),
+                              SizedBox(
+                                height: ((height - status)) * 0.03,
+                              ),
+                              Textfield(
+                                  suffixicon: IconButton(
+                                    color: HexColor('#3F3F3F'),
+                                    icon: secureText
+                                        ? Icon(Icons.visibility_off)
+                                        : Icon(Icons.visibility),
+                                    onPressed: () {
+                                      setState(() {
+                                        secureText = !secureText;
+                                      });
+                                    },
+                                  ),
+                                  validator: (val) {
+                                    call(String values) {
+                                      if (values.isEmpty) {
+                                        return "Confirm Password is required";
+                                      } else if (values != password.text) {
+                                        return "Password does not match";
+                                      } else {
+                                        return null;
+                                      }
+                                    }
+
+                                    return call(val);
+                                  },
+                                  obscuretext: secureText,
+                                  hintText: 'Confirm Password',
+                                  controller: confirmpassword,
+                                  icon: Icon(Icons.lock,
+                                      color: HexColor('#3F3F3F'))),
+                            ],
+                          )),
+                      SizedBox(
+                        height: ((height - status)) * 0.03,
+                      ),
+                      Textfield(
+                          type: TextInputType.number,
+                          hintText: 'Referral Code',
+                          controller: referralcode,
+                          icon: Icon(
+                            Icons.qr_code,
+                            color: HexColor('#3F3F3F'),
+                          )),
+                      SizedBox(
+                        height: ((height - status)) * 0.05,
+                      ),
+                      Container(
+                        width: width * 0.8,
+                        height: height * 0.05,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              registerApi();
+                            },
+                            child: Text(
+                              'Create Account',
+                              style: GoogleFonts.poppins(),
+                            ),
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.red),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                )))),
+                      ),
+                      SizedBox(
+                        height: ((height - status)) * 0.03,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Already have an account?',
+                            style: GoogleFonts.poppins(),
+                          ),
+                          SizedBox(
+                            width: 2,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.popAndPushNamed(context, '/loginpage');
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => LoginPage()));
+                            },
+                            child: Text('SignIn',
+                                style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      fontSize: 16,
+                                      decoration: TextDecoration.underline,
+                                      color: HexColor('#514880')),
+                                )),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: ((height - status)) * 0.03,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
