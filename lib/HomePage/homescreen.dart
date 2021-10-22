@@ -12,7 +12,6 @@ import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/chapteritem.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
 
-import 'Home.dart';
 import 'first.dart';
 import 'fourth.dart';
 
@@ -46,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: CurvedNavigationBar(
+        height: 60.0,
         // key: _bottomNavigationKey,
         index: _page,
         items: <Widget>[
@@ -55,6 +55,50 @@ class _HomeScreenState extends State<HomeScreen>
             iconIndex: 0,
             pageIndex: _page,
           ),
+          // Column(
+          //   mainAxisSize: MainAxisSize.min,
+          //   children: [
+          //     if (_page != 0)
+          //       SizedBox(
+          //         height: 18,
+          //       ),
+          //     Icon(Icons.home),
+          //     if (_page != 0) Text('Home'),
+          //   ],
+          // ),
+          // Column(
+          //   mainAxisSize: MainAxisSize.min,
+          //   children: [
+          //     if (_page != 1)
+          //       SizedBox(
+          //         height: 18,
+          //       ),
+          //     Icon(Icons.home),
+          //     if (_page != 1) Text('Home'),
+          //   ],
+          // ),
+          // Column(
+          //   mainAxisSize: MainAxisSize.min,
+          //   children: [
+          //     if (_page != 2)
+          //       SizedBox(
+          //         height: 18,
+          //       ),
+          //     Icon(Icons.home),
+          //     if (_page != 2) Text('Home'),
+          //   ],
+          // ),
+          // Column(
+          //   mainAxisSize: MainAxisSize.min,
+          //   children: [
+          //     if (_page != 3)
+          //       SizedBox(
+          //         height: 18,
+          //       ),
+          //     Icon(Icons.home),
+          //     if (_page != 3) Text('Home'),
+          //   ],
+          // ),
           NavigationBar(
             navigationbaricon: Icons.video_collection,
             navigationbariconname: 'Videos',

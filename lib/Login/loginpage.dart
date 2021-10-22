@@ -109,11 +109,11 @@ class _LoginPageState extends State<LoginPage> {
       String email = decodeDetails['user'][0]['email'].toString();
       String phone = decodeDetails['user'][0]['phone'].toString();
       String standard = decodeDetails['user'][0]['class'].toString();
-      List<String> details = [userName, email, phone, standard, token];
-      Shared().shared().then((value) async {
-        var storeData = await value.setStringList('storeData', details);
-        print(storeData);
-      });
+      // List<String> details = [userName, email, phone, standard, token];
+      // Shared().shared().then((value) async {
+      //   var storeData = await value.setStringList('storeData', details);
+      //   print(storeData);
+      // });
 
       print(user);
       print(71);
@@ -194,6 +194,7 @@ class _LoginPageState extends State<LoginPage> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
+    final keyss = MediaQuery.of(context).viewInsets.bottom != 0;
     // var height1=height-status;
 
     return WillPopScope(
