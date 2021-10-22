@@ -72,7 +72,7 @@ class _StartLearningState extends State<StartLearning> {
               // height: height * 0.1,
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.popAndPushNamed(context, 'homescreen');
+                    Navigator.popAndPushNamed(context, '/homescreen');
                     // Navigator.push(context,
                     //     MaterialPageRoute(builder: (context) => HomeScreen()));
                   },

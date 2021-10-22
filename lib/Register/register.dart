@@ -10,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:select_form_field/select_form_field.dart';
+import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/Login/loginpage.dart';
 import 'package:http/http.dart' as http;
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
@@ -128,11 +129,11 @@ class _RegisterState extends State<Register> {
         if (googleId == "" && googleId == null) {
           print('$googleId ,line 102');
           print('inside if');
-          Navigator.popAndPushNamed(context, 'loginpage');
+          Navigator.popAndPushNamed(context, AllRouteNames.loginpage);
         } else {
           print('$googleId ,line 107');
           print('inside else');
-          Navigator.popAndPushNamed(context, 'homescreen');
+          Navigator.popAndPushNamed(context, AllRouteNames.homescreen);
         }
         // Navigator.push(
         //     context, MaterialPageRoute(builder: (context) => LoginPage()));
@@ -438,6 +439,7 @@ class _RegisterState extends State<Register> {
                             'Already have an account?',
                             style: GoogleFonts.poppins(),
                           ),
+<<<<<<< HEAD
                           SizedBox(
                             width: 2,
                           ),
@@ -460,6 +462,49 @@ class _RegisterState extends State<Register> {
                       ),
                     ],
                   ),
+=======
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.red),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              )))),
+                    ),
+                    SizedBox(
+                      height: ((height - status)) * 0.03,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Already have an account?',
+                          style: GoogleFonts.poppins(),
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.popAndPushNamed(
+                                context, AllRouteNames.loginpage);
+                          },
+                          child: Text('SignIn',
+                              style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    fontSize: 16,
+                                    decoration: TextDecoration.underline,
+                                    color: HexColor('#514880')),
+                              )),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: ((height - status)) * 0.03,
+                    ),
+                  ],
+>>>>>>> 0536e4275e0b52e1faa8cc4f4887febea11dcc05
                 ),
               ),
             ),

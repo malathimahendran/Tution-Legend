@@ -4,7 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:platform_device_id/platform_device_id.dart';
+import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/Login/loginpage.dart';
+import 'package:tutionmaster/ProfilePage/logout.dart';
 
 class Carosel extends StatefulWidget {
   Carosel({Key? key}) : super(key: key);
@@ -111,7 +113,8 @@ class _CaroselState extends State<Carosel> {
                     width: width * 0.4,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.popAndPushNamed(context, 'loginpage');
+                        Navigator.popAndPushNamed(
+                            context, AllRouteNames.loginpage);
                         // Navigator.pushReplacement(
                         //     context,
                         //     new MaterialPageRoute(
