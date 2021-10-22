@@ -12,27 +12,29 @@ class NavigationBar extends StatelessWidget {
       required this.pageIndex});
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 23.0),
-      child: Column(
-        children: [
-          Icon(
-            navigationbaricon,
-            size: 25,
-            color: Colors.white,
+    return Column(
+      children: [
+        if (iconIndex != pageIndex)
+          SizedBox(
+            height: 18,
           ),
-          // SizedBox(height: 5.0),
-          iconIndex != pageIndex
-              ? Text(navigationbariconname,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ))
-              : Text(
-                  "  ",
-                  style: TextStyle(fontSize: 20),
-                ),
-        ],
-      ),
+
+        Icon(
+          navigationbaricon,
+          size: 30,
+          color: Colors.white,
+        ),
+
+        if (iconIndex != pageIndex)
+          Text(navigationbariconname,
+              style: TextStyle(
+                color: Colors.white,
+              ))
+        // : Text(
+        //     "  ",
+        //     style: TextStyle(fontSize: 20),
+        //   ),
+      ],
     );
   }
 }

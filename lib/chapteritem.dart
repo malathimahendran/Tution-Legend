@@ -30,19 +30,20 @@ class _ChapteritemState extends State<Chapteritem> {
       print(userDetails);
       print("28chapter");
       print(33);
+
+      var url = Uri.parse(
+          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
+      //  var url = Uri.parse(
+      //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': token,
+      });
+      decodeDetails = json.decode(response.body);
+      setState(() {});
+      print(decodeDetails['data']);
     });
-    var url = Uri.parse(
-        'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
-    //  var url = Uri.parse(
-    //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
-    var response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': token,
-    });
-    decodeDetails = json.decode(response.body);
-    setState(() {});
-    print(decodeDetails['data']);
   }
 
   @override
@@ -72,6 +73,10 @@ class _ChapteritemState extends State<Chapteritem> {
               height: height * 0.06,
               width: width * 0.9,
               child: TextFormField(
+                textInputAction: TextInputAction.search,
+                onFieldSubmitted: (value) {
+                  searchApi();
+                },
                 controller: search,
                 decoration: InputDecoration(
                   filled: true,
@@ -123,65 +128,64 @@ class _ChapteritemState extends State<Chapteritem> {
                         );
                         print(decodeDetails['data'][index]['link'].runtimeType);
                         print(109);
-                        return Container(
-                            height: (height) * 0.18,
-                            width: width * 0.2,
-                            // child: YoutubePlayer(
-                            //   controller: you,
-                            // ),
-                            child: Card(
-                              color: HexColor('#FFFFFF'),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              child: Container(
-                                child: Row(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        print(131);
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => Play(
-                                                      link:
-                                                          decodeDetails['data']
-                                                              [index]['link'],
-                                                    )));
-                                      },
-                                      child: Container(
+                        return InkWell(
+                          onTap: () {
+                            print(131);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Play(
+                                          link: decodeDetails['data'][index]
+                                              ['link'],
+                                        )));
+                          },
+                          child: Container(
+                              height: (height) * 0.18,
+                              width: width * 0.2,
+                              // child: YoutubePlayer(
+                              //   controller: you,
+                              // ),
+                              child: Card(
+                                color: HexColor('#FFFFFF'),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                child: Container(
+                                  child: Row(
+                                    children: [
+                                      Container(
                                         width: width * 0.25,
                                         child: YoutubePlayer(
                                           controller: you,
                                         ),
                                       ),
-                                    ),
-                                    // Image.asset('assets/Carousel/image1.png'),
-                                    Container(
-                                        width: width * 0.58,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            // Text(decodeDetails['data'][index]
-                                            //     ['link']),
-                                            Text(
-                                              decodeDetails['data'][index]
-                                                  ['title'],
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: HexColor('#0A1C22')),
-                                            ),
-                                          ],
-                                        )),
-                                    Icon(
-                                      Icons.favorite_outline_outlined,
-                                      color: HexColor('#FF465C'),
-                                    )
-                                  ],
+                                      // Image.asset('assets/Carousel/image1.png'),
+                                      Container(
+                                          width: width * 0.58,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              // Text(decodeDetails['data'][index]
+                                              //     ['link']),
+                                              Text(
+                                                decodeDetails['data'][index]
+                                                    ['title'],
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: HexColor('#0A1C22')),
+                                              ),
+                                            ],
+                                          )),
+                                      Icon(
+                                        Icons.favorite_outline_outlined,
+                                        color: HexColor('#FF465C'),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ));
+                              )),
+                        );
                       }),
             ),
             SizedBox(
