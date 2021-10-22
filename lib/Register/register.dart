@@ -28,7 +28,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final l = Logger();
-  var googleDetails;
+  var googleDetails, googleId;
   bool secureText = true;
   bool secureText1 = true;
   List<Map<String, dynamic>> items = [
@@ -431,10 +431,7 @@ class _RegisterState extends State<Register> {
                         InkWell(
                           onTap: () {
                             Navigator.popAndPushNamed(context, 'loginpage');
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => LoginPage()));
+                  
                           },
                           child: Text('SignIn',
                               style: GoogleFonts.poppins(
