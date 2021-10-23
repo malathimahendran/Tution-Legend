@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/SplashScreen/splashscreen.dart';
 
@@ -33,33 +34,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(value: GetSubjectList() ),
-        // ChangeNotifierProvider.value(
-        //   value: GetSubjectList()
-        // )
-      ],
-      child:Builder( builder: (context){
-        return MaterialApp(
-          title: 'Flutter Demo',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          // home: Chapteritem(),
-          initialRoute: '/',
-          onGenerateRoute: RouteGenerator.generateRoute,
-          // routes: {
-          //   'splashscreen': (context) => SplashScreen(),
-          //   'carosalSlider': (context) => Carosel(),
-          //   'loginpage': (context) => LoginPage(),
-          //   'startlearning': (context) => StartLearning(),
-          //   'registerpage': (context) => Register(),
-          //   'homescreen': (context) => HomeScreen(),
-          //   'profile': (context) => Profile()
-          // },
-        );
-      },)
+      providers: [ChangeNotifierProvider.value(value: GetSubjectList())],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        // home: Chapteritem(),
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
+        // routes: {
+        //   'splashscreen': (context) => SplashScreen(),
+        //   'carosalSlider': (context) => Carosel(),
+        //   'loginpage': (context) => LoginPage(),
+        //   'startlearning': (context) => StartLearning(),
+        //   'registerpage': (context) => Register(),
+        //   'homescreen': (context) => HomeScreen(),
+        //   'profile': (context) => Profile()
+        // },
+      ),
 
     );
   }

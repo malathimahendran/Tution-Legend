@@ -40,6 +40,12 @@ class _HomeScreenState extends State<HomeScreen>
     Icons.favorite,
     Icons.account_circle,
   ];
+  List<String> iconname = [
+   'Home',
+    'Videos',
+    'Wishlist',
+    'Profile'
+  ];
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   @override
@@ -52,8 +58,11 @@ class _HomeScreenState extends State<HomeScreen>
       resizeToAvoidBottomInset: false,
       bottomNavigationBar:
             Container(
-              width: double.infinity, height: 100.0, color: Colors.pinkAccent,
+              width: double.infinity, height: 100.0,
+              decoration: BoxDecoration(
+              image: DecorationImage( image:AssetImage('assets/HomeScreenPage/homescreentab.png'), fit: BoxFit.cover ), ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(iconlist.length, (index)
               {
                  return InkWell(
@@ -63,16 +72,24 @@ class _HomeScreenState extends State<HomeScreen>
                      });
                    },
                    child: Padding(
-                     padding: const EdgeInsets.all( 25.0),
-                     child: Column(
-                       // mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: _page ==index? Colors.white :Colors.pinkAccent ,
-                              child: Icon( iconlist[index], color: _page ==index?Colors.pinkAccent: Colors.white, size: 30,)),
-                          Text('Home')
-                        ],
-                      ),
+                     padding:  EdgeInsets.only(top: 38.0),
+                     child: Container(
+                       padding:EdgeInsets.only(bottom:2),
+                       width:(width)*1/4,
+                       // color: Colors.black,
+                       alignment: index == 1 ?Alignment.centerLeft:index == 2 ?Alignment.centerRight:null,
+                       child: Column(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                         mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CircleAvatar(
+                              radius: 20.0,
+                              backgroundColor: _page ==index? Colors.white :Colors.transparent ,
+                                child: Icon( iconlist[index], color: _page ==index?Colors.pinkAccent: Colors.white, size: 22,)),
+                            Text( iconname[index], style: TextStyle( color: Colors.white), )
+                          ],
+                        ),
+                     ),
                    ),
                  );
               }),),
