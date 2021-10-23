@@ -6,12 +6,12 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:logger/logger.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/FCM%20Token/fcm_token.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/Login/argumentpass.dart';
-import 'package:tutionmaster/ProfilePage/logout.dart';
 import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/StartingLearningPage/startlearning.dart';
@@ -19,15 +19,14 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({
-    Key? key,
-  }) : super(key: key);
+  LoginPage({Key? key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final l = Logger();
   var hintText,
       icon,
       user,
@@ -36,14 +35,15 @@ class _LoginPageState extends State<LoginPage> {
       userName,
       storeemail,
       phone,
-      standard;
+      standard,
+      token;
   var controller;
   var email = TextEditingController();
   var password = TextEditingController();
   bool isChecked = false;
   var googleDisplayName, googleDisplayEmail, googleId, photourl, profileImage;
   var fcm_token;
-  String? deviceId, _deviceId;
+  String? deviceId, finalDeviceId;
   GoogleSignInAccount? googleUser;
 
   signInWithGoogle() async {
@@ -91,8 +91,8 @@ class _LoginPageState extends State<LoginPage> {
 
     if (!mounted) return;
 
-    _deviceId = deviceId;
-    print("deviceId->$_deviceId");
+    finalDeviceId = deviceId;
+    print("deviceId->$finalDeviceId");
   }
 
   loginApi() async {
@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
     var response = await http.post(url, body: {
       'email': email.text.toString(),
       'password': password.text.toString(),
-      'device_id': _deviceId.toString(),
+      'device_id': finalDeviceId.toString(),
     }).then((value) async {
       var decodeDetails = json.decode(value.body);
       print(decodeDetails);
@@ -112,18 +112,42 @@ class _LoginPageState extends State<LoginPage> {
       print(statuscode);
       user = decodeDetails['user'];
       print(user);
-      print(decodeDetails['user'][0]['user_name']);
-      var token = decodeDetails['token'];
+      // print(decodeDetails['user'][0]['user_name']);
+      String token = decodeDetails['token'].toString();
       String userName = decodeDetails['user'][0]['user_name'].toString();
-      print(userName);
-      String email = decodeDetails['user'][0]['email'].toString();
+      print('$userName,line 118 login page');
+      print('$token,line 119 login page');
+      String storeemail = decodeDetails['user'][0]['email'].toString();
       String phone = decodeDetails['user'][0]['phone'].toString();
       String standard = decodeDetails['user'][0]['class'].toString();
-      List<String> details = [userName, email, phone, standard, token];
-      Shared().shared().then((value) async {
-        var storeData = await value.setStringList('storeData', details);
-        print(storeData);
-      });
+
+      l.w(userName);
+      l.w(storeemail);
+
+      print('$standard,line 119 login page');
+      l.w(phone);
+      l.w(standard);
+      l.w(token);
+      storingAllDetails(
+        userName: userName,
+        storeemail: storeemail,
+        phone: phone,
+        standard: standard,
+        token: token,
+        // googleId:googleId,
+      );
+      // List<String> details = [
+      //   userName,
+      //   email,
+      //   phone,
+      //   standard,
+      //   profileImage,
+      //   token
+      // ];
+      // Shared().shared().then((value) async {
+      //   var storeData = await value.setStringList('storeData', details);
+      //   print(storeData);
+      // });
 
       print(user);
       print(71);
@@ -178,16 +202,11 @@ class _LoginPageState extends State<LoginPage> {
 
     var statusCode = response.statusCode;
     var status = decodeDetail['status'];
+
     if (status == false) {
       Navigator.pushNamed(context, AllRouteNames.registerpage,
-          arguments: ArgumentPass(deviceId: "454", googleUser: googleUser));
-      // Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (context) => Register(
-      //               googleuser: googleUser,
-      //               deviceId: deviceId,
-      //             )));
+          arguments:
+              ArgumentPass(deviceId: finalDeviceId, googleUser: googleUser));
     } else {
       final snackBar = SnackBar(
         backgroundColor: HexColor('#27AE60'),
@@ -199,25 +218,40 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      Navigator.popAndPushNamed(context, AllRouteNames.startlearning);
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
     }
-    userName = userDetails[0]['user_name'].toString();
-    storeemail = userDetails[0]['email'].toString();
-    phone = userDetails[0]['phone'].toString();
-    standard = userDetails[0]['class'].toString();
-    profileImage = userDetails[0]['profile_image'].toString();
-    List<String> details = [
-      userName,
-      storeemail,
-      phone,
-      standard,
-      profileImage
-    ];
-    Shared().shared().then((value) async {
-      var storeData = await value.setStringList('storeData', details);
-      print(storeData);
-    });
+    var userName = userDetails[0]['user_name'].toString();
+    var storeemail = userDetails[0]['email'].toString();
+    var phone = userDetails[0]['phone'].toString();
+    var standard = userDetails[0]['class'].toString();
+    var profileImage = userDetails[0]['profile_image'].toString();
+    l.i(userDetails[0]['profile_image'].toString());
+    var token = decodeDetail['token'].toString();
+
+    storingAllDetails(
+      userName: userName,
+      storeemail: storeemail,
+      phone: phone,
+      standard: standard,
+      profileImage: profileImage,
+      token: token,
+      googleId: googleId,
+    );
+
+    // List<String> details = [
+    //   userName,
+    //   storeemail,
+    //   phone,
+    //   standard,
+    //   profileImage,
+    //   token
+    // ];
+    // Shared().shared().then((value) async {
+    //   var storeData = await value.setStringList('storeData', details);
+    //   print(storeData);
+    // });
   }
 
   @override
@@ -228,7 +262,6 @@ class _LoginPageState extends State<LoginPage> {
     final keyss = MediaQuery.of(context).viewInsets.bottom != 0;
     // var height1=height-status;
 
-<<<<<<< HEAD
     return Scaffold(
       resizeToAvoidBottomInset: false,
       // appBar: AppBar(
@@ -277,18 +310,18 @@ class _LoginPageState extends State<LoginPage> {
                             height: height * 0.2,
                             width: width * 1,
                           ),
-                          SizedBox(height: 5),
+                          SizedBox(height: 4),
                           Text("Welcome",
                               style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 20),
                               )),
-                          SizedBox(height: 5),
+                          SizedBox(height: 4),
                           Text(
                             "Login to your existing Account",
                             style: GoogleFonts.poppins(),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 7),
                           customContainerTextField(
                             height,
                             width,
@@ -296,7 +329,7 @@ class _LoginPageState extends State<LoginPage> {
                             icon = Icon(Icons.person),
                             controller = email,
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 7),
                           customContainerTextField(
                             height,
                             width,
@@ -360,207 +393,106 @@ class _LoginPageState extends State<LoginPage> {
                                       textStyle: TextStyle(color: Colors.white),
                                     ))),
                           ),
-                          SizedBox(height: 5),
+                          SizedBox(height: 2),
                           Text(
                             "OR",
-=======
-    return WillPopScope(
-      onWillPop: () {
-        LogOutForAll.outTemporary(context);
-        return Future.value(true);
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Container(
-          decoration: BoxDecoration(
-              // color: Colors.pink,
-              image: DecorationImage(
-                  image: AssetImage("assets/ProfilePage/mainbackground.png"),
-                  fit: BoxFit.fill)),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  height: (height - status) * 0.20,
-                  width: width,
-                  decoration: BoxDecoration(
-                      // color: Colors.pink,
-                      image: DecorationImage(
-                          image: AssetImage("assets/LoginPage/logintop.png"),
-                          fit: BoxFit.fill)),
-                ),
-                Container(
-                    height: (height - status) * 0.80,
-                    width: width,
-                    // color: Colors.black,
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          "assets/LoginPage/logincenter.png",
-                          height: height * 0.2,
-                          width: width * 1,
-                        ),
-                        SizedBox(height: 5),
-                        Text("Welcome",
->>>>>>> 0536e4275e0b52e1faa8cc4f4887febea11dcc05
                             style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
-                            )),
-                        SizedBox(height: 5),
-                        Text(
-                          "Login to your existing Account",
-                          style: GoogleFonts.poppins(),
-                        ),
-                        SizedBox(height: 10),
-                        customContainerTextField(
-                          height,
-                          width,
-                          hintText = "UserName or Email",
-                          icon = Icon(Icons.person),
-                          controller = email,
-                        ),
-                        SizedBox(height: 10),
-                        customContainerTextField(
-                          height,
-                          width,
-                          hintText = "Password",
-                          icon = Icon(Icons.lock),
-                          controller = password,
-                          obscureText: true,
-                        ),
-                        // SizedBox(height: 5),
-                        Container(
-                          width: width * 0.8,
-                          child: Row(
-                            children: [
-                              Flexible(
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Theme(
-                                    data: ThemeData(
-                                      unselectedWidgetColor: Colors.black,
+                                textStyle: TextStyle(fontSize: 12)),
+                          ),
+                          SizedBox(height: 2),
+                          Container(
+                            width: width * 0.4,
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  signInWithGoogle();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20))),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      child: Image.asset(
+                                        'assets/LoginPage/google.jpeg',
+                                        height: 20,
+                                        width: 30,
+                                      ),
                                     ),
-                                    child: CheckboxListTile(
-                                        activeColor: HexColor('#FF465C'),
-                                        checkColor: Colors.white,
-                                        contentPadding: EdgeInsets.zero,
-                                        controlAffinity:
-                                            ListTileControlAffinity.leading,
-                                        title: Text('Remember me  ',
+                                    Container(
+                                        // color: HexColor('#0077FF'),
+                                        // height: height * 0.04,
+                                        width: width * 0.2,
+                                        child: Text("Login",
                                             style: GoogleFonts.poppins(
                                               textStyle: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 12),
-                                            )),
-                                        value: isChecked,
-                                        onChanged: (value) => setState(() {
-                                              isChecked = value!;
-                                              // signInButtonEnable = !signInButtonEnable;
-                                            })),
-                                  ),
-                                ),
-                              ),
-                              Text("Forgot Password?",
-                                  style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(fontSize: 12)))
-                            ],
+                                                  color: Colors.black),
+                                            ))),
+                                  ],
+                                )),
                           ),
-                        ),
-                        // SizedBox(height: 5),
-                        Container(
-                          width: width * 0.8,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  primary: HexColor("#FF465C"),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20))),
-                              onPressed: () {
-                                loginApi();
-                              },
-                              child: Text("Log In",
+                          SizedBox(height: 3),
+                          Container(
+                            width: width * 0.6,
+                            child: Row(children: [
+                              Text("Don't have an account?"),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, AllRouteNames.registerpage,
+                                      arguments: ArgumentPass(
+                                        deviceId: finalDeviceId,
+                                        googleUser: null,
+                                      ));
+                                },
+                                child: Text(
+                                  "Sign Up",
                                   style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(color: Colors.white),
-                                  ))),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          "OR",
-                          style: GoogleFonts.poppins(
-                              textStyle: TextStyle(fontSize: 12)),
-                        ),
-                        SizedBox(height: 5),
-                        Container(
-                          width: width * 0.4,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                signInWithGoogle();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  primary: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20))),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    child: Image.asset(
-                                      'assets/LoginPage/google.jpeg',
-                                      height: 20,
-                                      width: 30,
-                                    ),
-                                  ),
-                                  Container(
-                                      // color: HexColor('#0077FF'),
-                                      // height: height * 0.04,
-                                      width: width * 0.2,
-                                      child: Text("Login",
-                                          style: GoogleFonts.poppins(
-                                            textStyle:
-                                                TextStyle(color: Colors.black),
-                                          ))),
-                                ],
-                              )),
-                        ),
-                        SizedBox(height: 10),
-                        Container(
-                          width: width * 0.6,
-                          child: Row(children: [
-                            Text("Don't have an account?"),
-                            InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, AllRouteNames.registerpage,
-                                    arguments: ArgumentPass(
-                                      deviceId: deviceId,
-                                      googleUser: null,
-                                    ));
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             Register(deviceId: _deviceId)));
-                              },
-                              child: Text(
-                                "Sign Up",
-                                style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        decoration: TextDecoration.underline,
-                                        fontSize: 15,
-                                        color: HexColor('#514880'))),
-                              ),
-                            )
-                          ]),
-                        )
-                      ],
-                    ))
-              ],
+                                      textStyle: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          fontSize: 15,
+                                          color: HexColor('#514880'))),
+                                ),
+                              )
+                            ]),
+                          )
+                        ],
+                      ))
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
+  }
+
+  storingAllDetails(
+      {userName,
+      storeemail,
+      phone,
+      standard,
+      profileImage,
+      token,
+      googleId}) async {
+    List<String> storing = [
+      userName,
+      storeemail,
+      phone,
+      standard,
+      profileImage ?? "",
+      token,
+      googleId ?? ""
+    ];
+
+    print(storing);
+    print(320);
+    Shared()
+        .shared()
+        .then((value) => value.setStringList('storeData', storing));
   }
 
   Container customContainerTextField(

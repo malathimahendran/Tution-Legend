@@ -18,16 +18,17 @@ class Chapteritem extends StatefulWidget {
 
 class _ChapteritemState extends State<Chapteritem> {
   var search = TextEditingController();
-  var decodeDetails, token;
+  var decodeDetails, token, decodeDetailsData;
   searchApi() async {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
       setState(() {
-        token = userDetails[4];
+        token = userDetails[5];
         print("$token" + "27linechapter");
       });
 
       print(userDetails);
+
       print("28chapter");
       print(33);
 
@@ -40,14 +41,19 @@ class _ChapteritemState extends State<Chapteritem> {
         'Accept': 'application/json',
         'Authorization': token,
       });
-      decodeDetails = json.decode(response.body);
-      setState(() {});
+      decodeDetailsData = json.decode(response.body);
+      setState(() {
+        decodeDetails = decodeDetailsData['data'];
+      });
+
       print(decodeDetails['data']);
+      print("47chapteritem");
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    // print("$decodeDetails,widgetchapter");
     print(search);
     print(36);
     var height = MediaQuery.of(context).size.height;
@@ -111,14 +117,14 @@ class _ChapteritemState extends State<Chapteritem> {
             Flexible(
               child: decodeDetails == null
                   ? Center(
-                      child: CircularProgressIndicator(),
+                      child: Text("No Datas found"),
                     )
                   : ListView.builder(
-                      itemCount: decodeDetails['data'].length,
+                      itemCount: decodeDetails.length,
                       itemBuilder: (context, index) {
                         var you = YoutubePlayerController(
                           initialVideoId: YoutubePlayer.convertUrlToId(
-                              decodeDetails['data'][index]['link'])!,
+                              decodeDetails[index]['link'])!,
                           flags: const YoutubePlayerFlags(
                             controlsVisibleAtStart: true,
                             hideControls: true,
@@ -126,7 +132,7 @@ class _ChapteritemState extends State<Chapteritem> {
                             isLive: false,
                           ),
                         );
-                        print(decodeDetails['data'][index]['link'].runtimeType);
+                        print(decodeDetails[index]['link'].runtimeType);
                         print(109);
                         return InkWell(
                           onTap: () {
@@ -135,8 +141,7 @@ class _ChapteritemState extends State<Chapteritem> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Play(
-                                          link: decodeDetails['data'][index]
-                                              ['link'],
+                                          link: decodeDetails[index]['link'],
                                         )));
                           },
                           child: Container(
@@ -169,8 +174,8 @@ class _ChapteritemState extends State<Chapteritem> {
                                               // Text(decodeDetails['data'][index]
                                               //     ['link']),
                                               Text(
-                                                decodeDetails['data'][index]
-                                                    ['title'],
+                                                decodeDetails[index]['subject']
+                                                    .toString(),
                                                 style: TextStyle(
                                                     fontSize: 20,
                                                     color: HexColor('#0A1C22')),

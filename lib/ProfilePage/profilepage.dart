@@ -135,9 +135,16 @@ class _ProfileState extends State<Profile> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
-                                  child: profileImage == null
-                                      ? CircularProgressIndicator()
-                                      : Image.network(profileImage),
+                                  child:
+                                      profileImage == null || profileImage == ""
+                                          ? Container(
+                                              color: Colors.green.shade300,
+                                              alignment: Alignment.center,
+                                              child: Text(userName
+                                                  .toString()
+                                                  .substring(0, 1)
+                                                  .toUpperCase()))
+                                          : Image.network(profileImage),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 20),

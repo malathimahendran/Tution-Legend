@@ -29,7 +29,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final l = Logger();
-  var googleDetails, googleId;
+  var googleDetails, googleId, profileImage;
   bool secureText = true;
   bool secureText1 = true;
   List<Map<String, dynamic>> items = [
@@ -70,8 +70,8 @@ class _RegisterState extends State<Register> {
   }
 
   registerApi() async {
-    print('${widget.deviceId} line no 67');
-    print('${widget.googleuser} line no 68');
+    // print('${widget.deviceId} line no 67');
+    // print('${widget.googleuser} line no 68');
     var url =
         Uri.parse('http://www.cviacserver.tk/tuitionlegend/register/sign_up');
     var response = await http.post(url, body: {
@@ -85,26 +85,26 @@ class _RegisterState extends State<Register> {
       'reference_code': referralcode.text.toString(),
       'class': standard.text.toString(),
       'google_id': originalGoogleId.toString(),
-      'profile_image': widget.googleuser.photoUrl.toString()
+      'profile_image': profileImage.toString()
     }).then((value) async {
       var decodeDetails = json.decode(value.body);
       print(decodeDetails);
       print(widget.deviceId);
-      var userToken = decodeDetails['result'];
-      var googleId = decodeDetails['user']['google_id'];
-      var userName = decodeDetails['user']['user_name'];
+      var token = decodeDetails['result'];
+      // var googleId = decodeDetails['user']['google_id'];
+      var userName = decodeDetails['user']['user_name'].toString();
       print("$userName" + "line87");
-      var email = decodeDetails['user']['email'];
-      var phone = decodeDetails['user']['phone'];
-      var standard = decodeDetails['user']['class'];
-      var profileImage = decodeDetails['user']['profile_image'];
+      var storeemail = decodeDetails['user']['email'].toString();
+      var phone = decodeDetails['user']['phone'].toString();
+      var standard = decodeDetails['user']['class'].toString();
+      var profileImage = decodeDetails['user']['profile_image'].toString();
       List<String> details = [
         userName,
-        email,
+        storeemail,
         phone,
         standard,
         profileImage,
-        userToken,
+        token,
       ];
       print(details);
       Shared().shared().then((value) async {
@@ -133,7 +133,7 @@ class _RegisterState extends State<Register> {
         } else {
           print('$googleId ,line 107');
           print('inside else');
-          Navigator.popAndPushNamed(context, AllRouteNames.homescreen);
+          Navigator.popAndPushNamed(context, AllRouteNames.startlearning);
         }
         // Navigator.push(
         //     context, MaterialPageRoute(builder: (context) => LoginPage()));
@@ -158,10 +158,12 @@ class _RegisterState extends State<Register> {
         username.text = ''.toString();
         email.text = ''.toString();
         originalGoogleId = ''.toString();
+        profileImage = ''.toString();
       } else {
         username.text = widget.googleuser.displayName;
         email.text = widget.googleuser.email;
         originalGoogleId = widget.googleuser.id.toString();
+        profileImage = widget.googleuser.photoUrl.toString();
       }
     });
   }
@@ -439,13 +441,13 @@ class _RegisterState extends State<Register> {
                             'Already have an account?',
                             style: GoogleFonts.poppins(),
                           ),
-<<<<<<< HEAD
                           SizedBox(
                             width: 2,
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.popAndPushNamed(context, 'loginpage');
+                              Navigator.popAndPushNamed(
+                                  context, AllRouteNames.loginpage);
                             },
                             child: Text('SignIn',
                                 style: GoogleFonts.poppins(
@@ -462,49 +464,6 @@ class _RegisterState extends State<Register> {
                       ),
                     ],
                   ),
-=======
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.red),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              )))),
-                    ),
-                    SizedBox(
-                      height: ((height - status)) * 0.03,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Already have an account?',
-                          style: GoogleFonts.poppins(),
-                        ),
-                        SizedBox(
-                          width: 2,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.popAndPushNamed(
-                                context, AllRouteNames.loginpage);
-                          },
-                          child: Text('SignIn',
-                              style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    fontSize: 16,
-                                    decoration: TextDecoration.underline,
-                                    color: HexColor('#514880')),
-                              )),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: ((height - status)) * 0.03,
-                    ),
-                  ],
->>>>>>> 0536e4275e0b52e1faa8cc4f4887febea11dcc05
                 ),
               ),
             ),
