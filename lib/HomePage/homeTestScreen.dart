@@ -4,6 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/chapteritem.dart';
 
 class HomeTestScreen extends StatefulWidget {
   HomeTestScreen({Key? key}) : super(key: key);
@@ -76,7 +77,12 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                         textStyle: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 17)),
                   ),
-                  Icon(Icons.person)
+
+                  InkWell(
+                      onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Chapteritem()));
+                      },
+                      child: Icon(Icons.search))
                 ],
               ),
             ),
@@ -93,7 +99,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                   width: width * 0.9,
                 ),
                 Positioned(
-                  bottom: height * 0.12,
+                  bottom: height * 0.1,
                   child: Text(
                     '       Start\n       Learning',
                     style: GoogleFonts.poppins(
@@ -103,39 +109,39 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                             color: Colors.white)),
                   ),
                 ),
-                Positioned(
-                  bottom: height * 0.02,
-                  left: width * 0.07,
-                  child: Container(
-                    height: height * 0.05,
-                    width: width * 0.6,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintText: 'What you want to learn',
-                        suffixIcon: Icon(
-                          Icons.search,
-                          color: Colors.red,
-                        ),
-                        // icon: Icon(Icons.search),
-                        hintStyle: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                fontSize: 11, color: HexColor('#7B7777'))),
-                        // prefixIcon: icon,
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                            borderSide:
-                                BorderSide(color: Colors.grey.shade300)),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                            borderSide: BorderSide(color: HexColor('#27DEBF'))),
-                      ),
-                    ),
-                  ),
-                )
+                // Positioned(
+                //   bottom: height * 0.02,
+                //   left: width * 0.07,
+                //   child: Container(
+                //     height: height * 0.05,
+                //     width: width * 0.6,
+                //     child: TextFormField(
+                //       decoration: InputDecoration(
+                //         filled: true,
+                //         fillColor: Colors.white,
+                //         hintText: 'What you want to learn',
+                //         suffixIcon: Icon(
+                //           Icons.search,
+                //           color: Colors.red,
+                //         ),
+                //         // icon: Icon(Icons.search),
+                //         hintStyle: GoogleFonts.poppins(
+                //             textStyle: TextStyle(
+                //                 fontSize: 11, color: HexColor('#7B7777'))),
+                //         // prefixIcon: icon,
+                //         enabledBorder: OutlineInputBorder(
+                //             borderRadius:
+                //                 BorderRadius.all(Radius.circular(10.0)),
+                //             borderSide:
+                //                 BorderSide(color: Colors.grey.shade300)),
+                //         focusedBorder: OutlineInputBorder(
+                //             borderRadius:
+                //                 BorderRadius.all(Radius.circular(10.0)),
+                //             borderSide: BorderSide(color: HexColor('#27DEBF'))),
+                //       ),
+                //     ),
+                //   ),
+                // )
               ]),
             ),
             Consumer<GetSubjectList>(builder: (context, GetSubjectList, _) {
