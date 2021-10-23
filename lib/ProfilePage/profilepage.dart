@@ -12,7 +12,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  var userName, standard, email, mobileNumber;
+  var userName, standard, email, mobileNumber, profileImage;
   void initState() {
     super.initState();
     getUserName();
@@ -22,11 +22,14 @@ class _ProfileState extends State<Profile> {
   getUserName() {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
+      print("${userDetails.length},25lineprofile");
       setState(() {
         userName = userDetails[0];
         email = userDetails[1];
         mobileNumber = userDetails[2];
         standard = userDetails[3];
+        profileImage = userDetails[4];
+        print('$profileImage,32lineprofile');
         print(userName);
       });
 
@@ -132,8 +135,16 @@ class _ProfileState extends State<Profile> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
-                                  child: Image.asset(
-                                      'assets/ProfilePage/profile.png'),
+                                  child:
+                                      profileImage == null || profileImage == ""
+                                          ? Container(
+                                              color: Colors.green.shade300,
+                                              alignment: Alignment.center,
+                                              child: Text(userName
+                                                  .toString()
+                                                  .substring(0, 1)
+                                                  .toUpperCase()))
+                                          : Image.network(profileImage),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 20),
