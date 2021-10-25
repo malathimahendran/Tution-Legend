@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/SplashScreen/splashscreen.dart';
+import 'package:tutionmaster/Videostream/chapteritem.dart';
 
 import 'ALLROUTES/routegenerator.dart';
 import 'Control/getdata.dart';
@@ -14,7 +15,6 @@ import 'ProfilePage/profilepage.dart';
 import 'Register/register.dart';
 import 'Slider/carosalSlider.dart';
 import 'StartingLearningPage/startlearning.dart';
-import 'chapteritem.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -39,11 +39,11 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.red,
         ),
-        // home: Chapteritem(),
-        initialRoute: '/',
-        onGenerateRoute: RouteGenerator.generateRoute,
+        home: Chapteritem(),
+        // initialRoute: '/',
+        // onGenerateRoute: RouteGenerator.generateRoute,
         // routes: {
         //   'splashscreen': (context) => SplashScreen(),
         //   'carosalSlider': (context) => Carosel(),
