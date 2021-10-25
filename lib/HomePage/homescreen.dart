@@ -23,8 +23,23 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+class IconAndText {
+  IconData? icon;
+  String? text;
+  double? size;
+  int? index;
+  IconAndText({this.icon, this.text, this.size = 30.0, this.index});
+}
+
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
+  List<IconAndText> iconAndText = [
+    IconAndText(icon: Icons.home, text: 'Home', index: 0),
+    IconAndText(icon: Icons.home, text: 'Home', index: 1),
+    IconAndText(icon: Icons.home, text: 'Home', index: 2),
+    IconAndText(icon: Icons.home, text: 'Home', index: 3),
+  ];
+
   int selectedItem = 0;
   String? userName;
 //  Stri userDetails = [];
@@ -46,45 +61,87 @@ class _HomeScreenState extends State<HomeScreen>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: CurvedNavigationBar(
+        height: 75.0,
         // key: _bottomNavigationKey,
         index: _page,
         items: <Widget>[
-          NavigationBar(
-            navigationbaricon: Icons.home,
-            navigationbariconname: 'Home',
-            iconIndex: 0,
-            pageIndex: _page,
-          ),
-          NavigationBar(
-            navigationbaricon: Icons.video_collection,
-            navigationbariconname: 'Videos',
-            iconIndex: 1,
-            pageIndex: _page,
-          ),
-          NavigationBar(
-            navigationbaricon: Icons.favorite,
-            navigationbariconname: 'Wishlist',
-            iconIndex: 2,
-            pageIndex: _page,
-          ),
-          NavigationBar(
-            navigationbaricon: Icons.account_circle,
-            navigationbariconname: 'Profile',
-            iconIndex: 3,
-            pageIndex: _page,
-          ),
+          ...iconAndText.map((e) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (_page != e.index)
+                  SizedBox(
+                    height: 16,
+                  ),
+                Icon(
+                  e.icon,
+                  size: e.size,
+                ),
+                if (_page != e.index) Text(e.text!),
+              ],
+            );
+          }).toList()
+
+          //     if (_page != 0)
+          //       SizedBox(
+          //         height: 16,
+          //       ),
+          //     Icon(
+          //       Icons.home,
+          //       size: 30,
+          //     ),
+          //     if (_page != 0) Text('Home'),
+          //   ],
+          // ),
+          // Icon(
+          //   Icons.home,
+          //   size: 30,
+          // ),
+          // Icon(
+          //   Icons.home,
+          //   size: 30,
+          // ),
+          // Icon(
+          //   Icons.home,
+          //   size: 30,
+          // ),
+          // NavigationBar(
+
+          //   navigationbaricon: Icons.home,
+          //   navigationbariconname: 'Home',
+          //   iconIndex: 0,
+          //   pageIndex: _page,
+          // ),
+          // NavigationBar(
+          //   navigationbaricon: Icons.video_collection,
+          //   navigationbariconname: 'Videos',
+          //   iconIndex: 1,
+          //   pageIndex: _page,
+          // ),
+          // NavigationBar(
+          //   navigationbaricon: Icons.favorite,
+          //   navigationbariconname: 'Wishlist',
+          //   iconIndex: 2,
+          //   pageIndex: _page,
+          // ),
+          // NavigationBar(
+          //   navigationbaricon: Icons.account_circle,
+          //   navigationbariconname: 'Profile',
+          //   iconIndex: 3,
+          //   pageIndex: _page,
+          // ),
         ],
         color: HexColor('#FF465C'),
         buttonBackgroundColor: HexColor('#FF465C'),
         backgroundColor: Colors.white,
-        animationCurve: Curves.easeInOut,
-        animationDuration: Duration(milliseconds: 500),
+        animationCurve: Curves.ease,
+        animationDuration: Duration(milliseconds: 300),
         onTap: (index) {
           setState(() {
             _page = index;
           });
         },
-        letIndexChange: (index) => true,
+        // letIndexChange: (index) => true,
       ),
       body: pages[_page],
     );

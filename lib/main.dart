@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/SplashScreen/splashscreen.dart';
+import 'package:tutionmaster/TESTING%20ONLY/test_one.dart';
 
 import 'HomePage/try.dart';
 import 'Login/loginpage.dart';
@@ -43,17 +44,17 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      // home: SplashScreen(),
-      initialRoute: 'splashscreen',
-      routes: {
-        'splashscreen': (context) => SplashScreen(),
-        'carosalSlider': (context) => Carosel(),
-        'loginpage': (context) => LoginPage(),
-        'startlearning': (context) => StartLearning(),
-        'registerpage': (context) => Register(),
-        'homescreen': (context) => HomeScreen(),
-        'profile': (context) => Profile()
-      },
+      home: TestOne(),
+      // initialRoute: 'splashscreen',
+      // routes: {
+      //   'splashscreen': (context) => SplashScreen(),
+      //   'carosalSlider': (context) => Carosel(),
+      //   'loginpage': (context) => LoginPage(),
+      //   'startlearning': (context) => StartLearning(),
+      //   'registerpage': (context) => Register(),
+      //   'homescreen': (context) => HomeScreen(),
+      //   'profile': (context) => Profile()
+      // },
     );
   }
 }
