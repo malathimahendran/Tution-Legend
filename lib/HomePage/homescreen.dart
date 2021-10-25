@@ -26,8 +26,23 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+class IconAndText {
+  IconData? icon;
+  String? text;
+  double? size;
+  int? index;
+  IconAndText({this.icon, this.text, this.size = 30.0, this.index});
+}
+
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
+  List<IconAndText> iconAndText = [
+    IconAndText(icon: Icons.home, text: 'Home', index: 0),
+    IconAndText(icon: Icons.home, text: 'Home', index: 1),
+    IconAndText(icon: Icons.home, text: 'Home', index: 2),
+    IconAndText(icon: Icons.home, text: 'Home', index: 3),
+  ];
+
   int selectedItem = 0;
   String? userName;
 //  Stri userDetails = [];
@@ -52,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen>
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
+
 
     return SafeArea(
       child: Scaffold(
@@ -316,6 +332,7 @@ class _HomeScreenState extends State<HomeScreen>
         // body:  HomeTestScreen(),
         body: pages[_page],
       ),
+
     );
   }
 }
