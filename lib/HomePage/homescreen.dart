@@ -16,7 +16,9 @@ import 'first.dart';
 import 'fourth.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key}) : super(key: key);
+
+  bool searchindex;
+  HomeScreen( this.searchindex);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -50,10 +52,13 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    if (widget.searchindex==true)
+      {
+        _page = 1;
+      }
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       bottomNavigationBar:
@@ -67,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen>
               {
                  return InkWell(
                    onTap: (){
+                     widget.searchindex= false;
                      setState(() {
                        _page=index;
                      });
@@ -94,51 +100,6 @@ class _HomeScreenState extends State<HomeScreen>
                  );
               }),),
             ),
-
-
-      // CurvedNavigationBar(
-      //   height: 60.0,
-      //   // key: _bottomNavigationKey,
-      //   index: _page,
-      //   items: <Widget>[
-      //     NavigationBar(
-      //       navigationbaricon: Icons.home,
-      //       navigationbariconname: 'Home',
-      //       iconIndex: 0,
-      //       pageIndex: _page,
-      //     ),
-      //     NavigationBar(
-      //       navigationbaricon: Icons.video_collection,
-      //       navigationbariconname: 'Videos',
-      //       iconIndex: 1,
-      //       pageIndex: _page,
-      //     ),
-      //     NavigationBar(
-      //       navigationbaricon: Icons.favorite,
-      //       navigationbariconname: 'Wishlist',
-      //       iconIndex: 2,
-      //       pageIndex: _page,
-      //     ),
-      //     NavigationBar(
-      //       navigationbaricon: Icons.account_circle,
-      //       navigationbariconname: 'Profile',
-      //       iconIndex: 3,
-      //       pageIndex: _page,
-      //     ),
-      //   ],
-      //   color: HexColor('#FF465C'),
-      //   buttonBackgroundColor: HexColor('#FF465C'),
-      //   backgroundColor: Colors.white,
-      //   animationCurve: Curves.easeInOut,
-      //   animationDuration: Duration(milliseconds: 500),
-      //   onTap: (index) {
-      //     setState(() {
-      //       _page = index;
-      //     });
-      //   },
-      //   letIndexChange: (index) => true,
-      // ),
-      // body:  HomeTestScreen(),
        body: pages[_page],
     );
   }

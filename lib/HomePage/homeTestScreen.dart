@@ -5,6 +5,10 @@ import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/chapteritem.dart';
+import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
+
+import 'homescreen.dart';
+
 
 class HomeTestScreen extends StatefulWidget {
   HomeTestScreen({Key? key}) : super(key: key);
@@ -15,7 +19,7 @@ class HomeTestScreen extends StatefulWidget {
 
 class _HomeTestScreenState extends State<HomeTestScreen> {
   var userName;
-
+int ind = 0;
   getUserName() {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
@@ -28,13 +32,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
       print('nivetha');
       Provider.of<GetSubjectList>(context, listen: false)
           .getSubjectListApi(standardclass);
-
-      // getSubjectListApi(standard);
       print(userDetails);
-      // setState(() {
-      //   selectedSubject =
-      //       Provider.of<GetSubjectList>(context, listen: true).subjectList[0];
-      // });
       print(28);
     });
   }
@@ -55,7 +53,8 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
     var bottom = kBottomNavigationBarHeight;
     return Scaffold(
         body: SafeArea(
-      child: Container(
+      child: Consumer<GetSubjectList>(builder: (context, GetSubjectList, _) {
+      return Container(
           decoration: BoxDecoration(
               image: DecorationImage(
             image: AssetImage('assets/ProfilePage/mainbackground.png'),
@@ -80,7 +79,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
 
                   InkWell(
                       onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>Chapteritem()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> HomeScreen( true)));
                       },
                       child: Icon(Icons.search))
                 ],
@@ -109,43 +108,10 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                             color: Colors.white)),
                   ),
                 ),
-                // Positioned(
-                //   bottom: height * 0.02,
-                //   left: width * 0.07,
-                //   child: Container(
-                //     height: height * 0.05,
-                //     width: width * 0.6,
-                //     child: TextFormField(
-                //       decoration: InputDecoration(
-                //         filled: true,
-                //         fillColor: Colors.white,
-                //         hintText: 'What you want to learn',
-                //         suffixIcon: Icon(
-                //           Icons.search,
-                //           color: Colors.red,
-                //         ),
-                //         // icon: Icon(Icons.search),
-                //         hintStyle: GoogleFonts.poppins(
-                //             textStyle: TextStyle(
-                //                 fontSize: 11, color: HexColor('#7B7777'))),
-                //         // prefixIcon: icon,
-                //         enabledBorder: OutlineInputBorder(
-                //             borderRadius:
-                //                 BorderRadius.all(Radius.circular(10.0)),
-                //             borderSide:
-                //                 BorderSide(color: Colors.grey.shade300)),
-                //         focusedBorder: OutlineInputBorder(
-                //             borderRadius:
-                //                 BorderRadius.all(Radius.circular(10.0)),
-                //             borderSide: BorderSide(color: HexColor('#27DEBF'))),
-                //       ),
-                //     ),
-                //   ),
-                // )
               ]),
             ),
-            Consumer<GetSubjectList>(builder: (context, GetSubjectList, _) {
-              return SingleChildScrollView(
+
+             SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: GetSubjectList.subjectList == null
                     ? CircularProgressIndicator()
@@ -154,12 +120,10 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                             GetSubjectList.subjectList.length, (index) {
                           return InkWell(
                             onTap: () {
-                              selectedSubject =
-                                  GetSubjectList.subjectList[index];
+                              selectedSubject= GetSubjectList.subjectList[index];
                               setState(() {
-                                selectedIndex = index;
+                                 selectedIndex = index;
                               });
-
                               print(selectedSubject);
                             },
                             child: Padding(
@@ -188,13 +152,34 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                           );
                         }),
                       ),
-              );
-            }),
-            Container(
-              height: (height - (status + bottom)) * 0.47,
-              child: Center(child: Text(selectedSubject)),
+              ),
+             Container(
+              height: (height - (status + bottom)) * 0.56,
+              color:Colors.green,
+
+              child: HomeScreenVideos( Selectedsubjectname: selectedSubject,),
+              // New(selectedSubject: selectedSubject)
+              // HomeScreenVideos( Selectedsubjectname: selectedSubject,),
             ),
-          ])),
+          ]),
+        );
+      }),
     ));
+  }
+
+
+}
+
+class New extends StatelessWidget {
+  const New({
+    Key? key,
+    required this.selectedSubject,
+  }) : super(key: key);
+
+  final String selectedSubject;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text( selectedSubject);
   }
 }

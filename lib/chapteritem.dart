@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -146,11 +145,8 @@ class _ChapteritemState extends State<Chapteritem> {
                                         )));
                           },
                           child: Container(
-                              height: (height) * 0.18,
+                              height: (height) * 0.15,
                               width: width * 0.2,
-                              // child: YoutubePlayer(
-                              //   controller: you,
-                              // ),
                               child: Card(
                                 color: HexColor('#FFFFFF'),
                                 shape: RoundedRectangleBorder(
@@ -158,6 +154,8 @@ class _ChapteritemState extends State<Chapteritem> {
                                 ),
                                 child: Container(
                                   child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Container(
                                         width: width * 0.25,
@@ -165,24 +163,42 @@ class _ChapteritemState extends State<Chapteritem> {
                                           controller: you,
                                         ),
                                       ),
-                                      // Image.asset('assets/Carousel/image1.png'),
-                                      Container(
-                                          width: width * 0.58,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              // Text(decodeDetails['data'][index]
-                                              //     ['link']),
-                                              Text(
-                                                decodeDetails[index]['subject']
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: HexColor('#0A1C22')),
-                                              ),
-                                            ],
-                                          )),
+// Image.asset('assets/Carousel/image1.png'),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Container(
+                                            width: width * 0.58,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+// Text(decodeDetails['data'][index]
+//     ['link']),
+                                                Text(
+                                                  decodeDetails[index]
+                                                  ['subject']
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                      FontWeight.bold,
+                                                      color: HexColor(
+                                                          '#0A1C22')),
+                                                ),
+                                                Text(
+                                                  decodeDetails[index]
+                                                  ['lesson']
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      color: HexColor(
+                                                          '#0A1C22')),
+                                                ),
+                                              ],
+                                            )),
+                                      ),
                                       Icon(
                                         Icons.favorite_outline_outlined,
                                         color: HexColor('#FF465C'),
