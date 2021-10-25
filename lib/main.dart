@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/SplashScreen/splashscreen.dart';
+import 'package:tutionmaster/TESTING%20ONLY/test_one.dart';
 
 import 'ALLROUTES/routegenerator.dart';
 import 'Control/getdata.dart';
@@ -54,7 +55,6 @@ class MyApp extends StatelessWidget {
         //   'profile': (context) => Profile()
         // },
       ),
-
     );
   }
 }
