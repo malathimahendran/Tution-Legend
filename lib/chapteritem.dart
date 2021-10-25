@@ -20,30 +20,31 @@ class _ChapteritemState extends State<Chapteritem> {
   var search = TextEditingController();
   var decodeDetails, token;
   searchApi() async {
-    Shared().shared().then((value) async {
-      var userDetails = await value.getStringList('storeData');
-      setState(() {
-        token = userDetails[4];
-        print("$token" + "27linechapter");
-      });
+    // Shared().shared().then((value) async {
+    // var userDetails = await value.getStringList('storeData');
+    // setState(() {
+    //   token = userDetails[4];
+    //   print("$token" + "27linechapter");
+    // });
 
-      print(userDetails);
-      print("28chapter");
-      print(33);
+    // print(userDetails);
+    // print("28chapter");
+    print(33);
 
-      var url = Uri.parse(
-          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
-      //  var url = Uri.parse(
-      //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
-      var response = await http.get(url, headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': token,
-      });
-      decodeDetails = json.decode(response.body);
-      setState(() {});
-      print(decodeDetails['data']);
+    var url = Uri.parse(
+        'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
+    //  var url = Uri.parse(
+    //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
+    var response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization':
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwOTFmMWMzLTBkMGUtNGVmMy1iMDYyLWU3Y2JlMzBlN2Q3YyIsImlhdCI6MTYzNDg5NzMwNiwiZXhwIjoxNjM3NDg5MzA2fQ.K9aqwhG-4ZpHbZF_qrsJ0-unlC51jI6494asGwzyAuY',
     });
+    print('44');
+    decodeDetails = json.decode(response.body);
+    setState(() {});
+    print(decodeDetails['data']);
   }
 
   @override
@@ -118,7 +119,7 @@ class _ChapteritemState extends State<Chapteritem> {
                       itemBuilder: (context, index) {
                         var you = YoutubePlayerController(
                           initialVideoId: YoutubePlayer.convertUrlToId(
-                              decodeDetails['data'][index]['link'])!,
+                              decodeDetails['data'][index]['link'].toString())!,
                           flags: const YoutubePlayerFlags(
                             controlsVisibleAtStart: true,
                             hideControls: true,
@@ -170,7 +171,8 @@ class _ChapteritemState extends State<Chapteritem> {
                                               //     ['link']),
                                               Text(
                                                 decodeDetails['data'][index]
-                                                    ['title'],
+                                                        ['subject']
+                                                    .toString(),
                                                 style: TextStyle(
                                                     fontSize: 20,
                                                     color: HexColor('#0A1C22')),

@@ -37,9 +37,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: Chapteritem(),
-      initialRoute: '/',
-      onGenerateRoute: RouteGenerator.generateRoute,
+      home: Chapteritem(),
+      // initialRoute: '/',
+      // onGenerateRoute: RouteGenerator.generateRoute,
       // routes: {
       //   'splashscreen': (context) => SplashScreen(),
       //   'carosalSlider': (context) => Carosel(),
