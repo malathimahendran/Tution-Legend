@@ -6,6 +6,7 @@ import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/HomePage/second.dart';
 import 'package:tutionmaster/HomePage/third.dart';
 import 'package:tutionmaster/Login/loginpage.dart';
+import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
 import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen>
   List<Widget> pages = [
     HomeTestScreen(),
     Chapteritem(),
-    Chapteritem(),
+    PaymentDesign(),
     Profile(),
   ];
   List<IconData> iconlist = [
@@ -40,12 +41,7 @@ class _HomeScreenState extends State<HomeScreen>
     Icons.favorite,
     Icons.account_circle,
   ];
-  List<String> iconname = [
-   'Home',
-    'Videos',
-    'Wishlist',
-    'Profile'
-  ];
+  List<String> iconname = ['Home', 'Videos', 'Wishlist', 'Profile'];
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   @override
@@ -56,45 +52,62 @@ class _HomeScreenState extends State<HomeScreen>
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      bottomNavigationBar:
-            Container(
-              width: double.infinity, height: 100.0,
-              decoration: BoxDecoration(
-              image: DecorationImage( image:AssetImage('assets/HomeScreenPage/homescreentab.png'), fit: BoxFit.cover ), ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(iconlist.length, (index)
-              {
-                 return InkWell(
-                   onTap: (){
-                     setState(() {
-                       _page=index;
-                     });
-                   },
-                   child: Padding(
-                     padding:  EdgeInsets.only(top: 38.0),
-                     child: Container(
-                       padding:EdgeInsets.only(bottom:2),
-                       width:(width)*1/4,
-                       // color: Colors.black,
-                       alignment: index == 1 ?Alignment.centerLeft:index == 2 ?Alignment.centerRight:null,
-                       child: Column(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         mainAxisSize: MainAxisSize.min,
-                          children: [
-                            CircleAvatar(
-                              radius: 20.0,
-                              backgroundColor: _page ==index? Colors.white :Colors.transparent ,
-                                child: Icon( iconlist[index], color: _page ==index?Colors.pinkAccent: Colors.white, size: 22,)),
-                            Text( iconname[index], style: TextStyle( color: Colors.white), )
-                          ],
-                        ),
-                     ),
-                   ),
-                 );
-              }),),
-            ),
-
+      bottomNavigationBar: Container(
+        width: double.infinity,
+        height: 100.0,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/HomeScreenPage/homescreentab.png'),
+              fit: BoxFit.cover),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(iconlist.length, (index) {
+            return InkWell(
+              onTap: () {
+                setState(() {
+                  _page = index;
+                });
+              },
+              child: Padding(
+                padding: EdgeInsets.only(top: 38.0),
+                child: Container(
+                  padding: EdgeInsets.only(bottom: 2),
+                  width: (width) * 1 / 4,
+                  // color: Colors.black,
+                  alignment: index == 1
+                      ? Alignment.centerLeft
+                      : index == 2
+                          ? Alignment.centerRight
+                          : null,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircleAvatar(
+                          radius: 20.0,
+                          backgroundColor: _page == index
+                              ? Colors.white
+                              : Colors.transparent,
+                          child: Icon(
+                            iconlist[index],
+                            color: _page == index
+                                ? Colors.pinkAccent
+                                : Colors.white,
+                            size: 22,
+                          )),
+                      Text(
+                        iconname[index],
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
+        ),
+      ),
 
       // CurvedNavigationBar(
       //   height: 60.0,
@@ -139,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen>
       //   letIndexChange: (index) => true,
       // ),
       // body:  HomeTestScreen(),
-       body: pages[_page],
+      body: pages[_page],
     );
   }
 }
