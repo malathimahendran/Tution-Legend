@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:tutionmaster/ALLROUTES/routesname.dart';
+import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/Slider/carosalSlider.dart';
 
 import '../SHARED PREFERENCES/shared_preferences.dart';
@@ -13,6 +16,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final l = Logger();
   var selectHere;
   @override
   void initState() {
@@ -20,8 +24,17 @@ class _SplashScreenState extends State<SplashScreen> {
 
     selectingHere().whenComplete(() {
       Future.delayed(Duration(seconds: 2), () {
+        l.i('insideselectinghere');
+        // Navigator.pushReplacement(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) =>
+        //             selectHere == null ? Carosel() : HomeScreen()));
         Navigator.popAndPushNamed(
-            context, selectHere == null ? 'carosalSlider' : 'homescreen');
+            context,
+            selectHere == null
+                ? AllRouteNames.carosalSlider
+                : AllRouteNames.homescreen);
       });
     });
   }

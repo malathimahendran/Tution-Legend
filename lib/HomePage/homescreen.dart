@@ -12,7 +12,6 @@ import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/chapteritem.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
 
-import 'Home.dart';
 import 'first.dart';
 import 'fourth.dart';
 
@@ -50,6 +49,13 @@ class _HomeScreenState extends State<HomeScreen>
     Chapteritem(),
     Profile(),
   ];
+  List<IconData> iconlist = [
+    Icons.home,
+    Icons.video_collection,
+    Icons.favorite,
+    Icons.account_circle,
+  ];
+  List<String> iconname = ['Home', 'Videos', 'Wishlist', 'Profile'];
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   @override
@@ -60,116 +66,107 @@ class _HomeScreenState extends State<HomeScreen>
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      bottomNavigationBar: CurvedNavigationBar(
-        height: 75.0,
-        // key: _bottomNavigationKey,
-        index: _page,
-        items: <Widget>[
-          ...iconAndText.map((e) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (_page != e.index)
-                  SizedBox(
-                    height: 16,
+      bottomNavigationBar: Container(
+        width: double.infinity,
+        height: 100.0,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/HomeScreenPage/homescreentab.png'),
+              fit: BoxFit.cover),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(iconlist.length, (index) {
+            return InkWell(
+              onTap: () {
+                setState(() {
+                  _page = index;
+                });
+              },
+              child: Padding(
+                padding: EdgeInsets.only(top: 38.0),
+                child: Container(
+                  padding: EdgeInsets.only(bottom: 2),
+                  width: (width) * 1 / 4,
+                  // color: Colors.black,
+                  alignment: index == 1
+                      ? Alignment.centerLeft
+                      : index == 2
+                          ? Alignment.centerRight
+                          : null,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircleAvatar(
+                          radius: 20.0,
+                          backgroundColor: _page == index
+                              ? Colors.white
+                              : Colors.transparent,
+                          child: Icon(
+                            iconlist[index],
+                            color: _page == index
+                                ? Colors.pinkAccent
+                                : Colors.white,
+                            size: 22,
+                          )),
+                      Text(
+                        iconname[index],
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ],
                   ),
-                Icon(
-                  e.icon,
-                  size: e.size,
                 ),
-                if (_page != e.index) Text(e.text!),
-              ],
+              ),
             );
-          }).toList()
-
-          //     if (_page != 0)
-          //       SizedBox(
-          //         height: 16,
-          //       ),
-          //     Icon(
-          //       Icons.home,
-          //       size: 30,
-          //     ),
-          //     if (_page != 0) Text('Home'),
-          //   ],
-          // ),
-          // Icon(
-          //   Icons.home,
-          //   size: 30,
-          // ),
-          // Icon(
-          //   Icons.home,
-          //   size: 30,
-          // ),
-          // Icon(
-          //   Icons.home,
-          //   size: 30,
-          // ),
-          // NavigationBar(
-
-          //   navigationbaricon: Icons.home,
-          //   navigationbariconname: 'Home',
-          //   iconIndex: 0,
-          //   pageIndex: _page,
-          // ),
-          // NavigationBar(
-          //   navigationbaricon: Icons.video_collection,
-          //   navigationbariconname: 'Videos',
-          //   iconIndex: 1,
-          //   pageIndex: _page,
-          // ),
-          // NavigationBar(
-          //   navigationbaricon: Icons.favorite,
-          //   navigationbariconname: 'Wishlist',
-          //   iconIndex: 2,
-          //   pageIndex: _page,
-          // ),
-          // NavigationBar(
-          //   navigationbaricon: Icons.account_circle,
-          //   navigationbariconname: 'Profile',
-          //   iconIndex: 3,
-          //   pageIndex: _page,
-          // ),
-        ],
-        color: HexColor('#FF465C'),
-        buttonBackgroundColor: HexColor('#FF465C'),
-        backgroundColor: Colors.white,
-        animationCurve: Curves.ease,
-        animationDuration: Duration(milliseconds: 300),
-        onTap: (index) {
-          setState(() {
-            _page = index;
-          });
-        },
-        // letIndexChange: (index) => true,
+          }),
+        ),
       ),
+
+      // CurvedNavigationBar(
+      //   height: 60.0,
+      //   // key: _bottomNavigationKey,
+      //   index: _page,
+      //   items: <Widget>[
+      //     NavigationBar(
+      //       navigationbaricon: Icons.home,
+      //       navigationbariconname: 'Home',
+      //       iconIndex: 0,
+      //       pageIndex: _page,
+      //     ),
+      //     NavigationBar(
+      //       navigationbaricon: Icons.video_collection,
+      //       navigationbariconname: 'Videos',
+      //       iconIndex: 1,
+      //       pageIndex: _page,
+      //     ),
+      //     NavigationBar(
+      //       navigationbaricon: Icons.favorite,
+      //       navigationbariconname: 'Wishlist',
+      //       iconIndex: 2,
+      //       pageIndex: _page,
+      //     ),
+      //     NavigationBar(
+      //       navigationbaricon: Icons.account_circle,
+      //       navigationbariconname: 'Profile',
+      //       iconIndex: 3,
+      //       pageIndex: _page,
+      //     ),
+      //   ],
+      //   color: HexColor('#FF465C'),
+      //   buttonBackgroundColor: HexColor('#FF465C'),
+      //   backgroundColor: Colors.white,
+      //   animationCurve: Curves.easeInOut,
+      //   animationDuration: Duration(milliseconds: 500),
+      //   onTap: (index) {
+      //     setState(() {
+      //       _page = index;
+      //     });
+      //   },
+      //   letIndexChange: (index) => true,
+      // ),
+      // body:  HomeTestScreen(),
       body: pages[_page],
     );
   }
 }
-// class NavigationBar extends StatelessWidget {
-//   IconData navigationbaricon;
-//   String navigationbariconname;
-//   NavigationBar(
-//       {required this.navigationbaricon, required this.navigationbariconname});
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.only(top: 12.0),
-//       child: Column(
-//         children: [
-//           Icon(
-//             navigationbaricon,
-//             size: 25,
-//             color: Colors.white,
-//           ),
-//           // SizedBox(height: 5.0),
-//           Text(navigationbariconname,
-//               style: TextStyle(
-//                 color: Colors.white,
-//               )),
-//         ],
-//       ),
-//     );
-//   }
-// }

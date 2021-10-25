@@ -6,9 +6,12 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:logger/logger.dart';
 import 'package:platform_device_id/platform_device_id.dart';
+import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/FCM%20Token/fcm_token.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
+import 'package:tutionmaster/Login/argumentpass.dart';
 import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/StartingLearningPage/startlearning.dart';
@@ -23,15 +26,26 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  var hintText, icon, user, storeGoogleUserData;
+  final l = Logger();
+  var hintText,
+      icon,
+      user,
+      storeGoogleUserData,
+      userDetails,
+      userName,
+      storeemail,
+      phone,
+      standard,
+      token;
   var controller;
   var email = TextEditingController();
   var password = TextEditingController();
   bool isChecked = false;
-  var googleDisplayName, googleDisplayEmail, googleId;
+  var googleDisplayName, googleDisplayEmail, googleId, photourl, profileImage;
   var fcm_token;
-  String? deviceId, _deviceId;
+  String? deviceId, finalDeviceId;
   GoogleSignInAccount? googleUser;
+
   signInWithGoogle() async {
     googleUser = await GoogleSignIn().signIn();
     print(googleUser?.displayName);
@@ -40,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
     googleDisplayName = googleUser!.displayName;
     googleDisplayEmail = googleUser!.email;
     googleId = googleUser!.id;
+    photourl = googleUser!.photoUrl;
     // List<String> details = [
     //   googleDisplayName,
     //   googleDisplayEmail,
@@ -76,8 +91,8 @@ class _LoginPageState extends State<LoginPage> {
 
     if (!mounted) return;
 
-    _deviceId = deviceId;
-    print("deviceId->$_deviceId");
+    finalDeviceId = deviceId;
+    print("deviceId->$finalDeviceId");
   }
 
   loginApi() async {
@@ -87,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
     var response = await http.post(url, body: {
       'email': email.text.toString(),
       'password': password.text.toString(),
-      'device_id': _deviceId.toString(),
+      'device_id': finalDeviceId.toString(),
     }).then((value) async {
       var decodeDetails = json.decode(value.body);
       print(decodeDetails);
@@ -97,18 +112,42 @@ class _LoginPageState extends State<LoginPage> {
       print(statuscode);
       user = decodeDetails['user'];
       print(user);
-      print(decodeDetails['user'][0]['user_name']);
-      var token = decodeDetails['token'];
+      // print(decodeDetails['user'][0]['user_name']);
+      String token = decodeDetails['token'].toString();
       String userName = decodeDetails['user'][0]['user_name'].toString();
-      print(userName);
-      String email = decodeDetails['user'][0]['email'].toString();
+      print('$userName,line 118 login page');
+      print('$token,line 119 login page');
+      String storeemail = decodeDetails['user'][0]['email'].toString();
       String phone = decodeDetails['user'][0]['phone'].toString();
       String standard = decodeDetails['user'][0]['class'].toString();
-      List<String> details = [userName, email, phone, standard, token];
-      Shared().shared().then((value) async {
-        var storeData = await value.setStringList('storeData', details);
-        print(storeData);
-      });
+
+      l.w(userName);
+      l.w(storeemail);
+
+      print('$standard,line 119 login page');
+      l.w(phone);
+      l.w(standard);
+      l.w(token);
+      storingAllDetails(
+        userName: userName,
+        storeemail: storeemail,
+        phone: phone,
+        standard: standard,
+        token: token,
+        // googleId:googleId,
+      );
+      // List<String> details = [
+      //   userName,
+      //   email,
+      //   phone,
+      //   standard,
+      //   profileImage,
+      //   token
+      // ];
+      // Shared().shared().then((value) async {
+      //   var storeData = await value.setStringList('storeData', details);
+      //   print(storeData);
+      // });
 
       print(user);
       print(71);
@@ -124,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        Navigator.popAndPushNamed(context, 'startlearning');
+        Navigator.popAndPushNamed(context, AllRouteNames.startlearning);
         // Navigator.push(
         //     context, MaterialPageRoute(builder: (context) => StartLearning()));
       } else {
@@ -146,26 +185,28 @@ class _LoginPageState extends State<LoginPage> {
     print(googleId);
     print(googleDisplayEmail);
     print(deviceId);
+    print(photourl);
     print(140);
     var url = Uri.parse(
         'http://www.cviacserver.tk/tuitionlegend/register/google_login');
     var response = await http.post(url, body: {
       'device_id': deviceId,
+      // 'device_id': 34.toString(),
       'email': googleDisplayEmail,
-      'google_id': googleId
+      'google_id': googleId,
     });
     var decodeDetail = json.decode(response.body);
     print(decodeDetail);
+    userDetails = decodeDetail['user_details'];
+    print("$userDetails" + "161line");
+
     var statusCode = response.statusCode;
     var status = decodeDetail['status'];
+
     if (status == false) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Register(
-                    googleuser: googleUser,
-                    deviceId: deviceId,
-                  )));
+      Navigator.pushNamed(context, AllRouteNames.registerpage,
+          arguments:
+              ArgumentPass(deviceId: finalDeviceId, googleUser: googleUser));
     } else {
       final snackBar = SnackBar(
         backgroundColor: HexColor('#27AE60'),
@@ -177,9 +218,40 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      Navigator.popAndPushNamed(context, AllRouteNames.startlearning);
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
     }
+    var userName = userDetails[0]['user_name'].toString();
+    var storeemail = userDetails[0]['email'].toString();
+    var phone = userDetails[0]['phone'].toString();
+    var standard = userDetails[0]['class'].toString();
+    var profileImage = userDetails[0]['profile_image'].toString();
+    l.i(userDetails[0]['profile_image'].toString());
+    var token = decodeDetail['token'].toString();
+
+    storingAllDetails(
+      userName: userName,
+      storeemail: storeemail,
+      phone: phone,
+      standard: standard,
+      profileImage: profileImage,
+      token: token,
+      googleId: googleId,
+    );
+
+    // List<String> details = [
+    //   userName,
+    //   storeemail,
+    //   phone,
+    //   standard,
+    //   profileImage,
+    //   token
+    // ];
+    // Shared().shared().then((value) async {
+    //   var storeData = await value.setStringList('storeData', details);
+    //   print(storeData);
+    // });
   }
 
   @override
@@ -191,7 +263,7 @@ class _LoginPageState extends State<LoginPage> {
     // var height1=height-status;
 
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       // appBar: AppBar(
       //   flexibleSpace: Container(
       //     height: (height - status) * 0.30,
@@ -238,18 +310,18 @@ class _LoginPageState extends State<LoginPage> {
                             height: height * 0.2,
                             width: width * 1,
                           ),
-                          SizedBox(height: 5),
+                          SizedBox(height: 4),
                           Text("Welcome",
                               style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 20),
                               )),
-                          SizedBox(height: 5),
+                          SizedBox(height: 4),
                           Text(
                             "Login to your existing Account",
                             style: GoogleFonts.poppins(),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 7),
                           customContainerTextField(
                             height,
                             width,
@@ -257,7 +329,7 @@ class _LoginPageState extends State<LoginPage> {
                             icon = Icon(Icons.person),
                             controller = email,
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 7),
                           customContainerTextField(
                             height,
                             width,
@@ -321,13 +393,13 @@ class _LoginPageState extends State<LoginPage> {
                                       textStyle: TextStyle(color: Colors.white),
                                     ))),
                           ),
-                          SizedBox(height: 5),
+                          SizedBox(height: 2),
                           Text(
                             "OR",
                             style: GoogleFonts.poppins(
                                 textStyle: TextStyle(fontSize: 12)),
                           ),
-                          SizedBox(height: 5),
+                          SizedBox(height: 2),
                           Container(
                             width: width * 0.4,
                             child: ElevatedButton(
@@ -362,18 +434,19 @@ class _LoginPageState extends State<LoginPage> {
                                   ],
                                 )),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 3),
                           Container(
                             width: width * 0.6,
                             child: Row(children: [
                               Text("Don't have an account?"),
                               InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              Register(deviceId: _deviceId)));
+                                  Navigator.pushNamed(
+                                      context, AllRouteNames.registerpage,
+                                      arguments: ArgumentPass(
+                                        deviceId: finalDeviceId,
+                                        googleUser: null,
+                                      ));
                                 },
                                 child: Text(
                                   "Sign Up",
@@ -395,6 +468,31 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  storingAllDetails(
+      {userName,
+      storeemail,
+      phone,
+      standard,
+      profileImage,
+      token,
+      googleId}) async {
+    List<String> storing = [
+      userName,
+      storeemail,
+      phone,
+      standard,
+      profileImage ?? "",
+      token,
+      googleId ?? ""
+    ];
+
+    print(storing);
+    print(320);
+    Shared()
+        .shared()
+        .then((value) => value.setStringList('storeData', storing));
   }
 
   Container customContainerTextField(
