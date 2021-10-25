@@ -34,6 +34,18 @@ class _HomeScreenState extends State<HomeScreen>
     Chapteritem(),
     Profile(),
   ];
+  List<IconData> iconlist = [
+    Icons.home,
+    Icons.video_collection,
+    Icons.favorite,
+    Icons.account_circle,
+  ];
+  List<String> iconname = [
+   'Home',
+    'Videos',
+    'Wishlist',
+    'Profile'
+  ];
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   @override
@@ -44,119 +56,90 @@ class _HomeScreenState extends State<HomeScreen>
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      bottomNavigationBar: CurvedNavigationBar(
-        height: 60.0,
-        // key: _bottomNavigationKey,
-        index: _page,
-        items: <Widget>[
-          NavigationBar(
-            navigationbaricon: Icons.home,
-            navigationbariconname: 'Home',
-            iconIndex: 0,
-            pageIndex: _page,
-          ),
-          // Column(
-          //   mainAxisSize: MainAxisSize.min,
-          //   children: [
-          //     if (_page != 0)
-          //       SizedBox(
-          //         height: 18,
-          //       ),
-          //     Icon(Icons.home),
-          //     if (_page != 0) Text('Home'),
-          //   ],
-          // ),
-          // Column(
-          //   mainAxisSize: MainAxisSize.min,
-          //   children: [
-          //     if (_page != 1)
-          //       SizedBox(
-          //         height: 18,
-          //       ),
-          //     Icon(Icons.home),
-          //     if (_page != 1) Text('Home'),
-          //   ],
-          // ),
-          // Column(
-          //   mainAxisSize: MainAxisSize.min,
-          //   children: [
-          //     if (_page != 2)
-          //       SizedBox(
-          //         height: 18,
-          //       ),
-          //     Icon(Icons.home),
-          //     if (_page != 2) Text('Home'),
-          //   ],
-          // ),
-          // Column(
-          //   mainAxisSize: MainAxisSize.min,
-          //   children: [
-          //     if (_page != 3)
-          //       SizedBox(
-          //         height: 18,
-          //       ),
-          //     Icon(Icons.home),
-          //     if (_page != 3) Text('Home'),
-          //   ],
-          // ),
-          NavigationBar(
-            navigationbaricon: Icons.video_collection,
-            navigationbariconname: 'Videos',
-            iconIndex: 1,
-            pageIndex: _page,
-          ),
-          NavigationBar(
-            navigationbaricon: Icons.favorite,
-            navigationbariconname: 'Wishlist',
-            iconIndex: 2,
-            pageIndex: _page,
-          ),
-          NavigationBar(
-            navigationbaricon: Icons.account_circle,
-            navigationbariconname: 'Profile',
-            iconIndex: 3,
-            pageIndex: _page,
-          ),
-        ],
-        color: HexColor('#FF465C'),
-        buttonBackgroundColor: HexColor('#FF465C'),
-        backgroundColor: Colors.white,
-        animationCurve: Curves.easeInOut,
-        animationDuration: Duration(milliseconds: 500),
-        onTap: (index) {
-          setState(() {
-            _page = index;
-          });
-        },
-        letIndexChange: (index) => true,
-      ),
-      body: pages[_page],
+      bottomNavigationBar:
+            Container(
+              width: double.infinity, height: 100.0,
+              decoration: BoxDecoration(
+              image: DecorationImage( image:AssetImage('assets/HomeScreenPage/homescreentab.png'), fit: BoxFit.cover ), ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(iconlist.length, (index)
+              {
+                 return InkWell(
+                   onTap: (){
+                     setState(() {
+                       _page=index;
+                     });
+                   },
+                   child: Padding(
+                     padding:  EdgeInsets.only(top: 38.0),
+                     child: Container(
+                       padding:EdgeInsets.only(bottom:2),
+                       width:(width)*1/4,
+                       // color: Colors.black,
+                       alignment: index == 1 ?Alignment.centerLeft:index == 2 ?Alignment.centerRight:null,
+                       child: Column(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                         mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CircleAvatar(
+                              radius: 20.0,
+                              backgroundColor: _page ==index? Colors.white :Colors.transparent ,
+                                child: Icon( iconlist[index], color: _page ==index?Colors.pinkAccent: Colors.white, size: 22,)),
+                            Text( iconname[index], style: TextStyle( color: Colors.white), )
+                          ],
+                        ),
+                     ),
+                   ),
+                 );
+              }),),
+            ),
+
+
+      // CurvedNavigationBar(
+      //   height: 60.0,
+      //   // key: _bottomNavigationKey,
+      //   index: _page,
+      //   items: <Widget>[
+      //     NavigationBar(
+      //       navigationbaricon: Icons.home,
+      //       navigationbariconname: 'Home',
+      //       iconIndex: 0,
+      //       pageIndex: _page,
+      //     ),
+      //     NavigationBar(
+      //       navigationbaricon: Icons.video_collection,
+      //       navigationbariconname: 'Videos',
+      //       iconIndex: 1,
+      //       pageIndex: _page,
+      //     ),
+      //     NavigationBar(
+      //       navigationbaricon: Icons.favorite,
+      //       navigationbariconname: 'Wishlist',
+      //       iconIndex: 2,
+      //       pageIndex: _page,
+      //     ),
+      //     NavigationBar(
+      //       navigationbaricon: Icons.account_circle,
+      //       navigationbariconname: 'Profile',
+      //       iconIndex: 3,
+      //       pageIndex: _page,
+      //     ),
+      //   ],
+      //   color: HexColor('#FF465C'),
+      //   buttonBackgroundColor: HexColor('#FF465C'),
+      //   backgroundColor: Colors.white,
+      //   animationCurve: Curves.easeInOut,
+      //   animationDuration: Duration(milliseconds: 500),
+      //   onTap: (index) {
+      //     setState(() {
+      //       _page = index;
+      //     });
+      //   },
+      //   letIndexChange: (index) => true,
+      // ),
+      // body:  HomeTestScreen(),
+       body: pages[_page],
     );
   }
 }
-// class NavigationBar extends StatelessWidget {
-//   IconData navigationbaricon;
-//   String navigationbariconname;
-//   NavigationBar(
-//       {required this.navigationbaricon, required this.navigationbariconname});
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.only(top: 12.0),
-//       child: Column(
-//         children: [
-//           Icon(
-//             navigationbaricon,
-//             size: 25,
-//             color: Colors.white,
-//           ),
-//           // SizedBox(height: 5.0),
-//           Text(navigationbariconname,
-//               style: TextStyle(
-//                 color: Colors.white,
-//               )),
-//         ],
-//       ),
-//     );
-//   }
-// }

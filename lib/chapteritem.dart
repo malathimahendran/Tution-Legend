@@ -18,39 +18,49 @@ class Chapteritem extends StatefulWidget {
 
 class _ChapteritemState extends State<Chapteritem> {
   var search = TextEditingController();
-  var decodeDetails, token;
+  var decodeDetails, token, decodeDetailsData;
   searchApi() async {
-    // Shared().shared().then((value) async {
-    // var userDetails = await value.getStringList('storeData');
-    // setState(() {
-    //   token = userDetails[4];
-    //   print("$token" + "27linechapter");
-    // });
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      setState(() {
+        token = userDetails[5];
+        print("$token" + "27linechapter");
+      });
 
-    // print(userDetails);
-    // print("28chapter");
-    print(33);
+      print(userDetails);
 
-    var url = Uri.parse(
-        'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
-    //  var url = Uri.parse(
-    //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
-    var response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwOTFmMWMzLTBkMGUtNGVmMy1iMDYyLWU3Y2JlMzBlN2Q3YyIsImlhdCI6MTYzNDg5NzMwNiwiZXhwIjoxNjM3NDg5MzA2fQ.K9aqwhG-4ZpHbZF_qrsJ0-unlC51jI6494asGwzyAuY',
+      print("28chapter");
+      print(33);
+
+      var url = Uri.parse(
+          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
+      //  var url = Uri.parse(
+      //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': token,
+      });
+      decodeDetailsData = json.decode(response.body);
+      setState(() {
+        decodeDetails = decodeDetailsData['data'];
+      });
+
+      print(decodeDetails['data']);
+      print("47chapteritem");
     });
-    print('44');
-    decodeDetails = json.decode(response.body);
-    setState(() {});
-    print(decodeDetails['data']);
+    // print('44');
+    // decodeDetails = json.decode(response.body);
+    // setState(() {});
+    // print(decodeDetails['data']);
   }
 
   @override
   Widget build(BuildContext context) {
+    // print("$decodeDetails,widgetchapter");
     print(search);
     print(36);
+    print(38);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
@@ -112,14 +122,14 @@ class _ChapteritemState extends State<Chapteritem> {
             Flexible(
               child: decodeDetails == null
                   ? Center(
-                      child: CircularProgressIndicator(),
+                      child: Text("No Datas found"),
                     )
                   : ListView.builder(
-                      itemCount: decodeDetails['data'].length,
+                      itemCount: decodeDetails.length,
                       itemBuilder: (context, index) {
                         var you = YoutubePlayerController(
                           initialVideoId: YoutubePlayer.convertUrlToId(
-                              decodeDetails['data'][index]['link'].toString())!,
+                              decodeDetails[index]['link'])!,
                           flags: const YoutubePlayerFlags(
                             controlsVisibleAtStart: true,
                             hideControls: true,
@@ -127,7 +137,7 @@ class _ChapteritemState extends State<Chapteritem> {
                             isLive: false,
                           ),
                         );
-                        print(decodeDetails['data'][index]['link'].runtimeType);
+                        print(decodeDetails[index]['link'].runtimeType);
                         print(109);
                         return InkWell(
                           onTap: () {
@@ -136,8 +146,7 @@ class _ChapteritemState extends State<Chapteritem> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Play(
-                                          link: decodeDetails['data'][index]
-                                              ['link'],
+                                          link: decodeDetails[index]['link'],
                                         )));
                           },
                           child: Container(
@@ -170,8 +179,7 @@ class _ChapteritemState extends State<Chapteritem> {
                                               // Text(decodeDetails['data'][index]
                                               //     ['link']),
                                               Text(
-                                                decodeDetails['data'][index]
-                                                        ['subject']
+                                                decodeDetails[index]['subject']
                                                     .toString(),
                                                 style: TextStyle(
                                                     fontSize: 20,
