@@ -109,9 +109,14 @@ class _PaymentDesignState extends State<PaymentDesign> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              ),
                             ),
                             Text(
                               'Payment               ',
@@ -216,7 +221,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
                           ),
                         )),
                   ),
-                  SizedBox(height: height * 0.15),
+                  SizedBox(height: height * 0.1),
                   CheckboxListTile(
                     activeColor: Colors.red,
                     checkColor: Colors.white,

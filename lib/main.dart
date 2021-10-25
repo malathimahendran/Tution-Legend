@@ -14,7 +14,6 @@ import 'ProfilePage/profilepage.dart';
 import 'Register/register.dart';
 import 'Slider/carosalSlider.dart';
 import 'StartingLearningPage/startlearning.dart';
-import 'chapteritem.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -54,7 +53,6 @@ class MyApp extends StatelessWidget {
         //   'profile': (context) => Profile()
         // },
       ),
-
     );
   }
 }
