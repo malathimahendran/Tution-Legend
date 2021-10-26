@@ -19,6 +19,29 @@ class Chapteritem extends StatefulWidget {
 class _ChapteritemState extends State<Chapteritem> {
   var search = TextEditingController();
   var decodeDetails, token, decodeDetailsData;
+  @override
+  void initState() {
+    super.initState();
+    allvideoApi();
+  }
+
+  allvideoApi() async {
+    var url = Uri.parse(
+        'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/all');
+    var response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': token
+    });
+    decodeDetailsData = json.decode(response.body);
+    setState(() {
+      decodeDetails = decodeDetailsData['data'];
+    });
+
+    print(decodeDetails['data']);
+    print("47chapteritem");
+  }
+
   searchApi() async {
     Shared().shared().then((value) async {
       // var userDetails = await value.getStringList('storeData');
@@ -39,7 +62,7 @@ class _ChapteritemState extends State<Chapteritem> {
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': token
+        'Authorization': token,
       });
       decodeDetailsData = json.decode(response.body);
       setState(() {
