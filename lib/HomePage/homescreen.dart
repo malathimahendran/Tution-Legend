@@ -47,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen>
   ];
 
   int selectedItem = 0;
+  var k;
   String? userName;
   var storeUserName, userEmail, profileImage, userMobileNo;
 //  Stri userDetails = [];
