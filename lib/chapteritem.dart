@@ -14,7 +14,6 @@ class Chapteritem extends StatefulWidget {
   @override
   _ChapteritemState createState() => _ChapteritemState();
 }
-
 class _ChapteritemState extends State<Chapteritem> {
   var search = TextEditingController();
   var decodeDetails, token, decodeDetailsData;

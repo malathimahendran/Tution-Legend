@@ -59,7 +59,10 @@ int ind = 0;
               image: DecorationImage(
             image: AssetImage('assets/ProfilePage/mainbackground.png'),
           )),
-          child: Column(children: [
+          child: Column(
+              // mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
             Container(
               // color: Colors.blue,
               height: (height - (status + bottom)) * 0.06,
@@ -110,54 +113,58 @@ int ind = 0;
                 ),
               ]),
             ),
-
-             SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: GetSubjectList.subjectList == null
-                    ? CircularProgressIndicator()
-                    : Row(
-                        children: List.generate(
-                            GetSubjectList.subjectList.length, (index) {
-                          return InkWell(
-                            onTap: () {
-                              selectedSubject= GetSubjectList.subjectList[index];
-                              setState(() {
-                                 selectedIndex = index;
-                              });
-                              print(selectedSubject);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Container(
-                                height: height * 0.04,
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  color: index == selectedIndex
-                                      ? Colors.green
-                                      : Colors.grey[350],
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    GetSubjectList.subjectList[index],
-                                    style: TextStyle(
-                                        color: index == selectedIndex
-                                            ? Colors.white
-                                            : Colors.black),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-                      ),
-              ),
+             Padding(
+               padding: const EdgeInsets.fromLTRB(10.0, 20.0, 30.0,0.0 ),
+               child: Text('Recent Videos', textAlign:TextAlign.start, style: GoogleFonts.poppins( textStyle: TextStyle(fontWeight: FontWeight.bold,
+                   fontSize: 20,
+                   color: Colors.black)),),
+             ),
+             // SingleChildScrollView(
+             //    scrollDirection: Axis.horizontal,
+             //    child: GetSubjectList.subjectList == null
+             //        ? CircularProgressIndicator()
+             //        : Row(
+             //            children: List.generate(
+             //                GetSubjectList.subjectList.length, (index) {
+             //              return InkWell(
+             //                onTap: () {
+             //                  selectedSubject= GetSubjectList.subjectList[index];
+             //                  setState(() {
+             //                     selectedIndex = index;
+             //                  });
+             //                  print(selectedSubject);
+             //                },
+             //                child: Padding(
+             //                  padding: const EdgeInsets.all(10.0),
+             //                  child: Container(
+             //                    height: height * 0.04,
+             //                    decoration: BoxDecoration(
+             //                      borderRadius:
+             //                          BorderRadius.all(Radius.circular(10)),
+             //                      color: index == selectedIndex
+             //                          ? Colors.green
+             //                          : Colors.grey[350],
+             //                    ),
+             //                    child: Padding(
+             //                      padding: const EdgeInsets.all(8.0),
+             //                      child: Text(
+             //                        GetSubjectList.subjectList[index],
+             //                        style: TextStyle(
+             //                            color: index == selectedIndex
+             //                                ? Colors.white
+             //                                : Colors.black),
+             //                      ),
+             //                    ),
+             //                  ),
+             //                ),
+             //              );
+             //            }),
+             //          ),
+             //  ),
              Container(
               height: (height - (status + bottom)) * 0.56,
-              color:Colors.green,
 
-              child: HomeScreenVideos( Selectedsubjectname: selectedSubject,),
+              child: HomeScreenVideos( Selectedsubjectname: 'Recent',),
               // New(selectedSubject: selectedSubject)
               // HomeScreenVideos( Selectedsubjectname: selectedSubject,),
             ),
