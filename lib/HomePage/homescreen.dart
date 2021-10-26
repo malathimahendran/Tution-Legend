@@ -4,7 +4,6 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:tutionmaster/DrawerPage/drawer.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/HomePage/second.dart';
 import 'package:tutionmaster/HomePage/third.dart';
@@ -57,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen>
     Chapteritem(),
     Chapteritem(),
     Profile(),
+
   ];
   List<IconData> iconlist = [
     Icons.home,
@@ -70,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
 
     Shared().shared().then((value) async {
+      print('');
       var userDetails = await value.getStringList('storeData');
       setState(() {
         storeUserName = userDetails[0];
