@@ -15,7 +15,7 @@ import 'ProfilePage/profilepage.dart';
 import 'Register/register.dart';
 import 'Slider/carosalSlider.dart';
 import 'StartingLearningPage/startlearning.dart';
-import 'chapteritem.dart';
+import 'Videostream/newchapteritem.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -36,17 +36,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: GetSubjectList(), ),
-        ChangeNotifierProvider.value(value: GetSelectedsubjectsVideos())],
+        ChangeNotifierProvider.value(
+          value: GetSubjectList(),
+        ),
+        ChangeNotifierProvider.value(value: GetSelectedsubjectsVideos())
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        // home: Chapteritem(),
-        initialRoute: '/',
-        onGenerateRoute: RouteGenerator.generateRoute,
+        home: Searchvideo(),
+        // initialRoute: '/',
+        // onGenerateRoute: RouteGenerator.generateRoute,
         // routes: {
         //   'splashscreen': (context) => SplashScreen(),
         //   'carosalSlider': (context) => Carosel(),
@@ -57,7 +60,6 @@ class MyApp extends StatelessWidget {
         //   'profile': (context) => Profile()
         // },
       ),
-
     );
   }
 }
