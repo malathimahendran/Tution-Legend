@@ -159,7 +159,7 @@ class _ChapteritemState extends State<Chapteritem> {
                 Flexible(
                   child: decodeDetails == null
                       ? Center(
-                          child: Text("No Datas found"),
+                          child: CircularProgressIndicator(),
                         )
                       : ListView.builder(
                           itemCount: decodeDetails.length,

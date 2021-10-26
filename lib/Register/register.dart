@@ -210,7 +210,7 @@ class _RegisterState extends State<Register> {
                           width: width * 0.25,
                           child: InkWell(
                             onTap: () {
-                              Navigator.popAndPushNamed(context, 'loginpage');
+                              Navigator.popAndPushNamed(context, '/loginpage');
                             },
                             child: Icon(
                               Icons.arrow_back,
