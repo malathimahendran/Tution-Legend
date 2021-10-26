@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/Control/getdata.dart';
+import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/SplashScreen/splashscreen.dart';
-
-
-import 'package:tutionmaster/TESTING%20ONLY/test_one.dart';
-
 
 import 'ALLROUTES/routegenerator.dart';
 import 'Control/getdata.dart';
@@ -37,16 +34,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider.value(value: GetSubjectList())],
+      providers: [
+        ChangeNotifierProvider.value(value: GetSubjectList(), ),
+        ChangeNotifierProvider.value(value: GetSelectedsubjectsVideos())],
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.red,
+          primarySwatch: Colors.blue,
         ),
-        home: Chapteritem(),
-        // initialRoute: '/',
-        // onGenerateRoute: RouteGenerator.generateRoute,
+        // home: Chapteritem(),
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
         // routes: {
         //   'splashscreen': (context) => SplashScreen(),
         //   'carosalSlider': (context) => Carosel(),

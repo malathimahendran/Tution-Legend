@@ -19,18 +19,54 @@ class Chapteritem extends StatefulWidget {
 class _ChapteritemState extends State<Chapteritem> {
   var search = TextEditingController();
   var decodeDetails, token, decodeDetailsData;
-  searchApi() async {
+  @override
+  void initState() {
+    super.initState();
+    allvideoApi();
+  }
+
+  allvideoApi() async {
     Shared().shared().then((value) async {
-      // var userDetails = await value.getStringList('storeData');
+      var userDetails = await value.getStringList('storeData');
       // setState(() {
-      //   token = userDetails[5];
-      //   print("$token" + "27linechapter");
+      token = userDetails[5];
+      print("$token" + "27linechapter");
       // });
 
-      // print(userDetails);
+      print(userDetails);
 
-      // print("28chapter");
-      // print(33);
+      print("28chapter");
+      print(33);
+
+      var url = Uri.parse(
+          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/All');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': token
+      });
+      decodeDetailsData = json.decode(response.body);
+      setState(() {
+        decodeDetails = decodeDetailsData['data'];
+      });
+
+      print(decodeDetails['data']);
+      print("47chapteritem");
+    });
+  }
+
+  searchApi() async {
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      // setState(() {
+      token = userDetails[5];
+      print("$token" + "27linechapter");
+      // });
+
+      print(userDetails);
+
+      print("28chapter");
+      print(33);
 
       var url = Uri.parse(
           'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
@@ -39,7 +75,7 @@ class _ChapteritemState extends State<Chapteritem> {
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': token
+        'Authorization': token,
       });
       decodeDetailsData = json.decode(response.body);
       setState(() {
@@ -123,7 +159,7 @@ class _ChapteritemState extends State<Chapteritem> {
                 Flexible(
                   child: decodeDetails == null
                       ? Center(
-                          child: Text("No Datas found"),
+                          child: CircularProgressIndicator(),
                         )
                       : ListView.builder(
                           itemCount: decodeDetails.length,
