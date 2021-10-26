@@ -25,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   int selectedItem = 0;
+  var k;
   String? userName;
 //  Stri userDetails = [];
   int _page = 0;
