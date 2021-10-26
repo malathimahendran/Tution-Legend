@@ -56,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen>
     Chapteritem(),
     Chapteritem(),
     Profile(),
+
   ];
   List<IconData> iconlist = [
     Icons.home,
@@ -69,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
 
     Shared().shared().then((value) async {
+      print('');
       var userDetails = await value.getStringList('storeData');
       setState(() {
         storeUserName = userDetails[0];
