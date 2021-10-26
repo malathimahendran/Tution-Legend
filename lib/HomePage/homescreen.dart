@@ -9,6 +9,7 @@ import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/HomePage/second.dart';
 import 'package:tutionmaster/HomePage/third.dart';
 import 'package:tutionmaster/Login/loginpage.dart';
+import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
 import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
@@ -20,16 +21,34 @@ import 'fourth.dart';
 
 class HomeScreen extends StatefulWidget {
   static var scaffoldkey1 = GlobalKey<ScaffoldState>();
-  HomeScreen({Key? key}) : super(key: key);
+
+  bool searchindex;
+  HomeScreen(this.searchindex);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+class IconAndText {
+  IconData? icon;
+  String? text;
+  double? size;
+  int? index;
+  IconAndText({this.icon, this.text, this.size = 30.0, this.index});
+}
+
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
+  List<IconAndText> iconAndText = [
+    IconAndText(icon: Icons.home, text: 'Home', index: 0),
+    IconAndText(icon: Icons.home, text: 'Home', index: 1),
+    IconAndText(icon: Icons.home, text: 'Home', index: 2),
+    IconAndText(icon: Icons.home, text: 'Home', index: 3),
+  ];
+
   int selectedItem = 0;
   String? userName;
+  var storeUserName, userEmail, profileImage, userMobileNo;
 //  Stri userDetails = [];
   int _page = 0;
   List<Widget> pages = [
@@ -46,9 +65,26 @@ class _HomeScreenState extends State<HomeScreen>
   ];
   List<String> iconname = ['Home', 'Videos', 'Wishlist', 'Profile'];
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  void initState() {
+    super.initState();
+
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      setState(() {
+        storeUserName = userDetails[0];
+        // userEmail = userDetails[1];
+        // userMobileNo = userDetails[2];
+        profileImage = userDetails[4];
+        print("$userEmail,$userEmail");
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.searchindex == true) {
+      _page = 1;
+    }
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
@@ -57,92 +93,109 @@ class _HomeScreenState extends State<HomeScreen>
       child: Scaffold(
         key: HomeScreen.scaffoldkey1,
         resizeToAvoidBottomInset: false,
-        drawer: Flexible(
-          child: Container(
-            width: width * 0.7,
-            height: height,
-            child: Drawer(
-                child: Column(children: [
-              Container(
-                color: HexColor('#FF4056'),
-                width: width * 0.7,
-                height: height * 0.2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
+        drawer: Container(
+          width: width * 0.75,
+          height: height,
+          child: Drawer(
+              child: Column(children: [
+            Container(
+              color: HexColor('#FF4056'),
+              // width: width * 0.9,
+              height: height * 0.2,
+              child: Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 10),
+                    // color: Colors.green,
+                    child: profileImage == null
+                        ? CircularProgressIndicator()
+                        : Image.network(
+                            profileImage,
+                          ),
+                  ),
+                  SizedBox(width: width * 0.04),
+                  Expanded(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Image.asset('assets/ProfilePage/profile.png')],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      // mainAxisSize: MainAxisSize.min,
                       children: [
-                        Padding(
-                            padding: const EdgeInsets.only(right: 60),
-                            child: Text(
-                              'Sundar',
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17)),
-                            )),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 75),
+                        Text(
+                          storeUserName,
+                          // overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15)),
+                        ),
+                        Container(
                           child: Text('Student',
                               style: GoogleFonts.poppins(
                                   textStyle: TextStyle(
                                       color: Colors.black, fontSize: 12))),
                         ),
-                        Text('Enrollment no:2333',
-                            style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    color: Colors.black, fontSize: 13))),
+                        Container(
+                          child: Text('Enrollment no:2333',
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      color: Colors.black, fontSize: 13))),
+                        ),
                       ],
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                width: width * 0.9,
-                height: height * 0.6,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: height * 0.05,
                     ),
-                    Container(
-                      width: width * 0.65,
-                      height: height * 0.075,
-                      child: Card(
-                        color: HexColor('#FF4056'),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: width * 0.04,
-                            ),
-                            Icon(
-                              Icons.person,
-                              color: Colors.white,
-                            ),
-                            SizedBox(
-                              width: width * 0.03,
-                            ),
-                            Text('Sundar',
-                                style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        color: Colors.white, fontSize: 13)))
-                          ],
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              width: width * 0.9,
+              height: height * 0.6,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: height * 0.05,
+                  ),
+                  Container(
+                    width: width * 0.65,
+                    height: height * 0.075,
+                    child: Card(
+                      color: HexColor('#FF4056'),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: width * 0.04,
+                          ),
+                          Icon(
+                            Icons.person,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: width * 0.03,
+                          ),
+                          Text(storeUserName,
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      color: Colors.white, fontSize: 13)))
+                        ],
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
                       ),
                     ),
-                    SizedBox(
-                      height: height * 0.01,
-                    ),
-                    Container(
+                  ),
+                  SizedBox(
+                    height: height * 0.01,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PaymentDesign()));
+                    },
+                    child: Container(
                       width: width * 0.65,
                       height: height * 0.075,
                       child: Row(
@@ -161,58 +214,58 @@ class _HomeScreenState extends State<HomeScreen>
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: height * 0.01,
+                  ),
+                  SizedBox(
+                    height: height * 0.01,
+                  ),
+                  Container(
+                    width: width * 0.65,
+                    height: height * 0.075,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: width * 0.04,
+                        ),
+                        Icon(Icons.lock, color: HexColor('#3F3F3F')),
+                        SizedBox(
+                          width: width * 0.03,
+                        ),
+                        Text('ChangPassword',
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    color: Colors.black, fontSize: 13)))
+                      ],
                     ),
-                    Container(
-                      width: width * 0.65,
-                      height: height * 0.075,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.04,
-                          ),
-                          Icon(Icons.lock, color: HexColor('#3F3F3F')),
-                          SizedBox(
-                            width: width * 0.03,
-                          ),
-                          Text('ChangPassword',
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      color: Colors.black, fontSize: 13)))
-                        ],
-                      ),
+                  ),
+                  SizedBox(
+                    height: height * 0.01,
+                  ),
+                  Container(
+                    width: width * 0.65,
+                    height: height * 0.075,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: width * 0.04,
+                        ),
+                        Icon(
+                          Icons.help,
+                          color: HexColor('#3F3F3F'),
+                        ),
+                        SizedBox(
+                          width: width * 0.03,
+                        ),
+                        Text('Help and Support',
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    color: Colors.black, fontSize: 13)))
+                      ],
                     ),
-                    SizedBox(
-                      height: height * 0.01,
-                    ),
-                    Container(
-                      width: width * 0.65,
-                      height: height * 0.075,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.04,
-                          ),
-                          Icon(
-                            Icons.help,
-                            color: HexColor('#3F3F3F'),
-                          ),
-                          SizedBox(
-                            width: width * 0.03,
-                          ),
-                          Text('Help and Support',
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      color: Colors.black, fontSize: 13)))
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ])),
-          ),
+                  )
+                ],
+              ),
+            )
+          ])),
         ),
         bottomNavigationBar: Container(
           width: double.infinity,
@@ -227,6 +280,7 @@ class _HomeScreenState extends State<HomeScreen>
             children: List.generate(iconlist.length, (index) {
               return InkWell(
                 onTap: () {
+                  widget.searchindex = false;
                   setState(() {
                     _page = index;
                   });
