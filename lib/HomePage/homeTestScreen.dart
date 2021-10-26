@@ -25,6 +25,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
       setState(() {
         userName = userDetails[0];
         print(userName);
+        print(36);
       });
       String standardclass = userDetails[3];
       print(standardclass);
