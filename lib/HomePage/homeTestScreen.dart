@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:tutionmaster/Control/getdata.dart';
-import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:tutionmaster/Videostream/chapteritem.dart';
 import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
-// import 'package:tutionmaster/chapteritem.dart';`
+
+import 'homescreen.dart';
+
 
 class HomeTestScreen extends StatefulWidget {
   HomeTestScreen({Key? key}) : super(key: key);
@@ -18,13 +18,14 @@ class HomeTestScreen extends StatefulWidget {
 
 class _HomeTestScreenState extends State<HomeTestScreen> {
   var userName;
-  int ind = 0;
+int ind = 0;
   getUserName() {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
       setState(() {
         userName = userDetails[0];
         print(userName);
+        print(36);
       });
       String standardclass = userDetails[3];
       print(standardclass);
@@ -50,28 +51,27 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
     var bottom = kBottomNavigationBarHeight;
-    return Scaffold(body: SafeArea(
+    return Scaffold(
+        body: SafeArea(
       child: Consumer<GetSubjectList>(builder: (context, GetSubjectList, _) {
-        return Container(
+      return Container(
           decoration: BoxDecoration(
               image: DecorationImage(
             image: AssetImage('assets/ProfilePage/mainbackground.png'),
           )),
-          child: Column(children: [
+          child: Column(
+              // mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
             Container(
               // color: Colors.blue,
               height: (height - (status + bottom)) * 0.06,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      HomeScreen.scaffoldkey1.currentState!.openDrawer();
-                    },
-                    child: Image.asset(
-                      'assets/HomeScreenPage/menu.png',
-                      height: 20,
-                    ),
+                  Image.asset(
+                    'assets/HomeScreenPage/menu.png',
+                    height: 20,
                   ),
                   Text(
                     '$userName',
@@ -79,12 +79,10 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                         textStyle: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 17)),
                   ),
+
                   InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomeScreen(true)));
+                      onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> HomeScreen( true)));
                       },
                       child: Icon(Icons.search))
                 ],
@@ -116,55 +114,58 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                 ),
               ]),
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: GetSubjectList.subjectList == null
-                  ? CircularProgressIndicator()
-                  : Row(
-                      children: List.generate(GetSubjectList.subjectList.length,
-                          (index) {
-                        return InkWell(
-                          onTap: () {
-                            selectedSubject = GetSubjectList.subjectList[index];
-                            setState(() {
-                              selectedIndex = index;
-                            });
-                            print(selectedSubject);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Container(
-                              height: height * 0.04,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: index == selectedIndex
-                                    ? Colors.green
-                                    : Colors.grey[350],
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  GetSubjectList.subjectList[index],
-                                  style: TextStyle(
-                                      color: index == selectedIndex
-                                          ? Colors.white
-                                          : Colors.black),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-            ),
-            Container(
-              height: (height - (status + bottom)) * 0.50,
-              color: Colors.green,
+             Padding(
+               padding: const EdgeInsets.fromLTRB(10.0, 20.0, 30.0,0.0 ),
+               child: Text('Recent Videos', textAlign:TextAlign.start, style: GoogleFonts.poppins( textStyle: TextStyle(fontWeight: FontWeight.bold,
+                   fontSize: 20,
+                   color: Colors.black)),),
+             ),
+             // SingleChildScrollView(
+             //    scrollDirection: Axis.horizontal,
+             //    child: GetSubjectList.subjectList == null
+             //        ? CircularProgressIndicator()
+             //        : Row(
+             //            children: List.generate(
+             //                GetSubjectList.subjectList.length, (index) {
+             //              return InkWell(
+             //                onTap: () {
+             //                  selectedSubject= GetSubjectList.subjectList[index];
+             //                  setState(() {
+             //                     selectedIndex = index;
+             //                  });
+             //                  print(selectedSubject);
+             //                },
+             //                child: Padding(
+             //                  padding: const EdgeInsets.all(10.0),
+             //                  child: Container(
+             //                    height: height * 0.04,
+             //                    decoration: BoxDecoration(
+             //                      borderRadius:
+             //                          BorderRadius.all(Radius.circular(10)),
+             //                      color: index == selectedIndex
+             //                          ? Colors.green
+             //                          : Colors.grey[350],
+             //                    ),
+             //                    child: Padding(
+             //                      padding: const EdgeInsets.all(8.0),
+             //                      child: Text(
+             //                        GetSubjectList.subjectList[index],
+             //                        style: TextStyle(
+             //                            color: index == selectedIndex
+             //                                ? Colors.white
+             //                                : Colors.black),
+             //                      ),
+             //                    ),
+             //                  ),
+             //                ),
+             //              );
+             //            }),
+             //          ),
+             //  ),
+             Container(
+              height: (height - (status + bottom)) * 0.56,
 
-              child: HomeScreenVideos(
-                Selectedsubjectname: selectedSubject,
-              ),
+              child: HomeScreenVideos( Selectedsubjectname: 'Recent',),
               // New(selectedSubject: selectedSubject)
               // HomeScreenVideos( Selectedsubjectname: selectedSubject,),
             ),
@@ -173,6 +174,8 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
       }),
     ));
   }
+
+
 }
 
 class New extends StatelessWidget {
@@ -185,6 +188,6 @@ class New extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(selectedSubject);
+    return Text( selectedSubject);
   }
 }
