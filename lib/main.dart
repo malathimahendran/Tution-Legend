@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
+import 'package:tutionmaster/ProfilePage/HELPER%20FUNCTION/provider_for_edit_page.dart';
 import 'package:tutionmaster/SplashScreen/splashscreen.dart';
 
 import 'ALLROUTES/routegenerator.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: GetSubjectList(),
         ),
-        ChangeNotifierProvider.value(value: GetSelectedsubjectsVideos())
+
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

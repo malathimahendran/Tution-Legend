@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen>
   int selectedItem = 0;
   var k;
   String? userName;
-  var storeUserName, userEmail, profileImage, userMobileNo;
+  var storeUserName, userEmail, profileImage, userMobileNo, enrollmentNumber;
 //  Stri userDetails = [];
   int _page = 0;
   List<Widget> pages = [
@@ -77,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen>
         // userEmail = userDetails[1];
         // userMobileNo = userDetails[2];
         profileImage = userDetails[4];
+        enrollmentNumber = userDetails[7];
         print("$userEmail,$userEmail");
       });
     });
@@ -91,113 +92,143 @@ class _HomeScreenState extends State<HomeScreen>
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
 
-    return SafeArea(
-      child: Scaffold(
-        key: HomeScreen.scaffoldkey1,
-        resizeToAvoidBottomInset: false,
-        drawer: Container(
-          width: width * 0.75,
-          height: height,
-          child: Drawer(
-              child: Column(children: [
-            Container(
-              color: HexColor('#FF4056'),
-              // width: width * 0.9,
-              height: height * 0.2,
-              child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 10),
-                    // color: Colors.green,
-                    child: profileImage == null
-                        ? CircularProgressIndicator()
-                        : Image.network(
-                            profileImage,
-                          ),
-                  ),
-                  SizedBox(width: width * 0.04),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      // mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          storeUserName,
-                          // overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15)),
-                        ),
-                        Container(
-                          child: Text('Student',
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      color: Colors.black, fontSize: 12))),
-                        ),
-                        Container(
-                          child: Text('Enrollment no:2333',
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      color: Colors.black, fontSize: 13))),
-                        ),
-                      ],
+    return WillPopScope(
+      onWillPop: () {
+        return Future.value(true);
+      },
+      child: SafeArea(
+        child: Scaffold(
+          key: HomeScreen.scaffoldkey1,
+          resizeToAvoidBottomInset: false,
+          drawer: Container(
+            width: width * 0.75,
+            height: height,
+            child: Drawer(
+                child: Column(children: [
+              Container(
+                color: HexColor('#009688'),
+                // width: width * 0.9,
+                height: height * 0.2,
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 10),
+                      // color: Colors.green,
+                      child: profileImage == null
+                          ? CircularProgressIndicator()
+                          : Image.network(
+                              profileImage,
+                            ),
                     ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              width: width * 0.9,
-              height: height * 0.6,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: height * 0.05,
-                  ),
-                  Container(
-                    width: width * 0.65,
-                    height: height * 0.075,
-                    child: Card(
-                      color: HexColor('#FF4056'),
-                      child: Row(
+                    SizedBox(width: width * 0.04),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // mainAxisSize: MainAxisSize.min,
                         children: [
-                          SizedBox(
-                            width: width * 0.04,
+                          Text(
+                            storeUserName == null ? "" : storeUserName,
+                            // overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15)),
                           ),
-                          Icon(
-                            Icons.person,
-                            color: Colors.white,
+                          Container(
+                            child: Text('Student',
+                                style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: Colors.white, fontSize: 12))),
                           ),
-                          SizedBox(
-                            width: width * 0.03,
+                          Container(
+                            child: enrollmentNumber == null
+                                ? Text('')
+                                : Text('Enrollment no:$enrollmentNumber',
+                                    style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 13))),
                           ),
-                          Text(storeUserName,
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      color: Colors.white, fontSize: 13)))
                         ],
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                width: width * 0.9,
+                height: height * 0.6,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: height * 0.05,
+                    ),
+                    Container(
+                      width: width * 0.65,
+                      height: height * 0.075,
+                      child: Card(
+                        color: HexColor('#243665'),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.04,
+                            ),
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: width * 0.03,
+                            ),
+                            Text(storeUserName == null ? "" : storeUserName,
+                                style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: Colors.white, fontSize: 13)))
+                          ],
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: height * 0.01,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PaymentDesign()));
-                    },
-                    child: Container(
+                    SizedBox(
+                      height: height * 0.01,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PaymentDesign()));
+                      },
+                      child: Container(
+                        width: width * 0.65,
+                        height: height * 0.075,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.04,
+                            ),
+                            Icon(Icons.payment, color: HexColor('#3F3F3F')),
+                            SizedBox(
+                              width: width * 0.03,
+                            ),
+                            Text('Payments',
+                                style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: Colors.black, fontSize: 13)))
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.01,
+                    ),
+                    Container(
                       width: width * 0.65,
                       height: height * 0.075,
                       child: Row(
@@ -205,172 +236,150 @@ class _HomeScreenState extends State<HomeScreen>
                           SizedBox(
                             width: width * 0.04,
                           ),
-                          Icon(Icons.payment, color: HexColor('#3F3F3F')),
+                          Icon(Icons.lock, color: HexColor('#3F3F3F')),
                           SizedBox(
                             width: width * 0.03,
                           ),
-                          Text('Payments',
+                          Text('ChangePassword',
                               style: GoogleFonts.poppins(
                                   textStyle: TextStyle(
                                       color: Colors.black, fontSize: 13)))
                         ],
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: height * 0.01,
-                  ),
-                  Container(
-                    width: width * 0.65,
-                    height: height * 0.075,
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: width * 0.04,
-                        ),
-                        Icon(Icons.lock, color: HexColor('#3F3F3F')),
-                        SizedBox(
-                          width: width * 0.03,
-                        ),
-                        Text('ChangPassword',
-                            style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    color: Colors.black, fontSize: 13)))
-                      ],
+                    SizedBox(
+                      height: height * 0.01,
                     ),
-                  ),
-                  SizedBox(
-                    height: height * 0.01,
-                  ),
-                  Container(
-                    width: width * 0.65,
-                    height: height * 0.075,
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: width * 0.04,
-                        ),
-                        Icon(
-                          Icons.help,
-                          color: HexColor('#3F3F3F'),
-                        ),
-                        SizedBox(
-                          width: width * 0.03,
-                        ),
-                        Text('Help and Support',
-                            style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    color: Colors.black, fontSize: 13)))
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            )
-          ])),
-        ),
-        bottomNavigationBar: Container(
-          width: double.infinity,
-          height: 100.0,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/HomeScreenPage/homescreentab.png'),
-                fit: BoxFit.cover),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(iconlist.length, (index) {
-              return InkWell(
-                onTap: () {
-                  widget.searchindex = false;
-                  setState(() {
-                    _page = index;
-                  });
-                },
-                child: Padding(
-                  padding: EdgeInsets.only(top: 38.0),
-                  child: Container(
-                    padding: EdgeInsets.only(bottom: 2),
-                    width: (width) * 1 / 4,
-                    // color: Colors.black,
-                    alignment: index == 1
-                        ? Alignment.centerLeft
-                        : index == 2
-                            ? Alignment.centerRight
-                            : null,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        CircleAvatar(
-                            radius: 20.0,
-                            backgroundColor: _page == index
-                                ? Colors.white
-                                : Colors.transparent,
-                            child: Icon(
-                              iconlist[index],
-                              color: _page == index
-                                  ? Colors.pinkAccent
-                                  : Colors.white,
-                              size: 22,
-                            )),
-                        Text(
-                          iconname[index],
-                          style: TextStyle(color: Colors.white),
-                        )
-                      ],
-                    ),
-                  ),
+                    Container(
+                      width: width * 0.65,
+                      height: height * 0.075,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: width * 0.04,
+                          ),
+                          Icon(
+                            Icons.help,
+                            color: HexColor('#3F3F3F'),
+                          ),
+                          SizedBox(
+                            width: width * 0.03,
+                          ),
+                          Text('Help and Support',
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      color: Colors.black, fontSize: 13)))
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-              );
-            }),
+              )
+            ])),
           ),
-        ),
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image:
+                        AssetImage('assets/HomeScreenPage/homeScreenTab.png'),
+                    fit: BoxFit.cover)),
+            width: double.infinity,
+            height: 100.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(iconlist.length, (index) {
+                return InkWell(
+                  onTap: () {
+                    widget.searchindex = false;
+                    setState(() {
+                      _page = index;
+                    });
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 38.0),
+                    child: Container(
+                      padding: EdgeInsets.only(bottom: 2),
+                      width: (width) * 1 / 4,
+                      // color: Colors.black,
+                      alignment: index == 1
+                          ? Alignment.centerLeft
+                          : index == 2
+                              ? Alignment.centerRight
+                              : null,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CircleAvatar(
+                              radius: 20.0,
+                              backgroundColor: _page == index
+                                  ? Colors.white
+                                  : Colors.transparent,
+                              child: Icon(
+                                iconlist[index],
+                                color: _page == index
+                                    ? HexColor('#243665')
+                                    : Colors.white,
+                                size: 22,
+                              )),
+                          Text(
+                            iconname[index],
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
 
-        // CurvedNavigationBar(
-        //   height: 60.0,
-        //   // key: _bottomNavigationKey,
-        //   index: _page,
-        //   items: <Widget>[
-        //     NavigationBar(
-        //       navigationbaricon: Icons.home,
-        //       navigationbariconname: 'Home',
-        //       iconIndex: 0,
-        //       pageIndex: _page,
-        //     ),
-        //     NavigationBar(
-        //       navigationbaricon: Icons.video_collection,
-        //       navigationbariconname: 'Videos',
-        //       iconIndex: 1,
-        //       pageIndex: _page,
-        //     ),
-        //     NavigationBar(
-        //       navigationbaricon: Icons.favorite,
-        //       navigationbariconname: 'Wishlist',
-        //       iconIndex: 2,
-        //       pageIndex: _page,
-        //     ),
-        //     NavigationBar(
-        //       navigationbaricon: Icons.account_circle,
-        //       navigationbariconname: 'Profile',
-        //       iconIndex: 3,
-        //       pageIndex: _page,
-        //     ),
-        //   ],
-        //   color: HexColor('#FF465C'),
-        //   buttonBackgroundColor: HexColor('#FF465C'),
-        //   backgroundColor: Colors.white,
-        //   animationCurve: Curves.easeInOut,
-        //   animationDuration: Duration(milliseconds: 500),
-        //   onTap: (index) {
-        //     setState(() {
-        //       _page = index;
-        //     });
-        //   },
-        //   letIndexChange: (index) => true,
-        // ),
-        // body:  HomeTestScreen(),
-        body: pages[_page],
+          // CurvedNavigationBar(
+          //   height: 60.0,
+          //   // key: _bottomNavigationKey,
+          //   index: _page,
+          //   items: <Widget>[
+          //     NavigationBar(
+          //       navigationbaricon: Icons.home,
+          //       navigationbariconname: 'Home',
+          //       iconIndex: 0,
+          //       pageIndex: _page,
+          //     ),
+          //     NavigationBar(
+          //       navigationbaricon: Icons.video_collection,
+          //       navigationbariconname: 'Videos',
+          //       iconIndex: 1,
+          //       pageIndex: _page,
+          //     ),
+          //     NavigationBar(
+          //       navigationbaricon: Icons.favorite,
+          //       navigationbariconname: 'Wishlist',
+          //       iconIndex: 2,
+          //       pageIndex: _page,
+          //     ),
+          //     NavigationBar(
+          //       navigationbaricon: Icons.account_circle,
+          //       navigationbariconname: 'Profile',
+          //       iconIndex: 3,
+          //       pageIndex: _page,
+          //     ),
+          //   ],
+          //   color: HexColor('#FF465C'),
+          //   buttonBackgroundColor: HexColor('#FF465C'),
+          //   backgroundColor: Colors.white,
+          //   animationCurve: Curves.easeInOut,
+          //   animationDuration: Duration(milliseconds: 500),
+          //   onTap: (index) {
+          //     setState(() {
+          //       _page = index;
+          //     });
+          //   },
+          //   letIndexChange: (index) => true,
+          // ),
+          // body:  HomeTestScreen(),
+          body: pages[_page],
+        ),
       ),
     );
   }

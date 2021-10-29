@@ -95,8 +95,9 @@ int ind = 0;
                 Container(
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                    image: AssetImage('assets/HomeScreenPage/homecard.png'),
-                  )),
+                          image: AssetImage(
+                              'assets/HomeScreenPage/homeScreenCard.png'),
+                          fit: BoxFit.fill)),
                   height: (height - status) * 0.25,
                   width: width * 0.9,
                 ),

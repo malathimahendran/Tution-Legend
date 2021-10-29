@@ -127,7 +127,7 @@ class _CaroselState extends State<Carosel> {
                       ),
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                              HexColor('#F24445')),
+                              HexColor('#243665')),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(

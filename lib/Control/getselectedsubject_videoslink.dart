@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 
 class GetSelectedsubjectsVideos extends ChangeNotifier {
-  var decodeDetails, token, decodeDetailsData,selectedSubs;
-  searchApi( String Selectedsubjectname) async {
+  var decodeDetails, token, decodeDetailsData, selectedSubs;
+  searchApi(String Selectedsubjectname) async {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
       token = userDetails[5];
@@ -27,10 +27,10 @@ class GetSelectedsubjectsVideos extends ChangeNotifier {
         'Authorization': token,
       });
       decodeDetailsData = json.decode(response.body);
-        decodeDetails = decodeDetailsData['data'];
+      decodeDetails = decodeDetailsData['data'];
       notifyListeners();
-      print(decodeDetails['data']);
-      print("47chapteritem");
+      // print(decodeDetails['data']);
+      // print("47chapteritem");
     });
   }
 }

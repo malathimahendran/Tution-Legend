@@ -37,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       phone,
       standard,
       token;
+  bool secureText = true;
   var controller;
   var email = TextEditingController();
   var password = TextEditingController();
@@ -112,30 +113,15 @@ class _LoginPageState extends State<LoginPage> {
       print(statuscode);
       user = decodeDetails['user'];
       print(user);
-      // print(decodeDetails['user'][0]['user_name']);
-      String token = decodeDetails['token'].toString();
-      String userName = decodeDetails['user'][0]['user_name'].toString();
-      print('$userName,line 118 login page');
-      print('$token,line 119 login page');
-      String storeemail = decodeDetails['user'][0]['email'].toString();
-      String phone = decodeDetails['user'][0]['phone'].toString();
-      String standard = decodeDetails['user'][0]['class'].toString();
 
-      l.w(userName);
-      l.w(storeemail);
+      // l.w(userName);
+      // l.w(storeemail);
 
-      print('$standard,line 119 login page');
-      l.w(phone);
-      l.w(standard);
-      l.w(token);
-      storingAllDetails(
-        userName: userName,
-        storeemail: storeemail,
-        phone: phone,
-        standard: standard,
-        token: token,
-        // googleId:googleId,
-      );
+      // print('$standard,line 119 login page');
+      // l.w(phone);
+      // l.w(standard);
+      // l.w(token);
+
       // List<String> details = [
       //   userName,
       //   email,
@@ -151,6 +137,7 @@ class _LoginPageState extends State<LoginPage> {
 
       print(user);
       print(71);
+      print("154" + "$statuscode");
 
       if (statuscode == 200) {
         final snackBar = SnackBar(
@@ -178,6 +165,28 @@ class _LoginPageState extends State<LoginPage> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
+      // print(decodeDetails['user'][0]['user_name']);
+      String token = decodeDetails['token'].toString();
+      String userName = decodeDetails['user'][0]['user_name'].toString();
+      print('$userName,line 118 login page');
+      print('$token,line 119 login page');
+      String storeemail = decodeDetails['user'][0]['email'].toString();
+      String phone = decodeDetails['user'][0]['phone'].toString();
+      String standard = decodeDetails['user'][0]['class'].toString();
+      var school = userDetails[0]['school'].toString();
+      var enrollmentNumber = userDetails[0]['enrollment_number'].toString();
+      var academicYear = userDetails[0]['academic_year'].toString();
+      storingAllDetails(
+          userName: userName,
+          storeemail: storeemail,
+          phone: phone,
+          standard: standard,
+          token: token,
+          school: school,
+          academicYear: academicYear,
+          enrollmentNumber: enrollmentNumber
+          // googleId:googleId,
+          );
     });
   }
 
@@ -210,7 +219,7 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       final snackBar = SnackBar(
         backgroundColor: HexColor('#27AE60'),
-        content: Text('Register Successfully'),
+        content: Text('Login Successfully'),
         duration: Duration(seconds: 1),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
@@ -227,6 +236,9 @@ class _LoginPageState extends State<LoginPage> {
     var phone = userDetails[0]['phone'].toString();
     var standard = userDetails[0]['class'].toString();
     var profileImage = userDetails[0]['profile_image'].toString();
+    var school = userDetails[0]['school'].toString();
+    var enrollmentNumber = userDetails[0]['enrollment_number'].toString();
+    var academicYear = userDetails[0]['academic_year'].toString();
     l.i(userDetails[0]['profile_image'].toString());
     var token = decodeDetail['token'].toString();
 
@@ -238,6 +250,9 @@ class _LoginPageState extends State<LoginPage> {
       profileImage: profileImage,
       token: token,
       googleId: googleId,
+      school: school,
+      academicYear: academicYear,
+      enrollmentNumber: enrollmentNumber,
     );
 
     // List<String> details = [
@@ -336,7 +351,18 @@ class _LoginPageState extends State<LoginPage> {
                             hintText = "Password",
                             icon = Icon(Icons.lock),
                             controller = password,
-                            obscureText: true,
+                            obscureText: secureText,
+                            suffixIcon: IconButton(
+                              color: HexColor('#3F3F3F'),
+                              icon: secureText
+                                  ? Icon(Icons.visibility_off)
+                                  : Icon(Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  secureText = !secureText;
+                                });
+                              },
+                            ),
                           ),
                           // SizedBox(height: 5),
                           Container(
@@ -381,7 +407,7 @@ class _LoginPageState extends State<LoginPage> {
                             width: width * 0.8,
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    primary: HexColor("#FF465C"),
+                                    primary: HexColor("#243665"),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(20))),
@@ -470,34 +496,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  storingAllDetails(
-      {userName,
-      storeemail,
-      phone,
-      standard,
-      profileImage,
-      token,
-      googleId}) async {
-    List<String> storing = [
-      userName,
-      storeemail,
-      phone,
-      standard,
-      profileImage ?? "",
-      token,
-      googleId ?? ""
-    ];
-
-    print(storing);
-    print(320);
-    Shared()
-        .shared()
-        .then((value) => value.setStringList('storeData', storing));
-  }
-
   Container customContainerTextField(
       double height, double width, hintText, icon, controller,
-      {obscureText = false}) {
+      {obscureText = false, suffixIcon}) {
     return Container(
       height: height * 0.05,
       width: width * 0.8,
@@ -505,6 +506,7 @@ class _LoginPageState extends State<LoginPage> {
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
+          suffixIcon: suffixIcon,
           hintText: hintText,
           hintStyle: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 12)),
           prefixIcon: icon,
