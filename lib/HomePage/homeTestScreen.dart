@@ -51,6 +51,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
     var status = MediaQuery.of(context).padding.top;
     var bottom = kBottomNavigationBarHeight;
     return Scaffold(body: SafeArea(
+      // ignore: non_constant_identifier_names
       child: Consumer<GetSubjectList>(builder: (context, GetSubjectList, _) {
         return Container(
           decoration: BoxDecoration(

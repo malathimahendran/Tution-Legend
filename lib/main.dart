@@ -6,6 +6,7 @@ import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/SplashScreen/splashscreen.dart';
+import 'package:tutionmaster/Videostream/practice.dart';
 
 import 'ALLROUTES/routegenerator.dart';
 import 'Control/getdata.dart';
@@ -15,7 +16,9 @@ import 'ProfilePage/profilepage.dart';
 import 'Register/register.dart';
 import 'Slider/carosalSlider.dart';
 import 'StartingLearningPage/startlearning.dart';
+import 'Videostream/chapteritem.dart';
 import 'Videostream/newchapteritem.dart';
+import 'Videostream/video_wishlist.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -31,7 +34,6 @@ main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -47,7 +49,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Searchvideo(),
+        home: Videowishlist(),
         // initialRoute: '/',
         // onGenerateRoute: RouteGenerator.generateRoute,
         // routes: {

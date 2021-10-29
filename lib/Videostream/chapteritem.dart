@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:like_button/like_button.dart';
+import 'package:logger/logger.dart';
 import 'package:tutionmaster/play.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -19,78 +21,105 @@ class Chapteritem extends StatefulWidget {
 class _ChapteritemState extends State<Chapteritem> {
   var search = TextEditingController();
   var decodeDetails, token, decodeDetailsData;
+  final l = Logger();
+  List<int>? youtubevideoId = [];
+  bool isIconClicked = false;
+  List<int> iconClick = [];
+  List<int> apireceivedid = [];
+  bool isList = false;
   @override
   void initState() {
     super.initState();
-    // allvideoApi();
+    allvideoApi();
+    getWishlist();
   }
 
-  // allvideoApi() async {
-  //   Shared().shared().then((value) async {
-  //     // var userDetails = await value.getStringList('storeData');
-  //     // // setState(() {
-  //     // token = userDetails[5];
-  //     // print("$token" + "27linechapter");
-  //     // // });
+  getWishlist() async {
+    var url =
+        Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+    var response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization':
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw'
+    });
+    decodeDetailsData = json.decode(response.body);
+    print(decodeDetailsData);
+    l.i(decodeDetailsData);
+    for (var i in decodeDetailsData['result'])
+      youtubevideoId!.add(i['video_id']);
+    l.e(youtubevideoId);
 
-  //     // print(userDetails);
+    print(decodeDetails);
+    print("47chapteritem");
+  }
 
-  //     // print("28chapter");
-  //     // print(33);
+  allvideoApi() async {
+    Shared().shared().then((value) async {
+      // var userDetails = await value.getStringList('storeData');
+      // setState(() {
+      //   token = userDetails[5];
+      //   print("$token" + "27linechapter");
+      // });
 
-  //     var url = Uri.parse(
-  //         'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/All');
-  //     var response = await http.get(url, headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'Authorization': token
-  //     });
-  //     decodeDetailsData = json.decode(response.body);
-  //     setState(() {
-  //       decodeDetails = decodeDetailsData['data'];
-  //     });
+      // print(userDetails);
 
-  //     print(decodeDetails['data']);
-  //     print("47chapteritem");
-  //   });
-  // }
+      // print("28chapter");
+      // print(33);
 
-  // searchApi() async {
-  //   Shared().shared().then((value) async {
-  //     // var userDetails = await value.getStringList('storeData');
-  //     // // setState(() {
-  //     // token = userDetails[5];
-  //     // print("$token" + "27linechapter");
-  //     // // });
+      var url = Uri.parse(
+          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/All');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization':
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw'
+      });
+      decodeDetailsData = json.decode(response.body);
+      setState(() {
+        decodeDetails = decodeDetailsData['data'];
+      });
 
-  //     // print(userDetails);
+      print("47chapteritem");
+    });
+  }
 
-  //     // print("28chapter");
-  //     // print(33);
+  searchApi() async {
+    Shared().shared().then((value) async {
+      // var userDetails = await value.getStringList('storeData');
+      // // setState(() {
+      // token = userDetails[5];
+      // print("$token" + "27linechapter");
+      // // });
 
-  //     var url = Uri.parse(
-  //         'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
-  //     //  var url = Uri.parse(
-  //     //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
-  //     var response = await http.get(url, headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'Authorization':
-  //           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwOTFmMWMzLTBkMGUtNGVmMy1iMDYyLWU3Y2JlMzBlN2Q3YyIsImlhdCI6MTYzNDg5NzMwNiwiZXhwIjoxNjM3NDg5MzA2fQ.K9aqwhG-4ZpHbZF_qrsJ0-unlC51jI6494asGwzyAuY',
-  //     });
-  //     decodeDetailsData = json.decode(response.body);
-  //     setState(() {
-  //       decodeDetails = decodeDetailsData['data'];
-  //     });
+      // print(userDetails);
 
-  //     print(decodeDetails['data']);
-  //     print("47chapteritem");
-  //   });
-  //   // print('44');
-  //   // decodeDetails = json.decode(response.body);
-  //   // setState(() {});
-  //   // print(decodeDetails['data']);
-  // }
+      // print("28chapter");
+      // print(33);
+
+      var url = Uri.parse(
+          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
+      //  var url = Uri.parse(
+      //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization':
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwOTFmMWMzLTBkMGUtNGVmMy1iMDYyLWU3Y2JlMzBlN2Q3YyIsImlhdCI6MTYzNDg5NzMwNiwiZXhwIjoxNjM3NDg5MzA2fQ.K9aqwhG-4ZpHbZF_qrsJ0-unlC51jI6494asGwzyAuY',
+      });
+      decodeDetailsData = json.decode(response.body);
+      setState(() {
+        decodeDetails = decodeDetailsData['data'];
+      });
+
+      print(decodeDetails['data']);
+      print("47chapteritem");
+    });
+    // print('44');
+    // decodeDetails = json.decode(response.body);
+    // setState(() {});
+    // print(decodeDetails['data']);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -165,6 +194,11 @@ class _ChapteritemState extends State<Chapteritem> {
                       : ListView.builder(
                           itemCount: decodeDetails.length,
                           itemBuilder: (context, index) {
+                            // isList = apireceivedid
+                            //     .contains(decodeDetails[index]['video_id']);
+                            var s = youtubevideoId!
+                                .contains(decodeDetails[index]['video_id']);
+                            print('lllllllllllllllllllllll,  $s');
                             var you = YoutubePlayerController(
                               initialVideoId: YoutubePlayer.convertUrlToId(
                                   decodeDetails[index]['link'])!,
@@ -175,19 +209,20 @@ class _ChapteritemState extends State<Chapteritem> {
                                 isLive: false,
                               ),
                             );
-                            print(decodeDetails[index]['link'].runtimeType);
-                            print(109);
+                            // print(decodeDetails[index]['link']);
+                            // print(youtubevideoId!.length);
+                            // print(109);
                             return InkWell(
-                              onTap: () {
-                                print(131);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Play(
-                                              link: decodeDetails[index]
-                                                  ['link'],
-                                            )));
-                              },
+                              // onTap: () {
+                              //   print(131);
+                              //   Navigator.push(
+                              //       context,
+                              //       MaterialPageRoute(
+                              //           builder: (context) => Play(
+                              //                 link: decodeDetails[index]
+                              //                     ['link'],
+                              //               )));
+                              // },
                               child: Container(
                                   height: (height) * 0.15,
                                   width: width * 0.2,
@@ -195,6 +230,7 @@ class _ChapteritemState extends State<Chapteritem> {
                                   //   controller: you,
                                   // ),
                                   child: Card(
+                                    elevation: 10,
                                     color: HexColor('#FFFFFF'),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15.0),
@@ -246,10 +282,35 @@ class _ChapteritemState extends State<Chapteritem> {
                                                   ],
                                                 )),
                                           ),
-                                          Icon(
-                                            Icons.favorite_outline_outlined,
-                                            color: HexColor('#FF465C'),
-                                          )
+
+                                          InkWell(
+                                              onTap: () {
+                                                checking(
+                                                    link: decodeDetails[index]
+                                                        ['video_id']);
+                                              },
+                                              child: Icon(Icons.favorite,
+                                                  color: s
+                                                      ? Colors.pink
+                                                      : Colors.teal)),
+                                          // LikeButton(
+                                          //   // onTap: () {
+
+                                          //   circleColor: CircleColor(
+                                          //       start: Color(0xFFF44336),
+                                          //       end: Color(0xFFF44336)),
+                                          //   likeBuilder: (isLiked) {
+
+                                          //     return Icon(
+                                          //       Icons.favorite,
+                                          //       size: 30,
+                                          //       color: isLiked
+                                          //           ? Colors.pink
+                                          //           : Colors.teal,
+                                          //     );
+                                          //   },
+
+                                          // countBuilder: (){
                                         ],
                                       ),
                                     ),
@@ -264,5 +325,51 @@ class _ChapteritemState extends State<Chapteritem> {
             ),
           )),
     );
+  }
+
+  checking({link}) async {
+    print('${link.runtimeType}');
+    if (link != null) {
+      final bool sV = youtubevideoId!.contains(link);
+      if (sV) {
+        setState(() {
+          print('wwwwwwwwwwwwwwwwwwwww,  inside if');
+
+          youtubevideoId!.remove(link);
+        });
+        await unlikevideo(link);
+      } else {
+        print('hhhhhhhhhhhhhhhhhhhhhhhhhh,  inside else');
+
+        setState(() {
+          youtubevideoId!.add(link);
+          print("Zzzzzzzzzzzzzzzzzzzzzzzz${youtubevideoId!.length}");
+        });
+        await likevideo(link);
+      }
+    } else
+      return;
+  }
+
+  likevideo(videoID) async {
+    var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/like');
+    var response = await http.post(url, body: {
+      'video_id': videoID.toString()
+    }, headers: {
+      'Authorization':
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw'
+    });
+    print(response.body);
+  }
+
+  unlikevideo(videoId) async {
+    var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/dislike');
+    var response = await http.post(url, body: {
+      'video_id': videoId.toString()
+    }, headers: {
+      'Authorization':
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw'
+    });
+    print(response.body);
   }
 }

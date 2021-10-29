@@ -48,6 +48,8 @@ dependencies:
   
   provider: ^6.0.1
   toast: ^0.1.5
+  video_player: ^2.2.3
+  like_button: ^2.0.3
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +76,7 @@ flutter:
     - assets/StartLearning/
     - assets/RegisterPage/
     - assets/ProfilePage/
+    - assets/APPLOGO/
  
 
   # An image asset can refer to one or more resolution-specific "variants", see

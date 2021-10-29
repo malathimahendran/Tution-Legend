@@ -74,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     initPlatformState();
+    getToken();
   }
 
   getToken() async {
@@ -204,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
     var status = decodeDetail['status'];
 
     if (status == false) {
-      Navigator.pushNamed(context, AllRouteNames.registerpage,
+      Navigator.popAndPushNamed(context, AllRouteNames.registerpage,
           arguments:
               ArgumentPass(deviceId: finalDeviceId, googleUser: googleUser));
     } else {

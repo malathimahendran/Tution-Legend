@@ -25,11 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     selectingHere().whenComplete(() {
       Future.delayed(Duration(seconds: 2), () {
         l.i('insideselectinghere');
-        // Navigator.pushReplacement(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) =>
-        //             selectHere == null ? Carosel() : HomeScreen()));
+
         Navigator.popAndPushNamed(
             context,
             selectHere == null
@@ -68,44 +64,18 @@ class _SplashScreenState extends State<SplashScreen> {
       child: Column(
         children: [
           Container(
-            height: (height - status) * 0.5,
+            height: (height - status) * 0.25,
           ),
           Container(
-            height: (height - status) * 0.5,
+            height: (height - status) * 0.75,
             child: Column(
               children: [
-                // Container(
-                //   child: Image.asset(''),
-                // ),
-                Shimmer.fromColors(
-                  period: Duration(seconds: 4),
-                  baseColor: Colors.green,
-                  highlightColor: Colors.red,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('TUITION',
-                          style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                            fontSize: 22.0,
-                            // fontWeight: FontWeight.bold,
-                            color: Colors.red,
-                            fontFamily: 'Pacifico',
-                          ))),
-                      SizedBox(
-                        width: width * 0.015,
-                      ),
-                      Text('LEGEND',
-                          style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                            fontSize: 22.0,
-                            // fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                            fontFamily: 'Pacifico',
-                          )))
-                    ],
-                  ),
-                )
+                Container(
+                    child: Image.asset(
+                  'assets/APPLOGO/bigapplogo.png',
+                  width: width * 0.5,
+                  height: height * 0.5,
+                )),
               ],
             ),
           ),
