@@ -12,7 +12,12 @@ import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
 import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
+
 import 'package:tutionmaster/Videostream/chapteritem.dart';
+
+import 'package:tutionmaster/video/Videostream/videolist/firstscreen.dart';
+import 'package:tutionmaster/video/Videostream/videolist/video_wishlist.dart';
+
 import 'package:tutionmaster/view/navigation_button.dart';
 
 import 'first.dart';
@@ -53,10 +58,9 @@ class _HomeScreenState extends State<HomeScreen>
   int _page = 0;
   List<Widget> pages = [
     HomeTestScreen(),
-    Chapteritem(),
-    Chapteritem(),
+    Searchvideo(),
+    Videowishlist(),
     Profile(),
-
   ];
   List<IconData> iconlist = [
     Icons.home,

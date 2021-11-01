@@ -305,9 +305,11 @@ class _RegisterState extends State<Register> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
                           child: SelectFormField(
+                            type: SelectFormFieldType.dialog,
+
                             controller: standard,
                             changeIcon: true,
-                            dialogTitle: 'Pick a item',
+                            dialogTitle: 'Pick an item',
                             dialogCancelBtn: 'CANCEL',
                             enableSearch: true,
                             // dialogSearchHint: 'Standard',

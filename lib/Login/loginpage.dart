@@ -75,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     initPlatformState();
+    getToken();
   }
 
   getToken() async {
@@ -213,7 +214,7 @@ class _LoginPageState extends State<LoginPage> {
     var status = decodeDetail['status'];
 
     if (status == false) {
-      Navigator.pushNamed(context, AllRouteNames.registerpage,
+      Navigator.popAndPushNamed(context, AllRouteNames.registerpage,
           arguments:
               ArgumentPass(deviceId: finalDeviceId, googleUser: googleUser));
     } else {
@@ -302,7 +303,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Stack(
           children: [
             Container(
-              height: (height - status) * 0.30,
+              height: (height - status) * 0.20,
               width: width,
               decoration: BoxDecoration(
                   // color: Colors.pink,
@@ -315,7 +316,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 children: [
                   Container(
-                      height: (height - status) * 0.70,
+                      height: (height - status) * 0.80,
                       width: width,
                       // color: Colors.black,
                       child: Column(

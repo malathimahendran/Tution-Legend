@@ -4,18 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
+import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import '../SHARED PREFERENCES/shared_preferences.dart';
 
-class Chapteritem extends StatefulWidget {
-  const Chapteritem({Key? key}) : super(key: key);
+class Secondscreen extends StatefulWidget {
+  String Selectedsubjectname;
+  Secondscreen({required this.Selectedsubjectname});
 
   @override
-  _ChapteritemState createState() => _ChapteritemState();
+  _SecondscreenState createState() => _SecondscreenState();
 }
 
-class _ChapteritemState extends State<Chapteritem> {
+class _SecondscreenState extends State<Secondscreen> {
   var search = TextEditingController();
   var decodeDetails, token, decodeDetailsData;
   final l = Logger();
@@ -27,7 +28,7 @@ class _ChapteritemState extends State<Chapteritem> {
   @override
   void initState() {
     super.initState();
-    allvideoApi();
+    searchApi();
     getWishlist();
   }
 
@@ -51,36 +52,6 @@ class _ChapteritemState extends State<Chapteritem> {
     print("47chapteritem");
   }
 
-  allvideoApi() async {
-    Shared().shared().then((value) async {
-      // var userDetails = await value.getStringList('storeData');
-      // setState(() {
-      //   token = userDetails[5];
-      //   print("$token" + "27linechapter");
-      // });
-
-      // print(userDetails);
-
-      // print("28chapter");
-      // print(33);
-
-      var url = Uri.parse(
-          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/All');
-      var response = await http.get(url, headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization':
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw'
-      });
-      decodeDetailsData = json.decode(response.body);
-      setState(() {
-        decodeDetails = decodeDetailsData['data'];
-      });
-
-      print("47chapteritem");
-    });
-  }
-
   searchApi() async {
     Shared().shared().then((value) async {
       // var userDetails = await value.getStringList('storeData');
@@ -95,7 +66,7 @@ class _ChapteritemState extends State<Chapteritem> {
       // print(33);
 
       var url = Uri.parse(
-          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
+          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${widget.Selectedsubjectname}');
       //  var url = Uri.parse(
       //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
       var response = await http.get(url, headers: {
@@ -239,8 +210,12 @@ class _ChapteritemState extends State<Chapteritem> {
                                         children: [
                                           Container(
                                             width: width * 0.25,
-                                            child: YoutubePlayer(
-                                              controller: you,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: YoutubePlayer(
+                                                controller: you,
+                                              ),
                                             ),
                                           ),
                                           // Image.asset('assets/Carousel/image1.png'),
