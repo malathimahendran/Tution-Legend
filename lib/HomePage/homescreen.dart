@@ -4,7 +4,6 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:tutionmaster/DrawerPage/drawer.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/HomePage/second.dart';
 import 'package:tutionmaster/HomePage/third.dart';
@@ -13,7 +12,12 @@ import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
 import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
+
 import 'package:tutionmaster/Videostream/chapteritem.dart';
+
+import 'package:tutionmaster/video/Videostream/videolist/firstscreen.dart';
+import 'package:tutionmaster/video/Videostream/videolist/video_wishlist.dart';
+
 import 'package:tutionmaster/view/navigation_button.dart';
 
 import 'first.dart';
@@ -47,14 +51,15 @@ class _HomeScreenState extends State<HomeScreen>
   ];
 
   int selectedItem = 0;
+  var k;
   String? userName;
-  var storeUserName, userEmail, profileImage, userMobileNo;
+  var storeUserName, userEmail, profileImage, userMobileNo, enrollmentNumber;
 //  Stri userDetails = [];
   int _page = 0;
   List<Widget> pages = [
     HomeTestScreen(),
-    Chapteritem(),
-    Chapteritem(),
+    Searchvideo(),
+    Videowishlist(),
     Profile(),
   ];
   List<IconData> iconlist = [
@@ -69,12 +74,14 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
 
     Shared().shared().then((value) async {
+      print('');
       var userDetails = await value.getStringList('storeData');
       setState(() {
         storeUserName = userDetails[0];
         // userEmail = userDetails[1];
         // userMobileNo = userDetails[2];
         profileImage = userDetails[4];
+        enrollmentNumber = userDetails[7];
         print("$userEmail,$userEmail");
       });
     });
@@ -90,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen>
     var status = MediaQuery.of(context).padding.top;
 
     return WillPopScope(
-      onWillPop: () async {
+      onWillPop: () {
         return Future.value(true);
       },
       child: SafeArea(
@@ -103,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen>
             child: Drawer(
                 child: Column(children: [
               Container(
-                color: HexColor('#FF4056'),
+                color: HexColor('#009688'),
                 // width: width * 0.9,
                 height: height * 0.2,
                 child: Row(
@@ -126,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen>
                         // mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            storeUserName,
+                            storeUserName == null ? "" : storeUserName,
                             // overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
@@ -138,13 +145,16 @@ class _HomeScreenState extends State<HomeScreen>
                             child: Text('Student',
                                 style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
-                                        color: Colors.black, fontSize: 12))),
+                                        color: Colors.white, fontSize: 12))),
                           ),
                           Container(
-                            child: Text('Enrollment no:2333',
-                                style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        color: Colors.black, fontSize: 13))),
+                            child: enrollmentNumber == null
+                                ? Text('')
+                                : Text('Enrollment no:$enrollmentNumber',
+                                    style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 13))),
                           ),
                         ],
                       ),
@@ -164,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen>
                       width: width * 0.65,
                       height: height * 0.075,
                       child: Card(
-                        color: HexColor('#FF4056'),
+                        color: HexColor('#243665'),
                         child: Row(
                           children: [
                             SizedBox(
@@ -177,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen>
                             SizedBox(
                               width: width * 0.03,
                             ),
-                            Text(storeUserName,
+                            Text(storeUserName == null ? "" : storeUserName,
                                 style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         color: Colors.white, fontSize: 13)))
@@ -234,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen>
                           SizedBox(
                             width: width * 0.03,
                           ),
-                          Text('ChangPassword',
+                          Text('ChangePassword',
                               style: GoogleFonts.poppins(
                                   textStyle: TextStyle(
                                       color: Colors.black, fontSize: 13)))
@@ -272,13 +282,13 @@ class _HomeScreenState extends State<HomeScreen>
             ])),
           ),
           bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image:
+                        AssetImage('assets/HomeScreenPage/homeScreenTab.png'),
+                    fit: BoxFit.cover)),
             width: double.infinity,
             height: 100.0,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/HomeScreenPage/homescreentab.png'),
-                  fit: BoxFit.cover),
-            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(iconlist.length, (index) {
@@ -312,7 +322,7 @@ class _HomeScreenState extends State<HomeScreen>
                               child: Icon(
                                 iconlist[index],
                                 color: _page == index
-                                    ? Colors.pinkAccent
+                                    ? HexColor('#243665')
                                     : Colors.white,
                                 size: 22,
                               )),

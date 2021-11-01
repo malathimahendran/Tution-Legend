@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
+import 'package:tutionmaster/ProfilePage/HELPER%20FUNCTION/provider_for_edit_page.dart';
 import 'package:tutionmaster/SplashScreen/splashscreen.dart';
-import 'package:tutionmaster/Videostream/practice.dart';
 
 import 'ALLROUTES/routegenerator.dart';
 import 'Control/getdata.dart';
@@ -17,7 +17,7 @@ import 'Register/register.dart';
 import 'Slider/carosalSlider.dart';
 import 'StartingLearningPage/startlearning.dart';
 import 'Videostream/chapteritem.dart';
-import 'Videostream/newchapteritem.dart';
+
 import 'Videostream/video_wishlist.dart';
 
 // void main() {
@@ -41,7 +41,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: GetSubjectList(),
         ),
-        ChangeNotifierProvider.value(value: GetSelectedsubjectsVideos())
+        ChangeNotifierProvider.value(
+          value: GetSelectedsubjectsVideos(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -49,18 +51,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Videowishlist(),
-        // initialRoute: '/',
-        // onGenerateRoute: RouteGenerator.generateRoute,
-        // routes: {
-        //   'splashscreen': (context) => SplashScreen(),
-        //   'carosalSlider': (context) => Carosel(),
-        //   'loginpage': (context) => LoginPage(),
-        //   'startlearning': (context) => StartLearning(),
-        //   'registerpage': (context) => Register(),
-        //   'homescreen': (context) => HomeScreen(),
-        //   'profile': (context) => Profile()
-        // },
+        // home: Profile(),
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
   }

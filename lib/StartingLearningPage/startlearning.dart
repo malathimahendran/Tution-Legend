@@ -24,7 +24,8 @@ class _StartLearningState extends State<StartLearning> {
         // color: HexColor('#FB94A0'),
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/StartLearning/startlearning.png'),
+                image: AssetImage(
+                    'assets/StartLearning/startLearningBackground.png'),
                 fit: BoxFit.fill)),
         child: Column(
           children: [
@@ -81,7 +82,8 @@ class _StartLearningState extends State<StartLearning> {
                     style: GoogleFonts.poppins(),
                   ),
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.red),
+                      backgroundColor:
+                          MaterialStateProperty.all(HexColor('#243665')),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),

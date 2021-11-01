@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -119,7 +118,7 @@ class _VideowishlistState extends State<Videowishlist> {
                           child: CircularProgressIndicator(),
                         )
                       : Container(
-                          height: height * 0.15,
+                          height: height,
                           width: width * 0.95,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(90)),

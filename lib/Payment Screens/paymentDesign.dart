@@ -107,7 +107,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
                       ),
                       SafeArea(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             InkWell(
                               onTap: () {
@@ -119,7 +119,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
                               ),
                             ),
                             Text(
-                              'Payment               ',
+                              'Payment                           ',
                               style: TextStyle(
                                   color: HexColor('#F9F9F9'), fontSize: 20),
                             ),
@@ -258,7 +258,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
                     height: height * 0.05,
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: HexColor("#FF465C"),
+                            primary: HexColor("#243665"),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         onPressed: () {
