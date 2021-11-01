@@ -22,8 +22,8 @@ import 'fourth.dart';
 class HomeScreen extends StatefulWidget {
   static var scaffoldkey1 = GlobalKey<ScaffoldState>();
 
-  bool searchindex;
-  HomeScreen(this.searchindex);
+  // bool searchindex;
+  // HomeScreen(this.searchindex);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -53,8 +53,8 @@ class _HomeScreenState extends State<HomeScreen>
   int _page = 0;
   List<Widget> pages = [
     HomeTestScreen(),
-    Chapteritem(),
-    Chapteritem(),
+    Searchvideo(),
+    Searchvideo(),
     Profile(),
   ];
   List<IconData> iconlist = [
@@ -83,9 +83,9 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    if (widget.searchindex == true) {
-      _page = 1;
-    }
+    // if (widget.searchindex == true) {
+    //   _page = 1;
+    // }
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
@@ -288,7 +288,7 @@ class _HomeScreenState extends State<HomeScreen>
               children: List.generate(iconlist.length, (index) {
                 return InkWell(
                   onTap: () {
-                    widget.searchindex = false;
+                    // widget.searchindex = false;
                     setState(() {
                       _page = index;
                     });

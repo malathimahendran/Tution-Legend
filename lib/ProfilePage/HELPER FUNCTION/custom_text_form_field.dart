@@ -17,18 +17,19 @@ class CustomTextFormField extends StatefulWidget {
   final FocusNode? focusNode;
   final bool? obsecure;
   final bool? readOnly;
-  CustomTextFormField({
-    this.height,
-    this.width,
-    this.controller,
-    this.hintText,
-    this.prefixIcon,
-    this.suffixIcon,
-    this.value,
-    this.focusNode,
-    this.obsecure = false,
-    this.readOnly = false,
-  });
+  final TextInputType? keyboardType;
+  CustomTextFormField(
+      {this.height,
+      this.width,
+      this.controller,
+      this.hintText,
+      this.prefixIcon,
+      this.suffixIcon,
+      this.value,
+      this.focusNode,
+      this.obsecure = false,
+      this.readOnly = false,
+      this.keyboardType});
 
   @override
   _CustomTextFormFieldState createState() => _CustomTextFormFieldState();
@@ -52,7 +53,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: widget.controller,
           obscureText: widget.obsecure!,
-
+          keyboardType: widget.keyboardType,
           // focusNode: focusNode,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.zero,

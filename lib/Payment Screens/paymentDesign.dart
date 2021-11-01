@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:toast/toast.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 // import 'package:razorpay_flutter/razorpay_flutter.dart';
 class PaymentDesign extends StatefulWidget {
@@ -15,11 +18,14 @@ class PaymentDesign extends StatefulWidget {
 
 class _PaymentDesignState extends State<PaymentDesign> {
   bool isChecked = false;
+  bool cardChecked = false;
   var userEmail, userMobileNo, userName, profileImage;
+  var token, decodeDetailsData, decodeDetails, result, enrollmentNumber;
+  List keys = [];
   Razorpay? razorpay;
   void initState() {
     super.initState();
-
+    getPaymentPlanApi();
     razorpay = new Razorpay();
     print(razorpay);
     print(21);
@@ -33,6 +39,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
         userEmail = userDetails[1];
         userMobileNo = userDetails[2];
         profileImage = userDetails[4];
+        enrollmentNumber = userDetails[7];
         print("$userEmail,$userEmail");
       });
     });
@@ -55,6 +62,43 @@ class _PaymentDesignState extends State<PaymentDesign> {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  getPaymentPlanApi() {
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      // setState(() {
+      token = userDetails[5];
+      print("$token" + "27linechapter");
+      // });
+
+      print(userDetails);
+
+      print("28chapter");
+      print(33);
+
+      var url = Uri.parse(
+          'http://www.cviacserver.tk/tuitionlegend/home/get_subscription');
+      //  var url = Uri.parse(
+      //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': token,
+      });
+      setState(() {
+        decodeDetailsData = json.decode(response.body);
+        print(decodeDetailsData);
+        result = decodeDetailsData['result'];
+        print(result);
+      });
+      // setState(() {
+      //   decodeDetails = decodeDetailsData['data'];
+      // });
+
+      // print(decodeDetails['data']);
+      print("47payment");
+    });
   }
 
   void handlerPaymentSuccess(PaymentSuccessResponse res) {
@@ -82,9 +126,10 @@ class _PaymentDesignState extends State<PaymentDesign> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
+    final orientation = MediaQuery.of(context).orientation;
     return Scaffold(
-      body: profileImage == null
-          ? CircularProgressIndicator()
+      body: result == null
+          ? Center(child: CircularProgressIndicator())
           : Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
@@ -152,74 +197,100 @@ class _PaymentDesignState extends State<PaymentDesign> {
                               SizedBox(height: height * 0.005),
                               Text("Student"),
                               SizedBox(height: height * 0.005),
-                              Text("Enrollment no:25325")
+                              Text("Enrollment no:$enrollmentNumber")
                             ],
                           ),
                         ),
                       ),
                     ],
                   ),
-                  Container(
-                    height: (height - status) * 0.25,
-                    width: width * 0.9,
-                    child: Card(
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        color: HexColor('#FFFFFF'),
-                        child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Text(
-                                "Payment",
-                                style: TextStyle(
-                                  fontSize: 19,
+                  Flexible(
+                    child: Container(
+                      height: (height - status) * 0.3,
+                      width: width,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: result.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            width: width * 0.9,
+                            child: Card(
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                              ),
-                              SizedBox(
-                                height: height * 0.01,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "\u20B9",
-                                    style: TextStyle(
-                                        fontSize: 45,
-                                        fontWeight: FontWeight.bold),
+                                color: HexColor('#FFFFFF'),
+                                child: Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Column(
+                                    children: [
+                                      CheckboxListTile(
+                                          activeColor: Colors.red,
+                                          checkColor: Colors.white,
+                                          contentPadding: EdgeInsets.zero,
+                                          controlAffinity:
+                                              ListTileControlAffinity.leading,
+                                          value: cardChecked,
+                                          onChanged: (value) {
+                                            keys.add(index);
+                                            print(index);
+                                          }),
+                                      Text(
+                                        "Payment",
+                                        style: TextStyle(
+                                          fontSize: 19,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: height * 0.01,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "\u20B9",
+                                            style: TextStyle(
+                                                fontSize: 45,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            result[index]['amount'].toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 35),
+                                          ),
+                                          Text(
+                                            "/Yearly",
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: height * 0.01,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text("Date"),
+                                          Text("    Time")
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text("12 mar 2020"),
+                                          Text("Mon,15.00")
+                                        ],
+                                      )
+                                    ],
                                   ),
-                                  Text(
-                                    "1000",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 35),
-                                  ),
-                                  Text(
-                                    "/Yearly",
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: height * 0.01,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [Text("Date"), Text("    Time")],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text("12 mar 2020"),
-                                  Text("Mon,15.00")
-                                ],
-                              )
-                            ],
-                          ),
-                        )),
+                                )),
+                          );
+                        },
+                      ),
+                    ),
                   ),
                   SizedBox(height: height * 0.1),
                   CheckboxListTile(
@@ -249,7 +320,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
                     ),
                     value: isChecked,
                     onChanged: (value) => setState(() {
-                      isChecked = true;
+                      isChecked = value!;
                     }),
                   ),
                   SizedBox(height: height * 0.01),

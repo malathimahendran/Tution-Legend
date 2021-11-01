@@ -84,7 +84,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomeScreen(true)));
+                                builder: (context) => HomeScreen()));
                       },
                       child: Icon(Icons.search))
                 ],

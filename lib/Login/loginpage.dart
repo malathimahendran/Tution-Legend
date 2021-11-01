@@ -177,13 +177,13 @@ class _LoginPageState extends State<LoginPage> {
       var enrollmentNumber = userDetails[0]['enrollment_number'].toString();
       var academicYear = userDetails[0]['academic_year'].toString();
       storingAllDetails(
-          userName: userName,
-          storeemail: storeemail,
-          phone: phone,
-          standard: standard,
-          token: token,
-          school: school,
-          academicYear: academicYear,
+          // userName: userName,
+          // storeemail: storeemail,
+          // phone: phone,
+          // standard: standard,
+          // token: token,
+          // school: school,
+          // academicYear: academicYear,
           enrollmentNumber: enrollmentNumber
           // googleId:googleId,
           );

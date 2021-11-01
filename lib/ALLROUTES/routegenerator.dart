@@ -33,7 +33,7 @@ class RouteGenerator {
       case AllRouteNames.startlearning:
         return MaterialPageRoute(builder: (context) => StartLearning());
       case AllRouteNames.homescreen:
-        return MaterialPageRoute(builder: (context) => HomeScreen( false));
+        return MaterialPageRoute(builder: (context) => HomeScreen());
       default:
         return MaterialPageRoute(builder: (context) => SplashScreen());
     }
