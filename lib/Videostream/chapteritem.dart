@@ -34,6 +34,7 @@ class _SearchvideoState extends State<Searchvideo> {
   @override
   void initState() {
     super.initState();
+<<<<<<< HEAD
     getUserSubjects();
   }
 
@@ -246,6 +247,77 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
     super.initState();
     searchApi(widget.standardsubject1);
   }
+=======
+    // allvideoApi();
+  }
+
+  // allvideoApi() async {
+  //   Shared().shared().then((value) async {
+  //     // var userDetails = await value.getStringList('storeData');
+  //     // // setState(() {
+  //     // token = userDetails[5];
+  //     // print("$token" + "27linechapter");
+  //     // // });
+
+  //     // print(userDetails);
+
+  //     // print("28chapter");
+  //     // print(33);
+
+  //     var url = Uri.parse(
+  //         'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/All');
+  //     var response = await http.get(url, headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json',
+  //       'Authorization': token
+  //     });
+  //     decodeDetailsData = json.decode(response.body);
+  //     setState(() {
+  //       decodeDetails = decodeDetailsData['data'];
+  //     });
+
+  //     print(decodeDetails['data']);
+  //     print("47chapteritem");
+  //   });
+  // }
+
+  // searchApi() async {
+  //   Shared().shared().then((value) async {
+  //     // var userDetails = await value.getStringList('storeData');
+  //     // // setState(() {
+  //     // token = userDetails[5];
+  //     // print("$token" + "27linechapter");
+  //     // // });
+
+  //     // print(userDetails);
+
+  //     // print("28chapter");
+  //     // print(33);
+
+  //     var url = Uri.parse(
+  //         'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
+  //     //  var url = Uri.parse(
+  //     //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
+  //     var response = await http.get(url, headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json',
+  //       'Authorization':
+  //           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwOTFmMWMzLTBkMGUtNGVmMy1iMDYyLWU3Y2JlMzBlN2Q3YyIsImlhdCI6MTYzNDg5NzMwNiwiZXhwIjoxNjM3NDg5MzA2fQ.K9aqwhG-4ZpHbZF_qrsJ0-unlC51jI6494asGwzyAuY',
+  //     });
+  //     decodeDetailsData = json.decode(response.body);
+  //     setState(() {
+  //       decodeDetails = decodeDetailsData['data'];
+  //     });
+
+  //     print(decodeDetails['data']);
+  //     print("47chapteritem");
+  //   });
+  //   // print('44');
+  //   // decodeDetails = json.decode(response.body);
+  //   // setState(() {});
+  //   // print(decodeDetails['data']);
+  // }
+>>>>>>> 6bcc0aecd2505dd65c4ade11d921f4f6f2999664
 
   @override
   Widget build(BuildContext context) {
@@ -255,6 +327,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
     var height = MediaQuery.of(context).size.height;
     var status = MediaQuery.of(context).padding.top;
     return SafeArea(
+<<<<<<< HEAD
       child: decodeDetails == null
           ? Center(child: CircularProgressIndicator())
           : Container(
@@ -269,6 +342,57 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                     // crossAxisCount: decodeDetails.length <= 2?1:2,
                     crossAxisCount: 2,
                     childAspectRatio: 1.5,
+=======
+      child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: Container(
+            // color: Colors.blue,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage('assets/ProfilePage/mainbackground.png'),
+            )),
+            margin: EdgeInsets.only(
+              top: status,
+            ),
+            height: height,
+            width: width,
+            child: Column(
+              children: [
+                Container(
+                  height: height * 0.06,
+                  width: width * 0.9,
+                  child: TextFormField(
+                    textInputAction: TextInputAction.search,
+                    onFieldSubmitted: (value) {
+                      // searchApi();
+                    },
+                    controller: search,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: 'Search videos',
+                      suffixIcon: InkWell(
+                        onTap: () {
+                          // searchApi();
+                        },
+                        child: Icon(
+                          Icons.search,
+                          color: Colors.red,
+                        ),
+                      ),
+                      // icon: Icon(Icons.search),
+                      hintStyle: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 11, color: HexColor('#7B7777'))),
+                      // prefixIcon: icon,
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide: BorderSide(color: Colors.grey.shade300)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide: BorderSide(color: HexColor('#27DEBF'))),
+                    ),
+>>>>>>> 6bcc0aecd2505dd65c4ade11d921f4f6f2999664
                   ),
                   itemBuilder: (context, index) {
                     var you = YoutubePlayerController(
