@@ -51,7 +51,15 @@ class CustomExpandedWithTextAndFormField extends StatefulWidget {
 
 class _CustomExpandedWithTextAndFormFieldState
     extends State<CustomExpandedWithTextAndFormField> {
-  var storeUserName, userEmail, userMobileNo, standard, token, profileImage;
+  var storeUserName,
+      userEmail,
+      userMobileNo,
+      standard,
+      token,
+      profileImage,
+      enrollmentNumber,
+      school,
+      academicYear;
 
   userdatas() {
     Shared().shared().then((value) async {
@@ -63,11 +71,18 @@ class _CustomExpandedWithTextAndFormFieldState
       standard = userDetails[3];
       token = userDetails[5];
       profileImage = userDetails[4];
+      enrollmentNumber = userDetails[7];
+      school = userDetails[8];
+      academicYear = userDetails[9];
       print('$storeUserName,47');
       widget.userName.text = storeUserName.toString();
       widget.email.text = userEmail.toString();
       widget.contactNumber.text = userMobileNo.toString();
-
+      widget.enrollmentNumber.text =
+          enrollmentNumber == null ? "" : enrollmentNumber.toString();
+      widget.schoolName.text = school == null ? "" : school.toString();
+      widget.academicYear.text =
+          academicYear == null ? "" : academicYear.toString();
       setState(() {
         widget.grade.text = standard.toString();
       });
@@ -109,7 +124,8 @@ class _CustomExpandedWithTextAndFormFieldState
         enrollmentNumber: enrollmentNumber,
         school: school,
         academicYear: academicYear,
-        profileImage: profileImage
+        profileImage: profileImage,
+        token: token
         // googleId:googleId,
         );
     if (status == true) {
@@ -123,8 +139,7 @@ class _CustomExpandedWithTextAndFormFieldState
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      Navigator.pop(context, 'helo');
     } else {
       final snackBar = SnackBar(
         backgroundColor: Colors.red,

@@ -156,38 +156,41 @@ class _SearchvideoState extends State<Searchvideo> {
                   SizedBox(
                     height: ((height - status)) * 0.01,
                   ),
-                  Column(
-                    children: List.generate(GetSubjectList.subjectList.length,
-                        (index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Subjectnametext(
-                            standardsubject: GetSubjectList.subjectList[index],
-                          ),
-                          SizedBox(
-                            height: ((height - status)) * 0.01,
-                          ),
-                          // Consumer<GetSelectedsubjectsVideos>(
-                          // builder: (context, GetSelectedsubjectsVideos, _) {
+                  GetSubjectList.subjectList == null
+                      ? CircularProgressIndicator()
+                      : Column(
+                          children: List.generate(
+                              GetSubjectList.subjectList.length, (index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Subjectnametext(
+                                  standardsubject:
+                                      GetSubjectList.subjectList[index],
+                                ),
+                                SizedBox(
+                                  height: ((height - status)) * 0.01,
+                                ),
+                                // Consumer<GetSelectedsubjectsVideos>(
+                                // builder: (context, GetSelectedsubjectsVideos, _) {
 
-                          // widget.decodeDetails == null ?CircularProgressIndicator():
-                          // HomeScreenVideos( Selectedsubjectname: GetSubjectList.subjectList[index],),
-                          SubjectVideoslists(
-                              standardsubject1:
-                                  GetSubjectList.subjectList[index]),
-                          // }),
-                          SizedBox(
-                            height: ((height - status)) * 0.01,
-                          ),
-                        ],
-                      );
-                      //   // var standarsubject=Provider.of<GetSubjectList>(context, listen: true).subjectList[index];
-                      //   // var decodeDetails=Provider.of<GetSelectedsubjectsVideos>(context, listen: true).finaldecodelist[index];
-                      // return SubjectVideosListWidget(standardsubject: Provider.of<GetSubjectList>(context, listen: true).subjectList[index] , decodeDetails:  Provider.of<GetSelectedsubjectsVideos>(context, listen: true).finaldecodelist[index] , );
-                    }),
-                  )
+                                // widget.decodeDetails == null ?CircularProgressIndicator():
+                                // HomeScreenVideos( Selectedsubjectname: GetSubjectList.subjectList[index],),
+                                SubjectVideoslists(
+                                    standardsubject1:
+                                        GetSubjectList.subjectList[index]),
+                                // }),
+                                SizedBox(
+                                  height: ((height - status)) * 0.01,
+                                ),
+                              ],
+                            );
+                            //   // var standarsubject=Provider.of<GetSubjectList>(context, listen: true).subjectList[index];
+                            //   // var decodeDetails=Provider.of<GetSelectedsubjectsVideos>(context, listen: true).finaldecodelist[index];
+                            // return SubjectVideosListWidget(standardsubject: Provider.of<GetSubjectList>(context, listen: true).subjectList[index] , decodeDetails:  Provider.of<GetSelectedsubjectsVideos>(context, listen: true).finaldecodelist[index] , );
+                          }),
+                        )
                 ],
               ),
             ),
@@ -385,75 +388,71 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                             ))),
                                   )),
                             )
-                          : Expanded(
-                              child: Container(
-                                  height: (height) * 0.15,
-                                  width: width * 0.1,
-                                  child: Card(
-                                    color: HexColor('#FFFFFF'),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 5.0, right: 8.0),
-                                          child: Container(
-                                            width: width * 0.17,
-                                            height: height * 0.08,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              child: YoutubePlayer(
-                                                controller: you,
-                                              ),
-                                            ),
+                          : Container(
+                              height: (height) * 0.15,
+                              width: width * 0.1,
+                              child: Card(
+                                color: HexColor('#FFFFFF'),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5.0, right: 8.0),
+                                      child: Container(
+                                        width: width * 0.17,
+                                        height: height * 0.08,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          child: YoutubePlayer(
+                                            controller: you,
                                           ),
                                         ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 50.0, top: 10.0),
-                                                child: InkWell(
-                                                    onTap: () {
-                                                      checking(
-                                                          link:
-                                                              decodeDetailsnew[
-                                                                      index]
-                                                                  ['video_id']);
-                                                    },
-                                                    child: Icon(Icons.favorite,
-                                                        color: s
-                                                            ? Colors.pink
-                                                            : Colors.grey)),
-                                              ),
-                                              Text(
-                                                decodeDetails[index]['subject']
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: HexColor('#0A1C22')),
-                                              ),
-                                              Text(
-                                                decodeDetails[index]['lesson']
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 10,
-                                                    color: HexColor('#0A1C22')),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  )),
-                            ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 50.0, top: 10.0),
+                                            child: InkWell(
+                                                onTap: () {
+                                                  checking(
+                                                      link: decodeDetailsnew[
+                                                          index]['video_id']);
+                                                },
+                                                child: Icon(Icons.favorite,
+                                                    color: s
+                                                        ? Colors.pink
+                                                        : Colors.grey)),
+                                          ),
+                                          Text(
+                                            decodeDetails[index]['subject']
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                color: HexColor('#0A1C22')),
+                                          ),
+                                          Text(
+                                            decodeDetails[index]['lesson']
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 10,
+                                                color: HexColor('#0A1C22')),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )),
                     );
                   }),
             ),

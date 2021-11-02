@@ -24,8 +24,8 @@ import 'fourth.dart';
 class HomeScreen extends StatefulWidget {
   static var scaffoldkey1 = GlobalKey<ScaffoldState>();
 
-  // bool searchindex;
-  // HomeScreen(this.searchindex);
+  bool searchindex;
+  HomeScreen(this.searchindex);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -86,9 +86,9 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    // if (widget.searchindex == true) {
-    //   _page = 1;
-    // }
+    if (widget.searchindex == true) {
+      _page = 1;
+    }
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
