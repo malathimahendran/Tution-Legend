@@ -7,6 +7,8 @@ import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../play.dart';
+
 class Videowishlist extends StatefulWidget {
   const Videowishlist({Key? key}) : super(key: key);
 
@@ -149,25 +151,11 @@ class _VideowishlistState extends State<Videowishlist> {
                                     isLive: false,
                                   ),
                                 );
-                                // print(wishlistDetails[index]['link']);
-                                // print(youtubevideoId!.length);
-                                // print(109);
 
                                 return InkWell(
-                                  // onTap: () {
-                                  //   print(131);
-                                  //   Navigator.push(
-                                  //       context,
-                                  //       MaterialPageRoute(
-                                  //           builder: (context) => Play(
-                                  //                 link: wishlistDetails[index]
-                                  //                     ['link'],
-                                  //               )));
-                                  // },
-
                                   child: Container(
-                                      height: (height) * 0.13,
-                                      width: width * 0.1,
+                                      height: (height) * 0.12,
+                                      width: width,
                                       // child: YoutubePlayer(
                                       //   controller: you,
                                       // ),
@@ -185,14 +173,27 @@ class _VideowishlistState extends State<Videowishlist> {
                                               SizedBox(
                                                 width: width * 0.01,
                                               ),
-                                              Container(
-                                                height: height * 0.1,
-                                                width: width * 0.23,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                  child: YoutubePlayer(
-                                                    controller: you,
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              Play(
+                                                                link: wishlistDetails[
+                                                                        index]
+                                                                    ['link'],
+                                                              )));
+                                                },
+                                                child: Container(
+                                                  width: width * 0.2,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    child: YoutubePlayer(
+                                                      controller: you,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -250,24 +251,6 @@ class _VideowishlistState extends State<Videowishlist> {
                                               SizedBox(
                                                 width: width * 0.01,
                                               ),
-                                              // LikeButton(
-                                              //   // onTap: () {
-
-                                              //   circleColor: CircleColor(
-                                              //       start: Color(0xFFF44336),
-                                              //       end: Color(0xFFF44336)),
-                                              //   likeBuilder: (isLiked) {
-
-                                              //     return Icon(
-                                              //       Icons.favorite,
-                                              //       size: 30,
-                                              //       color: isLiked
-                                              //           ? Colors.pink
-                                              //           : Colors.teal,
-                                              //     );
-                                              //   },
-
-                                              // countBuilder: (){
                                             ],
                                           ),
                                         ),
