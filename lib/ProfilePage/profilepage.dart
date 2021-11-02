@@ -66,6 +66,7 @@ class _ProfileState extends State<Profile> {
   @override
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   Widget build(BuildContext context) {
+    // getUserName();
     // print(widget.indexnumber);
     print(43);
     Future<void> logOut() async {

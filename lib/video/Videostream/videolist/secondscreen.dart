@@ -33,37 +33,41 @@ class _SecondscreenState extends State<Secondscreen> {
   }
 
   getWishlist() async {
-    var url =
-        Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
-    var response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw'
-    });
-    decodeDetailsData = json.decode(response.body);
-    print(decodeDetailsData);
-    l.i(decodeDetailsData);
-    for (var i in decodeDetailsData['result'])
-      youtubevideoId!.add(i['video_id']);
-    l.e(youtubevideoId);
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      token = userDetails[5];
+      print("$token" + "27linechapter");
+      var url =
+          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': token
+      });
+      decodeDetailsData = json.decode(response.body);
+      print(decodeDetailsData);
+      l.i(decodeDetailsData);
+      for (var i in decodeDetailsData['result'])
+        youtubevideoId!.add(i['video_id']);
+      l.e(youtubevideoId);
 
-    print(decodeDetails);
-    print("47chapteritem");
+      print(decodeDetails);
+      print("47chapteritem");
+    });
   }
 
   searchApi() async {
     Shared().shared().then((value) async {
-      // var userDetails = await value.getStringList('storeData');
-      // // setState(() {
-      // token = userDetails[5];
-      // print("$token" + "27linechapter");
-      // // });
+      var userDetails = await value.getStringList('storeData');
+      // setState(() {
+      token = userDetails[5];
+      print("$token" + "27linechapter");
+      // });
 
-      // print(userDetails);
+      print(userDetails);
 
-      // print("28chapter");
-      // print(33);
+      print("28chapter");
+      print(33);
 
       var url = Uri.parse(
           'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${widget.Selectedsubjectname}');
@@ -72,8 +76,7 @@ class _SecondscreenState extends State<Secondscreen> {
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization':
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwOTFmMWMzLTBkMGUtNGVmMy1iMDYyLWU3Y2JlMzBlN2Q3YyIsImlhdCI6MTYzNDg5NzMwNiwiZXhwIjoxNjM3NDg5MzA2fQ.K9aqwhG-4ZpHbZF_qrsJ0-unlC51jI6494asGwzyAuY',
+        'Authorization': token
       });
       decodeDetailsData = json.decode(response.body);
       setState(() {
@@ -264,7 +267,7 @@ class _SecondscreenState extends State<Secondscreen> {
                                               child: Icon(Icons.favorite,
                                                   color: s
                                                       ? Colors.pink
-                                                      : Colors.teal)),
+                                                      : Colors.grey)),
                                           // LikeButton(
                                           //   // onTap: () {
 
@@ -325,23 +328,17 @@ class _SecondscreenState extends State<Secondscreen> {
 
   likevideo(videoID) async {
     var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/like');
-    var response = await http.post(url, body: {
-      'video_id': videoID.toString()
-    }, headers: {
-      'Authorization':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw'
-    });
+    var response = await http.post(url,
+        body: {'video_id': videoID.toString()},
+        headers: {'Authorization': token!});
     print(response.body);
   }
 
   unlikevideo(videoId) async {
     var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/dislike');
-    var response = await http.post(url, body: {
-      'video_id': videoId.toString()
-    }, headers: {
-      'Authorization':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw'
-    });
+    var response = await http.post(url,
+        body: {'video_id': videoId.toString()},
+        headers: {'Authorization': token!});
     print(response.body);
   }
 }

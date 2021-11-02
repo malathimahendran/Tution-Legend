@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 
@@ -12,21 +13,22 @@ import 'provider_for_edit_page.dart';
 import 'package:http/http.dart' as http;
 
 class CustomExpandedWithTextAndFormField extends StatefulWidget {
-  CustomExpandedWithTextAndFormField({
-    Key? key,
-    required this.height,
-    required this.status,
-    required this.width,
-    required this.userName,
-    required this.enrollmentNumber,
-    required this.grade,
-    required this.schoolName,
-    required this.academicYear,
-    required this.contactNumber,
-    required this.email,
-    required this.password,
-    required this.heightFocus,
-  }) : super(key: key);
+  CustomExpandedWithTextAndFormField(
+      {Key? key,
+      required this.height,
+      required this.status,
+      required this.width,
+      required this.userName,
+      required this.enrollmentNumber,
+      required this.grade,
+      required this.schoolName,
+      required this.academicYear,
+      required this.contactNumber,
+      required this.email,
+      required this.password,
+      required this.heightFocus,
+      required this.keyboardType})
+      : super(key: key);
 
   final double height;
   final double status;
@@ -40,6 +42,7 @@ class CustomExpandedWithTextAndFormField extends StatefulWidget {
   final TextEditingController email;
   final TextEditingController password;
   final FocusNode heightFocus;
+  final keyboardType;
 
   @override
   _CustomExpandedWithTextAndFormFieldState createState() =>
@@ -121,7 +124,7 @@ class _CustomExpandedWithTextAndFormFieldState
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Profile()));
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
     } else {
       final snackBar = SnackBar(
         backgroundColor: Colors.red,
@@ -178,6 +181,7 @@ class _CustomExpandedWithTextAndFormFieldState
                 hintText: 'Enrollment Number',
                 prefixIcon: Icons.person,
                 controller: widget.enrollmentNumber,
+                keyboardType: TextInputType.number,
               ),
               SizedBox(
                 height: (widget.height - (2 * widget.status)) * 0.015,
@@ -244,6 +248,7 @@ class _CustomExpandedWithTextAndFormFieldState
                 hintText: 'Contact Number',
                 prefixIcon: Icons.phone,
                 controller: widget.contactNumber,
+                keyboardType: TextInputType.number,
               ),
               SizedBox(
                 height: (widget.height - (2 * widget.status)) * 0.015,

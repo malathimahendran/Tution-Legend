@@ -67,9 +67,14 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Image.asset(
-                        'assets/HomeScreenPage/menu.png',
-                        height: 20,
+                      InkWell(
+                        onTap: () {
+                          HomeScreen.scaffoldkey1.currentState!.openDrawer();
+                        },
+                        child: Image.asset(
+                          'assets/HomeScreenPage/menu.png',
+                          height: 20,
+                        ),
                       ),
                       Text(
                         '$userName',
@@ -82,13 +87,14 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomeScreen(true)));
+                                    builder: (context) => HomeScreen()));
                           },
                           child: Icon(Icons.search))
                     ],
                   ),
                 ),
                 Container(
+                  alignment: Alignment.center,
                   // color: Colors.red,
                   height: (height - (status + bottom)) * 0.25,
                   child: Stack(children: [
@@ -169,7 +175,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                 //          ),
                 //  ),
                 Container(
-                  height: (height - (status + bottom)) * 0.56,
+                  height: (height - (status + bottom)) * 0.50,
 
                   child: HomeScreenVideos(
                     Selectedsubjectname: 'Recent',

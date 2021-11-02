@@ -1,29 +1,31 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
-import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class HomeScreenVideos extends StatefulWidget {
   String Selectedsubjectname;
   HomeScreenVideos({required this.Selectedsubjectname});
-  String subject = 'Recent';
   @override
   _HomeScreenVideosState createState() => _HomeScreenVideosState();
 }
 
 class _HomeScreenVideosState extends State<HomeScreenVideos> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
+        .searchApi(widget.Selectedsubjectname);
+  }
+
+  @override
   Widget build(BuildContext context) {
     print(widget.Selectedsubjectname);
     print('hi');
-    Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
-        .searchApi(widget.Selectedsubjectname);
+
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
@@ -72,9 +74,6 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                           child: Container(
                               height: (height) * 0.15,
                               width: width * 0.2,
-// child: YoutubePlayer(
-//   controller: you,
-// ),
                               child: Card(
                                 color: HexColor('#FFFFFF'),
                                 shape: RoundedRectangleBorder(
@@ -91,7 +90,6 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                           controller: you,
                                         ),
                                       ),
-// Image.asset('assets/Carousel/image1.png'),
                                       Padding(
                                         padding: EdgeInsets.only(left: 10),
                                         child: Container(

@@ -16,9 +16,6 @@ import 'ProfilePage/profilepage.dart';
 import 'Register/register.dart';
 import 'Slider/carosalSlider.dart';
 import 'StartingLearningPage/startlearning.dart';
-import 'Videostream/chapteritem.dart';
-
-import 'Videostream/video_wishlist.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -44,6 +41,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: GetSelectedsubjectsVideos(),
         ),
+        ChangeNotifierProvider(create: (context) {
+          return ProviderFunction();
+        })
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
