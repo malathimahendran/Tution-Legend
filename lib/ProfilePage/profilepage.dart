@@ -69,6 +69,38 @@ class _ProfileState extends State<Profile> {
     // getUserName();
     // print(widget.indexnumber);
     print(43);
+    Future<void> logOut() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Are you sure?'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('We will be redirected to login page.'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('No'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Dismiss the Dialog
+                },
+              ),
+              FlatButton(
+                child: Text('Yes'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Navigate to login
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
 
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;

@@ -1,3 +1,4 @@
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Shared {
@@ -18,11 +19,13 @@ storingAllDetails(
     enrollmentNumber,
     school,
     academicYear}) async {
+  final l = Logger();
+
   List<String> storing = [
     userName ?? "",
     storeemail,
     phone ?? "",
-    standard,
+    standard ?? "",
     profileImage ?? "",
     token ?? "",
     googleId ?? "",
@@ -31,7 +34,10 @@ storingAllDetails(
     academicYear ?? ""
   ];
 
-  print(storing);
-  print(320);
+  // print("${storing[token].toString()},zzzzzzzzzzzzzzline 34");
+
+  l.wtf(storing);
+  print('line 37 in sharedpreference320');
   Shared().shared().then((value) => value.setStringList('storeData', storing));
+  l.w(storing);
 }

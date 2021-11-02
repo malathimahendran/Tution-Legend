@@ -17,6 +17,7 @@ class GetSubjectList extends ChangeNotifier {
     var decodeDetails = json.decode(subjectResponse.body);
     print('$decodeDetails , line 18');
     subjectListData.clear();
+    // subjectListData = ['Recent', '    All    '];
     for (int i = 0; i < decodeDetails['data'].length; i++) {
       print('$i,line 20');
       subjectListData.add(decodeDetails['data'][i]['subject']);

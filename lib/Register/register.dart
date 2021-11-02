@@ -29,7 +29,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final l = Logger();
-  var googleDetails, googleId, profileImage;
+  var googleDetails, profileImage;
   bool secureText = true;
   bool secureText1 = true;
   List<Map<String, dynamic>> items = [
@@ -70,8 +70,6 @@ class _RegisterState extends State<Register> {
   }
 
   registerApi() async {
-    // print('${widget.deviceId} line no 67');
-    // print('${widget.googleuser} line no 68');
     var url =
         Uri.parse('http://www.cviacserver.tk/tuitionlegend/register/sign_up');
     var response = await http.post(url, body: {
@@ -88,7 +86,7 @@ class _RegisterState extends State<Register> {
       'profile_image': profileImage.toString()
     }).then((value) async {
       var decodeDetails = json.decode(value.body);
-      print(decodeDetails);
+      l.wtf(decodeDetails);
       print(widget.deviceId);
       var token = decodeDetails['result'];
       // var googleId = decodeDetails['user']['google_id'];
@@ -98,31 +96,19 @@ class _RegisterState extends State<Register> {
       var phone = decodeDetails['user']['phone'].toString();
       var standard = decodeDetails['user']['class'].toString();
       var profileImage = decodeDetails['user']['profile_image'].toString();
+      var googleId = decodeDetails['user']['google_id'].toString();
+      l.wtf("$token,$userName,$storeemail,$phone,$standard");
+
+      l.wtf('$token');
+
       storingAllDetails(
           userName: userName,
           storeemail: storeemail,
           phone: phone,
           standard: standard,
           profileImage: profileImage,
-          token: token
-          // googleId:googleId,
-          );
-      // List<String> details = [
-      //   userName,
-      //   storeemail,
-      //   phone,
-      //   standard,
-      //   profileImage,
-      //   token,
-      // ];
-      // print(details);
-      // Shared().shared().then((value) async {
-      //   var storeData = await value.setStringList('storeData', details);
-      //   print("$storeData" + "line100");
-      // });
-      // print('$googleId ,line 86');
+          token: token);
 
-      // var statusCode = decodeDetails['statusCode'];
       if (value.statusCode == 200) {
         final snackBar = SnackBar(
           backgroundColor: HexColor('#27AE60'),
@@ -135,7 +121,7 @@ class _RegisterState extends State<Register> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-        if (googleId == "" && googleId == null) {
+        if (googleId == "" || googleId == null) {
           print('$googleId ,line 102');
           print('inside if');
           Navigator.popAndPushNamed(context, AllRouteNames.loginpage);
@@ -305,9 +291,11 @@ class _RegisterState extends State<Register> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
                           child: SelectFormField(
+                            type: SelectFormFieldType.dialog,
+
                             controller: standard,
                             changeIcon: true,
-                            dialogTitle: 'Pick a item',
+                            dialogTitle: 'Pick an item',
                             dialogCancelBtn: 'CANCEL',
                             enableSearch: true,
                             // dialogSearchHint: 'Standard',
@@ -516,7 +504,7 @@ class Textfield extends StatelessWidget {
     var status = MediaQuery.of(context).padding.top;
     return Container(
       width: width * 0.8,
-      height: height * 0.073,
+      height: height * 0.077,
       child: Card(
         elevation: 10,
         shape:
@@ -533,6 +521,7 @@ class Textfield extends StatelessWidget {
 
           controller: controller,
           decoration: InputDecoration(
+              // contentPadding: EdgeInsets.zero,
               hintText: hintText,
               hintStyle:
                   GoogleFonts.poppins(textStyle: TextStyle(fontSize: 12)),

@@ -19,9 +19,11 @@ class PaymentDesign extends StatefulWidget {
 class _PaymentDesignState extends State<PaymentDesign> {
   bool isChecked = false;
   bool cardChecked = false;
+  int? selected;
   var userEmail, userMobileNo, userName, profileImage;
   var token, decodeDetailsData, decodeDetails, result, enrollmentNumber;
   List keys = [];
+  var selectedAmount;
   Razorpay? razorpay;
   void initState() {
     super.initState();
@@ -45,10 +47,11 @@ class _PaymentDesignState extends State<PaymentDesign> {
     });
   }
 
-  openCheckout() async {
+  openCheckout({amount}) async {
+    print("zzzzzzzzzzzzzzzzzzzzzzz$amount");
     var options = {
       "key": "rzp_test_HavqZQoR2ijLH5",
-      "amount": "100000",
+      "amount": "${amount}00",
       "name": "Tution Legend",
       "description": "Payment for Tution Legend App",
       "prefill": {"contact": userMobileNo, "email": userEmail},
@@ -175,12 +178,28 @@ class _PaymentDesignState extends State<PaymentDesign> {
                         top: (height - status) * 0.18,
                         left: width * 0.13,
                         child: Container(
-                          height: height * 0.07,
-                          width: height * 0.07,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: NetworkImage(profileImage))),
-                        ),
+                            height: height * 0.07,
+                            width: height * 0.07,
+                            // decoration: BoxDecoration(
+                            //     image: DecorationImage(
+                            //         image: NetworkImage(profileImage))),
+                            child: profileImage == null || profileImage == ""
+                                ? Container(
+                                    height: (height - status) * 0.08,
+                                    width: width * 0.15,
+                                    color: Colors.redAccent[400],
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      userName
+                                          .toString()
+                                          .substring(0, 1)
+                                          .toUpperCase(),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30),
+                                    ))
+                                : Image.network(profileImage)),
                       ),
                       Positioned(
                         top: (height - status) * 0.17,
@@ -230,10 +249,15 @@ class _PaymentDesignState extends State<PaymentDesign> {
                                           contentPadding: EdgeInsets.zero,
                                           controlAffinity:
                                               ListTileControlAffinity.leading,
-                                          value: cardChecked,
+                                          value:
+                                              selected == index ? true : false,
                                           onChanged: (value) {
-                                            keys.add(index);
-                                            print(index);
+                                            setState(() {
+                                              selected = index;
+                                              selectedAmount = result[index]
+                                                      ['amount']
+                                                  .toString();
+                                            });
                                           }),
                                       Text(
                                         "Payment",
@@ -333,7 +357,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         onPressed: () {
-                          openCheckout();
+                          openCheckout(amount: selectedAmount);
                           // loginApi();
                         },
                         child: Text("Subscribe Now",

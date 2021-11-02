@@ -16,7 +16,6 @@ import 'ProfilePage/profilepage.dart';
 import 'Register/register.dart';
 import 'Slider/carosalSlider.dart';
 import 'StartingLearningPage/startlearning.dart';
-import 'Videostream/newchapteritem.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -32,7 +31,6 @@ main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -40,7 +38,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: GetSubjectList(),
         ),
-
+        ChangeNotifierProvider.value(
+          value: GetSelectedsubjectsVideos(),
+        ),
+        ChangeNotifierProvider(create: (context) {
+          return ProviderFunction();
+        })
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -48,18 +51,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Searchvideo(),
-        // initialRoute: '/',
-        // onGenerateRoute: RouteGenerator.generateRoute,
-        // routes: {
-        //   'splashscreen': (context) => SplashScreen(),
-        //   'carosalSlider': (context) => Carosel(),
-        //   'loginpage': (context) => LoginPage(),
-        //   'startlearning': (context) => StartLearning(),
-        //   'registerpage': (context) => Register(),
-        //   'homescreen': (context) => HomeScreen(),
-        //   'profile': (context) => Profile()
-        // },
+        // home: Profile(),
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
   }

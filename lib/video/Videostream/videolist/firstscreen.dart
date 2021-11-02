@@ -1,17 +1,20 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
+import 'package:tutionmaster/video/Videostream/videolist/secondscreen.dart';
 import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:http/http.dart' as http;
-import '../play.dart';
+import '../../../play.dart';
 
 class Searchvideo extends StatefulWidget {
   @override
@@ -21,25 +24,37 @@ class Searchvideo extends StatefulWidget {
 class _SearchvideoState extends State<Searchvideo> {
   var search = TextEditingController();
   var decodeDetailstest;
+  var decodeDetails, token, decodeDetailsData;
+  List<int>? youtubevideoId = [];
+  bool isIconClicked = false;
+  List<int> iconClick = [];
+
+  final l = Logger();
+  var wishlistDetails;
+  @override
+  void initState() {
+    super.initState();
+    getUserSubjects();
+    print('ammuammuammuammmu2222222');
+  }
+
   getUserSubjects() {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
       String standardclass = userDetails[3];
       print(standardclass);
+      print('nivetha');
       Provider.of<GetSubjectList>(context, listen: false)
           .getSubjectListApi(standardclass);
+      print('papapapapapapapapapa');
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-<<<<<<< HEAD
-    getUserSubjects();
-  }
-
+  // var decodeDetails;
+  // var standarsubject;
   @override
   Widget build(BuildContext context) {
+    print('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     var status = MediaQuery.of(context).padding.top;
@@ -154,6 +169,11 @@ class _SearchvideoState extends State<Searchvideo> {
                           SizedBox(
                             height: ((height - status)) * 0.01,
                           ),
+                          // Consumer<GetSelectedsubjectsVideos>(
+                          // builder: (context, GetSelectedsubjectsVideos, _) {
+
+                          // widget.decodeDetails == null ?CircularProgressIndicator():
+                          // HomeScreenVideos( Selectedsubjectname: GetSubjectList.subjectList[index],),
                           SubjectVideoslists(
                               standardsubject1:
                                   GetSubjectList.subjectList[index]),
@@ -163,6 +183,9 @@ class _SearchvideoState extends State<Searchvideo> {
                           ),
                         ],
                       );
+                      //   // var standarsubject=Provider.of<GetSubjectList>(context, listen: true).subjectList[index];
+                      //   // var decodeDetails=Provider.of<GetSelectedsubjectsVideos>(context, listen: true).finaldecodelist[index];
+                      // return SubjectVideosListWidget(standardsubject: Provider.of<GetSubjectList>(context, listen: true).subjectList[index] , decodeDetails:  Provider.of<GetSelectedsubjectsVideos>(context, listen: true).finaldecodelist[index] , );
                     }),
                   )
                 ],
@@ -182,6 +205,7 @@ class Subjectnametext extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(standardsubject);
+    print('maaalaaathiiiiiiii22222222222');
     return Text(
       standardsubject,
       textAlign: TextAlign.start,
@@ -209,6 +233,13 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
       selectedSubs,
       decodeDetailsLength,
       decodeDetailsnew;
+
+  List<int>? youtubevideoId = [];
+  bool isIconClicked = false;
+  List<int> iconClick = [];
+
+  final l = Logger();
+  var wishlistDetails;
   searchApi(String Selectedsubjectname) async {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
@@ -241,83 +272,41 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
     });
   }
 
+  getWishlist() async {
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      token = userDetails[5];
+      print("$token" + "27linechapter");
+      var url =
+          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': '$token'
+      });
+      decodeDetailsData = json.decode(response.body);
+      print(decodeDetailsData);
+      l.i(decodeDetailsData);
+
+      for (var i in decodeDetailsData['result'])
+        youtubevideoId!.add(i['video_id']);
+      l.e(youtubevideoId);
+      setState(() {
+        wishlistDetails = decodeDetailsData['result'];
+      });
+
+      print(decodeDetails);
+      print("47chapteritem");
+    });
+  }
+
   // @override
   void initState() {
     // TODO: implement initState
     super.initState();
     searchApi(widget.standardsubject1);
+    getWishlist();
   }
-=======
-    // allvideoApi();
-  }
-
-  // allvideoApi() async {
-  //   Shared().shared().then((value) async {
-  //     // var userDetails = await value.getStringList('storeData');
-  //     // // setState(() {
-  //     // token = userDetails[5];
-  //     // print("$token" + "27linechapter");
-  //     // // });
-
-  //     // print(userDetails);
-
-  //     // print("28chapter");
-  //     // print(33);
-
-  //     var url = Uri.parse(
-  //         'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/All');
-  //     var response = await http.get(url, headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'Authorization': token
-  //     });
-  //     decodeDetailsData = json.decode(response.body);
-  //     setState(() {
-  //       decodeDetails = decodeDetailsData['data'];
-  //     });
-
-  //     print(decodeDetails['data']);
-  //     print("47chapteritem");
-  //   });
-  // }
-
-  // searchApi() async {
-  //   Shared().shared().then((value) async {
-  //     // var userDetails = await value.getStringList('storeData');
-  //     // // setState(() {
-  //     // token = userDetails[5];
-  //     // print("$token" + "27linechapter");
-  //     // // });
-
-  //     // print(userDetails);
-
-  //     // print("28chapter");
-  //     // print(33);
-
-  //     var url = Uri.parse(
-  //         'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
-  //     //  var url = Uri.parse(
-  //     //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
-  //     var response = await http.get(url, headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'Authorization':
-  //           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwOTFmMWMzLTBkMGUtNGVmMy1iMDYyLWU3Y2JlMzBlN2Q3YyIsImlhdCI6MTYzNDg5NzMwNiwiZXhwIjoxNjM3NDg5MzA2fQ.K9aqwhG-4ZpHbZF_qrsJ0-unlC51jI6494asGwzyAuY',
-  //     });
-  //     decodeDetailsData = json.decode(response.body);
-  //     setState(() {
-  //       decodeDetails = decodeDetailsData['data'];
-  //     });
-
-  //     print(decodeDetails['data']);
-  //     print("47chapteritem");
-  //   });
-  //   // print('44');
-  //   // decodeDetails = json.decode(response.body);
-  //   // setState(() {});
-  //   // print(decodeDetails['data']);
-  // }
->>>>>>> 6bcc0aecd2505dd65c4ade11d921f4f6f2999664
 
   @override
   Widget build(BuildContext context) {
@@ -327,11 +316,10 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
     var height = MediaQuery.of(context).size.height;
     var status = MediaQuery.of(context).padding.top;
     return SafeArea(
-<<<<<<< HEAD
       child: decodeDetails == null
           ? Center(child: CircularProgressIndicator())
           : Container(
-              height: (decodeDetails.length - 1) < 2
+              height: (decodeDetails.length - 1) <= 2
                   ? ((height) * 0.3) / 2
                   : height * 0.3,
               width: width * 0.9,
@@ -342,59 +330,10 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                     // crossAxisCount: decodeDetails.length <= 2?1:2,
                     crossAxisCount: 2,
                     childAspectRatio: 1.5,
-=======
-      child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Container(
-            // color: Colors.blue,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-              image: AssetImage('assets/ProfilePage/mainbackground.png'),
-            )),
-            margin: EdgeInsets.only(
-              top: status,
-            ),
-            height: height,
-            width: width,
-            child: Column(
-              children: [
-                Container(
-                  height: height * 0.06,
-                  width: width * 0.9,
-                  child: TextFormField(
-                    textInputAction: TextInputAction.search,
-                    onFieldSubmitted: (value) {
-                      // searchApi();
-                    },
-                    controller: search,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: 'Search videos',
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          // searchApi();
-                        },
-                        child: Icon(
-                          Icons.search,
-                          color: Colors.red,
-                        ),
-                      ),
-                      // icon: Icon(Icons.search),
-                      hintStyle: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: 11, color: HexColor('#7B7777'))),
-                      // prefixIcon: icon,
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: Colors.grey.shade300)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: HexColor('#27DEBF'))),
-                    ),
->>>>>>> 6bcc0aecd2505dd65c4ade11d921f4f6f2999664
                   ),
                   itemBuilder: (context, index) {
+                    var s = youtubevideoId!
+                        .contains(decodeDetailsnew[index]['video_id']);
                     var you = YoutubePlayerController(
                       initialVideoId: YoutubePlayer.convertUrlToId(
                           decodeDetails[index]['link'])!,
@@ -422,7 +361,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => HomeScreenVideos(
+                                        builder: (context) => Secondscreen(
                                               Selectedsubjectname:
                                                   widget.standardsubject1,
                                             )));
@@ -463,8 +402,12 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                           child: Container(
                                             width: width * 0.17,
                                             height: height * 0.08,
-                                            child: YoutubePlayer(
-                                              controller: you,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: YoutubePlayer(
+                                                controller: you,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -476,12 +419,18 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     left: 50.0, top: 10.0),
-                                                child: Icon(
-                                                  Icons
-                                                      .favorite_outline_outlined,
-                                                  color: HexColor('#FF465C'),
-                                                  size: 15.0,
-                                                ),
+                                                child: InkWell(
+                                                    onTap: () {
+                                                      checking(
+                                                          link:
+                                                              decodeDetailsnew[
+                                                                      index]
+                                                                  ['video_id']);
+                                                    },
+                                                    child: Icon(Icons.favorite,
+                                                        color: s
+                                                            ? Colors.pink
+                                                            : Colors.grey)),
                                               ),
                                               Text(
                                                 decodeDetails[index]['subject']
@@ -509,5 +458,45 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                   }),
             ),
     );
+  }
+
+  checking({link}) async {
+    print('${link.runtimeType}');
+    if (link != null) {
+      final bool sV = youtubevideoId!.contains(link);
+      if (sV) {
+        setState(() {
+          print('wwwwwwwwwwwwwwwwwwwww,  inside if');
+
+          youtubevideoId!.remove(link);
+        });
+        await unlikevideo(link);
+      } else {
+        print('hhhhhhhhhhhhhhhhhhhhhhhhhh,  inside else');
+
+        setState(() {
+          youtubevideoId!.add(link);
+          print("Zzzzzzzzzzzzzzzzzzzzzzzz${youtubevideoId!.length}");
+        });
+        await likevideo(link);
+      }
+    } else
+      return;
+  }
+
+  likevideo(videoID) async {
+    var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/like');
+    var response = await http.post(url,
+        body: {'video_id': videoID.toString()},
+        headers: {'Authorization': token!});
+    print(response.body);
+  }
+
+  unlikevideo(videoId) async {
+    var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/dislike');
+    var response = await http.post(url,
+        body: {'video_id': videoId.toString()},
+        headers: {'Authorization': token!});
+    print(response.body);
   }
 }
