@@ -298,7 +298,6 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
 
   // @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     searchApi(widget.standardsubject1);
     getWishlist();
@@ -381,75 +380,71 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                             ))),
                                   )),
                             )
-                          : Expanded(
-                              child: Container(
-                                  height: (height) * 0.15,
-                                  width: width * 0.1,
-                                  child: Card(
-                                    color: HexColor('#FFFFFF'),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 5.0, right: 8.0),
-                                          child: Container(
-                                            width: width * 0.17,
-                                            height: height * 0.08,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              child: YoutubePlayer(
-                                                controller: you,
-                                              ),
-                                            ),
+                          : Container(
+                              height: (height) * 0.15,
+                              width: width * 0.1,
+                              child: Card(
+                                color: HexColor('#FFFFFF'),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5.0, right: 8.0),
+                                      child: Container(
+                                        width: width * 0.17,
+                                        height: height * 0.08,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          child: YoutubePlayer(
+                                            controller: you,
                                           ),
                                         ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 50.0, top: 10.0),
-                                                child: InkWell(
-                                                    onTap: () {
-                                                      checking(
-                                                          link:
-                                                              decodeDetailsnew[
-                                                                      index]
-                                                                  ['video_id']);
-                                                    },
-                                                    child: Icon(Icons.favorite,
-                                                        color: s
-                                                            ? Colors.pink
-                                                            : Colors.teal)),
-                                              ),
-                                              Text(
-                                                decodeDetails[index]['subject']
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: HexColor('#0A1C22')),
-                                              ),
-                                              Text(
-                                                decodeDetails[index]['lesson']
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 10,
-                                                    color: HexColor('#0A1C22')),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  )),
-                            ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 50.0, top: 10.0),
+                                            child: InkWell(
+                                                onTap: () {
+                                                  checking(
+                                                      link: decodeDetailsnew[
+                                                          index]['video_id']);
+                                                },
+                                                child: Icon(Icons.favorite,
+                                                    color: s
+                                                        ? Colors.pink
+                                                        : Colors.teal)),
+                                          ),
+                                          Text(
+                                            decodeDetails[index]['subject']
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                color: HexColor('#0A1C22')),
+                                          ),
+                                          Text(
+                                            decodeDetails[index]['lesson']
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 10,
+                                                color: HexColor('#0A1C22')),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )),
                     );
                   }),
             ),
