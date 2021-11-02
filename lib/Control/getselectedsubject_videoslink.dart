@@ -15,6 +15,7 @@ class GetSelectedsubjectsVideos extends ChangeNotifier {
       print(15);
       print("28chapter");
       print(33);
+      if (decodeDetails != null) decodeDetails.clear();
 
       selectedSubs = Selectedsubjectname.replaceAll(" ", "");
       var url = Uri.parse(

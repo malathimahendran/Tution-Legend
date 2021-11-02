@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:logger/logger.dart';
 import 'package:tutionmaster/ProfilePage/logout.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
@@ -16,6 +17,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final l = Logger();
   var userName,
       standard,
       email,
@@ -66,6 +68,7 @@ class _ProfileState extends State<Profile> {
   @override
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   Widget build(BuildContext context) {
+    // getUserName();
     // print(widget.indexnumber);
     print(43);
     Future<void> logOut() async {
@@ -172,11 +175,15 @@ class _ProfileState extends State<Profile> {
                       top: (height - status) * 0.07,
                       left: width * 0.9,
                       child: InkWell(
-                          onTap: () {
-                            Navigator.pushReplacement(
+                          onTap: () async {
+                            var hello = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ProfileEditPage()));
+                            if (hello != null) {
+                              l.w(hello);
+                              getUserName();
+                            }
                           },
                           child: Image.asset('assets/ProfilePage/edit.png'))),
                   Positioned(

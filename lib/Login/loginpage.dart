@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
 
   getToken() async {
     fcm_token = await FcmToken.gettingToken();
-    print(fcm_token);
+    print('line 83333333333333333333$fcm_token');
   }
 
   Future<void> initPlatformState() async {
@@ -107,38 +107,8 @@ class _LoginPageState extends State<LoginPage> {
       'device_id': finalDeviceId.toString(),
     }).then((value) async {
       var decodeDetails = json.decode(value.body);
-      print(decodeDetails);
-      print(66);
-      print(value.statusCode);
+
       var statuscode = value.statusCode;
-      print(statuscode);
-      user = decodeDetails['user'];
-      print(user);
-
-      // l.w(userName);
-      // l.w(storeemail);
-
-      // print('$standard,line 119 login page');
-      // l.w(phone);
-      // l.w(standard);
-      // l.w(token);
-
-      // List<String> details = [
-      //   userName,
-      //   email,
-      //   phone,
-      //   standard,
-      //   profileImage,
-      //   token
-      // ];
-      // Shared().shared().then((value) async {
-      //   var storeData = await value.setStringList('storeData', details);
-      //   print(storeData);
-      // });
-
-      print(user);
-      print(71);
-      print("154" + "$statuscode");
 
       if (statuscode == 200) {
         final snackBar = SnackBar(
@@ -174,20 +144,27 @@ class _LoginPageState extends State<LoginPage> {
       String storeemail = decodeDetails['user'][0]['email'].toString();
       String phone = decodeDetails['user'][0]['phone'].toString();
       String standard = decodeDetails['user'][0]['class'].toString();
-      var school = userDetails[0]['school'].toString();
-      var enrollmentNumber = userDetails[0]['enrollment_number'].toString();
-      var academicYear = userDetails[0]['academic_year'].toString();
+      String school = decodeDetails['user'][0]['school'].toString();
+      String enrollmentNumber =
+          decodeDetails['user'][0]['enrollment_number'].toString();
+      String academicYear =
+          decodeDetails['user'][0]['academic_year'].toString();
+
+      l.wtf(
+          "$token,$userName,$storeemail,$phone,$standard,$school,$enrollmentNumber,$academicYear,");
+
+      l.wtf('$token');
+
       storingAllDetails(
-          userName: userName,
-          storeemail: storeemail,
-          phone: phone,
-          standard: standard,
-          token: token,
-          school: school,
-          academicYear: academicYear,
-          enrollmentNumber: enrollmentNumber
-          // googleId:googleId,
-          );
+        userName: userName,
+        storeemail: storeemail,
+        phone: phone,
+        standard: standard,
+        token: token,
+        school: school,
+        academicYear: academicYear,
+        enrollmentNumber: enrollmentNumber,
+      );
     });
   }
 
@@ -242,6 +219,7 @@ class _LoginPageState extends State<LoginPage> {
     var academicYear = userDetails[0]['academic_year'].toString();
     l.i(userDetails[0]['profile_image'].toString());
     var token = decodeDetail['token'].toString();
+    print(token);
 
     storingAllDetails(
       userName: userName,

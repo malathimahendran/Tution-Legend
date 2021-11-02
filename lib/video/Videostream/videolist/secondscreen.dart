@@ -33,37 +33,41 @@ class _SecondscreenState extends State<Secondscreen> {
   }
 
   getWishlist() async {
-    var url =
-        Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
-    var response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw'
-    });
-    decodeDetailsData = json.decode(response.body);
-    print(decodeDetailsData);
-    l.i(decodeDetailsData);
-    for (var i in decodeDetailsData['result'])
-      youtubevideoId!.add(i['video_id']);
-    l.e(youtubevideoId);
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      token = userDetails[5];
+      print("$token" + "27linechapter");
+      var url =
+          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': token
+      });
+      decodeDetailsData = json.decode(response.body);
+      print(decodeDetailsData);
+      l.i(decodeDetailsData);
+      for (var i in decodeDetailsData['result'])
+        youtubevideoId!.add(i['video_id']);
+      l.e(youtubevideoId);
 
-    print(decodeDetails);
-    print("47chapteritem");
+      print(decodeDetails);
+      print("47chapteritem");
+    });
   }
 
   searchApi() async {
     Shared().shared().then((value) async {
-      // var userDetails = await value.getStringList('storeData');
-      // // setState(() {
-      // token = userDetails[5];
-      // print("$token" + "27linechapter");
-      // // });
+      var userDetails = await value.getStringList('storeData');
+      // setState(() {
+      token = userDetails[5];
+      print("$token" + "27linechapter");
+      // });
 
-      // print(userDetails);
+      print(userDetails);
 
-      // print("28chapter");
-      // print(33);
+      print("28chapter");
+      print(33);
 
       var url = Uri.parse(
           'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${widget.Selectedsubjectname}');
@@ -72,8 +76,7 @@ class _SecondscreenState extends State<Secondscreen> {
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization':
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwOTFmMWMzLTBkMGUtNGVmMy1iMDYyLWU3Y2JlMzBlN2Q3YyIsImlhdCI6MTYzNDg5NzMwNiwiZXhwIjoxNjM3NDg5MzA2fQ.K9aqwhG-4ZpHbZF_qrsJ0-unlC51jI6494asGwzyAuY',
+        'Authorization': token
       });
       decodeDetailsData = json.decode(response.body);
       setState(() {
@@ -159,136 +162,146 @@ class _SecondscreenState extends State<Secondscreen> {
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
-                      : ListView.builder(
-                          itemCount: decodeDetails.length,
-                          itemBuilder: (context, index) {
-                            // isList = apireceivedid
-                            //     .contains(decodeDetails[index]['video_id']);
-                            var s = youtubevideoId!
-                                .contains(decodeDetails[index]['video_id']);
-                            print('lllllllllllllllllllllll,  $s');
-                            var you = YoutubePlayerController(
-                              initialVideoId: YoutubePlayer.convertUrlToId(
-                                  decodeDetails[index]['link'])!,
-                              flags: const YoutubePlayerFlags(
-                                controlsVisibleAtStart: true,
-                                hideControls: true,
-                                autoPlay: false,
-                                isLive: false,
-                              ),
-                            );
-                            // print(decodeDetails[index]['link']);
-                            // print(youtubevideoId!.length);
-                            // print(109);
-                            return InkWell(
-                              // onTap: () {
-                              //   print(131);
-                              //   Navigator.push(
-                              //       context,
-                              //       MaterialPageRoute(
-                              //           builder: (context) => Play(
-                              //                 link: decodeDetails[index]
-                              //                     ['link'],
-                              //               )));
-                              // },
-                              child: Container(
-                                  height: (height) * 0.15,
-                                  width: width * 0.2,
-                                  // child: YoutubePlayer(
-                                  //   controller: you,
-                                  // ),
-                                  child: Card(
-                                    elevation: 10,
-                                    color: HexColor('#FFFFFF'),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    child: Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            width: width * 0.25,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              child: YoutubePlayer(
-                                                controller: you,
+                      : Container(
+                          height: (height),
+                          width: width * 0.97,
+                          child: ListView.builder(
+                              itemCount: decodeDetails.length,
+                              itemBuilder: (context, index) {
+                                // isList = apireceivedid
+                                //     .contains(decodeDetails[index]['video_id']);
+                                var s = youtubevideoId!
+                                    .contains(decodeDetails[index]['video_id']);
+                                print('lllllllllllllllllllllll,  $s');
+                                var you = YoutubePlayerController(
+                                  initialVideoId: YoutubePlayer.convertUrlToId(
+                                      decodeDetails[index]['link'])!,
+                                  flags: const YoutubePlayerFlags(
+                                    controlsVisibleAtStart: true,
+                                    hideControls: true,
+                                    autoPlay: false,
+                                    isLive: false,
+                                  ),
+                                );
+                                // print(decodeDetails[index]['link']);
+                                // print(youtubevideoId!.length);
+                                // print(109);
+                                return InkWell(
+                                  // onTap: () {
+                                  //   print(131);
+                                  //   Navigator.push(
+                                  //       context,
+                                  //       MaterialPageRoute(
+                                  //           builder: (context) => Play(
+                                  //                 link: decodeDetails[index]
+                                  //                     ['link'],
+                                  //               )));
+                                  // },
+                                  child: Container(
+                                      height: (height) * 0.12,
+                                      width: width * 0.8,
+                                      // child: YoutubePlayer(
+                                      //   controller: you,
+                                      // ),
+                                      child: Card(
+                                        elevation: 10,
+                                        color: HexColor('#FFFFFF'),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                        ),
+                                        child: Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                width: width * 0.2,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  child: YoutubePlayer(
+                                                    controller: you,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
+                                              // Image.asset('assets/Carousel/image1.png'),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 10),
+                                                child: Container(
+                                                    width: width * 0.58,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        // Text(decodeDetails['data'][index]
+                                                        //     ['link']),
+                                                        Text(
+                                                          decodeDetails[index]
+                                                                  ['subject']
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: HexColor(
+                                                                  '#0A1C22')),
+                                                        ),
+                                                        Text(
+                                                          decodeDetails[index]
+                                                                  ['lesson']
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              color: HexColor(
+                                                                  '#0A1C22')),
+                                                        ),
+                                                      ],
+                                                    )),
+                                              ),
+
+                                              InkWell(
+                                                  onTap: () {
+                                                    checking(
+                                                        link:
+                                                            decodeDetails[index]
+                                                                ['video_id']);
+                                                  },
+                                                  child: Icon(Icons.favorite,
+                                                      color: s
+                                                          ? Colors.pink
+                                                          : Colors.grey)),
+                                              // LikeButton(
+                                              //   // onTap: () {
+
+                                              //   circleColor: CircleColor(
+                                              //       start: Color(0xFFF44336),
+                                              //       end: Color(0xFFF44336)),
+                                              //   likeBuilder: (isLiked) {
+
+                                              //     return Icon(
+                                              //       Icons.favorite,
+                                              //       size: 30,
+                                              //       color: isLiked
+                                              //           ? Colors.pink
+                                              //           : Colors.teal,
+                                              //     );
+                                              //   },
+
+                                              // countBuilder: (){
+                                            ],
                                           ),
-                                          // Image.asset('assets/Carousel/image1.png'),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 10),
-                                            child: Container(
-                                                width: width * 0.58,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    // Text(decodeDetails['data'][index]
-                                                    //     ['link']),
-                                                    Text(
-                                                      decodeDetails[index]
-                                                              ['subject']
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: HexColor(
-                                                              '#0A1C22')),
-                                                    ),
-                                                    Text(
-                                                      decodeDetails[index]
-                                                              ['lesson']
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: HexColor(
-                                                              '#0A1C22')),
-                                                    ),
-                                                  ],
-                                                )),
-                                          ),
-
-                                          InkWell(
-                                              onTap: () {
-                                                checking(
-                                                    link: decodeDetails[index]
-                                                        ['video_id']);
-                                              },
-                                              child: Icon(Icons.favorite,
-                                                  color: s
-                                                      ? Colors.pink
-                                                      : Colors.teal)),
-                                          // LikeButton(
-                                          //   // onTap: () {
-
-                                          //   circleColor: CircleColor(
-                                          //       start: Color(0xFFF44336),
-                                          //       end: Color(0xFFF44336)),
-                                          //   likeBuilder: (isLiked) {
-
-                                          //     return Icon(
-                                          //       Icons.favorite,
-                                          //       size: 30,
-                                          //       color: isLiked
-                                          //           ? Colors.pink
-                                          //           : Colors.teal,
-                                          //     );
-                                          //   },
-
-                                          // countBuilder: (){
-                                        ],
-                                      ),
-                                    ),
-                                  )),
-                            );
-                          }),
+                                        ),
+                                      )),
+                                );
+                              }),
+                        ),
                 ),
                 SizedBox(
                   height: ((height - status)) * 0.02,
@@ -325,23 +338,17 @@ class _SecondscreenState extends State<Secondscreen> {
 
   likevideo(videoID) async {
     var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/like');
-    var response = await http.post(url, body: {
-      'video_id': videoID.toString()
-    }, headers: {
-      'Authorization':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw'
-    });
+    var response = await http.post(url,
+        body: {'video_id': videoID.toString()},
+        headers: {'Authorization': token!});
     print(response.body);
   }
 
   unlikevideo(videoId) async {
     var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/dislike');
-    var response = await http.post(url, body: {
-      'video_id': videoId.toString()
-    }, headers: {
-      'Authorization':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw'
-    });
+    var response = await http.post(url,
+        body: {'video_id': videoId.toString()},
+        headers: {'Authorization': token!});
     print(response.body);
   }
 }

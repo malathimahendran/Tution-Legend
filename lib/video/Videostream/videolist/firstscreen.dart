@@ -156,38 +156,41 @@ class _SearchvideoState extends State<Searchvideo> {
                   SizedBox(
                     height: ((height - status)) * 0.01,
                   ),
-                  Column(
-                    children: List.generate(GetSubjectList.subjectList.length,
-                        (index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Subjectnametext(
-                            standardsubject: GetSubjectList.subjectList[index],
-                          ),
-                          SizedBox(
-                            height: ((height - status)) * 0.01,
-                          ),
-                          // Consumer<GetSelectedsubjectsVideos>(
-                          // builder: (context, GetSelectedsubjectsVideos, _) {
+                  GetSubjectList.subjectList == null
+                      ? CircularProgressIndicator()
+                      : Column(
+                          children: List.generate(
+                              GetSubjectList.subjectList.length, (index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Subjectnametext(
+                                  standardsubject:
+                                      GetSubjectList.subjectList[index],
+                                ),
+                                SizedBox(
+                                  height: ((height - status)) * 0.01,
+                                ),
+                                // Consumer<GetSelectedsubjectsVideos>(
+                                // builder: (context, GetSelectedsubjectsVideos, _) {
 
-                          // widget.decodeDetails == null ?CircularProgressIndicator():
-                          // HomeScreenVideos( Selectedsubjectname: GetSubjectList.subjectList[index],),
-                          SubjectVideoslists(
-                              standardsubject1:
-                                  GetSubjectList.subjectList[index]),
-                          // }),
-                          SizedBox(
-                            height: ((height - status)) * 0.01,
-                          ),
-                        ],
-                      );
-                      //   // var standarsubject=Provider.of<GetSubjectList>(context, listen: true).subjectList[index];
-                      //   // var decodeDetails=Provider.of<GetSelectedsubjectsVideos>(context, listen: true).finaldecodelist[index];
-                      // return SubjectVideosListWidget(standardsubject: Provider.of<GetSubjectList>(context, listen: true).subjectList[index] , decodeDetails:  Provider.of<GetSelectedsubjectsVideos>(context, listen: true).finaldecodelist[index] , );
-                    }),
-                  )
+                                // widget.decodeDetails == null ?CircularProgressIndicator():
+                                // HomeScreenVideos( Selectedsubjectname: GetSubjectList.subjectList[index],),
+                                SubjectVideoslists(
+                                    standardsubject1:
+                                        GetSubjectList.subjectList[index]),
+                                // }),
+                                SizedBox(
+                                  height: ((height - status)) * 0.01,
+                                ),
+                              ],
+                            );
+                            //   // var standarsubject=Provider.of<GetSubjectList>(context, listen: true).subjectList[index];
+                            //   // var decodeDetails=Provider.of<GetSelectedsubjectsVideos>(context, listen: true).finaldecodelist[index];
+                            // return SubjectVideosListWidget(standardsubject: Provider.of<GetSubjectList>(context, listen: true).subjectList[index] , decodeDetails:  Provider.of<GetSelectedsubjectsVideos>(context, listen: true).finaldecodelist[index] , );
+                          }),
+                        )
                 ],
               ),
             ),
@@ -273,27 +276,31 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
   }
 
   getWishlist() async {
-    var url =
-        Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
-    var response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw'
-    });
-    decodeDetailsData = json.decode(response.body);
-    print(decodeDetailsData);
-    l.i(decodeDetailsData);
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      token = userDetails[5];
+      print("$token" + "27linechapter");
+      var url =
+          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': '$token'
+      });
+      decodeDetailsData = json.decode(response.body);
+      print(decodeDetailsData);
+      l.i(decodeDetailsData);
 
-    for (var i in decodeDetailsData['result'])
-      youtubevideoId!.add(i['video_id']);
-    l.e(youtubevideoId);
-    setState(() {
-      wishlistDetails = decodeDetailsData['result'];
-    });
+      for (var i in decodeDetailsData['result'])
+        youtubevideoId!.add(i['video_id']);
+      l.e(youtubevideoId);
+      setState(() {
+        wishlistDetails = decodeDetailsData['result'];
+      });
 
-    print(decodeDetails);
-    print("47chapteritem");
+      print(decodeDetails);
+      print("47chapteritem");
+    });
   }
 
   // @override
@@ -422,7 +429,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                                 child: Icon(Icons.favorite,
                                                     color: s
                                                         ? Colors.pink
-                                                        : Colors.teal)),
+                                                        : Colors.grey)),
                                           ),
                                           Text(
                                             decodeDetails[index]['subject']
@@ -477,23 +484,17 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
 
   likevideo(videoID) async {
     var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/like');
-    var response = await http.post(url, body: {
-      'video_id': videoID.toString()
-    }, headers: {
-      'Authorization':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw'
-    });
+    var response = await http.post(url,
+        body: {'video_id': videoID.toString()},
+        headers: {'Authorization': token!});
     print(response.body);
   }
 
   unlikevideo(videoId) async {
     var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/dislike');
-    var response = await http.post(url, body: {
-      'video_id': videoId.toString()
-    }, headers: {
-      'Authorization':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw'
-    });
+    var response = await http.post(url,
+        body: {'video_id': videoId.toString()},
+        headers: {'Authorization': token!});
     print(response.body);
   }
 }

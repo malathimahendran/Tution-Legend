@@ -22,6 +22,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   final FocusNode heightFocus = FocusNode();
+  TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
@@ -88,19 +89,19 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                   height: (height - (2 * status)) * 0.02,
                 ),
                 CustomExpandedWithTextAndFormField(
-                  height: height,
-                  status: status,
-                  width: width,
-                  userName: userName,
-                  enrollmentNumber: enrollmentNumber,
-                  grade: grade,
-                  schoolName: schoolName,
-                  academicYear: academicYear,
-                  contactNumber: contactNumber,
-                  email: email,
-                  password: password,
-                  heightFocus: heightFocus,
-                ),
+                    height: height,
+                    status: status,
+                    width: width,
+                    userName: userName,
+                    enrollmentNumber: enrollmentNumber,
+                    grade: grade,
+                    schoolName: schoolName,
+                    academicYear: academicYear,
+                    contactNumber: contactNumber,
+                    email: email,
+                    password: password,
+                    heightFocus: heightFocus,
+                    keyboardType: keyboardType),
               ],
             ),
           ),
