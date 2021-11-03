@@ -206,9 +206,9 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                             InkWell(
                                                 onTap: () {
                                                   checking(
-                                                      link:
-                                                          wishlistDetails[index]
-                                                              ['video_id']);
+                                                      link: GetSelectedsubjectsVideos
+                                                              .decodeDetails[
+                                                          index]['video_id']);
                                                 },
                                                 child: Icon(Icons.favorite,
                                                     color: s
