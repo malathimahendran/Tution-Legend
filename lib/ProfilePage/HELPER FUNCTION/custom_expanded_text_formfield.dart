@@ -139,7 +139,6 @@ class _CustomExpandedWithTextAndFormFieldState
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      Navigator.pop(context, 'helo');
     } else {
       final snackBar = SnackBar(
         backgroundColor: Colors.red,
