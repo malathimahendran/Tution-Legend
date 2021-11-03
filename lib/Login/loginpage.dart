@@ -446,7 +446,7 @@ class _LoginPageState extends State<LoginPage> {
                               Text("Don't have an account?"),
                               InkWell(
                                 onTap: () {
-                                  Navigator.pushNamed(
+                                  Navigator.popAndPushNamed(
                                       context, AllRouteNames.registerpage,
                                       arguments: ArgumentPass(
                                         deviceId: finalDeviceId,

@@ -4,6 +4,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:logger/logger.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/HomePage/second.dart';
 import 'package:tutionmaster/HomePage/third.dart';
@@ -12,10 +13,8 @@ import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
 import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
-
 import 'package:tutionmaster/video/Videostream/videolist/firstscreen.dart';
 import 'package:tutionmaster/video/Videostream/videolist/video_wishlist.dart';
-
 import 'package:tutionmaster/view/navigation_button.dart';
 
 import 'first.dart';
@@ -23,7 +22,7 @@ import 'fourth.dart';
 
 class HomeScreen extends StatefulWidget {
   static var scaffoldkey1 = GlobalKey<ScaffoldState>();
-
+  static int page = 0;
   bool searchindex;
   HomeScreen(this.searchindex);
 
@@ -41,6 +40,7 @@ class IconAndText {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
+  final l = Logger();
   List<IconAndText> iconAndText = [
     IconAndText(icon: Icons.home, text: 'Home', index: 0),
     IconAndText(icon: Icons.home, text: 'Home', index: 1),
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen>
   String? userName;
   var storeUserName, userEmail, profileImage, userMobileNo, enrollmentNumber;
 //  Stri userDetails = [];
-  int _page = 0;
+
   List<Widget> pages = [
     HomeTestScreen(),
     Searchvideo(),
@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     if (widget.searchindex == true) {
-      _page = 1;
+      HomeScreen.page = 1;
     }
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -303,10 +303,11 @@ class _HomeScreenState extends State<HomeScreen>
               children: List.generate(iconlist.length, (index) {
                 return InkWell(
                   onTap: () {
-                    // widget.searchindex = false;
+                    l.w(HomeScreen.page);
                     setState(() {
-                      _page = index;
+                      HomeScreen.page = index;
                     });
+                    l.w(HomeScreen.page);
                   },
                   child: Padding(
                     padding: EdgeInsets.only(top: 38.0),
@@ -325,12 +326,12 @@ class _HomeScreenState extends State<HomeScreen>
                         children: [
                           CircleAvatar(
                               radius: 20.0,
-                              backgroundColor: _page == index
+                              backgroundColor: HomeScreen.page == index
                                   ? Colors.white
                                   : Colors.transparent,
                               child: Icon(
                                 iconlist[index],
-                                color: _page == index
+                                color: HomeScreen.page == index
                                     ? HexColor('#243665')
                                     : Colors.white,
                                 size: 22,
@@ -351,31 +352,31 @@ class _HomeScreenState extends State<HomeScreen>
           // CurvedNavigationBar(
           //   height: 60.0,
           //   // key: _bottomNavigationKey,
-          //   index: _page,
+          //   index: HomeScreen.page,
           //   items: <Widget>[
           //     NavigationBar(
           //       navigationbaricon: Icons.home,
           //       navigationbariconname: 'Home',
           //       iconIndex: 0,
-          //       pageIndex: _page,
+          //       pageIndex: HomeScreen.page,
           //     ),
           //     NavigationBar(
           //       navigationbaricon: Icons.video_collection,
           //       navigationbariconname: 'Videos',
           //       iconIndex: 1,
-          //       pageIndex: _page,
+          //       pageIndex: HomeScreen.page,
           //     ),
           //     NavigationBar(
           //       navigationbaricon: Icons.favorite,
           //       navigationbariconname: 'Wishlist',
           //       iconIndex: 2,
-          //       pageIndex: _page,
+          //       pageIndex: HomeScreen.page,
           //     ),
           //     NavigationBar(
           //       navigationbaricon: Icons.account_circle,
           //       navigationbariconname: 'Profile',
           //       iconIndex: 3,
-          //       pageIndex: _page,
+          //       pageIndex: HomeScreen.page,
           //     ),
           //   ],
           //   color: HexColor('#FF465C'),
@@ -385,13 +386,13 @@ class _HomeScreenState extends State<HomeScreen>
           //   animationDuration: Duration(milliseconds: 500),
           //   onTap: (index) {
           //     setState(() {
-          //       _page = index;
+          //       HomeScreen.page = index;
           //     });
           //   },
           //   letIndexChange: (index) => true,
           // ),
           // body:  HomeTestScreen(),
-          body: pages[_page],
+          body: pages[HomeScreen.page],
         ),
       ),
     );

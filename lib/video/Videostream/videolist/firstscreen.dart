@@ -38,6 +38,41 @@ class _SearchvideoState extends State<Searchvideo> {
     print('ammuammuammuammmu2222222');
   }
 
+  searchApi() async {
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      // setState(() {
+      token = userDetails[5];
+      print("$token" + "27linechapter");
+    });
+
+    print("28chapter");
+    print(33);
+
+    var url = Uri.parse(
+        'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
+    //  var url = Uri.parse(
+    //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
+    var response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization':
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwOTFmMWMzLTBkMGUtNGVmMy1iMDYyLWU3Y2JlMzBlN2Q3YyIsImlhdCI6MTYzNDg5NzMwNiwiZXhwIjoxNjM3NDg5MzA2fQ.K9aqwhG-4ZpHbZF_qrsJ0-unlC51jI6494asGwzyAuY',
+    });
+    decodeDetailsData = json.decode(response.body);
+    setState(() {
+      decodeDetails = decodeDetailsData['data'];
+    });
+
+    print(decodeDetails['data']);
+    print("47chapteritem");
+
+    // print('44');
+    // decodeDetails = json.decode(response.body);
+    // setState(() {});
+    // print(decodeDetails['data']);
+  }
+
   getUserSubjects() {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
@@ -91,7 +126,7 @@ class _SearchvideoState extends State<Searchvideo> {
                           hintText: 'Search videos',
                           suffixIcon: InkWell(
                             onTap: () {
-                              // searchApi();
+                              searchApi();
                             },
                             child: Icon(
                               Icons.search,
