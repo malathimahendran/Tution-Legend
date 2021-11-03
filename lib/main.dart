@@ -2,8 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:tutionmaster/Control/getdata.dart';
+
 import 'package:tutionmaster/HomePage/homescreen.dart';
+import 'package:tutionmaster/ProfilePage/HELPER%20FUNCTION/provider_for_edit_page.dart';
 import 'package:tutionmaster/SplashScreen/splashscreen.dart';
 import 'package:tutionmaster/TESTING%20ONLY/test_one.dart';
 
@@ -15,6 +16,8 @@ import 'ProfilePage/profilepage.dart';
 import 'Register/register.dart';
 import 'Slider/carosalSlider.dart';
 import 'StartingLearningPage/startlearning.dart';
+import 'TESTING ONLY/subject_videos.dart';
+import 'TESTING ONLY/video_testing.dart';
 import 'chapteritem.dart';
 
 // void main() {
@@ -35,14 +38,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider.value(value: GetSubjectList())],
+      providers: [
+        ChangeNotifierProvider.value(value: GetSubjectList()),
+        ChangeNotifierProvider.value(value: GetSelectedsubjectsVideos()),
+        ChangeNotifierProvider(create: (context) {
+          return ProviderFunction();
+        })
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        // home: Chapteritem(),
+        // home: TestOne(),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
         // routes: {

@@ -77,10 +77,12 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                         textStyle: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 17)),
                   ),
-
                   InkWell(
-                      onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>Chapteritem()));
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Chapteritem()));
                       },
                       child: Icon(Icons.search))
                 ],

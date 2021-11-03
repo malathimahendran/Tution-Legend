@@ -17,8 +17,10 @@ class Chapteritem extends StatefulWidget {
 }
 
 class _ChapteritemState extends State<Chapteritem> {
+  String token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw";
   var search = TextEditingController();
-  var decodeDetails, token, decodeDetailsData;
+  var decodeDetails, decodeDetailsData;
   searchApi() async {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');

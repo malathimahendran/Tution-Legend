@@ -514,6 +514,7 @@ class Textfield extends StatelessWidget {
         // minLines: null,
 
         controller: controller,
+
         decoration: InputDecoration(
             hintText: hintText,
             hintStyle: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 12)),

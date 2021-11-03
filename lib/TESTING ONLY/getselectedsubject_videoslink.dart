@@ -6,7 +6,7 @@ import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 class GetSubjectList extends ChangeNotifier {
-  var subjectList;
+  List subjectList = [];
   List subjectListData = [];
 
   getSubjectListApi(String standardclass) async {
@@ -16,16 +16,21 @@ class GetSubjectList extends ChangeNotifier {
     var subjectResponse = await http.get(Uri.parse(url));
     var decodeDetails = json.decode(subjectResponse.body);
     print('$decodeDetails , line 18');
+    subjectList.clear();
     subjectListData.clear();
-    subjectListData = ['Recent', '   All   '];
     for (int i = 0; i < decodeDetails['data'].length; i++) {
       print('$i,line 20');
       subjectListData.add(decodeDetails['data'][i]['subject']);
     }
-
     subjectList = subjectListData;
-    print('$subjectList , line 25');
+    print('$subjectList , line 25 anna');
 
     notifyListeners();
+
+    print(subjectListData);
+    print('hiiii');
+    // setState(() {
+    //   subjectList = subjectListdata;
+    // });
   }
 }

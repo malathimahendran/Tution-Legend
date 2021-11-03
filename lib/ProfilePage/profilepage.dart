@@ -6,6 +6,8 @@ import 'package:tutionmaster/ProfilePage/logout.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
 
+import 'profile_edit_page.dart';
+
 class Profile extends StatefulWidget {
   @override
   _ProfileState createState() => _ProfileState();
@@ -114,7 +116,14 @@ class _ProfileState extends State<Profile> {
                   Positioned(
                       top: (height - status) * 0.07,
                       left: width * 0.9,
-                      child: Image.asset('assets/ProfilePage/edit.png')),
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfileEditPage()));
+                          },
+                          child: Image.asset('assets/ProfilePage/edit.png'))),
                   Positioned(
                     top: (height - status) * 0.10,
                     left: width * 0.05,

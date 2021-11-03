@@ -9,6 +9,7 @@ import 'package:tutionmaster/Login/loginpage.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
 import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
+import 'package:tutionmaster/TESTING%20ONLY/video_testing.dart';
 import 'package:tutionmaster/chapteritem.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
 
@@ -45,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen>
   int _page = 0;
   List<Widget> pages = [
     HomeTestScreen(),
-    Chapteritem(),
+    Searchvideo(),
     Chapteritem(),
     Profile(),
   ];
