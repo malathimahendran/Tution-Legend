@@ -158,7 +158,6 @@ class _VideowishlistState extends State<Videowishlist> {
                                   //   print(131);
                                   //   Navigator.push(
                                   //       context,
-                                  //       MaterialPageRoute(
                                   //           builder: (context) => Play(
                                   //                 link: wishlistDetails[index]
                                   //                     ['link'],

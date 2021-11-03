@@ -314,7 +314,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
   @override
   Widget build(BuildContext context) {
     print(widget.standardsubject1);
-    print('maaalaaathiiiiiiii');
+
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     var status = MediaQuery.of(context).padding.top;
