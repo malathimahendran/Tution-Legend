@@ -6,7 +6,6 @@ import 'package:logger/logger.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:http/http.dart' as http;
-
 import '../../../play.dart';
 
 class Videowishlist extends StatefulWidget {
