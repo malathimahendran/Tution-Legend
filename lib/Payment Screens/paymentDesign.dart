@@ -89,9 +89,9 @@ class _PaymentDesignState extends State<PaymentDesign> {
         'Accept': 'application/json',
         'Authorization': token,
       });
+      decodeDetailsData = json.decode(response.body);
+      print(decodeDetailsData);
       setState(() {
-        decodeDetailsData = json.decode(response.body);
-        print(decodeDetailsData);
         result = decodeDetailsData['result'];
         print(result);
       });
@@ -167,7 +167,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
                               ),
                             ),
                             Text(
-                              'Payment                           ',
+                              'Payment                     ',
                               style: TextStyle(
                                   color: HexColor('#F9F9F9'), fontSize: 20),
                             ),
