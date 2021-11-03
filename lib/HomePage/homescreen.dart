@@ -348,50 +348,6 @@ class _HomeScreenState extends State<HomeScreen>
               }),
             ),
           ),
-
-          // CurvedNavigationBar(
-          //   height: 60.0,
-          //   // key: _bottomNavigationKey,
-          //   index: HomeScreen.page,
-          //   items: <Widget>[
-          //     NavigationBar(
-          //       navigationbaricon: Icons.home,
-          //       navigationbariconname: 'Home',
-          //       iconIndex: 0,
-          //       pageIndex: HomeScreen.page,
-          //     ),
-          //     NavigationBar(
-          //       navigationbaricon: Icons.video_collection,
-          //       navigationbariconname: 'Videos',
-          //       iconIndex: 1,
-          //       pageIndex: HomeScreen.page,
-          //     ),
-          //     NavigationBar(
-          //       navigationbaricon: Icons.favorite,
-          //       navigationbariconname: 'Wishlist',
-          //       iconIndex: 2,
-          //       pageIndex: HomeScreen.page,
-          //     ),
-          //     NavigationBar(
-          //       navigationbaricon: Icons.account_circle,
-          //       navigationbariconname: 'Profile',
-          //       iconIndex: 3,
-          //       pageIndex: HomeScreen.page,
-          //     ),
-          //   ],
-          //   color: HexColor('#FF465C'),
-          //   buttonBackgroundColor: HexColor('#FF465C'),
-          //   backgroundColor: Colors.white,
-          //   animationCurve: Curves.easeInOut,
-          //   animationDuration: Duration(milliseconds: 500),
-          //   onTap: (index) {
-          //     setState(() {
-          //       HomeScreen.page = index;
-          //     });
-          //   },
-          //   letIndexChange: (index) => true,
-          // ),
-          // body:  HomeTestScreen(),
           body: pages[HomeScreen.page],
         ),
       ),
