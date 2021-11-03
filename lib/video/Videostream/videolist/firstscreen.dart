@@ -35,7 +35,6 @@ class _SearchvideoState extends State<Searchvideo> {
   void initState() {
     super.initState();
     getUserSubjects();
-    print('ammuammuammuammmu2222222');
   }
 
   getUserSubjects() {
@@ -46,7 +45,6 @@ class _SearchvideoState extends State<Searchvideo> {
       print('nivetha');
       Provider.of<GetSubjectList>(context, listen: false)
           .getSubjectListApi(standardclass);
-      print('papapapapapapapapapa');
     });
   }
 
@@ -54,7 +52,6 @@ class _SearchvideoState extends State<Searchvideo> {
   // var standarsubject;
   @override
   Widget build(BuildContext context) {
-    print('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     var status = MediaQuery.of(context).padding.top;
@@ -305,7 +302,6 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
 
   // @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     searchApi(widget.standardsubject1);
     getWishlist();

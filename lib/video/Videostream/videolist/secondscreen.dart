@@ -162,136 +162,146 @@ class _SecondscreenState extends State<Secondscreen> {
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
-                      : ListView.builder(
-                          itemCount: decodeDetails.length,
-                          itemBuilder: (context, index) {
-                            // isList = apireceivedid
-                            //     .contains(decodeDetails[index]['video_id']);
-                            var s = youtubevideoId!
-                                .contains(decodeDetails[index]['video_id']);
-                            print('lllllllllllllllllllllll,  $s');
-                            var you = YoutubePlayerController(
-                              initialVideoId: YoutubePlayer.convertUrlToId(
-                                  decodeDetails[index]['link'])!,
-                              flags: const YoutubePlayerFlags(
-                                controlsVisibleAtStart: true,
-                                hideControls: true,
-                                autoPlay: false,
-                                isLive: false,
-                              ),
-                            );
-                            // print(decodeDetails[index]['link']);
-                            // print(youtubevideoId!.length);
-                            // print(109);
-                            return InkWell(
-                              // onTap: () {
-                              //   print(131);
-                              //   Navigator.push(
-                              //       context,
-                              //       MaterialPageRoute(
-                              //           builder: (context) => Play(
-                              //                 link: decodeDetails[index]
-                              //                     ['link'],
-                              //               )));
-                              // },
-                              child: Container(
-                                  height: (height) * 0.15,
-                                  width: width * 0.2,
-                                  // child: YoutubePlayer(
-                                  //   controller: you,
-                                  // ),
-                                  child: Card(
-                                    elevation: 10,
-                                    color: HexColor('#FFFFFF'),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    child: Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            width: width * 0.25,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              child: YoutubePlayer(
-                                                controller: you,
+                      : Container(
+                          height: (height),
+                          width: width * 0.97,
+                          child: ListView.builder(
+                              itemCount: decodeDetails.length,
+                              itemBuilder: (context, index) {
+                                // isList = apireceivedid
+                                //     .contains(decodeDetails[index]['video_id']);
+                                var s = youtubevideoId!
+                                    .contains(decodeDetails[index]['video_id']);
+                                print('lllllllllllllllllllllll,  $s');
+                                var you = YoutubePlayerController(
+                                  initialVideoId: YoutubePlayer.convertUrlToId(
+                                      decodeDetails[index]['link'])!,
+                                  flags: const YoutubePlayerFlags(
+                                    controlsVisibleAtStart: true,
+                                    hideControls: true,
+                                    autoPlay: false,
+                                    isLive: false,
+                                  ),
+                                );
+                                // print(decodeDetails[index]['link']);
+                                // print(youtubevideoId!.length);
+                                // print(109);
+                                return InkWell(
+                                  // onTap: () {
+                                  //   print(131);
+                                  //   Navigator.push(
+                                  //       context,
+                                  //       MaterialPageRoute(
+                                  //           builder: (context) => Play(
+                                  //                 link: decodeDetails[index]
+                                  //                     ['link'],
+                                  //               )));
+                                  // },
+                                  child: Container(
+                                      height: (height) * 0.12,
+                                      width: width * 0.8,
+                                      // child: YoutubePlayer(
+                                      //   controller: you,
+                                      // ),
+                                      child: Card(
+                                        elevation: 10,
+                                        color: HexColor('#FFFFFF'),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                        ),
+                                        child: Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                width: width * 0.2,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  child: YoutubePlayer(
+                                                    controller: you,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
+                                              // Image.asset('assets/Carousel/image1.png'),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 10),
+                                                child: Container(
+                                                    width: width * 0.58,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        // Text(decodeDetails['data'][index]
+                                                        //     ['link']),
+                                                        Text(
+                                                          decodeDetails[index]
+                                                                  ['subject']
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: HexColor(
+                                                                  '#0A1C22')),
+                                                        ),
+                                                        Text(
+                                                          decodeDetails[index]
+                                                                  ['lesson']
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              color: HexColor(
+                                                                  '#0A1C22')),
+                                                        ),
+                                                      ],
+                                                    )),
+                                              ),
+
+                                              InkWell(
+                                                  onTap: () {
+                                                    checking(
+                                                        link:
+                                                            decodeDetails[index]
+                                                                ['video_id']);
+                                                  },
+                                                  child: Icon(Icons.favorite,
+                                                      color: s
+                                                          ? Colors.pink
+                                                          : Colors.grey)),
+                                              // LikeButton(
+                                              //   // onTap: () {
+
+                                              //   circleColor: CircleColor(
+                                              //       start: Color(0xFFF44336),
+                                              //       end: Color(0xFFF44336)),
+                                              //   likeBuilder: (isLiked) {
+
+                                              //     return Icon(
+                                              //       Icons.favorite,
+                                              //       size: 30,
+                                              //       color: isLiked
+                                              //           ? Colors.pink
+                                              //           : Colors.teal,
+                                              //     );
+                                              //   },
+
+                                              // countBuilder: (){
+                                            ],
                                           ),
-                                          // Image.asset('assets/Carousel/image1.png'),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 10),
-                                            child: Container(
-                                                width: width * 0.58,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    // Text(decodeDetails['data'][index]
-                                                    //     ['link']),
-                                                    Text(
-                                                      decodeDetails[index]
-                                                              ['subject']
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: HexColor(
-                                                              '#0A1C22')),
-                                                    ),
-                                                    Text(
-                                                      decodeDetails[index]
-                                                              ['lesson']
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: HexColor(
-                                                              '#0A1C22')),
-                                                    ),
-                                                  ],
-                                                )),
-                                          ),
-
-                                          InkWell(
-                                              onTap: () {
-                                                checking(
-                                                    link: decodeDetails[index]
-                                                        ['video_id']);
-                                              },
-                                              child: Icon(Icons.favorite,
-                                                  color: s
-                                                      ? Colors.pink
-                                                      : Colors.grey)),
-                                          // LikeButton(
-                                          //   // onTap: () {
-
-                                          //   circleColor: CircleColor(
-                                          //       start: Color(0xFFF44336),
-                                          //       end: Color(0xFFF44336)),
-                                          //   likeBuilder: (isLiked) {
-
-                                          //     return Icon(
-                                          //       Icons.favorite,
-                                          //       size: 30,
-                                          //       color: isLiked
-                                          //           ? Colors.pink
-                                          //           : Colors.teal,
-                                          //     );
-                                          //   },
-
-                                          // countBuilder: (){
-                                        ],
-                                      ),
-                                    ),
-                                  )),
-                            );
-                          }),
+                                        ),
+                                      )),
+                                );
+                              }),
+                        ),
                 ),
                 SizedBox(
                   height: ((height - status)) * 0.02,
