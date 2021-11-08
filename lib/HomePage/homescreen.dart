@@ -1,24 +1,16 @@
-import 'dart:io';
-
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
-import 'package:tutionmaster/HomePage/second.dart';
-import 'package:tutionmaster/HomePage/third.dart';
-import 'package:tutionmaster/Login/loginpage.dart';
+
 import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
-import 'package:tutionmaster/Register/register.dart';
+
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/video/Videostream/videolist/firstscreen.dart';
 import 'package:tutionmaster/video/Videostream/videolist/video_wishlist.dart';
-import 'package:tutionmaster/view/navigation_button.dart';
-
-import 'first.dart';
-import 'fourth.dart';
 
 class HomeScreen extends StatefulWidget {
   static var scaffoldkey1 = GlobalKey<ScaffoldState>();
@@ -53,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen>
   var k;
   String? userName;
   var storeUserName, userEmail, profileImage, userMobileNo, enrollmentNumber;
-//  Stri userDetails = [];
 
   List<Widget> pages = [
     HomeTestScreen(),
@@ -93,11 +84,6 @@ class _HomeScreenState extends State<HomeScreen>
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
-
-    // return WillPopScope(
-    // onWillPop: () {
-    //   return Future.value(true);
-    // },
     return SafeArea(
       child: Scaffold(
         key: HomeScreen.scaffoldkey1,
@@ -109,14 +95,11 @@ class _HomeScreenState extends State<HomeScreen>
               child: Column(children: [
             Container(
               color: HexColor('#009688'),
-              // width: width * 0.9,
               height: height * 0.2,
               child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
                     padding: EdgeInsets.only(left: 10),
-                    // color: Colors.green,
                     child: profileImage == null || profileImage == ""
                         ? Container(
                             height: (height - status) * 0.08,
@@ -345,53 +328,8 @@ class _HomeScreenState extends State<HomeScreen>
             }),
           ),
         ),
-
-        // CurvedNavigationBar(
-        //   height: 60.0,
-        //   // key: _bottomNavigationKey,
-        //   index: page,
-        //   items: <Widget>[
-        //     NavigationBar(
-        //       navigationbaricon: Icons.home,
-        //       navigationbariconname: 'Home',
-        //       iconIndex: 0,
-        //       pageIndex: page,
-        //     ),
-        //     NavigationBar(
-        //       navigationbaricon: Icons.video_collection,
-        //       navigationbariconname: 'Videos',
-        //       iconIndex: 1,
-        //       pageIndex: page,
-        //     ),
-        //     NavigationBar(
-        //       navigationbaricon: Icons.favorite,
-        //       navigationbariconname: 'Wishlist',
-        //       iconIndex: 2,
-        //       pageIndex: page,
-        //     ),
-        //     NavigationBar(
-        //       navigationbaricon: Icons.account_circle,
-        //       navigationbariconname: 'Profile',
-        //       iconIndex: 3,
-        //       pageIndex: page,
-        //     ),
-        //   ],
-        //   color: HexColor('#FF465C'),
-        //   buttonBackgroundColor: HexColor('#FF465C'),
-        //   backgroundColor: Colors.white,
-        //   animationCurve: Curves.easeInOut,
-        //   animationDuration: Duration(milliseconds: 500),
-        //   onTap: (index) {
-        //     setState(() {
-        //       page = index;
-        //     });
-        //   },
-        //   letIndexChange: (index) => true,
-        // ),
-        // body:  HomeTestScreen(),
         body: pages[_page],
       ),
-      // ),
     );
   }
 }

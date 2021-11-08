@@ -28,7 +28,8 @@ class _ProfileState extends State<Profile> {
       profileImage,
       enrollmentNumber,
       school,
-      academicYear;
+      academicYear,
+      googleId;
   var imageFile;
   void initState() {
     super.initState();
@@ -82,12 +83,14 @@ class _ProfileState extends State<Profile> {
         enrollmentNumber = userDetails[7];
         school = userDetails[8];
         academicYear = userDetails[9];
+        googleId = userDetails[6];
         print('$profileImage,32lineprofile');
         print(userName);
       });
-
+      print("$googleId,line 90 profilePage ");
       print(userDetails);
       print(28);
+      l.wtf(googleId);
     });
   }
 
@@ -400,59 +403,63 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-              Container(
-                height: (height - status) * 0.12,
-                width: width * 0.9,
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  color: HexColor('#FFFFFF'),
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 10, left: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: Text(
-                            'Password',
-                            style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    color: HexColor('#B91124'), fontSize: 13)),
-                          ),
+              googleId == "" || googleId == null
+                  ? Container(
+                      height: (height - status) * 0.12,
+                      width: width * 0.9,
+                      child: Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        Container(
-                          child: Row(
+                        color: HexColor('#FFFFFF'),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 10, left: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Icon(
-                                Icons.lock,
-                                color: HexColor('#023129'),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 5),
+                              Container(
                                 child: Text(
-                                  '',
-                                  style: TextStyle(
-                                      color: HexColor('#023129'), fontSize: 30),
+                                  'Password',
+                                  style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                          color: HexColor('#B91124'),
+                                          fontSize: 13)),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 240),
-                                child: Icon(
-                                  Icons.remove_red_eye,
-                                  color: HexColor('#023129'),
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.lock,
+                                      color: HexColor('#023129'),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        '',
+                                        style: TextStyle(
+                                            color: HexColor('#023129'),
+                                            fontSize: 30),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 240),
+                                      child: Icon(
+                                        Icons.remove_red_eye,
+                                        color: HexColor('#023129'),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
+                              )
                             ],
                           ),
-                        )
-                      ],
-                    ),
-                    //
-                  ),
-                ),
-              ),
+                          //
+                        ),
+                      ),
+                    )
+                  : Container(),
               Container(
                 height: (height - status) * 0.11,
                 width: width * 0.9,

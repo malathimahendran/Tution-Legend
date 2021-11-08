@@ -229,10 +229,11 @@ class _PaymentDesignState extends State<PaymentDesign> {
                       width: width,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
+                        semanticChildCount: 1,
                         itemCount: result.length,
                         itemBuilder: (context, index) {
                           return Container(
-                            width: width * 0.9,
+                            width: width,
                             child: Card(
                                 elevation: 5,
                                 shape: RoundedRectangleBorder(
