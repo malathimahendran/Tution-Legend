@@ -132,56 +132,11 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                             color: Colors.black)),
                   ),
                 ),
-                // SingleChildScrollView(
-                //    scrollDirection: Axis.horizontal,
-                //    child: GetSubjectList.subjectList == null
-                //        ? CircularProgressIndicator()
-                //        : Row(
-                //            children: List.generate(
-                //                GetSubjectList.subjectList.length, (index) {
-                //              return InkWell(
-                //                onTap: () {
-                //                  selectedSubject= GetSubjectList.subjectList[index];
-                //                  setState(() {
-                //                     selectedIndex = index;
-                //                  });
-                //                  print(selectedSubject);
-                //                },
-                //                child: Padding(
-                //                  padding: const EdgeInsets.all(10.0),
-                //                  child: Container(
-                //                    height: height * 0.04,
-                //                    decoration: BoxDecoration(
-                //                      borderRadius:
-                //                          BorderRadius.all(Radius.circular(10)),
-                //                      color: index == selectedIndex
-                //                          ? Colors.green
-                //                          : Colors.grey[350],
-                //                    ),
-                //                    child: Padding(
-                //                      padding: const EdgeInsets.all(8.0),
-                //                      child: Text(
-                //                        GetSubjectList.subjectList[index],
-                //                        style: TextStyle(
-                //                            color: index == selectedIndex
-                //                                ? Colors.white
-                //                                : Colors.black),
-                //                      ),
-                //                    ),
-                //                  ),
-                //                ),
-                //              );
-                //            }),
-                //          ),
-                //  ),
                 Container(
                   height: (height - (status + bottom)) * 0.50,
-
                   child: HomeScreenVideos(
                     Selectedsubjectname: 'Recent',
                   ),
-                  // New(selectedSubject: selectedSubject)
-                  // HomeScreenVideos( Selectedsubjectname: selectedSubject,),
                 ),
               ]),
         );
