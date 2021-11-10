@@ -1,13 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/ProfilePage/HELPER%20FUNCTION/provider_for_edit_page.dart';
 import 'package:tutionmaster/SplashScreen/splashscreen.dart';
-
 import 'ALLROUTES/routegenerator.dart';
 import 'Control/getdata.dart';
 import 'HomePage/try.dart';
@@ -49,9 +50,11 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        // home: Profile(),
+            textTheme: TextTheme(),
+            cardTheme: CardTheme(),
+            primarySwatch: Colors.blue,
+            fontFamily: "poppins"),
+        // home: Register(),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
       ),

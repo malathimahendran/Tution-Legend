@@ -13,16 +13,18 @@ import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
 import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
-import 'package:tutionmaster/video/Videostream/videolist/firstscreen.dart';
-import 'package:tutionmaster/video/Videostream/videolist/video_wishlist.dart';
+import 'package:tutionmaster/videos/videomainscreen.dart';
+
+import 'package:tutionmaster/videos/wishlist.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
 
+import 'DRAWER FOLDER/drawer_page.dart';
 import 'first.dart';
 import 'fourth.dart';
 
 class HomeScreen extends StatefulWidget {
   static var scaffoldkey1 = GlobalKey<ScaffoldState>();
-  static int page = 0;
+
   bool searchindex;
   HomeScreen(this.searchindex);
 
@@ -49,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen>
   ];
 
   int selectedItem = 0;
+  int _page = 0;
   var k;
   String? userName;
   var storeUserName, userEmail, profileImage, userMobileNo, enrollmentNumber;
@@ -87,16 +90,31 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     if (widget.searchindex == true) {
-      HomeScreen.page = 1;
+      _page = 1;
     }
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
 
+    // return WillPopScope(
+    // onWillPop: () {
+    //   return Future.value(true);
+    // },
     return WillPopScope(
-      onWillPop: () {
-        return Future.value(true);
-      },
+      onWillPop: _page != 0
+          ? () {
+              l.e(_page);
+              l.e('insideif');
+              setState(() {
+                _page = 0;
+              });
+              return Future.value(false);
+            }
+          : () {
+              l.e('insideelse');
+              l.e(_page);
+              return Future.value(true);
+            },
       child: SafeArea(
         child: Scaffold(
           key: HomeScreen.scaffoldkey1,
@@ -104,210 +122,36 @@ class _HomeScreenState extends State<HomeScreen>
           drawer: Container(
             width: width * 0.75,
             height: height,
-            child: Drawer(
-                child: Column(children: [
-              Container(
-                color: HexColor('#009688'),
-                // width: width * 0.9,
-                height: height * 0.2,
-                child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 10),
-                      // color: Colors.green,
-                      child: profileImage == null || profileImage == ""
-                          ? Container(
-                              height: (height - status) * 0.08,
-                              width: width * 0.15,
-                              color: Colors.redAccent[400],
-                              alignment: Alignment.center,
-                              child: Text(
-                                userName
-                                    .toString()
-                                    .substring(0, 1)
-                                    .toUpperCase(),
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30),
-                              ))
-                          : Image.network(profileImage),
-                    ),
-                    SizedBox(width: width * 0.04),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        // mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            storeUserName == null ? "" : storeUserName,
-                            // overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15)),
-                          ),
-                          Container(
-                            child: Text('Student',
-                                style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        color: Colors.white, fontSize: 12))),
-                          ),
-                          Container(
-                            child: enrollmentNumber == null
-                                ? Text('')
-                                : Text('Enrollment no:$enrollmentNumber',
-                                    style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 13))),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                width: width * 0.9,
-                height: height * 0.6,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: height * 0.05,
-                    ),
-                    Container(
-                      width: width * 0.65,
-                      height: height * 0.075,
-                      child: Card(
-                        color: HexColor('#243665'),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: width * 0.04,
-                            ),
-                            Icon(
-                              Icons.person,
-                              color: Colors.white,
-                            ),
-                            SizedBox(
-                              width: width * 0.03,
-                            ),
-                            Text(storeUserName == null ? "" : storeUserName,
-                                style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        color: Colors.white, fontSize: 13)))
-                          ],
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: height * 0.01,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PaymentDesign()));
-                      },
-                      child: Container(
-                        width: width * 0.65,
-                        height: height * 0.075,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: width * 0.04,
-                            ),
-                            Icon(Icons.payment, color: HexColor('#3F3F3F')),
-                            SizedBox(
-                              width: width * 0.03,
-                            ),
-                            Text('Payments',
-                                style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        color: Colors.black, fontSize: 13)))
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: height * 0.01,
-                    ),
-                    Container(
-                      width: width * 0.65,
-                      height: height * 0.075,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.04,
-                          ),
-                          Icon(Icons.lock, color: HexColor('#3F3F3F')),
-                          SizedBox(
-                            width: width * 0.03,
-                          ),
-                          Text('ChangePassword',
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      color: Colors.black, fontSize: 13)))
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: height * 0.01,
-                    ),
-                    Container(
-                      width: width * 0.65,
-                      height: height * 0.075,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.04,
-                          ),
-                          Icon(
-                            Icons.help,
-                            color: HexColor('#3F3F3F'),
-                          ),
-                          SizedBox(
-                            width: width * 0.03,
-                          ),
-                          Text('Help and Support',
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      color: Colors.black, fontSize: 13)))
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ])),
+            child: DrawerPage(
+              height: height,
+              width: width,
+              status: status,
+              profileImage: profileImage,
+              storeUserName: storeUserName,
+              userName: userName,
+              enrollmentNumber: enrollmentNumber,
+            ),
           ),
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
-                image: DecorationImage(
-                    image:
-                        AssetImage('assets/HomeScreenPage/homeScreenTab.png'),
-                    fit: BoxFit.cover)),
+              image: DecorationImage(
+                  image: AssetImage(
+                      'assets/HomeScreenPage/TabIcons/homescreentab.png'),
+                  fit: BoxFit.cover),
+            ),
             width: double.infinity,
-            height: 100.0,
+            height: 101.0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(iconlist.length, (index) {
                 return InkWell(
                   onTap: () {
-                    l.w(HomeScreen.page);
+                    widget.searchindex = false;
+                    l.w(_page);
                     setState(() {
-                      HomeScreen.page = index;
+                      _page = index;
                     });
-                    l.w(HomeScreen.page);
+                    l.w(_page);
                   },
                   child: Padding(
                     padding: EdgeInsets.only(top: 38.0),
@@ -326,15 +170,15 @@ class _HomeScreenState extends State<HomeScreen>
                         children: [
                           CircleAvatar(
                               radius: 20.0,
-                              backgroundColor: HomeScreen.page == index
+                              backgroundColor: _page == index
                                   ? Colors.white
                                   : Colors.transparent,
                               child: Icon(
                                 iconlist[index],
-                                color: HomeScreen.page == index
+                                color: _page == index
                                     ? HexColor('#243665')
                                     : Colors.white,
-                                size: 22,
+                                size: 20,
                               )),
                           Text(
                             iconname[index],
@@ -348,8 +192,9 @@ class _HomeScreenState extends State<HomeScreen>
               }),
             ),
           ),
-          body: pages[HomeScreen.page],
+          body: pages[_page],
         ),
+        // ),
       ),
     );
   }

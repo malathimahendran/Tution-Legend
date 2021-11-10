@@ -29,27 +29,11 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final l = Logger();
-  var googleDetails, profileImage;
+  var googleDetails, profileImage, chooseclass;
   bool secureText = true;
   bool secureText1 = true;
-  List<Map<String, dynamic>> items = [
-    {
-      'value': "9",
-      'label': '9',
-    },
-    {
-      'value': "10",
-      'label': '10',
-    },
-    {
-      'value': "11",
-      'label': '11',
-    },
-    {
-      'value': "12",
-      'label': '12',
-    },
-  ];
+  List<dynamic> board = [];
+  List<dynamic> boardid = [];
   String? selectedValue = '9th Standard';
   var username = TextEditingController();
   var mobileno = TextEditingController();
@@ -61,12 +45,56 @@ class _RegisterState extends State<Register> {
   var fcm = TextEditingController();
   var confirmpassword = TextEditingController();
   var referralcode = TextEditingController();
+  var boardController = TextEditingController();
+  var chooseboard;
+  var classId;
+  List<Map<String, dynamic>> items = [];
+  List<Map<String, dynamic>> itemclass = [];
   String? originalGoogleId;
   get read => null;
   @override
   void initState() {
     super.initState();
+    chooseBoard();
+
     getGoogleData();
+  }
+
+  chooseBoard() async {
+    var url = Uri.parse(
+        'https://www.cviacserver.tk/tuitionlegend/register/get_boards');
+    var response = await http.get(url);
+    chooseboard = json.decode(response.body);
+    print(response);
+    l.i(response.body);
+    setState(() {});
+
+    for (int i = 0; i < chooseboard['result'].length; i++) {
+      items.add({
+        "value": chooseboard['result'][i]['board_id'],
+        "label": chooseboard['result'][i]['board']
+      });
+    }
+  }
+
+  gettingClasses({board_id}) async {
+    var url = Uri.parse(
+        'http://www.cviacserver.tk/tuitionlegend/register/get_classes?filter=board_id&data=$board_id');
+    var response = await http.get(url);
+    l.w(response.body);
+    chooseclass = json.decode(response.body);
+
+    itemclass.clear();
+
+    for (int i = 0; i < chooseclass['result'].length; i++) {
+      setState(() {
+        itemclass.add({
+          "value": chooseclass['result'][i]['class_id'],
+          "label": chooseclass['result'][i]['class']
+        });
+        print(chooseclass['result'][i]['class_id']);
+      });
+    }
   }
 
   registerApi() async {
@@ -81,7 +109,7 @@ class _RegisterState extends State<Register> {
       // 'device_id': 34.toString(),
       'fcm': "",
       'reference_code': referralcode.text.toString(),
-      'class': standard.text.toString(),
+      'class': classId.toString(),
       'google_id': originalGoogleId.toString(),
       'profile_image': profileImage.toString()
     }).then((value) async {
@@ -97,6 +125,7 @@ class _RegisterState extends State<Register> {
       var standard = decodeDetails['user']['class'].toString();
       var profileImage = decodeDetails['user']['profile_image'].toString();
       var googleId = decodeDetails['user']['google_id'].toString();
+
       l.wtf("$token,$userName,$storeemail,$phone,$standard");
 
       l.wtf('$token');
@@ -274,12 +303,66 @@ class _RegisterState extends State<Register> {
                       SizedBox(
                         height: ((height - status)) * 0.03,
                       ),
-                      Textfield(
-                          read: true,
-                          hintText: 'CBSE',
-                          controller: boardofeducation,
-                          icon: Icon(Icons.cast_for_education,
-                              color: HexColor('#3F3F3F'))),
+                      Container(
+                        width: width * 0.8,
+                        height: height * 0.073,
+                        child: Card(
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40.0)),
+                          child: SelectFormField(
+                            type: SelectFormFieldType.dropdown,
+                            controller: boardController,
+                            onChanged: (val) {
+                              gettingClasses(board_id: val);
+                            },
+                            changeIcon: true,
+                            items: items,
+                            decoration: InputDecoration(
+                                hintText: 'Board Of Education',
+                                hintStyle: GoogleFonts.poppins(
+                                    textStyle: TextStyle(fontSize: 12)),
+                                filled: true,
+                                suffixIcon: Icon(
+                                  Icons.arrow_drop_down,
+                                ),
+                                fillColor: Colors.white,
+                                disabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(40.0)),
+                                  borderSide:
+                                      BorderSide(color: Colors.teal, width: 1),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(40.0)),
+                                  borderSide:
+                                      BorderSide(color: Colors.teal, width: 1),
+                                ),
+                                // contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(40.0)),
+                                  borderSide: BorderSide(
+                                      color: Color(0xF2FFFFFF), width: 1),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(40.0)),
+                                  borderSide:
+                                      BorderSide(color: Color(0xF227DEBF)),
+                                ),
+                                prefixIcon: Icon(Icons.school,
+                                    color: HexColor('#3F3F3F'))),
+                          ),
+                        ),
+                      ),
+                      // Textfield(
+                      //     read: true,
+                      //     hintText: 'CBSE',
+                      //     controller: boardofeducation,
+                      //     icon: Icon(Icons.cast_for_education,
+                      //         color: HexColor('#3F3F3F'))),
                       SizedBox(
                         height: ((height - status)) * 0.03,
                       ),
@@ -291,15 +374,13 @@ class _RegisterState extends State<Register> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
                           child: SelectFormField(
-                            type: SelectFormFieldType.dialog,
-
+                            onChanged: (val) {
+                              classId = val;
+                            },
+                            type: SelectFormFieldType.dropdown,
                             controller: standard,
                             changeIcon: true,
-                            dialogTitle: 'Pick an item',
-                            dialogCancelBtn: 'CANCEL',
-                            enableSearch: true,
-                            // dialogSearchHint: 'Standard',
-                            items: items,
+                            items: itemclass,
                             decoration: InputDecoration(
                                 hintText: 'Standard',
                                 hintStyle: GoogleFonts.poppins(

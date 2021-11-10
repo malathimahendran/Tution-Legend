@@ -39,6 +39,8 @@ class _LoginPageState extends State<LoginPage> {
       token;
   bool secureText = true;
   var controller;
+  // Function fun = signInWithGoogle(){};
+  Function fu = (a) {};
   var email = TextEditingController();
   var password = TextEditingController();
   bool isChecked = false;
@@ -305,11 +307,10 @@ class _LoginPageState extends State<LoginPage> {
                             width: width * 1,
                           ),
                           SizedBox(height: 4),
-                          Text("Welcome",
-                              style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20),
-                              )),
+                          Text(
+                            "Welcome",
+                            style: Theme.of(context).textTheme.headline1,
+                          ),
                           SizedBox(height: 4),
                           Text(
                             "Login to your existing Account",
