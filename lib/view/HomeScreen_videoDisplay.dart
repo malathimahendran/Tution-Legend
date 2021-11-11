@@ -97,6 +97,7 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(90)),
                         child: ListView.builder(
+                            itemExtent: height * 0.2,
                             itemCount:
                                 GetSelectedsubjectsVideos.decodeDetails.length,
                             itemBuilder: (context, index) {
@@ -118,8 +119,8 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
 
                               return InkWell(
                                 child: Container(
-                                    height: (height) * 0.12,
-                                    width: width,
+                                    height: (height) * 0.18,
+                                    width: width * 0.8,
                                     // child: YoutubePlayer(
                                     //   controller: you,
                                     // ),
@@ -130,13 +131,14 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                             BorderRadius.circular(5.0),
                                       ),
                                       child: Container(
+                                        width: width,
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
+                                          // mainAxisAlignment:
+                                          //     MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            SizedBox(
-                                              width: width * 0.01,
-                                            ),
+                                            // SizedBox(
+                                            //   width: width * 0.01,
+                                            // ),
                                             InkWell(
                                               onTap: () {
                                                 Navigator.push(
@@ -150,73 +152,111 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                             )));
                                               },
                                               child: Container(
-                                                width: width * 0.2,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                  child: YoutubePlayer(
-                                                    controller: you,
+                                                height: height * 0.14,
+                                                width: width * 0.3,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    child: Image.network(
+                                                      'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(GetSelectedsubjectsVideos.decodeDetails[index]['link'])}/0.jpg',
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                            // Image.asset('assets/Carousel/image1.png'),
-                                            Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 10),
-                                              child: Container(
-                                                  width: width * 0.58,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      // Text(wishlistDetails['data'][index]
-                                                      //     ['link']),
-                                                      Text(
-                                                        GetSelectedsubjectsVideos
-                                                            .decodeDetails[
-                                                                index]
-                                                                ['subject']
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: HexColor(
-                                                                '#0A1C22')),
-                                                      ),
-                                                      Text(
-                                                        GetSelectedsubjectsVideos
-                                                            .decodeDetails[
-                                                                index]['lesson']
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontSize: 15,
-                                                            color: HexColor(
-                                                                '#0A1C22')),
-                                                      ),
-                                                    ],
-                                                  )),
-                                            ),
-
-                                            InkWell(
-                                                onTap: () {
-                                                  checking(
-                                                      link: GetSelectedsubjectsVideos
-                                                              .decodeDetails[
-                                                          index]['video_id']);
-                                                },
-                                                child: Icon(Icons.favorite,
-                                                    color: s
-                                                        ? Colors.pink
-                                                        : Colors.grey)),
                                             SizedBox(
-                                              width: width * 0.01,
+                                              width: width * 0.1,
                                             ),
+                                            // Image.asset('assets/Carousel/image1.png'),
+                                            Container(
+                                                width: width * 0.48,
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    // Text(wishlistDetails['data'][index]
+                                                    //     ['link']),
+                                                    Text(
+                                                      GetSelectedsubjectsVideos
+                                                          .decodeDetails[index]
+                                                              ['subject']
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: HexColor(
+                                                              '#0A1C22')),
+                                                    ),
+                                                    SizedBox(
+                                                      height: height * 0.005,
+                                                    ),
+                                                    Text(
+                                                      GetSelectedsubjectsVideos
+                                                          .decodeDetails[index]
+                                                              ['lesson']
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: HexColor(
+                                                              '#0A1C22')),
+                                                    ),
+                                                    SizedBox(
+                                                      height: height * 0.002,
+                                                    ),
+
+                                                    Container(
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(Icons
+                                                              .access_alarm),
+                                                          SizedBox(
+                                                            width: width * 0.01,
+                                                          ),
+                                                          Text(
+                                                            '1hr 9mnt',
+                                                            style: TextStyle(
+                                                                fontSize: 11,
+                                                                color: HexColor(
+                                                                    '#0A1C22')),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ' Free',
+                                                      style: TextStyle(
+                                                          fontSize: 13,
+                                                          color: HexColor(
+                                                              '#0A1C22')),
+                                                    ),
+                                                  ],
+                                                )),
+
+                                            // InkWell(
+                                            //     onTap: () {
+                                            //       checking(
+                                            //           link: GetSelectedsubjectsVideos
+                                            //                   .decodeDetails[
+                                            //               index]['video_id']);
+                                            //     },
+                                            //     child: Icon(Icons.favorite,
+                                            //         color: s
+                                            //             ? Colors.pink
+                                            //             : Colors.grey)),
+                                            // SizedBox(
+                                            //   width: width * 0.01,
+                                            // ),
                                           ],
                                         ),
                                       ),

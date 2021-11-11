@@ -21,7 +21,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.1"
+    version: "2.5.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -209,6 +209,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.3.2"
+  flutter_keyboard_visibility:
+    dependency: transitive
+    description:
+      name: flutter_keyboard_visibility
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.0"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -513,6 +520,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.7"
+  search_widget:
+    dependency: "direct main"
+    description:
+      name: search_widget
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   select_form_field:
     dependency: "direct main"
     description:
