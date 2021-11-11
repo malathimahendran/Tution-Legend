@@ -17,6 +17,7 @@ import 'ProfilePage/profilepage.dart';
 import 'Register/register.dart';
 import 'Slider/carosalSlider.dart';
 import 'StartingLearningPage/startlearning.dart';
+import 'videos/vlc.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
             cardTheme: CardTheme(),
             primarySwatch: Colors.blue,
             fontFamily: "poppins"),
-        // home: Register(),
+        // home: Vlc(),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
       ),

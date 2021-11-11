@@ -7,10 +7,11 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/Control/getdata.dart';
+
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/videos/searchvideo.dart';
-
+import 'package:search_widget/search_widget.dart';
 import 'package:tutionmaster/videos/secondscreen.dart';
 import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -63,6 +64,7 @@ class _SearchvideoState extends State<Searchvideo> {
       });
 
       decodeDetailsData = json.decode(response.body);
+
       l.e(decodeDetailsData);
 
       return decodeDetailsData;
@@ -82,156 +84,179 @@ class _SearchvideoState extends State<Searchvideo> {
 
   @override
   Widget build(BuildContext context) {
+    l.w('here is the start of the widget');
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     var status = MediaQuery.of(context).padding.top;
     return SafeArea(
       child: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Consumer<GetSubjectList>(builder: (context, GetSubjectList, _) {
-        return Container(
-          width: width,
-          height: height,
-          // decoration: BoxDecoration(
-          //     image: DecorationImage(
-          //   image: AssetImage('assets/ProfilePage/mainbackground.png'),
-          // )),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Container(
-                      height: height * 0.06,
-                      width: width * 0.9,
-                      child: TextFormField(
-                        // textInputAction: TextInputAction.search,
-                        // onFieldSubmitted: (value) async {
-                        //   // Navigator.push(
-                        //   //     context,
-                        //   //     MaterialPageRoute(
-                        //   //         builder: (context) => SubjectVideoslists(
-                        //   //               standardsubject1: '',
-                        //   //             )));
-                        // },
-                        controller: search,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'Search videos',
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.search),
-                            onPressed: () async {
-                              l.w('inside line 126 , in inkwell searchingg');
-                              // var n = await gosearchapi();
-                              // l.wtf(n);
-                              Future.delayed(Duration(seconds: 5), () {
-                                l.w('inside future delayed');
-
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => Searchingg(
-                                //             searchlist: search.text,
-                                //             details: decodeDetailsData)));
-                              });
-                            },
-                            color: Colors.red,
-                          ),
-                          // icon: Icon(Icons.search),
-                          hintStyle: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: 11, color: HexColor('#7B7777'))),
-                          // prefixIcon: icon,
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade300)),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
-                              borderSide:
-                                  BorderSide(color: HexColor('#27DEBF'))),
-                        ),
+            return Container(
+              width: width,
+              height: height,
+              // decoration: BoxDecoration(
+              //     image: DecorationImage(
+              //   image: AssetImage('assets/ProfilePage/mainbackground.png'),
+              // )),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: NewTextField(
+                            height: height,
+                            width: width,
+                            search: search,
+                            l: l,
+                            decodeDetailsData: decodeDetailsData),
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: ((height - status)) * 0.03,
-                  ),
-                  Text(
-                    'Continue Watching',
-                    style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        color: HexColor('#0A1C22')),
-                  ),
-                  SizedBox(
-                    height: ((height - status)) * 0.01,
-                  ),
-                  Container(
-                    color: Colors.blue,
-                    width: width * 0.9,
-                    height: height * 0.15,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              print(131);
-                            },
-                            child: Container(
-                              width: width * 0.4,
-                              child: Card(
-                                color: HexColor('#FFFFFF'),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
+                      SizedBox(
+                        height: ((height - status)) * 0.03,
+                      ),
+                      Text(
+                        'Continue Watching',
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: HexColor('#0A1C22')),
+                      ),
+                      SizedBox(
+                        height: ((height - status)) * 0.01,
+                      ),
+                      Container(
+                        color: Colors.blue,
+                        width: width * 0.9,
+                        height: height * 0.15,
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 5,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  print(131);
+                                },
+                                child: Container(
+                                  width: width * 0.4,
+                                  child: Card(
+                                    color: HexColor('#FFFFFF'),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          );
-                        }),
+                              );
+                            }),
+                      ),
+                      SizedBox(
+                        height: ((height - status)) * 0.01,
+                      ),
+                      GetSubjectList.subjectList == null
+                          ? CircularProgressIndicator()
+                          : Column(
+                              children: List.generate(
+                                  GetSubjectList.subjectList.length, (index) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Subjectnametext(
+                                      standardsubject:
+                                          GetSubjectList.subjectList[index],
+                                    ),
+                                    SizedBox(
+                                      height: ((height - status)) * 0.01,
+                                    ),
+                                    SubjectVideoslists(
+                                        standardsubject1:
+                                            GetSubjectList.subjectList[index]),
+                                    // }),
+                                    SizedBox(
+                                      height: ((height - status)) * 0.01,
+                                    ),
+                                  ],
+                                );
+                              }),
+                            )
+                    ],
                   ),
-                  SizedBox(
-                    height: ((height - status)) * 0.01,
-                  ),
-                  GetSubjectList.subjectList == null
-                      ? CircularProgressIndicator()
-                      : Column(
-                          children: List.generate(
-                              GetSubjectList.subjectList.length, (index) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Subjectnametext(
-                                  standardsubject:
-                                      GetSubjectList.subjectList[index],
-                                ),
-                                SizedBox(
-                                  height: ((height - status)) * 0.01,
-                                ),
-                                SubjectVideoslists(
-                                    standardsubject1:
-                                        GetSubjectList.subjectList[index]),
-                                // }),
-                                SizedBox(
-                                  height: ((height - status)) * 0.01,
-                                ),
-                              ],
-                            );
-                          }),
-                        )
-                ],
+                ),
               ),
-            ),
+            );
+          })),
+    );
+  }
+}
+
+class NewTextField extends StatelessWidget {
+  const NewTextField({
+    Key? key,
+    required this.height,
+    required this.width,
+    required this.search,
+    required this.l,
+    required this.decodeDetailsData,
+  }) : super(key: key);
+
+  final double height;
+  final double width;
+  final TextEditingController search;
+  final Logger l;
+  final decodeDetailsData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height * 0.06,
+      width: width * 0.9,
+      child: TextFormField(
+        // textInputAction: TextInputAction.search,
+        // onFieldSubmitted: (value) async {
+        //   // Navigator.push(
+        //   //     context,
+        //   //     MaterialPageRoute(
+        //   //         builder: (context) => SubjectVideoslists(
+        //   //               standardsubject1: '',
+        //   //             )));
+        // },
+        controller: search,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          hintText: 'Search videos',
+          suffixIcon: IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () async {
+              l.w('inside line 126 , in inkwell searchingg');
+              // var n = await gosearchapi();
+              // l.wtf(n);
+
+              l.w('inside future delayed');
+
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Searchingg(
+                          searchlist: search.text,
+                          details: decodeDetailsData)));
+            },
+            color: Colors.red,
           ),
-        );
-      })),
+          // icon: Icon(Icons.search),
+          hintStyle: GoogleFonts.poppins(
+              textStyle: TextStyle(fontSize: 11, color: HexColor('#7B7777'))),
+          // prefixIcon: icon,
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              borderSide: BorderSide(color: Colors.grey.shade300)),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              borderSide: BorderSide(color: HexColor('#27DEBF'))),
+        ),
+      ),
     );
   }
 }
@@ -340,6 +365,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
   @override
   Widget build(BuildContext context) {
     print(widget.standardsubject1);
+
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     var status = MediaQuery.of(context).padding.top;

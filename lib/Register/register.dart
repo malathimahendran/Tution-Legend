@@ -116,6 +116,19 @@ class _RegisterState extends State<Register> {
       var decodeDetails = json.decode(value.body);
       l.wtf(decodeDetails);
       print(widget.deviceId);
+      var statusCode = value.statusCode;
+      if (statusCode == 401) {
+        final snackBar = SnackBar(
+          backgroundColor: Colors.red,
+          content: Text('Duplicate Entry Your Device is already Registered'),
+          duration: Duration(seconds: 5),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
       var token = decodeDetails['result'];
       // var googleId = decodeDetails['user']['google_id'];
       var userName = decodeDetails['user']['user_name'].toString();
@@ -138,7 +151,8 @@ class _RegisterState extends State<Register> {
           profileImage: profileImage,
           token: token);
 
-      if (value.statusCode == 200) {
+      print("$statusCode,line112register page");
+      if (statusCode == 200) {
         final snackBar = SnackBar(
           backgroundColor: HexColor('#27AE60'),
           content: Text('Registration Successfully'),

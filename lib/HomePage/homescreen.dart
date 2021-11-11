@@ -1,17 +1,13 @@
-import 'dart:io';
-
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
-import 'package:tutionmaster/HomePage/second.dart';
-import 'package:tutionmaster/HomePage/third.dart';
-import 'package:tutionmaster/Login/loginpage.dart';
+
 import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
-import 'package:tutionmaster/Register/register.dart';
+
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/videos/videomainscreen.dart';
 
@@ -19,8 +15,6 @@ import 'package:tutionmaster/videos/wishlist.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
 
 import 'DRAWER FOLDER/drawer_page.dart';
-import 'first.dart';
-import 'fourth.dart';
 
 class HomeScreen extends StatefulWidget {
   static var scaffoldkey1 = GlobalKey<ScaffoldState>();
@@ -55,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen>
   var k;
   String? userName;
   var storeUserName, userEmail, profileImage, userMobileNo, enrollmentNumber;
-//  Stri userDetails = [];
 
   List<Widget> pages = [
     HomeTestScreen(),
@@ -133,12 +126,12 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
           bottomNavigationBar: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(
-                      'assets/HomeScreenPage/TabIcons/homescreentab.png'),
-                  fit: BoxFit.cover),
-            ),
+            // decoration: BoxDecoration(
+            //   image: DecorationImage(
+            //       image: AssetImage(
+            //           'assets/HomeScreenPage/TabIcons/homescreentab.png'),
+            //       fit: BoxFit.cover),
+            // ),
             width: double.infinity,
             height: 101.0,
             child: Row(
@@ -158,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen>
                     child: Container(
                       padding: EdgeInsets.only(bottom: 2),
                       width: (width) * 1 / 4,
-                      // color: Colors.black,
+                      color: Colors.black,
                       alignment: index == 1
                           ? Alignment.centerLeft
                           : index == 2
