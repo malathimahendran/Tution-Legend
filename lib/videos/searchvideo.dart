@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -21,7 +22,7 @@ class Searchingg extends StatefulWidget {
 
 class _SearchinggscreenState extends State<Searchingg> {
   var search = TextEditingController();
-  var decodeDetails, token, decodeDetailsData;
+  var decodeDetails, token, searchListAllData;
   final l = Logger();
   List<int>? youtubevideoId = [];
   bool isIconClicked = false;
@@ -32,41 +33,64 @@ class _SearchinggscreenState extends State<Searchingg> {
   void initState() {
     l.wtf('inside init state');
     functioncall();
+    gosearchapi(
+        gettingFromWhere: 'fromInItState',
+        gettingWhatParameter: widget.searchlist);
     super.initState();
   }
 
   functioncall() async {
     l.wtf(widget.searchlist);
-
-    setState(() {
-      search.text = widget.searchlist;
-    });
-    // await searchApi();
   }
 
-  getWishlist() async {
+  gosearchapi({gettingFromWhere, gettingWhatParameter}) async {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
+
       token = userDetails[5];
       print("$token" + "27linechapter");
-      var url =
-          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+      var selectedParameterToSend;
+      if (gettingFromWhere == 'fromInItState') {
+        selectedParameterToSend = gettingWhatParameter;
+      } else {
+        selectedParameterToSend = gettingWhatParameter;
+      }
+      var url = Uri.parse(
+          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/$selectedParameterToSend');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': token
+        'Authorization': token.toString(),
       });
-      decodeDetailsData = json.decode(response.body);
-      print(decodeDetailsData);
-      l.i(decodeDetailsData);
-      for (var i in decodeDetailsData['result'])
-        youtubevideoId!.add(i['video_id']);
-      l.e(youtubevideoId);
-
-      print(decodeDetails);
-      print("47chapteritem");
+      setState(() {
+        searchListAllData = json.decode(response.body);
+      });
+      l.e(searchListAllData);
     });
   }
+  // getWishlist() async {
+  //   Shared().shared().then((value) async {
+  //     var userDetails = await value.getStringList('storeData');
+  //     token = userDetails[5];
+  //     print("$token" + "27linechapter");
+  //     var url =
+  //         Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+  //     var response = await http.get(url, headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json',
+  //       'Authorization': token
+  //     });
+  //     decodeDetailsData = json.decode(response.body);
+  //     print(decodeDetailsData);
+  //     l.i(decodeDetailsData);
+  //     for (var i in decodeDetailsData['result'])
+  //       youtubevideoId!.add(i['video_id']);
+  //     l.e(youtubevideoId);
+
+  //     print(decodeDetails);
+  //     print("47chapteritem");
+  //   });
+  // }
 
   searchApi() async {
     Shared().shared().then((value) async {
@@ -90,10 +114,10 @@ class _SearchinggscreenState extends State<Searchingg> {
         'Accept': 'application/json',
         'Authorization': token
       });
-      decodeDetailsData = json.decode(response.body);
-      setState(() {
-        decodeDetails = decodeDetailsData['data'];
-      });
+      // decodeDetailsData = json.decode(response.body);
+      // setState(() {
+      //   decodeDetails = decodeDetailsData['data'];
+      // });
     });
   }
 
@@ -134,7 +158,9 @@ class _SearchinggscreenState extends State<Searchingg> {
                       hintText: 'Search videos',
                       suffixIcon: InkWell(
                         onTap: () {
-                          // searchApi();
+                          gosearchapi(
+                              gettingFromWhere: 'textFormField',
+                              gettingWhatParameter: search.text);
                         },
                         child: Icon(
                           Icons.search,
@@ -159,7 +185,7 @@ class _SearchinggscreenState extends State<Searchingg> {
                   height: ((height - status)) * 0.04,
                 ),
                 Flexible(
-                  child: widget.details['data'] == null
+                  child: searchListAllData == null
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
@@ -167,23 +193,25 @@ class _SearchinggscreenState extends State<Searchingg> {
                           height: (height),
                           width: width * 0.97,
                           child: ListView.builder(
-                              itemCount: widget.details['data'].length,
+                              itemCount: searchListAllData['data'].length,
                               itemBuilder: (context, index) {
                                 // isList = apireceivedid
-                                //     .contains(widget.details['data'][index]['video_id']);
+                                //     .contains(searchListAllData['data'][index]['video_id']);
                                 var s = youtubevideoId!.contains(
-                                    widget.details['data'][index]['video_id']);
+                                    searchListAllData['data'][index]
+                                        ['video_id']);
                                 print('lllllllllllllllllllllll,  $s');
-                                var you = YoutubePlayerController(
-                                  initialVideoId: YoutubePlayer.convertUrlToId(
-                                      widget.details['data'][index]['link'])!,
-                                  flags: const YoutubePlayerFlags(
-                                    controlsVisibleAtStart: true,
-                                    hideControls: true,
-                                    autoPlay: false,
-                                    isLive: false,
-                                  ),
-                                );
+                                // var you = YoutubePlayerController(
+                                //   initialVideoId: YoutubePlayer.convertUrlToId(
+                                //       searchListAllData['data'][index]
+                                //           ['link'])!,
+                                //   flags: const YoutubePlayerFlags(
+                                //     controlsVisibleAtStart: true,
+                                //     hideControls: true,
+                                //     autoPlay: false,
+                                //     isLive: false,
+                                //   ),
+                                // );
 
                                 return InkWell(
                                   // onTap: () {
@@ -192,7 +220,7 @@ class _SearchinggscreenState extends State<Searchingg> {
                                   //       context,
                                   //       MaterialPageRoute(
                                   //           builder: (context) => Play(
-                                  //                 link: widget.details['data'][index]
+                                  //                 link: searchListAllData['data'][index]
                                   //                     ['link'],
                                   //               )));
                                   // },
@@ -220,7 +248,7 @@ class _SearchinggscreenState extends State<Searchingg> {
                                                   borderRadius:
                                                       BorderRadius.circular(15),
                                                   child: Image.network(
-                                                    'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(widget.details['data'][index]['link'])}/0.jpg',
+                                                    'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(searchListAllData['data'][index]['link'])}/0.jpg',
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
@@ -239,11 +267,12 @@ class _SearchinggscreenState extends State<Searchingg> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        // Text(widget.details['data']['data'][index]
+                                                        // Text(searchListAllData['data']['data'][index]
                                                         //     ['link']),
                                                         Text(
-                                                          widget.details['data']
-                                                                  [index]
+                                                          searchListAllData[
+                                                                          'data']
+                                                                      [index]
                                                                   ['subject']
                                                               .toString(),
                                                           style: TextStyle(
@@ -255,8 +284,9 @@ class _SearchinggscreenState extends State<Searchingg> {
                                                                   '#0A1C22')),
                                                         ),
                                                         Text(
-                                                          widget.details['data']
-                                                                  [index]
+                                                          searchListAllData[
+                                                                          'data']
+                                                                      [index]
                                                                   ['lesson']
                                                               .toString(),
                                                           style: TextStyle(
@@ -270,10 +300,16 @@ class _SearchinggscreenState extends State<Searchingg> {
 
                                               InkWell(
                                                   onTap: () {
-                                                    checking(
-                                                        link: widget.details[
-                                                                'data'][index]
-                                                            ['video_id']);
+                                                    Provider.of<WishList>(
+                                                            context,
+                                                            listen: false)
+                                                        .checkingLikeAndUnlikeVideos(
+                                                            context: context,
+                                                            gettingVideoId:
+                                                                searchListAllData[
+                                                                            'data']
+                                                                        [index][
+                                                                    'video_id']);
                                                   },
                                                   child: Icon(Icons.favorite,
                                                       color: s

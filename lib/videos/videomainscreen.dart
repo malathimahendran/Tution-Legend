@@ -40,37 +40,6 @@ class _SearchvideoState extends State<Searchvideo> {
     getUserSubjects();
   }
 
-  gosearchapi() async {
-    Shared().shared().then((value) async {
-      var userDetails = await value.getStringList('storeData');
-
-      token = userDetails[5];
-      print(token);
-      print("$token" + "27linechapter");
-
-      print(userDetails);
-
-      print("28chapter");
-      print(33);
-
-      var url = Uri.parse(
-          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
-      //  var url = Uri.parse(
-      //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
-      var response = await http.get(url, headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': token.toString(),
-      });
-
-      decodeDetailsData = json.decode(response.body);
-
-      l.e(decodeDetailsData);
-
-      return decodeDetailsData;
-    });
-  }
-
   getUserSubjects() {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
@@ -107,12 +76,58 @@ class _SearchvideoState extends State<Searchvideo> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
-                        child: NewTextField(
-                            height: height,
-                            width: width,
-                            search: search,
-                            l: l,
-                            decodeDetailsData: decodeDetailsData),
+                        child: Container(
+                          height: height * 0.06,
+                          width: width * 0.9,
+                          child: TextFormField(
+                            // textInputAction: TextInputAction.search,
+                            // onFieldSubmitted: (value) async {
+                            //   // Navigator.push(
+                            //   //     context,
+                            //   //     MaterialPageRoute(
+                            //   //         builder: (context) => SubjectVideoslists(
+                            //   //               standardsubject1: '',
+                            //   //             )));
+                            // },
+                            controller: search,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: 'Search videos',
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.search),
+                                onPressed: () async {
+                                  l.w('inside line 126 , in inkwell searchingg');
+                                  // var n = await gosearchapi();
+                                  // l.wtf(n);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Searchingg(
+                                                searchlist: search.text,
+                                              )));
+                                },
+                                color: Colors.red,
+                              ),
+                              // icon: Icon(Icons.search),
+                              hintStyle: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      fontSize: 11,
+                                      color: HexColor('#7B7777'))),
+                              // prefixIcon: icon,
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0)),
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade300)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0)),
+                                  borderSide:
+                                      BorderSide(color: HexColor('#27DEBF'))),
+                            ),
+                          ),
+                        ),
                       ),
                       SizedBox(
                         height: ((height - status)) * 0.03,
@@ -128,7 +143,6 @@ class _SearchvideoState extends State<Searchvideo> {
                         height: ((height - status)) * 0.01,
                       ),
                       Container(
-                        color: Colors.blue,
                         width: width * 0.9,
                         height: height * 0.15,
                         child: ListView.builder(
@@ -187,76 +201,6 @@ class _SearchvideoState extends State<Searchvideo> {
               ),
             );
           })),
-    );
-  }
-}
-
-class NewTextField extends StatelessWidget {
-  const NewTextField({
-    Key? key,
-    required this.height,
-    required this.width,
-    required this.search,
-    required this.l,
-    required this.decodeDetailsData,
-  }) : super(key: key);
-
-  final double height;
-  final double width;
-  final TextEditingController search;
-  final Logger l;
-  final decodeDetailsData;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: height * 0.06,
-      width: width * 0.9,
-      child: TextFormField(
-        // textInputAction: TextInputAction.search,
-        // onFieldSubmitted: (value) async {
-        //   // Navigator.push(
-        //   //     context,
-        //   //     MaterialPageRoute(
-        //   //         builder: (context) => SubjectVideoslists(
-        //   //               standardsubject1: '',
-        //   //             )));
-        // },
-        controller: search,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          hintText: 'Search videos',
-          suffixIcon: IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () async {
-              l.w('inside line 126 , in inkwell searchingg');
-              // var n = await gosearchapi();
-              // l.wtf(n);
-
-              l.w('inside future delayed');
-
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Searchingg(
-                          searchlist: search.text,
-                          details: decodeDetailsData)));
-            },
-            color: Colors.red,
-          ),
-          // icon: Icon(Icons.search),
-          hintStyle: GoogleFonts.poppins(
-              textStyle: TextStyle(fontSize: 11, color: HexColor('#7B7777'))),
-          // prefixIcon: icon,
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              borderSide: BorderSide(color: Colors.grey.shade300)),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              borderSide: BorderSide(color: HexColor('#27DEBF'))),
-        ),
-      ),
     );
   }
 }

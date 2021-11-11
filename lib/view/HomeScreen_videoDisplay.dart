@@ -25,38 +25,38 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
   List<int> iconClick = [];
   final l = Logger();
   var wishlistDetails;
-  getWishlist() async {
-    Shared().shared().then((value) async {
-      List userDetails = await value.getStringList('storeData');
-      token = userDetails[5];
-      print("$token" + "27linechapter");
-      l.wtf(
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw');
-      l.w(token);
-      var url =
-          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
-      var response = await http.get(url, headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': token!
-      });
-      decodeDetailsData = json.decode(response.body);
-      print(decodeDetailsData);
-      l.i(decodeDetailsData);
+  // getWishlist() async {
+  //   Shared().shared().then((value) async {
+  //     List userDetails = await value.getStringList('storeData');
+  //     token = userDetails[5];
+  //     print("$token" + "27linechapter");
+  //     l.wtf(
+  //         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw');
+  //     l.w(token);
+  //     var url =
+  //         Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+  //     var response = await http.get(url, headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json',
+  //       'Authorization': token!
+  //     });
+  //     decodeDetailsData = json.decode(response.body);
+  //     print(decodeDetailsData);
+  //     l.i(decodeDetailsData);
 
-      for (var i in decodeDetailsData['result']) {
-        youtubevideoId!.add(i['video_id']);
-        l.e(youtubevideoId);
-      }
+  //     for (var i in decodeDetailsData['result']) {
+  //       youtubevideoId!.add(i['video_id']);
+  //       l.e(youtubevideoId);
+  //     }
 
-      setState(() {
-        wishlistDetails = decodeDetailsData['result'];
-      });
+  //     setState(() {
+  //       wishlistDetails = decodeDetailsData['result'];
+  //     });
 
-      print(decodeDetails);
-      print("47chapteritem");
-    });
-  }
+  //     print(decodeDetails);
+  //     print("47chapteritem");
+  //   });
+  // }
 
   @override
   void initState() {
@@ -64,7 +64,7 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
     super.initState();
     Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
         .searchApi(widget.Selectedsubjectname);
-    getWishlist();
+    // getWishlist();
   }
 
   @override
