@@ -53,10 +53,7 @@ class _SearchvideoState extends State<Searchvideo> {
     //  var url = Uri.parse(
     //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
     var response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwOTFmMWMzLTBkMGUtNGVmMy1iMDYyLWU3Y2JlMzBlN2Q3YyIsImlhdCI6MTYzNDg5NzMwNiwiZXhwIjoxNjM3NDg5MzA2fQ.K9aqwhG-4ZpHbZF_qrsJ0-unlC51jI6494asGwzyAuY',
+      'Authorization': token,
     });
     decodeDetailsData = json.decode(response.body);
     setState(() {

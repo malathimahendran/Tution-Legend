@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'profile_edit_page.dart';
+import 'package:http/http.dart' as http;
 
 class Profile extends StatefulWidget {
   @override
@@ -29,12 +31,47 @@ class _ProfileState extends State<Profile> {
       enrollmentNumber,
       school,
       academicYear,
-      googleId;
+      googleId,
+      token,
+      decodeDetailsData,
+      decodeDetails,
+      amount;
   var imageFile;
+  var subscribedDate;
+  var endingDate;
   void initState() {
     super.initState();
     getUserName();
+    getPlanDetails();
+
     print(29);
+  }
+
+  getPlanDetails() async {
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      // setState(() {
+      token = userDetails[5];
+      print("$token" + "51 line");
+
+      var url =
+          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/get_payment');
+
+      var response = await http.get(url, headers: {'Authorization': token});
+      decodeDetailsData = json.decode(response.body);
+      l.d(decodeDetailsData);
+      var result = decodeDetailsData['result'];
+      l.wtf(result);
+      setState(() {
+        subscribedDate =
+            result[0]['subscribed_date'].toString().substring(0, 10);
+        l.wtf(subscribedDate);
+        endingDate = result[0]['ending_date'].toString().substring(0, 10);
+        l.wtf(endingDate);
+        amount = result[0]['amount'];
+        l.wtf(amount);
+      });
+    });
   }
 
   Future<void> logOut() async {
@@ -84,6 +121,7 @@ class _ProfileState extends State<Profile> {
         school = userDetails[8];
         academicYear = userDetails[9];
         googleId = userDetails[6];
+        token = userDetails[5];
         print('$profileImage,32lineprofile');
         print(userName);
       });
@@ -107,6 +145,7 @@ class _ProfileState extends State<Profile> {
   @override
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   Widget build(BuildContext context) {
+    l.e(subscribedDate);
     // getUserName();
     // print(widget.indexnumber);
     print(43);
@@ -205,37 +244,40 @@ class _ProfileState extends State<Profile> {
                                 ]),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '$userName',
-                                        style: TextStyle(
-                                            color: HexColor('#B91124'),
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        height: ((height - status)) * 0.006,
-                                      ),
-                                      Text('Student',
+                                  child: Flexible(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '$userName',
                                           style: TextStyle(
-                                            color: HexColor('#848484'),
-                                            fontSize: 15,
-                                          )),
-                                      SizedBox(
-                                        height: ((height - status)) * 0.006,
-                                      ),
-                                      enrollmentNumber == null
-                                          ? Text('')
-                                          : Text(
-                                              'EnrollmentNumber:$enrollmentNumber',
-                                              style: TextStyle(
-                                                  color: HexColor('#0AB4A4'),
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold)),
-                                    ],
+                                              color: HexColor('#B91124'),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          height: ((height - status)) * 0.006,
+                                        ),
+                                        Text('Student',
+                                            style: TextStyle(
+                                              color: HexColor('#848484'),
+                                              fontSize: 12,
+                                            )),
+                                        SizedBox(
+                                          height: ((height - status)) * 0.006,
+                                        ),
+                                        enrollmentNumber == null
+                                            ? Text('')
+                                            : Text(
+                                                'EnrollmentNumber:$enrollmentNumber',
+                                                style: TextStyle(
+                                                    color: HexColor('#0AB4A4'),
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                      ],
+                                    ),
                                   ),
                                 )
                               ],
@@ -264,7 +306,7 @@ class _ProfileState extends State<Profile> {
                                                 'class-$standard',
                                                 style: TextStyle(
                                                     color: HexColor('#05534B'),
-                                                    fontSize: 13),
+                                                    fontSize: 12),
                                               )
                                       ],
                                     ),
@@ -288,7 +330,7 @@ class _ProfileState extends State<Profile> {
                                           '$school',
                                           style: TextStyle(
                                               color: HexColor('#05534B'),
-                                              fontSize: 13),
+                                              fontSize: 12),
                                         )
                                       ],
                                     ),
@@ -309,7 +351,7 @@ class _ProfileState extends State<Profile> {
                                           'Academic Year $academicYear',
                                           style: TextStyle(
                                               color: HexColor('#05534B'),
-                                              fontSize: 13),
+                                              fontSize: 12),
                                         )
                                       ],
                                     )
@@ -371,7 +413,8 @@ class _ProfileState extends State<Profile> {
                                 ),
                                 Text(
                                   '$mobileNumber',
-                                  style: TextStyle(color: HexColor('#023129')),
+                                  style: TextStyle(
+                                      color: HexColor('#023129'), fontSize: 12),
                                 ),
                               ],
                             ),
@@ -392,8 +435,9 @@ class _ProfileState extends State<Profile> {
                                   width: width * 0.03,
                                 ),
                                 Text('$email',
-                                    style:
-                                        TextStyle(color: HexColor('#023129'))),
+                                    style: TextStyle(
+                                        color: HexColor('#023129'),
+                                        fontSize: 12)),
                               ],
                             )
                           ],
@@ -461,17 +505,47 @@ class _ProfileState extends State<Profile> {
                     )
                   : Container(),
               Container(
-                height: (height - status) * 0.11,
+                height: (height - status) * 0.2,
                 width: width * 0.9,
                 child: Card(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 10, left: 10),
-                      child: Text(
-                        'Plan Details',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: HexColor('#B91124'), fontSize: 13)),
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 10, left: 10),
+                            child: Text(
+                              'Plan Details',
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      color: HexColor('#B91124'),
+                                      fontSize: 13)),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: width * 0.9,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                "   Subscribed Amount:$amount",
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              Text(
+                                "   Subscribed Date:$subscribedDate",
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              Text(
+                                "   Plan End Date:$endingDate",
+                                style: TextStyle(fontSize: 12),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                     elevation: 5,
                     shape: RoundedRectangleBorder(

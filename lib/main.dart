@@ -48,9 +48,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+
+        theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "Poppins"),
         // home: Profile(),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,

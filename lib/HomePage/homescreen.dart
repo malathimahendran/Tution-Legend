@@ -318,7 +318,7 @@ class _HomeScreenState extends State<HomeScreen>
                             )),
                         Text(
                           iconname[index],
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontSize: 10),
                         )
                       ],
                     ),
