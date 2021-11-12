@@ -193,10 +193,10 @@ class _HomeScreenState extends State<HomeScreen>
                   InkWell(
                     onTap: () {
                       Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PaymentDesign()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => PaymentDesign()));
                     },
                     child: Container(
                       width: width * 0.65,

@@ -22,12 +22,9 @@ class GetSubjectList extends ChangeNotifier {
       print('$i,line 20');
       subjectListData.add(decodeDetails['data'][i]['subject']);
     }
-
     subjectList = subjectListData;
     print('$subjectList , line 25');
-
     notifyListeners();
-
     print(subjectListData);
     print('hiiii');
     // setState(() {

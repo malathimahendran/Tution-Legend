@@ -154,9 +154,7 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                 child: ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(15),
-                                                  child: YoutubePlayer(
-                                                    controller: you,
-                                                  ),
+                                                  child: Image.network('https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(decodeDetails[index]['link'])}/0.jpg',fit:BoxFit.cover)
                                                 ),
                                               ),
                                             ),

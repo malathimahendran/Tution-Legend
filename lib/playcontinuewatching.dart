@@ -4,22 +4,22 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:tutionmaster/Control/continuewating.dart';
+import 'package:tutionmaster/model/Watched_video.dart';
 
-import 'Control/continuewating.dart';
-import 'model/Watched_video.dart';
-
-class Play extends StatefulWidget {
-  Play({this.link});
-  final link;
+class Playcontinue extends StatefulWidget {
+  Playcontinue({required this.videoid1, required this.durationwatched});
+  final videoid1;
+  int durationwatched;
   @override
-  _PlayState createState() => _PlayState();
+  _PlaycontinueState createState() => _PlaycontinueState();
 }
 
-class _PlayState extends State<Play> {
+class _PlaycontinueState extends State<Playcontinue> {
   YoutubePlayerController? _controller;
   final l = Logger();
-  double? value;
-  int? duration;
+  // double? value;
+  // int? duration;
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([
@@ -30,17 +30,17 @@ class _PlayState extends State<Play> {
   }
 
   party() async {
-    int newDura = await gettingDura();
-    l.w(newDura);
-    duration = newDura;
-    l.i(duration);
+    // int newDura = await gettingDura();
+    // l.w(newDura);
+    // duration = newDura;
+    // l.i(duration);
     _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(widget.link)!,
+      initialVideoId: widget.videoid1,
       flags: YoutubePlayerFlags(
         hideControls: false,
-        autoPlay: duration != 0 ? true : false,
+        autoPlay: widget.durationwatched != 0 ? true : false,
         isLive: false,
-        startAt: duration!,
+        startAt:widget.durationwatched ,
       ),
     );
     // setState(() {});
@@ -53,7 +53,7 @@ class _PlayState extends State<Play> {
 
   @override
   Widget build(BuildContext context) {
-    l.e(widget.link);
+    l.e(widget.videoid1);
     return WillPopScope(
       onWillPop: () async {
         SystemChrome.setPreferredOrientations([
@@ -62,11 +62,12 @@ class _PlayState extends State<Play> {
         l.w(_controller!.value.position);
         Duration currentDuration = _controller!.value.position;
         l.i(currentDuration);
-        Provider.of<SqliteLocalDatabase>(context, listen: false).insertvideolist(Watchedvideos( videoid: YoutubePlayer.convertUrlToId(widget.link)!, duration: currentDuration.inSeconds ));
+        Provider.of<SqliteLocalDatabase>(context, listen: false).insertvideolist(Watchedvideos( videoid: widget.videoid1, duration: currentDuration.inSeconds ));
         // SharedPreferences sharedPreferences =
         // await SharedPreferences.getInstance();
         // sharedPreferences.setDouble(
         //     'dura', (currentDuration.inSeconds.toDouble()));
+
         return Future.value(true);
       },
       child: Scaffold(
@@ -85,11 +86,11 @@ class _PlayState extends State<Play> {
     );
   }
 
-  gettingDura() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    value = sharedPreferences.getDouble('dura');
-    l.e(value);
-    return value!.round();
-  }
+// gettingDura() async {
+//   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+//   value = sharedPreferences.getDouble('dura');
+//   l.e(value);
+//   return value!.round();
+// }
 
 }
