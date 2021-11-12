@@ -125,12 +125,12 @@ class _CustomExpandedWithTextAndFormFieldState
       storeemail: storeemail,
       phone: phone,
       standard: standard,
-      enrollmentNumber: enrollmentNumber,
-      school: school,
-      academicYear: academicYear,
       profileImage: profileImage,
       token: token,
       googleId: googleId,
+      enrollmentNumber: enrollmentNumber,
+      school: school,
+      academicYear: academicYear,
     );
     if (status == true) {
       final snackBar = SnackBar(

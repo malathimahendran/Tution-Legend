@@ -46,7 +46,7 @@ class SqliteLocalDatabase extends ChangeNotifier {
 
       ));
     }
-    wathedvideolist = videolistitem;
+    wathedvideolist = videolistitem.reversed.toList();
     notifyListeners();
   }
 

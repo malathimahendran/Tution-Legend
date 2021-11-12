@@ -99,7 +99,7 @@ class _RegisterState extends State<Register> {
 
   registerApi() async {
     var url =
-    Uri.parse('http://www.cviacserver.tk/tuitionlegend/register/sign_up');
+        Uri.parse('http://www.cviacserver.tk/tuitionlegend/register/sign_up');
     var response = await http.post(url, body: {
       'user_name': username.text.toString(),
       'email': email.text.toString(),
@@ -116,6 +116,19 @@ class _RegisterState extends State<Register> {
       var decodeDetails = json.decode(value.body);
       l.wtf(decodeDetails);
       print(widget.deviceId);
+      var statusCode = value.statusCode;
+      if (statusCode == 401) {
+        final snackBar = SnackBar(
+          backgroundColor: Colors.red,
+          content: Text('Duplicate Entry Your Device is already Registered'),
+          duration: Duration(seconds: 5),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
       var token = decodeDetails['result'];
       // var googleId = decodeDetails['user']['google_id'];
       var userName = decodeDetails['user']['user_name'].toString();
@@ -138,7 +151,8 @@ class _RegisterState extends State<Register> {
           profileImage: profileImage,
           token: token);
 
-      if (value.statusCode == 200) {
+      print("$statusCode,line112register page");
+      if (statusCode == 200) {
         final snackBar = SnackBar(
           backgroundColor: HexColor('#27AE60'),
           content: Text('Registration Successfully'),
@@ -247,11 +261,11 @@ class _RegisterState extends State<Register> {
                         child: Text("Let's Get Started",
                             style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
-                                  fontSize: 22.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  // fontFamily: 'Pacifico',
-                                ))),
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              // fontFamily: 'Pacifico',
+                            ))),
                       ),
                     ],
                   ),
@@ -261,10 +275,10 @@ class _RegisterState extends State<Register> {
                   Text('Create Your Account',
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.black,
-                            // fontFamily: 'Pacifico',
-                          )))
+                        fontSize: 12.0,
+                        color: Colors.black,
+                        // fontFamily: 'Pacifico',
+                      )))
                 ],
               ),
             ),
@@ -329,28 +343,28 @@ class _RegisterState extends State<Register> {
                                 fillColor: Colors.white,
                                 disabledBorder: OutlineInputBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(40.0)),
+                                      BorderRadius.all(Radius.circular(40.0)),
                                   borderSide:
-                                  BorderSide(color: Colors.teal, width: 1),
+                                      BorderSide(color: Colors.teal, width: 1),
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(40.0)),
+                                      BorderRadius.all(Radius.circular(40.0)),
                                   borderSide:
-                                  BorderSide(color: Colors.teal, width: 1),
+                                      BorderSide(color: Colors.teal, width: 1),
                                 ),
                                 // contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(40.0)),
+                                      BorderRadius.all(Radius.circular(40.0)),
                                   borderSide: BorderSide(
                                       color: Color(0xF2FFFFFF), width: 1),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(40.0)),
+                                      BorderRadius.all(Radius.circular(40.0)),
                                   borderSide:
-                                  BorderSide(color: Color(0xF227DEBF)),
+                                      BorderSide(color: Color(0xF227DEBF)),
                                 ),
                                 prefixIcon: Icon(Icons.school,
                                     color: HexColor('#3F3F3F'))),
@@ -392,28 +406,28 @@ class _RegisterState extends State<Register> {
                                 fillColor: Colors.white,
                                 disabledBorder: OutlineInputBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(40.0)),
+                                      BorderRadius.all(Radius.circular(40.0)),
                                   borderSide:
-                                  BorderSide(color: Colors.teal, width: 1),
+                                      BorderSide(color: Colors.teal, width: 1),
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(40.0)),
+                                      BorderRadius.all(Radius.circular(40.0)),
                                   borderSide:
-                                  BorderSide(color: Colors.teal, width: 1),
+                                      BorderSide(color: Colors.teal, width: 1),
                                 ),
                                 // contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(40.0)),
+                                      BorderRadius.all(Radius.circular(40.0)),
                                   borderSide: BorderSide(
                                       color: Color(0xF2FFFFFF), width: 1),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(40.0)),
+                                      BorderRadius.all(Radius.circular(40.0)),
                                   borderSide:
-                                  BorderSide(color: Color(0xF227DEBF)),
+                                      BorderSide(color: Color(0xF227DEBF)),
                                 ),
                                 prefixIcon: Icon(Icons.school,
                                     color: HexColor('#3F3F3F'))),
@@ -509,10 +523,10 @@ class _RegisterState extends State<Register> {
                                 backgroundColor: MaterialStateProperty.all(
                                     HexColor('#243665')),
                                 shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                        RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    )))),
+                                  borderRadius: BorderRadius.circular(20.0),
+                                )))),
                       ),
                       SizedBox(
                         height: ((height - status)) * 0.03,
@@ -589,7 +603,7 @@ class Textfield extends StatelessWidget {
       child: Card(
         elevation: 10,
         shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
         child: TextFormField(
           validator: validator,
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -602,10 +616,10 @@ class Textfield extends StatelessWidget {
 
           controller: controller,
           decoration: InputDecoration(
-            // contentPadding: EdgeInsets.zero,
+              contentPadding: EdgeInsets.zero,
               hintText: hintText,
               hintStyle:
-              GoogleFonts.poppins(textStyle: TextStyle(fontSize: 12)),
+                  GoogleFonts.poppins(textStyle: TextStyle(fontSize: 12)),
               filled: true,
               fillColor: HexColor('#FFFFFF'),
               enabledBorder: OutlineInputBorder(
@@ -623,4 +637,3 @@ class Textfield extends StatelessWidget {
     );
   }
 }
-

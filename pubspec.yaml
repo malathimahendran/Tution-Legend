@@ -49,6 +49,8 @@ dependencies:
   provider: ^6.0.1
 #  toast: ^0.1.5
   image_picker: ^0.8.4+1
+  search_widget: ^1.0.2
+ 
   
 
  
@@ -79,6 +81,7 @@ flutter:
     - assets/Carousel/
     - assets/HomeScreenPage/
     - assets/HomeScreenPage/TabIcons/
+   
     - assets/StartLearning/
     - assets/RegisterPage/
     - assets/ProfilePage/
