@@ -9,6 +9,8 @@ import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/ProfilePage/HELPER%20FUNCTION/provider_for_edit_page.dart';
 import 'package:tutionmaster/SplashScreen/splashscreen.dart';
+import 'package:tutionmaster/videos/likeandunlikeapi.dart';
+
 import 'ALLROUTES/routegenerator.dart';
 import 'Control/getdata.dart';
 import 'HomePage/try.dart';
@@ -45,6 +47,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(create: (context) {
           return ProviderFunction();
+        }),
+        ChangeNotifierProvider(create: (context) {
+          return WishList();
         })
       ],
       child: MaterialApp(

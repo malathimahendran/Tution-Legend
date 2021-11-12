@@ -21,6 +21,7 @@ class Secondscreen extends StatefulWidget {
 class _SecondscreenState extends State<Secondscreen> {
   var search = TextEditingController();
   var decodeDetails, token, decodeDetailsData;
+  var decodeDetails12;
   final l = Logger();
   List<int>? youtubevideoId = [];
   bool isIconClicked = false;
@@ -93,6 +94,7 @@ class _SecondscreenState extends State<Secondscreen> {
       setState(() {
         decodeDetails = decodeDetailsData['data'];
       });
+      decodeDetails12 = decodeDetailsData['data'];
     });
   }
 
@@ -174,8 +176,8 @@ class _SecondscreenState extends State<Secondscreen> {
                               itemBuilder: (context, index) {
                                 // isList = apireceivedid
                                 //     .contains(decodeDetails[index]['video_id']);
-                                var s = youtubevideoId!
-                                    .contains(decodeDetails[index]['video_id']);
+                                var s = youtubevideoId!.contains(
+                                    decodeDetails12[index]['video_id']);
                                 print('lllllllllllllllllllllll,  $s');
 
                                 // print(decodeDetails[index]['link']);
@@ -265,9 +267,8 @@ class _SecondscreenState extends State<Secondscreen> {
                                               InkWell(
                                                   onTap: () {
                                                     checking(
-                                                        link:
-                                                            decodeDetails[index]
-                                                                ['video_id']);
+                                                        link: decodeDetails12[
+                                                            index]['video_id']);
                                                   },
                                                   child: Icon(Icons.favorite,
                                                       color: s

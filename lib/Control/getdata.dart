@@ -10,7 +10,7 @@ class GetSubjectList extends ChangeNotifier {
   final l = Logger();
   List subjectList = [];
   List subjectListData = [];
-  var decodeDetails;
+  List decodeDetails = [];
   getSubjectListApi(String standardclass) async {
     String url =
         "https://www.cviacserver.tk/tuitionlegend/register/get_subjects/$standardclass";
@@ -39,15 +39,15 @@ class GetSubjectList extends ChangeNotifier {
 
   searchApi(String Selectedsubjectname) async {
     String token;
-    var selectedSubs;
+    // var selectedSubs;
     var decodeDetailsData;
     var decodeDetailsnew;
     Shared().shared().then((value) async {
-      var userDetails = await value.getStringList('storeData');
+      var userDetails = value.getStringList('storeData');
       token = userDetails[5];
-      selectedSubs = Selectedsubjectname.replaceAll(" ", "");
+      // selectedSubs = Selectedsubjectname.replaceAll(" ", "");
       var url = Uri.parse(
-          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/$selectedSubs');
+          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/$Selectedsubjectname');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -62,7 +62,7 @@ class GetSubjectList extends ChangeNotifier {
 
       decodeDetails = decodeDetailsnew;
       l.v('its here');
-      // l.v(decodeDetails);
+      l.v(decodeDetails);
       notifyListeners();
     });
   }

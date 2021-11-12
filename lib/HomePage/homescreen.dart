@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 
 import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
 
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
+import 'package:tutionmaster/videos/likeandunlikeapi.dart';
 import 'package:tutionmaster/videos/videomainscreen.dart';
 
 import 'package:tutionmaster/videos/wishlist.dart';
@@ -69,6 +71,10 @@ class _HomeScreenState extends State<HomeScreen>
 
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
+      // var token = userDetails[5];
+
+      // l.w(Provider.of<WishList>(context, listen: false).youtubeVideoId);
+      // l.w(Provider.of<WishList>(context, listen: false).youtubeVideoLink);
       setState(() {
         storeUserName = userDetails[0];
         // userEmail = userDetails[1];
@@ -136,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(iconlist.length, (index) {
-                return InkWell(
+                return GestureDetector(
                   onTap: () {
                     widget.searchindex = false;
                     l.w(_page);

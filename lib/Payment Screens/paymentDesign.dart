@@ -29,7 +29,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
   var formattedDate, paymentId;
   var now = new DateTime.now();
   var formatter = new DateFormat('yyyy-MM-dd');
-  var subscriptionId;
+  var subscriptionId, indexAmount;
   var userEmail, userMobileNo, userName, profileImage;
   var token, decodeDetailsData, decodeDetails, result, enrollmentNumber;
   List keys = [];
@@ -265,6 +265,9 @@ class _PaymentDesignState extends State<PaymentDesign> {
                         itemCount: result.length,
                         physics: PageScrollPhysics(),
                         itemBuilder: (context, index) {
+                          print("$index,268 line payment");
+                          indexAmount = result[index]['amount'];
+                          print("$result,269 lineee");
                           return Container(
                             width: width,
                             child: Card(
@@ -277,26 +280,26 @@ class _PaymentDesignState extends State<PaymentDesign> {
                                   padding: EdgeInsets.all(10),
                                   child: Column(
                                     children: [
-                                      CheckboxListTile(
-                                          activeColor: Colors.red,
-                                          checkColor: Colors.white,
-                                          contentPadding: EdgeInsets.zero,
-                                          controlAffinity:
-                                              ListTileControlAffinity.leading,
-                                          value:
-                                              selected == index ? true : false,
-                                          onChanged: (value) {
-                                            l.i(value);
-                                            setState(() {
-                                              selected = index;
-                                              selectedAmount = result[index]
-                                                      ['amount']
-                                                  .toString();
+                                      // CheckboxListTile(
+                                      //     activeColor: Colors.red,
+                                      //     checkColor: Colors.white,
+                                      //     contentPadding: EdgeInsets.zero,
+                                      //     controlAffinity:
+                                      //         ListTileControlAffinity.leading,
+                                      //     value:
+                                      //         selected == index ? true : false,
+                                      //     onChanged: (value) {
+                                      //       l.i(value);
+                                      //       setState(() {
+                                      //         selected = index;
+                                      //         selectedAmount = result[index]
+                                      //                 ['amount']
+                                      //             .toString();
 
-                                              subscriptionId = result[index]
-                                                  ['subscription_id'];
-                                            });
-                                          }),
+                                      //         subscriptionId = result[index]
+                                      //             ['subscription_id'];
+                                      //       });
+                                      //     }),
                                       Text(
                                         "Payment",
                                         style: TextStyle(
@@ -402,7 +405,9 @@ class _PaymentDesignState extends State<PaymentDesign> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         onPressed: () {
-                          openCheckout(amount: selectedAmount);
+                          print("$indexAmount,406 line payment");
+                          // openCheckout(amount: indexAmount);
+
                           // paymentPostApi(subscriptionId: subscriptionId);
                           // loginApi();
                         },

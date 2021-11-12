@@ -244,40 +244,37 @@ class _ProfileState extends State<Profile> {
                                 ]),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 20),
-                                  child: Flexible(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '$userName',
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '$userName',
+                                        style: TextStyle(
+                                            color: HexColor('#B91124'),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        height: ((height - status)) * 0.006,
+                                      ),
+                                      Text('Student',
                                           style: TextStyle(
-                                              color: HexColor('#B91124'),
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                          height: ((height - status)) * 0.006,
-                                        ),
-                                        Text('Student',
-                                            style: TextStyle(
-                                              color: HexColor('#848484'),
-                                              fontSize: 12,
-                                            )),
-                                        SizedBox(
-                                          height: ((height - status)) * 0.006,
-                                        ),
-                                        enrollmentNumber == null
-                                            ? Text('')
-                                            : Text(
-                                                'EnrollmentNumber:$enrollmentNumber',
-                                                style: TextStyle(
-                                                    color: HexColor('#0AB4A4'),
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                      ],
-                                    ),
+                                            color: HexColor('#848484'),
+                                            fontSize: 12,
+                                          )),
+                                      SizedBox(
+                                        height: ((height - status)) * 0.006,
+                                      ),
+                                      enrollmentNumber == null
+                                          ? Text('')
+                                          : Text(
+                                              'EnrollmentNumber:$enrollmentNumber',
+                                              style: TextStyle(
+                                                  color: HexColor('#0AB4A4'),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold)),
+                                    ],
                                   ),
                                 )
                               ],
