@@ -132,18 +132,17 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
           bottomNavigationBar: Container(
-            // decoration: BoxDecoration(
-            //   image: DecorationImage(
-            //       image: AssetImage(
-            //           'assets/HomeScreenPage/homescreentab.png'),
-            //       fit: BoxFit.cover),
-            // ),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/HomeScreenPage/homeScreenTab.png'),
+                  fit: BoxFit.cover),
+            ),
             width: double.infinity,
             height: 101.0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(iconlist.length, (index) {
-                return InkWell(
+                return GestureDetector(
                   onTap: () {
                     widget.searchindex = false;
                     l.w(_page);
@@ -157,7 +156,6 @@ class _HomeScreenState extends State<HomeScreen>
                     child: Container(
                       padding: EdgeInsets.only(bottom: 2),
                       width: (width) * 1 / 4,
-                      color: Colors.black,
                       alignment: index == 1
                           ? Alignment.centerLeft
                           : index == 2
@@ -181,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen>
                               )),
                           Text(
                             iconname[index],
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white, fontSize: 10),
                           )
                         ],
                       ),

@@ -11,7 +11,7 @@ import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/videos/searchvideo.dart';
-import 'package:search_widget/search_widget.dart';
+// import 'package:search_widget/search_widget.dart';
 import 'package:tutionmaster/videos/secondscreen.dart';
 import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -48,6 +48,9 @@ class _SearchvideoState extends State<Searchvideo> {
       print('nivetha');
       Provider.of<GetSubjectList>(context, listen: false)
           .getSubjectListApi(standardclass);
+      // setState(() {
+
+      // });
     });
   }
 
@@ -317,7 +320,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
       child: decodeDetails == null
           ? Center(child: CircularProgressIndicator())
           : Container(
-              height: (decodeDetails.length - 1) <= 2
+              height: (decodeDetails.length - 1) < 2
                   ? ((height) * 0.3) / 2
                   : height * 0.3,
               width: width * 0.9,

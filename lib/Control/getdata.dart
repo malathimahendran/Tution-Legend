@@ -17,7 +17,7 @@ class GetSubjectList extends ChangeNotifier {
     print(url);
     var subjectResponse = await http.get(Uri.parse(url));
     var decodeDetails = json.decode(subjectResponse.body);
-    print('$decodeDetails , line 18');
+    print('$decodeDetails , line 18qqqqqqqqqqqqqqqqqqqq');
     subjectListData.clear();
     // subjectListData = ['Recent', '    All    '];
     for (int i = 0; i < decodeDetails['data'].length; i++) {

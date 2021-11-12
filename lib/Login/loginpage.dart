@@ -326,10 +326,9 @@ class _LoginPageState extends State<LoginPage> {
                             width: width * 1,
                           ),
                           SizedBox(height: 4),
-                          Text(
-                            "Welcome",
-                            style: Theme.of(context).textTheme.headline1,
-                          ),
+                          Text("Welcome",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20)),
                           SizedBox(height: 4),
                           Text(
                             "Login to your existing Account",
@@ -463,7 +462,10 @@ class _LoginPageState extends State<LoginPage> {
                           Container(
                             width: width * 0.6,
                             child: Row(children: [
-                              Text("Don't have an account?"),
+                              Text(
+                                "Don't have an account?",
+                                style: TextStyle(fontSize: 12),
+                              ),
                               InkWell(
                                 onTap: () {
                                   Navigator.popAndPushNamed(
@@ -478,7 +480,7 @@ class _LoginPageState extends State<LoginPage> {
                                   style: GoogleFonts.poppins(
                                       textStyle: TextStyle(
                                           decoration: TextDecoration.underline,
-                                          fontSize: 15,
+                                          fontSize: 13,
                                           color: HexColor('#514880'))),
                                 ),
                               )
