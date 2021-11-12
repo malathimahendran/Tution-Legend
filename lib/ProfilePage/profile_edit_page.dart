@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 
 import 'HELPER FUNCTION/custom_expanded_text_formfield.dart';
 import 'HELPER FUNCTION/custom_text.dart';
@@ -21,6 +22,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   final FocusNode heightFocus = FocusNode();
+  TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
@@ -38,19 +40,20 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
             height: height,
             width: width,
             // color: Colors.green,
-            child: Image.asset(
-              'assets/ProfilePage/mainbackground.png',
-              height: !keyBoardVisible ? height : height * 0.5,
-              // width: width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image:
+                      AssetImage('assets/RegisterPage/registerbackground.png'),
+                  fit: BoxFit.fill),
             ),
           ),
-          Container(
-            height: height,
-            width: width,
-            margin: EdgeInsets.only(top: status),
-            alignment: Alignment.topCenter,
-            child: Image.asset('assets/LoginPage/logintop.png'),
-          ),
+          // Container(
+          //   height: height,
+          //   width: width,
+          //   margin: EdgeInsets.only(top: status),
+          //   alignment: Alignment.topCenter,
+          //   child: Image.asset('assets/LoginPage/logintop.png'),
+          // ),
           Container(
             height: height - status,
             width: width,
@@ -86,19 +89,19 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                   height: (height - (2 * status)) * 0.02,
                 ),
                 CustomExpandedWithTextAndFormField(
-                  height: height,
-                  status: status,
-                  width: width,
-                  userName: userName,
-                  enrollmentNumber: enrollmentNumber,
-                  grade: grade,
-                  schoolName: schoolName,
-                  academicYear: academicYear,
-                  contactNumber: contactNumber,
-                  email: email,
-                  password: password,
-                  heightFocus: heightFocus,
-                ),
+                    height: height,
+                    status: status,
+                    width: width,
+                    userName: userName,
+                    enrollmentNumber: enrollmentNumber,
+                    grade: grade,
+                    schoolName: schoolName,
+                    academicYear: academicYear,
+                    contactNumber: contactNumber,
+                    email: email,
+                    password: password,
+                    heightFocus: heightFocus,
+                    keyboardType: keyboardType),
               ],
             ),
           ),

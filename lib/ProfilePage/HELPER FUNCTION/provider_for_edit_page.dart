@@ -9,9 +9,7 @@ class ProviderFunction extends ChangeNotifier {
     notifyListeners();
   }
 
-  selectingDate({
-    context,
-  }) async {
+  selectingDate({context}) async {
     date = await showDatePicker(
       context: context,
       initialDate: today,
@@ -21,5 +19,6 @@ class ProviderFunction extends ChangeNotifier {
     print(date);
 
     notifyListeners();
+    return date;
   }
 }

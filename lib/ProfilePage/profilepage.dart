@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:logger/logger.dart';
+import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/ProfilePage/logout.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
+import 'package:image_picker/image_picker.dart';
+import 'profile_edit_page.dart';
 
 import 'profile_edit_page.dart';
 
@@ -14,7 +20,16 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  var userName, standard, email, mobileNumber, profileImage;
+  final l = Logger();
+  var userName,
+      standard,
+      email,
+      mobileNumber,
+      profileImage,
+      enrollmentNumber,
+      school,
+      academicYear;
+  var imageFile;
   void initState() {
     super.initState();
     getUserName();
@@ -31,6 +46,9 @@ class _ProfileState extends State<Profile> {
         mobileNumber = userDetails[2];
         standard = userDetails[3];
         profileImage = userDetails[4];
+        enrollmentNumber = userDetails[7];
+        school = userDetails[8];
+        academicYear = userDetails[9];
         print('$profileImage,32lineprofile');
         print(userName);
       });
@@ -40,11 +58,54 @@ class _ProfileState extends State<Profile> {
     });
   }
 
+  chooseImage(source) async {
+    var pickedFile = await ImagePicker().pickImage(source: source);
+    setState(() {
+      imageFile = File(pickedFile!.path);
+      print(pickedFile.path);
+      var imageName = imageFile.path.split("/").last.toString();
+    });
+    return imageFile;
+  }
+
   @override
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   Widget build(BuildContext context) {
+    // getUserName();
     // print(widget.indexnumber);
     print(43);
+    Future<void> logOut() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Are you sure?'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('We will be redirected to login page.'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('No'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Dismiss the Dialog
+                },
+              ),
+              FlatButton(
+                child: Text('Yes'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Navigate to login
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
 
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -117,11 +178,15 @@ class _ProfileState extends State<Profile> {
                       top: (height - status) * 0.07,
                       left: width * 0.9,
                       child: InkWell(
-                          onTap: () {
-                            Navigator.push(
+                          onTap: () async {
+                            var hello = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ProfileEditPage()));
+                            if (hello != null) {
+                              l.w(hello);
+                              getUserName();
+                            }
                           },
                           child: Image.asset('assets/ProfilePage/edit.png'))),
                   Positioned(
@@ -142,19 +207,83 @@ class _ProfileState extends State<Profile> {
                             Container(
                                 child: Row(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child:
-                                      profileImage == null || profileImage == ""
-                                          ? Container(
-                                              color: Colors.green.shade300,
-                                              alignment: Alignment.center,
-                                              child: Text(userName
+                                Stack(children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: profileImage == null ||
+                                            profileImage == ""
+                                        ? Container(
+                                            height: (height - status) * 0.08,
+                                            width: width * 0.15,
+                                            color: Colors.redAccent[400],
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              userName
                                                   .toString()
                                                   .substring(0, 1)
-                                                  .toUpperCase()))
-                                          : Image.network(profileImage),
-                                ),
+                                                  .toUpperCase(),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 30),
+                                            ))
+                                        : Image.network(profileImage),
+                                  ),
+                                  // Positioned(
+                                  //   bottom: -4.0,
+                                  //   right: -4.0,
+                                  //   child: InkWell(
+                                  //     onTap: () {
+                                  //       showDialog(
+                                  //           context: context,
+                                  //           builder: (context) {
+                                  //             return AlertDialog(
+                                  //               title: Text(
+                                  //                 'Select your choice',
+                                  //                 style: GoogleFonts.poppins(),
+                                  //               ),
+                                  //               actions: [
+                                  //                 TextButton(
+                                  //                   onPressed: () async {
+                                  //                     Navigator.pop(context);
+                                  //                     var choosedCameraImage =
+                                  //                         await chooseImage(
+                                  //                             ImageSource
+                                  //                                 .camera);
+                                  //                     // postImage(choosedCameraImage);
+                                  //                   },
+                                  //                   child: Text(
+                                  //                     'Camera',
+                                  //                     style:
+                                  //                         GoogleFonts.poppins(),
+                                  //                   ),
+                                  //                 ),
+                                  //                 TextButton(
+                                  //                     onPressed: () async {
+                                  //                       Navigator.pop(context);
+                                  //                       var choosedGalleryImage =
+                                  //                           await chooseImage(
+                                  //                               ImageSource
+                                  //                                   .gallery);
+                                  //                       // postImage(choosedGalleryImage);
+                                  //                     },
+                                  //                     child: Text('Gallery',
+                                  //                         style: GoogleFonts
+                                  //                             .poppins()))
+                                  //               ],
+                                  //             );
+                                  //           });
+                                  //     },
+                                  //     child: Container(
+                                  //       child: Icon(
+                                  //         Icons.photo_camera,
+                                  //         size: 25,
+                                  //         color: Colors.teal.shade900,
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                ]),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 20),
                                   child: Column(
@@ -179,11 +308,14 @@ class _ProfileState extends State<Profile> {
                                       SizedBox(
                                         height: ((height - status)) * 0.006,
                                       ),
-                                      Text('',
-                                          style: TextStyle(
-                                              color: HexColor('#0AB4A4'),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold)),
+                                      enrollmentNumber == null
+                                          ? Text('')
+                                          : Text(
+                                              'EnrollmentNumber:$enrollmentNumber',
+                                              style: TextStyle(
+                                                  color: HexColor('#0AB4A4'),
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)),
                                     ],
                                   ),
                                 )
@@ -196,17 +328,25 @@ class _ProfileState extends State<Profile> {
                                   children: [
                                     Row(
                                       children: [
-                                        Image.asset(
-                                            'assets/ProfilePage/school1.png'),
+                                        // Image.asset(
+                                        //   'assets/ProfilePage/school1.png',
+                                        //   width: 20,
+                                        //   height: 20,
+                                        // ),
+                                        Icon(
+                                          Icons.school,
+                                        ),
                                         SizedBox(
                                           width: width * 0.03,
                                         ),
-                                        Text(
-                                          '$standard',
-                                          style: TextStyle(
-                                              color: HexColor('#05534B'),
-                                              fontSize: 13),
-                                        )
+                                        standard == null
+                                            ? Text('')
+                                            : Text(
+                                                'class-$standard',
+                                                style: TextStyle(
+                                                    color: HexColor('#05534B'),
+                                                    fontSize: 13),
+                                              )
                                       ],
                                     ),
                                     SizedBox(
@@ -214,13 +354,19 @@ class _ProfileState extends State<Profile> {
                                     ),
                                     Row(
                                       children: [
-                                        Image.asset(
-                                            'assets/ProfilePage/school.png'),
+                                        // Image.asset(
+                                        //   'assets/ProfilePage/school.png',
+                                        //   width: 20,
+                                        //   height: 20,
+                                        // ),
+                                        Icon(Icons.school_sharp),
+                                        // Icon(Icons.),
+
                                         SizedBox(
                                           width: width * 0.03,
                                         ),
                                         Text(
-                                          '',
+                                          '$school',
                                           style: TextStyle(
                                               color: HexColor('#05534B'),
                                               fontSize: 13),
@@ -241,7 +387,7 @@ class _ProfileState extends State<Profile> {
                                           width: width * 0.03,
                                         ),
                                         Text(
-                                          '',
+                                          'Academic Year $academicYear',
                                           style: TextStyle(
                                               color: HexColor('#05534B'),
                                               fontSize: 13),
@@ -392,7 +538,7 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               Container(
-                height: (height - status) * 0.13,
+                height: (height - status) * 0.11,
                 width: width * 0.9,
                 child: Card(
                     child: Padding(

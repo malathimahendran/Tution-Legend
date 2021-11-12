@@ -29,7 +29,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final l = Logger();
-  var googleDetails, googleId, profileImage;
+  var googleDetails, profileImage;
   bool secureText = true;
   bool secureText1 = true;
   List<Map<String, dynamic>> items = [
@@ -70,8 +70,6 @@ class _RegisterState extends State<Register> {
   }
 
   registerApi() async {
-    // print('${widget.deviceId} line no 67');
-    // print('${widget.googleuser} line no 68');
     var url =
         Uri.parse('http://www.cviacserver.tk/tuitionlegend/register/sign_up');
     var response = await http.post(url, body: {
@@ -88,7 +86,7 @@ class _RegisterState extends State<Register> {
       'profile_image': profileImage.toString()
     }).then((value) async {
       var decodeDetails = json.decode(value.body);
-      print(decodeDetails);
+      l.wtf(decodeDetails);
       print(widget.deviceId);
       var token = decodeDetails['result'];
       // var googleId = decodeDetails['user']['google_id'];
@@ -98,22 +96,19 @@ class _RegisterState extends State<Register> {
       var phone = decodeDetails['user']['phone'].toString();
       var standard = decodeDetails['user']['class'].toString();
       var profileImage = decodeDetails['user']['profile_image'].toString();
-      List<String> details = [
-        userName,
-        storeemail,
-        phone,
-        standard,
-        profileImage,
-        token,
-      ];
-      print(details);
-      Shared().shared().then((value) async {
-        var storeData = await value.setStringList('storeData', details);
-        print("$storeData" + "line100");
-      });
-      print('$googleId ,line 86');
+      var googleId = decodeDetails['user']['google_id'].toString();
+      l.wtf("$token,$userName,$storeemail,$phone,$standard");
 
-      // var statusCode = decodeDetails['statusCode'];
+      l.wtf('$token');
+
+      storingAllDetails(
+          userName: userName,
+          storeemail: storeemail,
+          phone: phone,
+          standard: standard,
+          profileImage: profileImage,
+          token: token);
+
       if (value.statusCode == 200) {
         final snackBar = SnackBar(
           backgroundColor: HexColor('#27AE60'),
@@ -126,7 +121,7 @@ class _RegisterState extends State<Register> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-        if (googleId == "" && googleId == null) {
+        if (googleId == "" || googleId == null) {
           print('$googleId ,line 102');
           print('inside if');
           Navigator.popAndPushNamed(context, AllRouteNames.loginpage);
@@ -210,7 +205,7 @@ class _RegisterState extends State<Register> {
                           width: width * 0.25,
                           child: InkWell(
                             onTap: () {
-                              Navigator.popAndPushNamed(context, 'loginpage');
+                              Navigator.popAndPushNamed(context, '/loginpage');
                             },
                             child: Icon(
                               Icons.arrow_back,
@@ -290,51 +285,58 @@ class _RegisterState extends State<Register> {
                       ),
                       Container(
                         width: width * 0.8,
-                        height: height * 0.06,
-                        child: SelectFormField(
-                          controller: standard,
-                          changeIcon: true,
-                          dialogTitle: 'Pick a item',
-                          dialogCancelBtn: 'CANCEL',
-                          enableSearch: true,
-                          // dialogSearchHint: 'Standard',
-                          items: items,
-                          decoration: InputDecoration(
-                              hintText: 'Standard',
-                              hintStyle: GoogleFonts.poppins(
-                                  textStyle: TextStyle(fontSize: 12)),
-                              filled: true,
-                              suffixIcon: Icon(
-                                Icons.arrow_drop_down,
-                              ),
-                              fillColor: Colors.white,
-                              disabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0)),
-                                borderSide:
-                                    BorderSide(color: Colors.teal, width: 1),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0)),
-                                borderSide:
-                                    BorderSide(color: Colors.teal, width: 1),
-                              ),
-                              // contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0)),
-                                borderSide: BorderSide(
-                                    color: Color(0xF2FFFFFF), width: 1),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0)),
-                                borderSide:
-                                    BorderSide(color: Color(0xF227DEBF)),
-                              ),
-                              prefixIcon: Icon(Icons.school,
-                                  color: HexColor('#3F3F3F'))),
+                        height: height * 0.073,
+                        child: Card(
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40.0)),
+                          child: SelectFormField(
+                            type: SelectFormFieldType.dialog,
+
+                            controller: standard,
+                            changeIcon: true,
+                            dialogTitle: 'Pick an item',
+                            dialogCancelBtn: 'CANCEL',
+                            enableSearch: true,
+                            // dialogSearchHint: 'Standard',
+                            items: items,
+                            decoration: InputDecoration(
+                                hintText: 'Standard',
+                                hintStyle: GoogleFonts.poppins(
+                                    textStyle: TextStyle(fontSize: 12)),
+                                filled: true,
+                                suffixIcon: Icon(
+                                  Icons.arrow_drop_down,
+                                ),
+                                fillColor: Colors.white,
+                                disabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(40.0)),
+                                  borderSide:
+                                      BorderSide(color: Colors.teal, width: 1),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(40.0)),
+                                  borderSide:
+                                      BorderSide(color: Colors.teal, width: 1),
+                                ),
+                                // contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(40.0)),
+                                  borderSide: BorderSide(
+                                      color: Color(0xF2FFFFFF), width: 1),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(40.0)),
+                                  borderSide:
+                                      BorderSide(color: Color(0xF227DEBF)),
+                                ),
+                                prefixIcon: Icon(Icons.school,
+                                    color: HexColor('#3F3F3F'))),
+                          ),
                         ),
                       ),
                       Visibility(
@@ -423,8 +425,8 @@ class _RegisterState extends State<Register> {
                               style: GoogleFonts.poppins(),
                             ),
                             style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.red),
+                                backgroundColor: MaterialStateProperty.all(
+                                    HexColor('#243665')),
                                 shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
@@ -502,34 +504,40 @@ class Textfield extends StatelessWidget {
     var status = MediaQuery.of(context).padding.top;
     return Container(
       width: width * 0.8,
-      height: height * 0.073,
-      child: TextFormField(
-        validator: validator,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        obscureText: obscuretext,
-        keyboardType: type,
-        readOnly: read,
+      height: height * 0.077,
+      child: Card(
+        elevation: 10,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
+        child: TextFormField(
+          validator: validator,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          obscureText: obscuretext,
+          keyboardType: type,
+          readOnly: read,
 
-        // expands: true,
-        // minLines: null,
+          // expands: true,
+          // minLines: null,
 
-        controller: controller,
-
-        decoration: InputDecoration(
-            hintText: hintText,
-            hintStyle: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 12)),
-            filled: true,
-            fillColor: HexColor('#FFFFFF'),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-              borderSide: BorderSide(color: Color(0xF2FFFFFF), width: 1),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-              borderSide: BorderSide(color: Color(0xF227DEBF), width: 1),
-            ),
-            prefixIcon: icon,
-            suffixIcon: suffixicon),
+          controller: controller,
+          decoration: InputDecoration(
+              // contentPadding: EdgeInsets.zero,
+              hintText: hintText,
+              hintStyle:
+                  GoogleFonts.poppins(textStyle: TextStyle(fontSize: 12)),
+              filled: true,
+              fillColor: HexColor('#FFFFFF'),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                borderSide: BorderSide(color: Color(0xF2FFFFFF), width: 1),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                borderSide: BorderSide(color: Color(0xF227DEBF), width: 1),
+              ),
+              prefixIcon: icon,
+              suffixIcon: suffixicon),
+        ),
       ),
     );
   }

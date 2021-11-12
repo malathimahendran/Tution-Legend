@@ -37,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       phone,
       standard,
       token;
+  bool secureText = true;
   var controller;
   var email = TextEditingController();
   var password = TextEditingController();
@@ -74,11 +75,12 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     initPlatformState();
+    getToken();
   }
 
   getToken() async {
     fcm_token = await FcmToken.gettingToken();
-    print(fcm_token);
+    print('line 83333333333333333333$fcm_token');
   }
 
   Future<void> initPlatformState() async {
@@ -105,52 +107,8 @@ class _LoginPageState extends State<LoginPage> {
       'device_id': finalDeviceId.toString(),
     }).then((value) async {
       var decodeDetails = json.decode(value.body);
-      print(decodeDetails);
-      print(66);
-      print(value.statusCode);
+
       var statuscode = value.statusCode;
-      print(statuscode);
-      user = decodeDetails['user'];
-      print(user);
-      // print(decodeDetails['user'][0]['user_name']);
-      String token = decodeDetails['token'].toString();
-      String userName = decodeDetails['user'][0]['user_name'].toString();
-      print('$userName,line 118 login page');
-      print('$token,line 119 login page');
-      String storeemail = decodeDetails['user'][0]['email'].toString();
-      String phone = decodeDetails['user'][0]['phone'].toString();
-      String standard = decodeDetails['user'][0]['class'].toString();
-
-      l.w(userName);
-      l.w(storeemail);
-
-      print('$standard,line 119 login page');
-      l.w(phone);
-      l.w(standard);
-      l.w(token);
-      storingAllDetails(
-        userName: userName,
-        storeemail: storeemail,
-        phone: phone,
-        standard: standard,
-        token: token,
-        // googleId:googleId,
-      );
-      // List<String> details = [
-      //   userName,
-      //   email,
-      //   phone,
-      //   standard,
-      //   profileImage,
-      //   token
-      // ];
-      // Shared().shared().then((value) async {
-      //   var storeData = await value.setStringList('storeData', details);
-      //   print(storeData);
-      // });
-
-      print(user);
-      print(71);
 
       if (statuscode == 200) {
         final snackBar = SnackBar(
@@ -178,6 +136,35 @@ class _LoginPageState extends State<LoginPage> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
+      // print(decodeDetails['user'][0]['user_name']);
+      String token = decodeDetails['token'].toString();
+      String userName = decodeDetails['user'][0]['user_name'].toString();
+      print('$userName,line 118 login page');
+      print('$token,line 119 login page');
+      String storeemail = decodeDetails['user'][0]['email'].toString();
+      String phone = decodeDetails['user'][0]['phone'].toString();
+      String standard = decodeDetails['user'][0]['class'].toString();
+      String school = decodeDetails['user'][0]['school'].toString();
+      String enrollmentNumber =
+          decodeDetails['user'][0]['enrollment_number'].toString();
+      String academicYear =
+          decodeDetails['user'][0]['academic_year'].toString();
+
+      l.wtf(
+          "$token,$userName,$storeemail,$phone,$standard,$school,$enrollmentNumber,$academicYear,");
+
+      l.wtf('$token');
+
+      storingAllDetails(
+        userName: userName,
+        storeemail: storeemail,
+        phone: phone,
+        standard: standard,
+        token: token,
+        school: school,
+        academicYear: academicYear,
+        enrollmentNumber: enrollmentNumber,
+      );
     });
   }
 
@@ -204,13 +191,13 @@ class _LoginPageState extends State<LoginPage> {
     var status = decodeDetail['status'];
 
     if (status == false) {
-      Navigator.pushNamed(context, AllRouteNames.registerpage,
+      Navigator.popAndPushNamed(context, AllRouteNames.registerpage,
           arguments:
               ArgumentPass(deviceId: finalDeviceId, googleUser: googleUser));
     } else {
       final snackBar = SnackBar(
         backgroundColor: HexColor('#27AE60'),
-        content: Text('Register Successfully'),
+        content: Text('Login Successfully'),
         duration: Duration(seconds: 1),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
@@ -227,8 +214,12 @@ class _LoginPageState extends State<LoginPage> {
     var phone = userDetails[0]['phone'].toString();
     var standard = userDetails[0]['class'].toString();
     var profileImage = userDetails[0]['profile_image'].toString();
+    var school = userDetails[0]['school'].toString();
+    var enrollmentNumber = userDetails[0]['enrollment_number'].toString();
+    var academicYear = userDetails[0]['academic_year'].toString();
     l.i(userDetails[0]['profile_image'].toString());
     var token = decodeDetail['token'].toString();
+    print(token);
 
     storingAllDetails(
       userName: userName,
@@ -238,6 +229,9 @@ class _LoginPageState extends State<LoginPage> {
       profileImage: profileImage,
       token: token,
       googleId: googleId,
+      school: school,
+      academicYear: academicYear,
+      enrollmentNumber: enrollmentNumber,
     );
 
     // List<String> details = [
@@ -287,7 +281,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Stack(
           children: [
             Container(
-              height: (height - status) * 0.30,
+              height: (height - status) * 0.20,
               width: width,
               decoration: BoxDecoration(
                   // color: Colors.pink,
@@ -300,7 +294,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 children: [
                   Container(
-                      height: (height - status) * 0.70,
+                      height: (height - status) * 0.80,
                       width: width,
                       // color: Colors.black,
                       child: Column(
@@ -336,7 +330,18 @@ class _LoginPageState extends State<LoginPage> {
                             hintText = "Password",
                             icon = Icon(Icons.lock),
                             controller = password,
-                            obscureText: true,
+                            obscureText: secureText,
+                            suffixIcon: IconButton(
+                              color: HexColor('#3F3F3F'),
+                              icon: secureText
+                                  ? Icon(Icons.visibility_off)
+                                  : Icon(Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  secureText = !secureText;
+                                });
+                              },
+                            ),
                           ),
                           // SizedBox(height: 5),
                           Container(
@@ -381,7 +386,7 @@ class _LoginPageState extends State<LoginPage> {
                             width: width * 0.8,
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    primary: HexColor("#FF465C"),
+                                    primary: HexColor("#243665"),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(20))),
@@ -470,34 +475,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  storingAllDetails(
-      {userName,
-      storeemail,
-      phone,
-      standard,
-      profileImage,
-      token,
-      googleId}) async {
-    List<String> storing = [
-      userName,
-      storeemail,
-      phone,
-      standard,
-      profileImage ?? "",
-      token,
-      googleId ?? ""
-    ];
-
-    print(storing);
-    print(320);
-    Shared()
-        .shared()
-        .then((value) => value.setStringList('storeData', storing));
-  }
-
   Container customContainerTextField(
       double height, double width, hintText, icon, controller,
-      {obscureText = false}) {
+      {obscureText = false, suffixIcon}) {
     return Container(
       height: height * 0.05,
       width: width * 0.8,
@@ -505,6 +485,7 @@ class _LoginPageState extends State<LoginPage> {
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
+          suffixIcon: suffixIcon,
           hintText: hintText,
           hintStyle: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 12)),
           prefixIcon: icon,

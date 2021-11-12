@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Padding customText({text, width}) {
   return Padding(
-    padding: EdgeInsets.only(left: (width! * 0.07)),
+    padding: EdgeInsets.only(left: (width! * 0.1)),
     child: Align(
       alignment: Alignment.centerLeft,
       child: Text(

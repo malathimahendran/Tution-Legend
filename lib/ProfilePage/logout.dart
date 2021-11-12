@@ -28,4 +28,7 @@ class LogOutForAll {
     Navigator.pushAndRemoveUntil(context,
         MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
   }
+
+  final String thumbnailLink =
+      "https://img.youtube.com/vi/<insert-youtube-video-id-here>/0.jpg";
 }
