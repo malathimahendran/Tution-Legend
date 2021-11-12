@@ -14,7 +14,6 @@ class Play extends StatefulWidget {
 class _PlayState extends State<Play> {
   YoutubePlayerController? _controller;
   final l = Logger();
-
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([

@@ -1,65 +1,99 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
+import 'package:tutionmaster/play.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:http/http.dart' as http;
-import '../../../play.dart';
 
-class Videowishlist extends StatefulWidget {
-  const Videowishlist({Key? key}) : super(key: key);
+import 'likeandunlikeapi.dart';
+
+class Searchingg extends StatefulWidget {
+  Searchingg({this.details, this.searchlist});
+  final details;
+  final searchlist;
 
   @override
-  _VideowishlistState createState() => _VideowishlistState();
+  _SearchinggscreenState createState() => _SearchinggscreenState();
 }
 
-class _VideowishlistState extends State<Videowishlist> {
-  @override
-  void initState() {
-    super.initState();
-    getWishlist();
-  }
-
+class _SearchinggscreenState extends State<Searchingg> {
   var search = TextEditingController();
-  var decodeDetails, decodeDetailsData;
-  String? token;
+  var decodeDetails, token, decodeDetailsData;
+  final l = Logger();
   List<int>? youtubevideoId = [];
   bool isIconClicked = false;
   List<int> iconClick = [];
-  final l = Logger();
-  var wishlistDetails;
+  List<int> apireceivedid = [];
+  bool isList = false;
+  @override
+  void initState() {
+    l.wtf('inside init state');
+    functioncall();
+    super.initState();
+  }
+
+  functioncall() async {
+    l.wtf(widget.searchlist);
+
+    setState(() {
+      search.text = widget.searchlist;
+    });
+    // await searchApi();
+  }
+
   getWishlist() async {
     Shared().shared().then((value) async {
-      List userDetails = await value.getStringList('storeData');
+      var userDetails = await value.getStringList('storeData');
       token = userDetails[5];
       print("$token" + "27linechapter");
-      l.wtf(
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw');
-      l.w(token);
       var url =
           Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': token!
+        'Authorization': token
       });
       decodeDetailsData = json.decode(response.body);
       print(decodeDetailsData);
       l.i(decodeDetailsData);
-
-      for (var i in decodeDetailsData['result']) {
+      for (var i in decodeDetailsData['result'])
         youtubevideoId!.add(i['video_id']);
-        l.e(youtubevideoId);
-      }
-
-      setState(() {
-        wishlistDetails = decodeDetailsData['result'];
-      });
+      l.e(youtubevideoId);
 
       print(decodeDetails);
       print("47chapteritem");
+    });
+  }
+
+  searchApi() async {
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      // setState(() {
+      token = userDetails[5];
+      print("$token" + "27linechapter");
+      // });
+
+      print(userDetails);
+
+      print("28chapter");
+      print(33);
+
+      var url = Uri.parse(
+          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${widget}');
+      //  var url = Uri.parse(
+      //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': token
+      });
+      decodeDetailsData = json.decode(response.body);
+      setState(() {
+        decodeDetails = decodeDetailsData['data'];
+      });
     });
   }
 
@@ -125,24 +159,24 @@ class _VideowishlistState extends State<Videowishlist> {
                   height: ((height - status)) * 0.04,
                 ),
                 Flexible(
-                  child: wishlistDetails == null
+                  child: widget.details['data'] == null
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
                       : Container(
-                          height: height,
-                          width: width * 0.95,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(90)),
+                          height: (height),
+                          width: width * 0.97,
                           child: ListView.builder(
-                              itemCount: wishlistDetails.length,
+                              itemCount: widget.details['data'].length,
                               itemBuilder: (context, index) {
+                                // isList = apireceivedid
+                                //     .contains(widget.details['data'][index]['video_id']);
                                 var s = youtubevideoId!.contains(
-                                    wishlistDetails[index]['video_id']);
-                                // print('lllllllllllllllllllllll,  $s');
+                                    widget.details['data'][index]['video_id']);
+                                print('lllllllllllllllllllllll,  $s');
                                 var you = YoutubePlayerController(
                                   initialVideoId: YoutubePlayer.convertUrlToId(
-                                      wishlistDetails[index]['link'])!,
+                                      widget.details['data'][index]['link'])!,
                                   flags: const YoutubePlayerFlags(
                                     controlsVisibleAtStart: true,
                                     hideControls: true,
@@ -152,47 +186,42 @@ class _VideowishlistState extends State<Videowishlist> {
                                 );
 
                                 return InkWell(
+                                  // onTap: () {
+                                  //   print(131);
+                                  //   Navigator.push(
+                                  //       context,
+                                  //       MaterialPageRoute(
+                                  //           builder: (context) => Play(
+                                  //                 link: widget.details['data'][index]
+                                  //                     ['link'],
+                                  //               )));
+                                  // },
                                   child: Container(
                                       height: (height) * 0.12,
-                                      width: width,
+                                      width: width * 0.8,
                                       // child: YoutubePlayer(
                                       //   controller: you,
                                       // ),
                                       child: Card(
+                                        elevation: 10,
                                         color: HexColor('#FFFFFF'),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(5.0),
+                                              BorderRadius.circular(15.0),
                                         ),
                                         child: Container(
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              SizedBox(
-                                                width: width * 0.01,
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              Play(
-                                                                link: wishlistDetails[
-                                                                        index]
-                                                                    ['link'],
-                                                              )));
-                                                },
-                                                child: Container(
-                                                  width: width * 0.2,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                    child: YoutubePlayer(
-                                                      controller: you,
-                                                    ),
+                                              Container(
+                                                width: width * 0.2,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  child: Image.network(
+                                                    'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(widget.details['data'][index]['link'])}/0.jpg',
+                                                    fit: BoxFit.cover,
                                                   ),
                                                 ),
                                               ),
@@ -210,10 +239,11 @@ class _VideowishlistState extends State<Videowishlist> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        // Text(wishlistDetails['data'][index]
+                                                        // Text(widget.details['data']['data'][index]
                                                         //     ['link']),
                                                         Text(
-                                                          wishlistDetails[index]
+                                                          widget.details['data']
+                                                                  [index]
                                                                   ['subject']
                                                               .toString(),
                                                           style: TextStyle(
@@ -225,7 +255,8 @@ class _VideowishlistState extends State<Videowishlist> {
                                                                   '#0A1C22')),
                                                         ),
                                                         Text(
-                                                          wishlistDetails[index]
+                                                          widget.details['data']
+                                                                  [index]
                                                                   ['lesson']
                                                               .toString(),
                                                           style: TextStyle(
@@ -240,16 +271,32 @@ class _VideowishlistState extends State<Videowishlist> {
                                               InkWell(
                                                   onTap: () {
                                                     checking(
-                                                        link: wishlistDetails[
-                                                            index]['video_id']);
+                                                        link: widget.details[
+                                                                'data'][index]
+                                                            ['video_id']);
                                                   },
                                                   child: Icon(Icons.favorite,
                                                       color: s
                                                           ? Colors.pink
                                                           : Colors.grey)),
-                                              SizedBox(
-                                                width: width * 0.01,
-                                              ),
+                                              // LikeButton(
+                                              //   // onTap: () {
+
+                                              //   circleColor: CircleColor(
+                                              //       start: Color(0xFFF44336),
+                                              //       end: Color(0xFFF44336)),
+                                              //   likeBuilder: (isLiked) {
+
+                                              //     return Icon(
+                                              //       Icons.favorite,
+                                              //       size: 30,
+                                              //       color: isLiked
+                                              //           ? Colors.pink
+                                              //           : Colors.teal,
+                                              //     );
+                                              //   },
+
+                                              // countBuilder: (){
                                             ],
                                           ),
                                         ),
@@ -289,21 +336,5 @@ class _VideowishlistState extends State<Videowishlist> {
       }
     } else
       return;
-  }
-
-  likevideo(videoID) async {
-    var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/like');
-    var response = await http.post(url,
-        body: {'video_id': videoID.toString()},
-        headers: {'Authorization': token!});
-    print(response.body);
-  }
-
-  unlikevideo(videoId) async {
-    var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/dislike');
-    var response = await http.post(url,
-        body: {'video_id': videoId.toString()},
-        headers: {'Authorization': token!});
-    print(response.body);
   }
 }

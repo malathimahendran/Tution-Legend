@@ -6,6 +6,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:toast/toast.dart';
+import 'package:tutionmaster/HomePage/homeTestScreen.dart';
+import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -142,8 +144,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
     print("sfdfffffffffffffffffffffffffff");
     paymentPostApi(subId: subscriptionId);
     Toast.show("Payment success", context, duration: 3);
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Profile()));
+    Navigator.popAndPushNamed(context, '/homescreen');
   }
 
   void handlerErrorFailure() {
@@ -299,7 +300,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
                                       Text(
                                         "Payment",
                                         style: TextStyle(
-                                          fontSize: 19,
+                                          fontSize: 17,
                                         ),
                                       ),
                                       SizedBox(
@@ -312,7 +313,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
                                           Text(
                                             "\u20B9",
                                             style: TextStyle(
-                                                fontSize: 45,
+                                                fontSize: 35,
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           Text(
@@ -320,7 +321,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
                                                 .toString(),
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 35),
+                                                fontSize: 30),
                                           ),
                                           Text(
                                             "/Yearly",
@@ -334,16 +335,22 @@ class _PaymentDesignState extends State<PaymentDesign> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Text("Date"),
-                                          Text("    Time")
+                                          Text(
+                                            "Date",
+                                            style: TextStyle(fontSize: 12),
+                                          ),
+                                          Text("    Time",
+                                              style: TextStyle(fontSize: 12))
                                         ],
                                       ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Text("12 mar 2020"),
-                                          Text("Mon,15.00")
+                                          Text("12 mar 2020",
+                                              style: TextStyle(fontSize: 12)),
+                                          Text("Mon,15.00",
+                                              style: TextStyle(fontSize: 12))
                                         ],
                                       )
                                     ],

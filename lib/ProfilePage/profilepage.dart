@@ -505,7 +505,7 @@ class _ProfileState extends State<Profile> {
                     )
                   : Container(),
               Container(
-                height: (height - status) * 0.2,
+                height: (height - status) * 0.13,
                 width: width * 0.9,
                 child: Card(
                     child: Column(
@@ -524,27 +524,30 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                         ),
-                        Container(
-                          width: width * 0.9,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(
-                                "   Subscribed Amount:$amount",
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              Text(
-                                "   Subscribed Date:$subscribedDate",
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              Text(
-                                "   Plan End Date:$endingDate",
-                                style: TextStyle(fontSize: 12),
+                        amount == null
+                            ? Container()
+                            : Container(
+                                width: width * 0.9,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      "   Subscribed Amount:$amount",
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    Text(
+                                      "   Subscribed Date:$subscribedDate",
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    Text(
+                                      "   Plan End Date:$endingDate",
+                                      style: TextStyle(fontSize: 12),
+                                    )
+                                  ],
+                                ),
                               )
-                            ],
-                          ),
-                        )
                       ],
                     ),
                     elevation: 5,

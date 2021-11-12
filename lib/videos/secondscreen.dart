@@ -8,6 +8,8 @@ import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import 'likeandunlikeapi.dart';
+
 class Secondscreen extends StatefulWidget {
   String Selectedsubjectname;
   Secondscreen({required this.Selectedsubjectname});
@@ -26,10 +28,19 @@ class _SecondscreenState extends State<Secondscreen> {
   List<int> apireceivedid = [];
   bool isList = false;
   @override
+  // void initState() {
+  //   super.initState();
+  //   searchApi();
+  //   getWishlist();
+  // }
   void initState() {
     super.initState();
-    searchApi();
-    getWishlist();
+    functioncall();
+  }
+
+  functioncall() async {
+    await searchApi();
+    await getWishlist();
   }
 
   getWishlist() async {
@@ -82,14 +93,7 @@ class _SecondscreenState extends State<Secondscreen> {
       setState(() {
         decodeDetails = decodeDetailsData['data'];
       });
-
-      print(decodeDetails['data']);
-      print("47chapteritem");
     });
-    // print('44');
-    // decodeDetails = json.decode(response.body);
-    // setState(() {});
-    // print(decodeDetails['data']);
   }
 
   @override
@@ -173,16 +177,7 @@ class _SecondscreenState extends State<Secondscreen> {
                                 var s = youtubevideoId!
                                     .contains(decodeDetails[index]['video_id']);
                                 print('lllllllllllllllllllllll,  $s');
-                                var you = YoutubePlayerController(
-                                  initialVideoId: YoutubePlayer.convertUrlToId(
-                                      decodeDetails[index]['link'])!,
-                                  flags: const YoutubePlayerFlags(
-                                    controlsVisibleAtStart: true,
-                                    hideControls: true,
-                                    autoPlay: false,
-                                    isLive: false,
-                                  ),
-                                );
+
                                 // print(decodeDetails[index]['link']);
                                 // print(youtubevideoId!.length);
                                 // print(109);
@@ -220,8 +215,9 @@ class _SecondscreenState extends State<Secondscreen> {
                                                 child: ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(15),
-                                                  child: YoutubePlayer(
-                                                    controller: you,
+                                                  child: Image.network(
+                                                    'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(decodeDetails[index]['link'])}/0.jpg',
+                                                    fit: BoxFit.cover,
                                                   ),
                                                 ),
                                               ),
@@ -334,21 +330,5 @@ class _SecondscreenState extends State<Secondscreen> {
       }
     } else
       return;
-  }
-
-  likevideo(videoID) async {
-    var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/like');
-    var response = await http.post(url,
-        body: {'video_id': videoID.toString()},
-        headers: {'Authorization': token!});
-    print(response.body);
-  }
-
-  unlikevideo(videoId) async {
-    var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/dislike');
-    var response = await http.post(url,
-        body: {'video_id': videoId.toString()},
-        headers: {'Authorization': token!});
-    print(response.body);
   }
 }
