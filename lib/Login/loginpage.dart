@@ -12,6 +12,7 @@ import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/FCM%20Token/fcm_token.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/Login/argumentpass.dart';
+import 'package:tutionmaster/ProfilePage/logout.dart';
 import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/StartingLearningPage/startlearning.dart';
@@ -39,6 +40,8 @@ class _LoginPageState extends State<LoginPage> {
       token;
   bool secureText = true;
   var controller;
+  // Function fun = signInWithGoogle(){};
+  Function fu = (a) {};
   var email = TextEditingController();
   var password = TextEditingController();
   bool isChecked = false;
@@ -189,11 +192,26 @@ class _LoginPageState extends State<LoginPage> {
 
     var statusCode = response.statusCode;
     var status = decodeDetail['status'];
+    print(
+        '$statusCode,$status,$decodeDetail,"line192 Login Page google login"');
 
     if (status == false) {
       Navigator.popAndPushNamed(context, AllRouteNames.registerpage,
           arguments:
               ArgumentPass(deviceId: finalDeviceId, googleUser: googleUser));
+    } else if (statusCode == 401) {
+      final snackBar = SnackBar(
+        backgroundColor: Colors.red,
+        content:
+            Text('Please use same device you registered when yor are login'),
+        duration: Duration(seconds: 1),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      LogOutForAll.outTemporary(context);
     } else {
       final snackBar = SnackBar(
         backgroundColor: HexColor('#27AE60'),
@@ -219,6 +237,9 @@ class _LoginPageState extends State<LoginPage> {
     var academicYear = userDetails[0]['academic_year'].toString();
     l.i(userDetails[0]['profile_image'].toString());
     var token = decodeDetail['token'].toString();
+    print(
+        "$userName,$storeemail,$phone,$standard,$profileImage,$school,$enrollmentNumber,$academicYear,Line 222 Login page");
+
     print(token);
 
     storingAllDetails(
@@ -306,10 +327,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           SizedBox(height: 4),
                           Text("Welcome",
-                              style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20),
-                              )),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20)),
                           SizedBox(height: 4),
                           Text(
                             "Login to your existing Account",
@@ -443,10 +462,13 @@ class _LoginPageState extends State<LoginPage> {
                           Container(
                             width: width * 0.6,
                             child: Row(children: [
-                              Text("Don't have an account?"),
+                              Text(
+                                "Don't have an account?",
+                                style: TextStyle(fontSize: 12),
+                              ),
                               InkWell(
                                 onTap: () {
-                                  Navigator.pushNamed(
+                                  Navigator.popAndPushNamed(
                                       context, AllRouteNames.registerpage,
                                       arguments: ArgumentPass(
                                         deviceId: finalDeviceId,
@@ -458,7 +480,7 @@ class _LoginPageState extends State<LoginPage> {
                                   style: GoogleFonts.poppins(
                                       textStyle: TextStyle(
                                           decoration: TextDecoration.underline,
-                                          fontSize: 15,
+                                          fontSize: 13,
                                           color: HexColor('#514880'))),
                                 ),
                               )

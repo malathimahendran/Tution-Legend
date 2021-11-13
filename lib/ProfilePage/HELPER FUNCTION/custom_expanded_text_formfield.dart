@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
@@ -59,8 +60,9 @@ class _CustomExpandedWithTextAndFormFieldState
       profileImage,
       enrollmentNumber,
       school,
-      academicYear;
-
+      academicYear,
+      googleId;
+  final l = Logger();
   userdatas() {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
@@ -73,6 +75,7 @@ class _CustomExpandedWithTextAndFormFieldState
       profileImage = userDetails[4];
       enrollmentNumber = userDetails[7];
       school = userDetails[8];
+      googleId = userDetails[6];
       academicYear = userDetails[9];
       print('$storeUserName,47');
       widget.userName.text = storeUserName.toString();
@@ -83,6 +86,7 @@ class _CustomExpandedWithTextAndFormFieldState
       widget.schoolName.text = school == null ? "" : school.toString();
       widget.academicYear.text =
           academicYear == null ? "" : academicYear.toString();
+      l.wtf(widget.academicYear.text);
       setState(() {
         widget.grade.text = standard.toString();
       });
@@ -117,17 +121,17 @@ class _CustomExpandedWithTextAndFormFieldState
     var academicYear = editFullDetails['result']['academic_year'];
 
     storingAllDetails(
-        userName: userName,
-        storeemail: storeemail,
-        phone: phone,
-        standard: standard,
-        enrollmentNumber: enrollmentNumber,
-        school: school,
-        academicYear: academicYear,
-        profileImage: profileImage,
-        token: token
-        // googleId:googleId,
-        );
+      userName: userName,
+      storeemail: storeemail,
+      phone: phone,
+      standard: standard,
+      profileImage: profileImage,
+      token: token,
+      googleId: googleId,
+      enrollmentNumber: enrollmentNumber,
+      school: school,
+      academicYear: academicYear,
+    );
     if (status == true) {
       final snackBar = SnackBar(
         backgroundColor: HexColor('#27AE60'),

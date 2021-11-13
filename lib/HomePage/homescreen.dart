@@ -1,26 +1,19 @@
-import 'dart:io';
-
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
-import 'package:tutionmaster/HomePage/second.dart';
-import 'package:tutionmaster/HomePage/third.dart';
-import 'package:tutionmaster/Login/loginpage.dart';
 import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
-import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
-
-import 'package:tutionmaster/video/Videostream/videolist/firstscreen.dart';
-import 'package:tutionmaster/video/Videostream/videolist/video_wishlist.dart';
-
+import 'package:tutionmaster/videos/likeandunlikeapi.dart';
+import 'package:tutionmaster/videos/videomainscreen.dart';
+import 'package:tutionmaster/videos/wishlist.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
 
-import 'first.dart';
-import 'fourth.dart';
+import 'DRAWER FOLDER/drawer_page.dart';
 
 class HomeScreen extends StatefulWidget {
   static var scaffoldkey1 = GlobalKey<ScaffoldState>();
@@ -42,14 +35,6 @@ class IconAndText {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  int page = 0;
-  changingPages({int? index}) {
-    print('called this function');
-    setState(() {
-      page = index!;
-    });
-  }
-
   final l = Logger();
   List<IconAndText> iconAndText = [
     IconAndText(icon: Icons.home, text: 'Home', index: 0),
@@ -58,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen>
     IconAndText(icon: Icons.home, text: 'Home', index: 3),
   ];
   int selectedItem = 0;
+  int _page = 0;
   var k;
   String? userName;
   var storeUserName, userEmail, profileImage, userMobileNo, enrollmentNumber;
@@ -77,9 +63,13 @@ class _HomeScreenState extends State<HomeScreen>
 
   void initState() {
     super.initState();
-
+    Provider.of<WishList>(context, listen: false).getWishlist();
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
+      // var token = userDetails[5];
+
+      // l.w(Provider.of<WishList>(context, listen: false).youtubeVideoId);
+      // l.w(Provider.of<WishList>(context, listen: false).youtubeVideoLink);
       setState(() {
         storeUserName = userDetails[0];
         profileImage = userDetails[4];
@@ -92,24 +82,29 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     if (widget.searchindex == true) {
-      page = 1;
+      _page = 1;
     }
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
 
+    // return WillPopScope(
+    // onWillPop: () {
+    //   return Future.value(true);
+    // },
     return WillPopScope(
-      onWillPop: page != 0
+      onWillPop: _page != 0
           ? () {
-              l.w('inside if');
+              l.e(_page);
+              l.e('insideif');
               setState(() {
-                var m = changingPages(index: 0);
-                l.w(m);
+                _page = 0;
               });
               return Future.value(false);
             }
           : () {
-              l.w('inside else');
+              l.e('insideelse');
+              l.e(_page);
               return Future.value(true);
             },
       child: SafeArea(
@@ -119,218 +114,42 @@ class _HomeScreenState extends State<HomeScreen>
           drawer: Container(
             width: width * 0.75,
             height: height,
-            child: Drawer(
-                child: Column(children: [
-              Container(
-                color: HexColor('#009688'),
-                // width: width * 0.9,
-                height: height * 0.2,
-                child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 10),
-                      // color: Colors.green,
-                      child: profileImage == null || profileImage == ""
-                          ? Container(
-                              height: (height - status) * 0.08,
-                              width: width * 0.15,
-                              color: Colors.redAccent[400],
-                              alignment: Alignment.center,
-                              child: Text(
-                                userName
-                                    .toString()
-                                    .substring(0, 1)
-                                    .toUpperCase(),
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30),
-                              ))
-                          : Image.network(profileImage),
-                    ),
-                    SizedBox(width: width * 0.04),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        // mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            storeUserName == null ? "" : storeUserName,
-                            // overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15)),
-                          ),
-                          Container(
-                            child: Text('Student',
-                                style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        color: Colors.white, fontSize: 12))),
-                          ),
-                          Container(
-                            child: enrollmentNumber == null
-                                ? Text('')
-                                : Text('Enrollment no:$enrollmentNumber',
-                                    style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 13))),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                width: width * 0.9,
-                height: height * 0.6,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: height * 0.05,
-                    ),
-                    Container(
-                      width: width * 0.65,
-                      height: height * 0.075,
-                      child: Card(
-                        color: HexColor('#243665'),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: width * 0.04,
-                            ),
-                            Icon(
-                              Icons.person,
-                              color: Colors.white,
-                            ),
-                            SizedBox(
-                              width: width * 0.03,
-                            ),
-                            Text(storeUserName == null ? "" : storeUserName,
-                                style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        color: Colors.white, fontSize: 13)))
-                          ],
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: height * 0.01,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PaymentDesign()));
-                      },
-                      child: Container(
-                        width: width * 0.65,
-                        height: height * 0.075,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: width * 0.04,
-                            ),
-                            Icon(Icons.payment, color: HexColor('#3F3F3F')),
-                            SizedBox(
-                              width: width * 0.03,
-                            ),
-                            Text('Payments',
-                                style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        color: Colors.black, fontSize: 13)))
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: height * 0.01,
-                    ),
-                    Container(
-                      width: width * 0.65,
-                      height: height * 0.075,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.04,
-                          ),
-                          Icon(Icons.lock, color: HexColor('#3F3F3F')),
-                          SizedBox(
-                            width: width * 0.03,
-                          ),
-                          Text('ChangePassword',
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      color: Colors.black, fontSize: 13)))
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: height * 0.01,
-                    ),
-                    Container(
-                      width: width * 0.65,
-                      height: height * 0.075,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.04,
-                          ),
-                          Icon(
-                            Icons.help,
-                            color: HexColor('#3F3F3F'),
-                          ),
-                          SizedBox(
-                            width: width * 0.03,
-                          ),
-                          Text('Help and Support',
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      color: Colors.black, fontSize: 13)))
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ])),
+            child: DrawerPage(
+              height: height,
+              width: width,
+              status: status,
+              profileImage: profileImage,
+              storeUserName: storeUserName,
+              userName: userName,
+              enrollmentNumber: enrollmentNumber,
+            ),
           ),
           bottomNavigationBar: Container(
             // decoration: BoxDecoration(
-            //     image: DecorationImage(
-            //         image:
-            //             AssetImage('assets/HomeScreenPage/homeScreenTab.png'),
-            //         fit: BoxFit.cover)),
+            //   image: DecorationImage(
+            //       image: AssetImage('assets/HomeScreenPage/homeScreenTab.png'),
+            //       fit: BoxFit.cover),
+            // ),
+            color: Colors.black,
             width: double.infinity,
-            height: 100.0,
+            height: 101.0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(iconlist.length, (index) {
-                return InkWell(
+                return GestureDetector(
                   onTap: () {
-                    // widget.searchindex = false;
-                    l.w(index);
-                    changingPages(index: index);
-                    // setState(() {});
-                    l.e('hello insode onTap');
-                    l.w(index);
+                    widget.searchindex = false;
+                    // l.w(_page);
+                    setState(() {
+                      _page = index;
+                    });
+                    // l.w(_page);
                   },
                   child: Padding(
                     padding: EdgeInsets.only(top: 38.0),
                     child: Container(
                       padding: EdgeInsets.only(bottom: 2),
                       width: (width) * 1 / 4,
-                      // color: Colors.black,
                       alignment: index == 1
                           ? Alignment.centerLeft
                           : index == 2
@@ -342,19 +161,19 @@ class _HomeScreenState extends State<HomeScreen>
                         children: [
                           CircleAvatar(
                               radius: 20.0,
-                              backgroundColor: page == index
+                              backgroundColor: _page == index
                                   ? Colors.white
                                   : Colors.transparent,
                               child: Icon(
                                 iconlist[index],
-                                color: page == index
+                                color: _page == index
                                     ? HexColor('#243665')
                                     : Colors.white,
-                                size: 22,
+                                size: 20,
                               )),
                           Text(
                             iconname[index],
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white, fontSize: 10),
                           )
                         ],
                       ),
@@ -364,8 +183,9 @@ class _HomeScreenState extends State<HomeScreen>
               }),
             ),
           ),
-          body: pages[page],
+          body: pages[_page],
         ),
+        // ),
       ),
     );
   }

@@ -1,12 +1,19 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:logger/logger.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:toast/toast.dart';
+import 'package:tutionmaster/HomePage/homeTestScreen.dart';
+import 'package:tutionmaster/HomePage/homescreen.dart';
+import 'package:tutionmaster/ProfilePage/profilepage.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 // import 'package:razorpay_flutter/razorpay_flutter.dart';
 class PaymentDesign extends StatefulWidget {
@@ -17,17 +24,28 @@ class PaymentDesign extends StatefulWidget {
 }
 
 class _PaymentDesignState extends State<PaymentDesign> {
+  var scroll = ScrollController();
+  var key;
+  var num1;
+  var num2;
+  final l = Logger();
   bool isChecked = false;
   bool cardChecked = false;
   int? selected;
+  var formattedDate, paymentId;
+  var now = new DateTime.now();
+  var formatter = new DateFormat('yyyy-MM-dd');
+  var subscriptionId, indexAmount;
   var userEmail, userMobileNo, userName, profileImage;
   var token, decodeDetailsData, decodeDetails, result, enrollmentNumber;
   List keys = [];
-  var selectedAmount;
+  var selectedAmount, results;
   Razorpay? razorpay;
   void initState() {
     super.initState();
     getPaymentPlanApi();
+    formattedDate = formatter.format(now);
+    print("$formattedDate,date");
     razorpay = new Razorpay();
     print(razorpay);
     print(21);
@@ -70,11 +88,8 @@ class _PaymentDesignState extends State<PaymentDesign> {
   getPaymentPlanApi() {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
-      // setState(() {
       token = userDetails[5];
       print("$token" + "27linechapter");
-      // });
-
       print(userDetails);
 
       print("28chapter");
@@ -82,24 +97,45 @@ class _PaymentDesignState extends State<PaymentDesign> {
 
       var url = Uri.parse(
           'http://www.cviacserver.tk/tuitionlegend/home/get_subscription');
-      //  var url = Uri.parse(
-      //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': token,
       });
+      decodeDetailsData = json.decode(response.body);
+      print(decodeDetailsData);
       setState(() {
-        decodeDetailsData = json.decode(response.body);
-        print(decodeDetailsData);
         result = decodeDetailsData['result'];
         print(result);
       });
-      // setState(() {
-      //   decodeDetails = decodeDetailsData['data'];
-      // });
+      print("47payment");
+    });
+  }
 
-      // print(decodeDetails['data']);
+  paymentPostApi({subId}) {
+    print("$paymentId,Payment Id");
+    print("$subId,subscription Id");
+    print("$formattedDate,Date");
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      token = userDetails[5];
+      print("$token" + "27linechapter");
+      print(userDetails);
+      var url =
+          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/payment');
+      var response = await http.post(url, body: {
+        'subscription_id': subId.toString(),
+        'subscribed_date': formattedDate.toString(),
+        'payment_id': paymentId.toString()
+      }, headers: {
+        'Authorization': token,
+      });
+      decodeDetailsData = json.decode(response.body);
+      print("$decodeDetailsData,120 payment success post api");
+      setState(() {
+        results = decodeDetailsData['result'];
+        print(results);
+      });
       print("47payment");
     });
   }
@@ -107,11 +143,14 @@ class _PaymentDesignState extends State<PaymentDesign> {
   void handlerPaymentSuccess(PaymentSuccessResponse res) {
     print("Payment success");
     print(res.paymentId);
+    paymentId = res.paymentId;
     print(res.orderId);
     print(res.signature);
     print(58);
     print("sfdfffffffffffffffffffffffffff");
+    paymentPostApi(subId: subscriptionId);
     Toast.show("Payment success", context, duration: 3);
+    Navigator.popAndPushNamed(context, '/homescreen');
   }
 
   void handlerErrorFailure() {
@@ -131,6 +170,28 @@ class _PaymentDesignState extends State<PaymentDesign> {
     var status = MediaQuery.of(context).padding.top;
     final orientation = MediaQuery.of(context).orientation;
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
+        title: Text(
+          "Payment",
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: height * 0.025,
+              fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        centerTitle: true,
+      ),
+      extendBodyBehindAppBar: true,
       body: result == null
           ? Center(child: CircularProgressIndicator())
           : Container(
@@ -138,8 +199,8 @@ class _PaymentDesignState extends State<PaymentDesign> {
                   image: DecorationImage(
                       image: ExactAssetImage(
                           'assets/ProfilePage/mainbackground.png'))),
-              height: height,
-              width: width,
+              width: double.infinity,
+              height: double.infinity,
               child: Column(
                 children: [
                   Stack(
@@ -153,36 +214,12 @@ class _PaymentDesignState extends State<PaymentDesign> {
                                     'assets/LoginPage/logintop.png'),
                                 fit: BoxFit.fill)),
                       ),
-                      SafeArea(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Icon(
-                                Icons.arrow_back,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              'Payment                           ',
-                              style: TextStyle(
-                                  color: HexColor('#F9F9F9'), fontSize: 20),
-                            ),
-                          ],
-                        ),
-                      ),
                       Positioned(
                         top: (height - status) * 0.18,
                         left: width * 0.13,
                         child: Container(
                             height: height * 0.07,
                             width: height * 0.07,
-                            // decoration: BoxDecoration(
-                            //     image: DecorationImage(
-                            //         image: NetworkImage(profileImage))),
                             child: profileImage == null || profileImage == ""
                                 ? Container(
                                     height: (height - status) * 0.08,
@@ -227,12 +264,20 @@ class _PaymentDesignState extends State<PaymentDesign> {
                     child: Container(
                       height: (height - status) * 0.3,
                       width: width,
+                      // padding: EdgeInsets.symmetric(horizontal: width * 0.10),
+                      padding: EdgeInsets.only(left: width * 0.08),
                       child: ListView.builder(
+                        padding: EdgeInsets.only(left: 20.0),
+                        shrinkWrap: true,
+                        semanticChildCount: 1,
+                        controller: scroll,
+                        itemExtent: width * 0.85,
                         scrollDirection: Axis.horizontal,
                         itemCount: result.length,
+                        physics: PageScrollPhysics(),
                         itemBuilder: (context, index) {
                           return Container(
-                            width: width * 0.9,
+                            width: width,
                             child: Card(
                                 elevation: 5,
                                 shape: RoundedRectangleBorder(
@@ -243,26 +288,10 @@ class _PaymentDesignState extends State<PaymentDesign> {
                                   padding: EdgeInsets.all(10),
                                   child: Column(
                                     children: [
-                                      CheckboxListTile(
-                                          activeColor: Colors.red,
-                                          checkColor: Colors.white,
-                                          contentPadding: EdgeInsets.zero,
-                                          controlAffinity:
-                                              ListTileControlAffinity.leading,
-                                          value:
-                                              selected == index ? true : false,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              selected = index;
-                                              selectedAmount = result[index]
-                                                      ['amount']
-                                                  .toString();
-                                            });
-                                          }),
                                       Text(
                                         "Payment",
                                         style: TextStyle(
-                                          fontSize: 19,
+                                          fontSize: 17,
                                         ),
                                       ),
                                       SizedBox(
@@ -275,14 +304,15 @@ class _PaymentDesignState extends State<PaymentDesign> {
                                           Text(
                                             "\u20B9",
                                             style: TextStyle(
-                                                fontSize: 45,
+                                                fontSize: 35,
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           Text(
-                                            result[index]['amount'].toString(),
+                                            (result[index]['amount'] ?? "")
+                                                .toString(),
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 35),
+                                                fontSize: 30),
                                           ),
                                           Text(
                                             "/Yearly",
@@ -296,16 +326,22 @@ class _PaymentDesignState extends State<PaymentDesign> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Text("Date"),
-                                          Text("    Time")
+                                          Text(
+                                            "Date",
+                                            style: TextStyle(fontSize: 12),
+                                          ),
+                                          Text("    Time",
+                                              style: TextStyle(fontSize: 12))
                                         ],
                                       ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Text("12 mar 2020"),
-                                          Text("Mon,15.00")
+                                          Text("12 mar 2020",
+                                              style: TextStyle(fontSize: 12)),
+                                          Text("Mon,15.00",
+                                              style: TextStyle(fontSize: 12))
                                         ],
                                       )
                                     ],
@@ -357,8 +393,16 @@ class _PaymentDesignState extends State<PaymentDesign> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         onPressed: () {
-                          openCheckout(amount: selectedAmount);
-                          // loginApi();
+                          l.w(num1);
+                          // l.w(key);
+                          l.i(scroll.position.context);
+                          l.w(scroll.position.pixels);
+                          l.w(scroll.position.viewportDimension);
+                          var pixel = scroll.position.pixels;
+                          var of = scroll.position.viewportDimension;
+                          var ind = (pixel / of).round();
+                          l.e(ind);
+                          l.wtf(result[ind]['amount']);
                         },
                         child: Text("Subscribe Now",
                             style: GoogleFonts.poppins(

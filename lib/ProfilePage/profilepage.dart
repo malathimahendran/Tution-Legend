@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,12 +6,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:logger/logger.dart';
+import 'package:tutionmaster/ALLROUTES/routesname.dart';
+import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/ProfilePage/logout.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'profile_edit_page.dart';
+import 'package:http/http.dart' as http;
 
 import 'profile_edit_page.dart';
 
@@ -28,12 +32,81 @@ class _ProfileState extends State<Profile> {
       profileImage,
       enrollmentNumber,
       school,
-      academicYear;
+      academicYear,
+      googleId,
+      token,
+      decodeDetailsData,
+      decodeDetails,
+      amount;
   var imageFile;
+  var subscribedDate;
+  var endingDate;
   void initState() {
     super.initState();
     getUserName();
+    getPlanDetails();
+
     print(29);
+  }
+
+  getPlanDetails() async {
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      // setState(() {
+      token = userDetails[5];
+      print("$token" + "51 line");
+
+      var url =
+          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/get_payment');
+
+      var response = await http.get(url, headers: {'Authorization': token});
+      decodeDetailsData = json.decode(response.body);
+      l.d(decodeDetailsData);
+      var result = decodeDetailsData['result'];
+      l.wtf(result);
+      setState(() {
+        subscribedDate =
+            result[0]['subscribed_date'].toString().substring(0, 10);
+        l.wtf(subscribedDate);
+        endingDate = result[0]['ending_date'].toString().substring(0, 10);
+        l.wtf(endingDate);
+        amount = result[0]['amount'];
+        l.wtf(amount);
+      });
+    });
+  }
+
+  Future<void> logOut() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Are you sure?'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('We will be redirected to login page.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Dismiss the Dialog
+              },
+            ),
+            FlatButton(
+              child: Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Navigate to login
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   getUserName() {
@@ -49,12 +122,15 @@ class _ProfileState extends State<Profile> {
         enrollmentNumber = userDetails[7];
         school = userDetails[8];
         academicYear = userDetails[9];
+        googleId = userDetails[6];
+        token = userDetails[5];
         print('$profileImage,32lineprofile');
         print(userName);
       });
-
+      print("$googleId,line 90 profilePage ");
       print(userDetails);
       print(28);
+      l.wtf(googleId);
     });
   }
 
@@ -71,78 +147,16 @@ class _ProfileState extends State<Profile> {
   @override
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   Widget build(BuildContext context) {
+    l.e(subscribedDate);
     // getUserName();
     // print(widget.indexnumber);
     print(43);
-    Future<void> logOut() async {
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Are you sure?'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text('We will be redirected to login page.'),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('No'),
-                onPressed: () {
-                  Navigator.of(context).pop(); // Dismiss the Dialog
-                },
-              ),
-              FlatButton(
-                child: Text('Yes'),
-                onPressed: () {
-                  Navigator.of(context).pop(); // Navigate to login
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
 
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
     return SafeArea(
       child: Scaffold(
-        // bottomNavigationBar: CurvedNavigationBar(
-        //   key: _bottomNavigationKey,
-        //   items: <Widget>[
-        //     NavigationBar(
-        //         navigationbaricon: Icons.home, navigationbariconname: 'Home'),
-        //     NavigationBar(
-        //         navigationbaricon: Icons.video_collection,
-        //         navigationbariconname: 'Videos'),
-        //     NavigationBar(
-        //         navigationbaricon: Icons.favorite,
-        //         navigationbariconname: 'Wishlist'),
-        //     NavigationBar(
-        //         navigationbaricon: Icons.account_circle,
-        //         navigationbariconname: 'Profile'),
-        //   ],
-        //   color: Colors.pinkAccent,
-        //   buttonBackgroundColor: Colors.pinkAccent,
-        //   backgroundColor: Colors.white,
-        //   animationCurve: Curves.easeInOut,
-        //   animationDuration: Duration(milliseconds: 500),
-        //   onTap: (index) {
-        //     if (index == 3) {
-        //       Navigator.push(
-        //           context, MaterialPageRoute(builder: (context) => Profile()));
-        //     }
-        //     // setState(() {
-        //     //   _page = index;
-        //     // });
-        //   },
-        //   letIndexChange: (index) => true,
-        // ),
         body: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
@@ -229,60 +243,6 @@ class _ProfileState extends State<Profile> {
                                             ))
                                         : Image.network(profileImage),
                                   ),
-                                  // Positioned(
-                                  //   bottom: -4.0,
-                                  //   right: -4.0,
-                                  //   child: InkWell(
-                                  //     onTap: () {
-                                  //       showDialog(
-                                  //           context: context,
-                                  //           builder: (context) {
-                                  //             return AlertDialog(
-                                  //               title: Text(
-                                  //                 'Select your choice',
-                                  //                 style: GoogleFonts.poppins(),
-                                  //               ),
-                                  //               actions: [
-                                  //                 TextButton(
-                                  //                   onPressed: () async {
-                                  //                     Navigator.pop(context);
-                                  //                     var choosedCameraImage =
-                                  //                         await chooseImage(
-                                  //                             ImageSource
-                                  //                                 .camera);
-                                  //                     // postImage(choosedCameraImage);
-                                  //                   },
-                                  //                   child: Text(
-                                  //                     'Camera',
-                                  //                     style:
-                                  //                         GoogleFonts.poppins(),
-                                  //                   ),
-                                  //                 ),
-                                  //                 TextButton(
-                                  //                     onPressed: () async {
-                                  //                       Navigator.pop(context);
-                                  //                       var choosedGalleryImage =
-                                  //                           await chooseImage(
-                                  //                               ImageSource
-                                  //                                   .gallery);
-                                  //                       // postImage(choosedGalleryImage);
-                                  //                     },
-                                  //                     child: Text('Gallery',
-                                  //                         style: GoogleFonts
-                                  //                             .poppins()))
-                                  //               ],
-                                  //             );
-                                  //           });
-                                  //     },
-                                  //     child: Container(
-                                  //       child: Icon(
-                                  //         Icons.photo_camera,
-                                  //         size: 25,
-                                  //         color: Colors.teal.shade900,
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
                                 ]),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 20),
@@ -294,7 +254,7 @@ class _ProfileState extends State<Profile> {
                                         '$userName',
                                         style: TextStyle(
                                             color: HexColor('#B91124'),
-                                            fontSize: 20,
+                                            fontSize: 16,
                                             fontWeight: FontWeight.bold),
                                       ),
                                       SizedBox(
@@ -303,7 +263,7 @@ class _ProfileState extends State<Profile> {
                                       Text('Student',
                                           style: TextStyle(
                                             color: HexColor('#848484'),
-                                            fontSize: 15,
+                                            fontSize: 12,
                                           )),
                                       SizedBox(
                                         height: ((height - status)) * 0.006,
@@ -314,7 +274,7 @@ class _ProfileState extends State<Profile> {
                                               'EnrollmentNumber:$enrollmentNumber',
                                               style: TextStyle(
                                                   color: HexColor('#0AB4A4'),
-                                                  fontSize: 15,
+                                                  fontSize: 12,
                                                   fontWeight: FontWeight.bold)),
                                     ],
                                   ),
@@ -345,7 +305,7 @@ class _ProfileState extends State<Profile> {
                                                 'class-$standard',
                                                 style: TextStyle(
                                                     color: HexColor('#05534B'),
-                                                    fontSize: 13),
+                                                    fontSize: 12),
                                               )
                                       ],
                                     ),
@@ -369,7 +329,7 @@ class _ProfileState extends State<Profile> {
                                           '$school',
                                           style: TextStyle(
                                               color: HexColor('#05534B'),
-                                              fontSize: 13),
+                                              fontSize: 12),
                                         )
                                       ],
                                     ),
@@ -390,7 +350,7 @@ class _ProfileState extends State<Profile> {
                                           'Academic Year $academicYear',
                                           style: TextStyle(
                                               color: HexColor('#05534B'),
-                                              fontSize: 13),
+                                              fontSize: 12),
                                         )
                                       ],
                                     )
@@ -452,7 +412,8 @@ class _ProfileState extends State<Profile> {
                                 ),
                                 Text(
                                   '$mobileNumber',
-                                  style: TextStyle(color: HexColor('#023129')),
+                                  style: TextStyle(
+                                      color: HexColor('#023129'), fontSize: 12),
                                 ),
                               ],
                             ),
@@ -473,8 +434,9 @@ class _ProfileState extends State<Profile> {
                                   width: width * 0.03,
                                 ),
                                 Text('$email',
-                                    style:
-                                        TextStyle(color: HexColor('#023129'))),
+                                    style: TextStyle(
+                                        color: HexColor('#023129'),
+                                        fontSize: 12)),
                               ],
                             )
                           ],
@@ -484,71 +446,108 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-              Container(
-                height: (height - status) * 0.12,
-                width: width * 0.9,
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  color: HexColor('#FFFFFF'),
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 10, left: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: Text(
-                            'Password',
-                            style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    color: HexColor('#B91124'), fontSize: 13)),
-                          ),
+              googleId == "" || googleId == null
+                  ? Container(
+                      height: (height - status) * 0.12,
+                      width: width * 0.9,
+                      child: Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        Container(
-                          child: Row(
+                        color: HexColor('#FFFFFF'),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 10, left: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Icon(
-                                Icons.lock,
-                                color: HexColor('#023129'),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 5),
+                              Container(
                                 child: Text(
-                                  '',
-                                  style: TextStyle(
-                                      color: HexColor('#023129'), fontSize: 30),
+                                  'Password',
+                                  style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                          color: HexColor('#B91124'),
+                                          fontSize: 13)),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 240),
-                                child: Icon(
-                                  Icons.remove_red_eye,
-                                  color: HexColor('#023129'),
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.lock,
+                                      color: HexColor('#023129'),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        '',
+                                        style: TextStyle(
+                                            color: HexColor('#023129'),
+                                            fontSize: 30),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 240),
+                                      child: Icon(
+                                        Icons.remove_red_eye,
+                                        color: HexColor('#023129'),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
+                              )
                             ],
                           ),
-                        )
-                      ],
-                    ),
-                    //
-                  ),
-                ),
-              ),
+                          //
+                        ),
+                      ),
+                    )
+                  : Container(),
               Container(
-                height: (height - status) * 0.11,
+                height: (height - status) * 0.13,
                 width: width * 0.9,
                 child: Card(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 10, left: 10),
-                      child: Text(
-                        'Plan Details',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: HexColor('#B91124'), fontSize: 13)),
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 10, left: 10),
+                            child: Text(
+                              'Plan Details',
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      color: HexColor('#B91124'),
+                                      fontSize: 13)),
+                            ),
+                          ),
+                        ),
+                        amount == null
+                            ? Container()
+                            : Container(
+                                width: width * 0.9,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      "   Subscribed Amount:$amount",
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    Text(
+                                      "   Subscribed Date:$subscribedDate",
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    Text(
+                                      "   Plan End Date:$endingDate",
+                                      style: TextStyle(fontSize: 12),
+                                    )
+                                  ],
+                                ),
+                              )
+                      ],
                     ),
                     elevation: 5,
                     shape: RoundedRectangleBorder(

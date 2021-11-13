@@ -4,21 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class Secondscreen extends StatefulWidget {
-  String Selectedsubjectname;
-  Secondscreen({required this.Selectedsubjectname});
+import 'likeandunlikeapi.dart';
+
+class Searchingg extends StatefulWidget {
+  Searchingg({this.details, this.searchlist});
+  final details;
+  final searchlist;
 
   @override
-  _SecondscreenState createState() => _SecondscreenState();
+  _SearchinggscreenState createState() => _SearchinggscreenState();
 }
 
-class _SecondscreenState extends State<Secondscreen> {
+class _SearchinggscreenState extends State<Searchingg> {
   var search = TextEditingController();
-  var decodeDetails, token, decodeDetailsData;
+  var decodeDetails, token, searchListAllData;
   final l = Logger();
   List<int>? youtubevideoId = [];
   bool isIconClicked = false;
@@ -27,34 +31,66 @@ class _SecondscreenState extends State<Secondscreen> {
   bool isList = false;
   @override
   void initState() {
+    l.wtf('inside init state');
+    functioncall();
+    gosearchapi(
+        gettingFromWhere: 'fromInItState',
+        gettingWhatParameter: widget.searchlist);
     super.initState();
-    searchApi();
-    getWishlist();
   }
 
-  getWishlist() async {
+  functioncall() async {
+    l.wtf(widget.searchlist);
+  }
+
+  gosearchapi({gettingFromWhere, gettingWhatParameter}) async {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
+
       token = userDetails[5];
       print("$token" + "27linechapter");
-      var url =
-          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+      var selectedParameterToSend;
+      if (gettingFromWhere == 'fromInItState') {
+        selectedParameterToSend = gettingWhatParameter;
+      } else {
+        selectedParameterToSend = gettingWhatParameter;
+      }
+      var url = Uri.parse(
+          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/$selectedParameterToSend');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': token
+        'Authorization': token.toString(),
       });
-      decodeDetailsData = json.decode(response.body);
-      print(decodeDetailsData);
-      l.i(decodeDetailsData);
-      for (var i in decodeDetailsData['result'])
-        youtubevideoId!.add(i['video_id']);
-      l.e(youtubevideoId);
-
-      print(decodeDetails);
-      print("47chapteritem");
+      setState(() {
+        searchListAllData = json.decode(response.body);
+      });
+      l.e(searchListAllData);
     });
   }
+  // getWishlist() async {
+  //   Shared().shared().then((value) async {
+  //     var userDetails = await value.getStringList('storeData');
+  //     token = userDetails[5];
+  //     print("$token" + "27linechapter");
+  //     var url =
+  //         Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+  //     var response = await http.get(url, headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json',
+  //       'Authorization': token
+  //     });
+  //     decodeDetailsData = json.decode(response.body);
+  //     print(decodeDetailsData);
+  //     l.i(decodeDetailsData);
+  //     for (var i in decodeDetailsData['result'])
+  //       youtubevideoId!.add(i['video_id']);
+  //     l.e(youtubevideoId);
+
+  //     print(decodeDetails);
+  //     print("47chapteritem");
+  //   });
+  // }
 
   searchApi() async {
     Shared().shared().then((value) async {
@@ -70,7 +106,7 @@ class _SecondscreenState extends State<Secondscreen> {
       print(33);
 
       var url = Uri.parse(
-          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${widget.Selectedsubjectname}');
+          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${widget}');
       //  var url = Uri.parse(
       //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
       var response = await http.get(url, headers: {
@@ -78,26 +114,15 @@ class _SecondscreenState extends State<Secondscreen> {
         'Accept': 'application/json',
         'Authorization': token
       });
-      decodeDetailsData = json.decode(response.body);
-      setState(() {
-        decodeDetails = decodeDetailsData['data'];
-      });
-
-      print(decodeDetails['data']);
-      print("47chapteritem");
+      // decodeDetailsData = json.decode(response.body);
+      // setState(() {
+      //   decodeDetails = decodeDetailsData['data'];
+      // });
     });
-    // print('44');
-    // decodeDetails = json.decode(response.body);
-    // setState(() {});
-    // print(decodeDetails['data']);
   }
 
   @override
   Widget build(BuildContext context) {
-    // print("$decodeDetails,widgetchapter");
-    print(search);
-    print(36);
-    print(38);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
@@ -133,7 +158,9 @@ class _SecondscreenState extends State<Secondscreen> {
                       hintText: 'Search videos',
                       suffixIcon: InkWell(
                         onTap: () {
-                          // searchApi();
+                          gosearchapi(
+                              gettingFromWhere: 'textFormField',
+                              gettingWhatParameter: search.text);
                         },
                         child: Icon(
                           Icons.search,
@@ -158,7 +185,7 @@ class _SecondscreenState extends State<Secondscreen> {
                   height: ((height - status)) * 0.04,
                 ),
                 Flexible(
-                  child: decodeDetails == null
+                  child: searchListAllData == null
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
@@ -166,34 +193,37 @@ class _SecondscreenState extends State<Secondscreen> {
                           height: (height),
                           width: width * 0.97,
                           child: ListView.builder(
-                              itemCount: decodeDetails.length,
+                              itemCount: searchListAllData['data'].length,
                               itemBuilder: (context, index) {
                                 // isList = apireceivedid
-                                //     .contains(decodeDetails[index]['video_id']);
-                                var s = youtubevideoId!
-                                    .contains(decodeDetails[index]['video_id']);
+                                //     .contains(searchListAllData['data'][index]['video_id']);
+                                var s = youtubevideoId!.contains(
+                                    searchListAllData['data'][index]
+                                        ['video_id']);
                                 print('lllllllllllllllllllllll,  $s');
-                                var you = YoutubePlayerController(
-                                  initialVideoId: YoutubePlayer.convertUrlToId(
-                                      decodeDetails[index]['link'])!,
-                                  flags: const YoutubePlayerFlags(
-                                    controlsVisibleAtStart: true,
-                                    hideControls: true,
-                                    autoPlay: false,
-                                    isLive: false,
-                                  ),
-                                );
+                                // var you = YoutubePlayerController(
+                                //   initialVideoId: YoutubePlayer.convertUrlToId(
+                                //       searchListAllData['data'][index]
+                                //           ['link'])!,
+                                //   flags: const YoutubePlayerFlags(
+                                //     controlsVisibleAtStart: true,
+                                //     hideControls: true,
+                                //     autoPlay: false,
+                                //     isLive: false,
+                                //   ),
+                                // );
+
                                 return InkWell(
-                                  onTap: () {
-                                    print(131);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Play(
-                                                  link: decodeDetails[index]
-                                                      ['link'],
-                                                )));
-                                  },
+                                  // onTap: () {
+                                  //   print(131);
+                                  //   Navigator.push(
+                                  //       context,
+                                  //       MaterialPageRoute(
+                                  //           builder: (context) => Play(
+                                  //                 link: searchListAllData['data'][index]
+                                  //                     ['link'],
+                                  //               )));
+                                  // },
                                   child: Container(
                                       height: (height) * 0.12,
                                       width: width * 0.8,
@@ -218,12 +248,9 @@ class _SecondscreenState extends State<Secondscreen> {
                                                   borderRadius:
                                                       BorderRadius.circular(15),
                                                   child: Image.network(
-                                                    'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(decodeDetails[index]['link'])}/0.jpg',
+                                                    'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(searchListAllData['data'][index]['link'])}/0.jpg',
                                                     fit: BoxFit.cover,
                                                   ),
-                                                  // child: YoutubePlayer(
-                                                  //   controller: you,
-                                                  // ),
                                                 ),
                                               ),
                                               // Image.asset('assets/Carousel/image1.png'),
@@ -240,10 +267,12 @@ class _SecondscreenState extends State<Secondscreen> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        // Text(decodeDetails['data'][index]
+                                                        // Text(searchListAllData['data']['data'][index]
                                                         //     ['link']),
                                                         Text(
-                                                          decodeDetails[index]
+                                                          searchListAllData[
+                                                                          'data']
+                                                                      [index]
                                                                   ['subject']
                                                               .toString(),
                                                           style: TextStyle(
@@ -255,7 +284,9 @@ class _SecondscreenState extends State<Secondscreen> {
                                                                   '#0A1C22')),
                                                         ),
                                                         Text(
-                                                          decodeDetails[index]
+                                                          searchListAllData[
+                                                                          'data']
+                                                                      [index]
                                                                   ['lesson']
                                                               .toString(),
                                                           style: TextStyle(
@@ -269,10 +300,16 @@ class _SecondscreenState extends State<Secondscreen> {
 
                                               InkWell(
                                                   onTap: () {
-                                                    checking(
-                                                        link:
-                                                            decodeDetails[index]
-                                                                ['video_id']);
+                                                    Provider.of<WishList>(
+                                                            context,
+                                                            listen: false)
+                                                        .checkingLikeAndUnlikeVideos(
+                                                            context: context,
+                                                            gettingVideoId:
+                                                                searchListAllData[
+                                                                            'data']
+                                                                        [index][
+                                                                    'video_id']);
                                                   },
                                                   child: Icon(Icons.favorite,
                                                       color: s
@@ -335,21 +372,5 @@ class _SecondscreenState extends State<Secondscreen> {
       }
     } else
       return;
-  }
-
-  likevideo(videoID) async {
-    var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/like');
-    var response = await http.post(url,
-        body: {'video_id': videoID.toString()},
-        headers: {'Authorization': token!});
-    print(response.body);
-  }
-
-  unlikevideo(videoId) async {
-    var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/dislike');
-    var response = await http.post(url,
-        body: {'video_id': videoId.toString()},
-        headers: {'Authorization': token!});
-    print(response.body);
   }
 }
