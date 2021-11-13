@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -37,6 +38,7 @@ class _SecondscreenState extends State<Secondscreen> {
   void initState() {
     super.initState();
     functioncall();
+    Provider.of<WishList>(context, listen: false).getWishlistnew();
   }
 
   functioncall() async {
@@ -266,12 +268,19 @@ class _SecondscreenState extends State<Secondscreen> {
 
                                               InkWell(
                                                   onTap: () {
-                                                    checking(
-                                                        link: decodeDetails12[
-                                                            index]['video_id']);
+                                                    Provider.of<WishList>(
+                                                        context,
+                                                        listen: false)
+                                                        .checkingLikeAndUnlikeVideos(
+                                                        context: context,
+                                                        gettingVideoId: decodeDetails[index]['video_id']);
                                                   },
                                                   child: Icon(Icons.favorite,
-                                                      color: s
+                                                      color: Provider.of<WishList>(
+                                                          context,
+                                                          listen:
+                                                          true).youtubeVideoIdnew
+                                                          .contains(decodeDetails[index]['video_id'])
                                                           ? Colors.pink
                                                           : Colors.grey)),
                                               // LikeButton(
