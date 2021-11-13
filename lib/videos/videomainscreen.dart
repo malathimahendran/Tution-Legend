@@ -38,9 +38,11 @@ class _SearchvideoState extends State<Searchvideo> {
   var wishlistDetails;
   @override
   void initState() {
-    super.initState();
+    Provider.of<WishList>(context, listen: false).getWishlistnew();
     getUserSubjects();
-    Provider.of<SqliteLocalDatabase>(context, listen: false).getvideolist();
+    super.initState();
+
+    // Provider.of<SqliteLocalDatabase>(context, listen: false).getvideolist();
   }
 
   getUserSubjects() {
@@ -59,9 +61,6 @@ class _SearchvideoState extends State<Searchvideo> {
 
   @override
   Widget build(BuildContext context) {
-    // setState(() {
-    //   continuewatchlist=Provider.of<SqliteLocalDatabase>(context, listen: true).wathedvideolist;
-    // });
     l.w('here is the start of the widget');
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
@@ -151,7 +150,8 @@ class _SearchvideoState extends State<Searchvideo> {
                       SizedBox(
                         height: ((height - status)) * 0.01,
                       ),
-                      Provider.of<SqliteLocalDatabase>(context, listen: true).wathedvideolist==null||  Provider.of<SqliteLocalDatabase>(context, listen: true).wathedvideolist.isEmpty?Text('no videos watched'):Container(
+                       Provider.of<SqliteLocalDatabase>(context, listen: true).wathedvideolist==null||
+                          Provider.of<SqliteLocalDatabase>(context, listen: true).wathedvideolist.isEmpty?Text('no videos watched'):Container(
                         width: width * 0.9,
                         height: height * 0.15,
                         child: ListView.builder(
@@ -427,12 +427,19 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                                 left: 50.0, top: 10.0),
                                             child: InkWell(
                                                 onTap: () {
-                                                  checking(
-                                                      link: decodeDetailsnew[
-                                                          index]['video_id']);
+                                                  Provider.of<WishList>(
+                                                      context,
+                                                      listen: false)
+                                                      .checkingLikeAndUnlikeVideos(
+                                                      context: context,
+                                                      gettingVideoId: decodeDetails[index]['video_id']);
                                                 },
                                                 child: Icon(Icons.favorite,
-                                                    color: s
+                                                    color: Provider.of<WishList>(
+                                                        context,
+                                                        listen:
+                                                        true).youtubeVideoIdnew
+                                                        .contains(decodeDetails[index]['video_id'])
                                                         ? Colors.pink
                                                         : Colors.grey)),
                                           ),
