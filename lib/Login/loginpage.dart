@@ -326,9 +326,11 @@ class _LoginPageState extends State<LoginPage> {
                             width: width * 1,
                           ),
                           SizedBox(height: 4),
-                          Text("Welcome",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                          Text("Welcome", style: 
+                              // style: TextStyle(
+                              //     fontWeight: FontWeight.bold, fontSize: 20)
+
+                              ),
                           SizedBox(height: 4),
                           Text(
                             "Login to your existing Account",

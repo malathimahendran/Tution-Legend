@@ -56,10 +56,13 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            textTheme: TextTheme(),
-            cardTheme: CardTheme(),
-            primarySwatch: Colors.blue,
-            fontFamily: "poppins"),
+          textTheme: TextTheme(
+              bodyText1: TextStyle(
+                  fontSize: MediaQuery.of(context).size.height * 0.01)),
+          cardTheme: CardTheme(),
+          primarySwatch: Colors.blue,
+          fontFamily: "poppins",
+        ),
         // home: Vlc(),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
