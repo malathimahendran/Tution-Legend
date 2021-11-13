@@ -12,6 +12,7 @@ import 'package:tutionmaster/SplashScreen/splashscreen.dart';
 import 'package:tutionmaster/videos/likeandunlikeapi.dart';
 
 import 'ALLROUTES/routegenerator.dart';
+import 'Control/continuewating.dart';
 import 'Control/getdata.dart';
 import 'HomePage/try.dart';
 import 'Login/loginpage.dart';
@@ -50,16 +51,15 @@ class MyApp extends StatelessWidget {
         }),
         ChangeNotifierProvider(create: (context) {
           return WishList();
-        })
+        }),
+        ChangeNotifierProvider.value(
+          value: SqliteLocalDatabase(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          textTheme: TextTheme(
-              bodyText1: TextStyle(
-                  fontSize: MediaQuery.of(context).size.height * 0.01)),
-          cardTheme: CardTheme(),
           primarySwatch: Colors.blue,
           fontFamily: "poppins",
         ),

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import 'Control/continuewating.dart';
+import 'model/Watched_video.dart';
 
 class Play extends StatefulWidget {
   Play({this.link});
@@ -54,6 +58,11 @@ class _PlayState extends State<Play> {
         SystemChrome.setPreferredOrientations([
           DeviceOrientation.portraitUp,
         ]);
+        l.w(_controller!.value.position);
+        Duration currentDuration = _controller!.value.position;
+        l.i(currentDuration);
+        Provider.of<SqliteLocalDatabase>(context, listen: false).insertvideolist(Watchedvideos( videoid:YoutubePlayer.convertUrlToId(widget.link)!, duration: currentDuration.inSeconds ));
+        Provider.of<SqliteLocalDatabase>(context, listen: false).getvideolist();
         // _controller.toggleFullScreenMode();
         return Future.value(true);
       },

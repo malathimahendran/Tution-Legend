@@ -272,8 +272,10 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
+    var height1 = MediaQuery.of(context).size.height * 0.01;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
+    var font = 2;
     final keyss = MediaQuery.of(context).viewInsets.bottom != 0;
     // var height1=height-status;
 
@@ -326,11 +328,10 @@ class _LoginPageState extends State<LoginPage> {
                             width: width * 1,
                           ),
                           SizedBox(height: 4),
-                          Text("Welcome", style: 
-                              // style: TextStyle(
-                              //     fontWeight: FontWeight.bold, fontSize: 20)
-
-                              ),
+                          Text("Welcome",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: height1 * font)),
                           SizedBox(height: 4),
                           Text(
                             "Login to your existing Account",

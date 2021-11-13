@@ -131,63 +131,92 @@ class _HomeScreenState extends State<HomeScreen>
               enrollmentNumber: enrollmentNumber,
             ),
           ),
-          bottomNavigationBar: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/HomeScreenPage/homeScreenTab.png'),
-                  fit: BoxFit.cover),
-            ),
-            width: double.infinity,
-            height: 101.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(iconlist.length, (index) {
-                return GestureDetector(
-                  onTap: () {
-                    widget.searchindex = false;
-                    l.w(_page);
-                    setState(() {
-                      _page = index;
-                    });
-                    l.w(_page);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 38.0),
-                    child: Container(
-                      padding: EdgeInsets.only(bottom: 2),
-                      width: (width) * 1 / 4,
-                      alignment: index == 1
-                          ? Alignment.centerLeft
-                          : index == 2
-                              ? Alignment.centerRight
-                              : null,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CircleAvatar(
-                              radius: 20.0,
-                              backgroundColor: _page == index
-                                  ? Colors.white
-                                  : Colors.transparent,
-                              child: Icon(
-                                iconlist[index],
-                                color: _page == index
-                                    ? HexColor('#243665')
-                                    : Colors.white,
-                                size: 20,
-                              )),
-                          Text(
-                            iconname[index],
-                            style: TextStyle(color: Colors.white, fontSize: 10),
-                          )
-                        ],
+          bottomNavigationBar: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image:
+                          AssetImage('assets/HomeScreenPage/homeScreenTab.png'),
+                      fit: BoxFit.cover),
+                  color: Colors.transparent,
+                ),
+                width: double.infinity,
+                height: 101.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(iconlist.length, (index) {
+                    return GestureDetector(
+                      onTap: () {
+                        widget.searchindex = false;
+                        l.w(_page);
+                        setState(() {
+                          _page = index;
+                        });
+                        l.w(_page);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 38.0),
+                        child: Container(
+                          padding: EdgeInsets.only(bottom: 2),
+                          width: (width) * 1 / 4,
+                          alignment: index == 1
+                              ? Alignment.centerLeft
+                              : index == 2
+                                  ? Alignment.centerRight
+                                  : null,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              CircleAvatar(
+                                  radius: 20.0,
+                                  backgroundColor: _page == index
+                                      ? Colors.white
+                                      : Colors.transparent,
+                                  child: Icon(
+                                    iconlist[index],
+                                    color: _page == index
+                                        ? HexColor('#243665')
+                                        : Colors.white,
+                                    size: 20,
+                                  )),
+                              Text(
+                                iconname[index],
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                    );
+                  }),
+                ),
+              ),
+              // Container(
+              //   color: Colors.red,
+              //   height: 50,
+              //   margin: EdgeInsets.only(top: height * 0.7),
+              //   child: CircleAvatar(
+              //     radius: 25.0,
+              //     child: Image.asset(
+              //       'assets/HomeScreenPage/livevideo.png',
+              //     ),
+              //   ),
+              // )
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: height * 0.03,
+                child: CircleAvatar(
+                  radius: 25.0,
+                  child: Image.asset(
+                    'assets/HomeScreenPage/livevideo.png',
                   ),
-                );
-              }),
-            ),
+                ),
+              )
+            ],
           ),
           body: pages[_page],
         ),
