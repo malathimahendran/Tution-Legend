@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +6,9 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/Control/getdata.dart';
-
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
+import 'package:tutionmaster/videos/all_video_api.dart';
 import 'package:tutionmaster/videos/searchvideo.dart';
 import 'package:search_widget/search_widget.dart';
 import 'package:tutionmaster/videos/secondscreen.dart';
@@ -60,6 +59,7 @@ class _SearchvideoState extends State<Searchvideo> {
     return SafeArea(
       child: Scaffold(
           resizeToAvoidBottomInset: false,
+          // ignore: non_constant_identifier_names
           body: Consumer<GetSubjectList>(builder: (context, GetSubjectList, _) {
             return Container(
               width: width,
@@ -80,15 +80,15 @@ class _SearchvideoState extends State<Searchvideo> {
                           height: height * 0.06,
                           width: width * 0.9,
                           child: TextFormField(
-                            // textInputAction: TextInputAction.search,
-                            // onFieldSubmitted: (value) async {
-                            //   // Navigator.push(
-                            //   //     context,
-                            //   //     MaterialPageRoute(
-                            //   //         builder: (context) => SubjectVideoslists(
-                            //   //               standardsubject1: '',
-                            //   //             )));
-                            // },
+                            textInputAction: TextInputAction.search,
+                            onFieldSubmitted: (value) async {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Searchingg(
+                                            searchlist: search.text,
+                                          )));
+                            },
                             controller: search,
                             decoration: InputDecoration(
                               filled: true,
@@ -132,12 +132,38 @@ class _SearchvideoState extends State<Searchvideo> {
                       SizedBox(
                         height: ((height - status)) * 0.03,
                       ),
-                      Text(
-                        'Continue Watching',
-                        style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            color: HexColor('#0A1C22')),
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Continue Watching',
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: HexColor('#0A1C22')),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 20),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Allvideo()));
+                                },
+                                child: Text(
+                                  'View All',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.blue,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: ((height - status)) * 0.01,
@@ -234,7 +260,7 @@ class SubjectVideoslists extends StatefulWidget {
 
 class _SubjectVideoslistsState extends State<SubjectVideoslists> {
   YoutubePlayerController? youtubePlayerController;
-  var decodeDetails,
+  var selectedsubject,
       token,
       decodeDetailsData,
       selectedSubs,
@@ -267,7 +293,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
       }
       decodeDetailsnew.add(decodeDetailsnew[0]);
       setState(() {
-        decodeDetails = decodeDetailsnew;
+        selectedsubject = decodeDetailsnew;
       });
     });
   }
@@ -314,35 +340,38 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
     var height = MediaQuery.of(context).size.height;
     var status = MediaQuery.of(context).padding.top;
     return SafeArea(
-      child: decodeDetails == null
-          ? Center(child: CircularProgressIndicator())
+      child: selectedsubject == null
+          ? Center(
+              child: Visibility(
+                  visible: false, child: CircularProgressIndicator()))
           : Container(
-              height: (decodeDetails.length - 1) <= 2
+              height: (selectedsubject.length - 1) < 2
                   ? ((height) * 0.3) / 2
                   : height * 0.3,
               width: width * 0.9,
               child: GridView.builder(
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: decodeDetails.length,
+                  itemCount: selectedsubject.length,
                   gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                    // crossAxisCount: decodeDetails.length <= 2?1:2,
+                    // crossAxisCount: selectedsubject.length <= 2?1:2,
                     crossAxisCount: 2,
                     childAspectRatio: 1.5,
                   ),
                   itemBuilder: (context, index) {
-                    var s = youtubevideoId!
-                        .contains(decodeDetailsnew[index]['video_id']);
-
+                    // var s = Provider.of<WishList>(context, listen: true)
+                    //         .onlyVideoId ==
+                    //     (selectedsubjectnew[index]['video_id']);
+                    // l.w(s);
                     return InkWell(
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Play(
-                                      link: decodeDetails[index]['link'],
+                                      link: selectedsubject[index]['link'],
                                     )));
                       },
-                      child: index >= (decodeDetails.length - 1)
+                      child: index >= (selectedsubject.length - 1)
                           ? GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -392,7 +421,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           child: Image.network(
-                                            'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(decodeDetails[index]['link'])}/0.jpg',
+                                            'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(selectedsubject[index]['link'])}/0.jpg',
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -404,21 +433,31 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 50.0, top: 10.0),
-                                            child: InkWell(
+                                              padding: const EdgeInsets.only(
+                                                  left: 50.0, top: 10.0),
+                                              child: InkWell(
                                                 onTap: () {
                                                   checking(
                                                       link: decodeDetailsnew[
                                                           index]['video_id']);
                                                 },
-                                                child: Icon(Icons.favorite,
-                                                    color: s
-                                                        ? Colors.pink
-                                                        : Colors.grey)),
-                                          ),
+                                                child: Icon(
+                                                  Icons.favorite,
+                                                  // color: Provider.of<
+                                                  //                 WishList>(
+                                                  //             context,
+                                                  //             listen: true)
+                                                  //         .onlyVideoId
+                                                  //         .contains(
+                                                  //             decodeDetailsnew[
+                                                  //                 index])
+                                                  //     //         .onlyVideoId
+                                                  //     ? Colors.pink
+                                                  //     : Colors.grey)),
+                                                ),
+                                              )),
                                           Text(
-                                            decodeDetails[index]['subject']
+                                            selectedsubject[index]['subject']
                                                 .toString(),
                                             style: TextStyle(
                                                 fontSize: 12,
@@ -426,7 +465,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                                 color: HexColor('#0A1C22')),
                                           ),
                                           Text(
-                                            decodeDetails[index]['lesson']
+                                            selectedsubject[index]['lesson']
                                                 .toString(),
                                             style: TextStyle(
                                                 fontSize: 10,

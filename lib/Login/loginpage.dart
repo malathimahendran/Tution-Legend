@@ -328,7 +328,7 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(height: 4),
                           Text(
                             "Welcome",
-                            style: Theme.of(context).textTheme.headline1,
+                            style: TextStyle(fontSize: 12),
                           ),
                           SizedBox(height: 4),
                           Text(

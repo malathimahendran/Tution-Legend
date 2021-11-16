@@ -4,6 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/videos/all_video_api.dart';
 import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
 
 import 'homescreen.dart';
@@ -87,7 +88,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomeScreen(true)));
+                                    builder: (context) => Allvideo()));
                           },
                           child: Icon(Icons.search))
                     ],

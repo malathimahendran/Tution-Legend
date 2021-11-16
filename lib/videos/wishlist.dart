@@ -42,35 +42,6 @@ class _VideowishlistState extends State<Videowishlist> {
   List<int> iconClick = [];
   final l = Logger();
   var wishlistDetails;
-  // getWishlist() async {
-  //   Shared().shared().then((value) async {
-  //     List userDetails = await value.getStringList('storeData');
-  //     token = userDetails[5];
-  //     print("$token" + "27linechapter");
-  //     l.wtf(
-  //         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MmIyYTM0LWMwZTktNDIzOC1iMDZlLWVlODcwYmY2ZWJkNyIsImlhdCI6MTYzNTQwMzg0MSwiZXhwIjoxNjM3OTk1ODQxfQ.JD5RjsBcXbtjpblv02Ivxc0BhUKjuMiJzCjuP5e6kyw');
-  //     l.w(token);
-  //     var url =
-  //         Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
-  //     var response = await http.get(url, headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'Authorization': token!
-  //     });
-  //     decodeDetailsData = json.decode(response.body);
-  //     print(decodeDetailsData);
-  //     l.i(decodeDetailsData);
-  //     for (var i in decodeDetailsData['result']) {
-  //       youtubevideoId!.add(i['video_id']);
-  //       l.e(youtubevideoId);
-  //     }
-  //     setState(() {
-  //       wishlistDetails = decodeDetailsData['result'];
-  //     });
-  //     print(decodeDetails);
-  //     print("47chapteritem");
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +59,7 @@ class _VideowishlistState extends State<Videowishlist> {
               image: AssetImage('assets/ProfilePage/mainbackground.png'),
             )),
             margin: EdgeInsets.only(
-              top: status,
+              top: height * 0.03,
             ),
             height: height,
             width: width,
@@ -169,12 +140,13 @@ class _VideowishlistState extends State<Videowishlist> {
 
                                 return InkWell(
                                   child: Container(
-                                      height: (height) * 0.12,
-                                      width: width,
+                                      height: (height) * 0.18,
+                                      width: width * 0.8,
                                       // child: YoutubePlayer(
                                       //   controller: you,
                                       // ),
                                       child: Card(
+                                        elevation: 5,
                                         color: HexColor('#FFFFFF'),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -202,15 +174,21 @@ class _VideowishlistState extends State<Videowishlist> {
                                                                         .youtubeVideoLink[index]['link'],
                                                                   )));
                                                 },
-                                                child: Container(
-                                                  width: width * 0.2,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                    child: Image.network(
-                                                      'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(Provider.of<WishList>(context, listen: false).youtubeVideoLink[index]['link'])}/0.jpg',
-                                                      fit: BoxFit.cover,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10),
+                                                  child: Container(
+                                                    height: height * 0.12,
+                                                    width: width * 0.23,
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                      child: Image.network(
+                                                        'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(Provider.of<WishList>(context, listen: false).youtubeVideoLink[index]['link'])}/0.jpg',
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -220,7 +198,7 @@ class _VideowishlistState extends State<Videowishlist> {
                                                 padding:
                                                     EdgeInsets.only(left: 10),
                                                 child: Container(
-                                                    width: width * 0.58,
+                                                    width: width * 0.52,
                                                     child: Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment

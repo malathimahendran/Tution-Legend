@@ -68,58 +68,6 @@ class _SearchinggscreenState extends State<Searchingg> {
       l.e(searchListAllData);
     });
   }
-  // getWishlist() async {
-  //   Shared().shared().then((value) async {
-  //     var userDetails = await value.getStringList('storeData');
-  //     token = userDetails[5];
-  //     print("$token" + "27linechapter");
-  //     var url =
-  //         Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
-  //     var response = await http.get(url, headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'Authorization': token
-  //     });
-  //     decodeDetailsData = json.decode(response.body);
-  //     print(decodeDetailsData);
-  //     l.i(decodeDetailsData);
-  //     for (var i in decodeDetailsData['result'])
-  //       youtubevideoId!.add(i['video_id']);
-  //     l.e(youtubevideoId);
-
-  //     print(decodeDetails);
-  //     print("47chapteritem");
-  //   });
-  // }
-
-  searchApi() async {
-    Shared().shared().then((value) async {
-      var userDetails = await value.getStringList('storeData');
-      // setState(() {
-      token = userDetails[5];
-      print("$token" + "27linechapter");
-      // });
-
-      print(userDetails);
-
-      print("28chapter");
-      print(33);
-
-      var url = Uri.parse(
-          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${widget}');
-      //  var url = Uri.parse(
-      //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
-      var response = await http.get(url, headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': token
-      });
-      // decodeDetailsData = json.decode(response.body);
-      // setState(() {
-      //   decodeDetails = decodeDetailsData['data'];
-      // });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +97,9 @@ class _SearchinggscreenState extends State<Searchingg> {
                   child: TextFormField(
                     textInputAction: TextInputAction.search,
                     onFieldSubmitted: (value) {
-                      // searchApi();
+                      gosearchapi(
+                          gettingFromWhere: 'textFormField',
+                          gettingWhatParameter: search.text);
                     },
                     controller: search,
                     decoration: InputDecoration(
@@ -195,24 +145,18 @@ class _SearchinggscreenState extends State<Searchingg> {
                           child: ListView.builder(
                               itemCount: searchListAllData['data'].length,
                               itemBuilder: (context, index) {
-                                // isList = apireceivedid
-                                //     .contains(searchListAllData['data'][index]['video_id']);
-                                var s = youtubevideoId!.contains(
-                                    searchListAllData['data'][index]
-                                        ['video_id']);
-                                print('lllllllllllllllllllllll,  $s');
-                                // var you = YoutubePlayerController(
-                                //   initialVideoId: YoutubePlayer.convertUrlToId(
-                                //       searchListAllData['data'][index]
-                                //           ['link'])!,
-                                //   flags: const YoutubePlayerFlags(
-                                //     controlsVisibleAtStart: true,
-                                //     hideControls: true,
-                                //     autoPlay: false,
-                                //     isLive: false,
-                                //   ),
-                                // );
-
+                                // var checkingTrueOrFalse = youtubevideoId!
+                                //     .contains(searchListAllData['data'][index]
+                                //         ['video_id']);
+                                // l.i(Provider.of<WishList>(context,
+                                //         listen: false)
+                                //     .youtubeVideoLink);
+                                // var s =
+                                //     Provider.of<WishList>(context, listen: true)
+                                //         .youtubeVideoLink[index]
+                                //         (searchListAllData['data']
+                                //             [index]['video_id']);
+                                // print('lllllllllllllllllllllll,  $s');
                                 return InkWell(
                                   // onTap: () {
                                   //   print(131);
@@ -225,13 +169,13 @@ class _SearchinggscreenState extends State<Searchingg> {
                                   //               )));
                                   // },
                                   child: Container(
-                                      height: (height) * 0.12,
+                                      height: (height) * 0.18,
                                       width: width * 0.8,
                                       // child: YoutubePlayer(
                                       //   controller: you,
                                       // ),
                                       child: Card(
-                                        elevation: 10,
+                                        elevation: 5,
                                         color: HexColor('#FFFFFF'),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -239,17 +183,21 @@ class _SearchinggscreenState extends State<Searchingg> {
                                         ),
                                         child: Container(
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              Container(
-                                                width: width * 0.2,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                  child: Image.network(
-                                                    'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(searchListAllData['data'][index]['link'])}/0.jpg',
-                                                    fit: BoxFit.cover,
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 14),
+                                                child: Container(
+                                                  height: height * 0.12,
+                                                  width: width * 0.23,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    child: Image.network(
+                                                      'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(searchListAllData['data'][index]['link'])}/0.jpg',
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -258,7 +206,7 @@ class _SearchinggscreenState extends State<Searchingg> {
                                                 padding:
                                                     EdgeInsets.only(left: 10),
                                                 child: Container(
-                                                    width: width * 0.58,
+                                                    width: width * 0.54,
                                                     child: Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
@@ -312,27 +260,13 @@ class _SearchinggscreenState extends State<Searchingg> {
                                                                     'video_id']);
                                                   },
                                                   child: Icon(Icons.favorite,
-                                                      color: s
+                                                      color: Provider.of<
+                                                                      WishList>(
+                                                                  context,
+                                                                  listen: true)
+                                                              .trueOrFalseChecking
                                                           ? Colors.pink
                                                           : Colors.grey)),
-                                              // LikeButton(
-                                              //   // onTap: () {
-
-                                              //   circleColor: CircleColor(
-                                              //       start: Color(0xFFF44336),
-                                              //       end: Color(0xFFF44336)),
-                                              //   likeBuilder: (isLiked) {
-
-                                              //     return Icon(
-                                              //       Icons.favorite,
-                                              //       size: 30,
-                                              //       color: isLiked
-                                              //           ? Colors.pink
-                                              //           : Colors.teal,
-                                              //     );
-                                              //   },
-
-                                              // countBuilder: (){
                                             ],
                                           ),
                                         ),

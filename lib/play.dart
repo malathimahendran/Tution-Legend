@@ -51,6 +51,10 @@ class _PlayState extends State<Play> {
     l.e(widget.link);
     return WillPopScope(
       onWillPop: () async {
+        l.w(_controller!.value.metaData.duration);
+        l.w(_controller!.metadata.duration);
+        l.w(_controller!.value.buffered);
+
         SystemChrome.setPreferredOrientations([
           DeviceOrientation.portraitUp,
         ]);

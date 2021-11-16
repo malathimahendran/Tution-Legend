@@ -20,9 +20,6 @@ import 'Slider/carosalSlider.dart';
 import 'StartingLearningPage/startlearning.dart';
 import 'videos/vlc.dart';
 
-// void main() {
-//   runApp(MyApp());
-// }
 main() {
   WidgetsFlutterBinding.ensureInitialized();
   // Firebase.initializeApp();
@@ -54,6 +51,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
+
         theme: ThemeData(
             textTheme: TextTheme(),
             cardTheme: CardTheme(),
