@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen>
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/HomeScreenPage/homeScreenTab.png'),
+                  image: AssetImage('assets/HomeScreenPage/homescreentab.png'),
                   fit: BoxFit.cover),
             ),
             width: double.infinity,
