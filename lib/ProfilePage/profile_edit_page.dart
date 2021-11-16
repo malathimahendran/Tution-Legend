@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/ProfilePage/profilepage.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 
 import 'HELPER FUNCTION/custom_expanded_text_formfield.dart';
@@ -34,11 +35,33 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       // extendBody: true,
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+        ),
+        title: Text(
+          "Edit Profile",
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: height * 0.025,
+              fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        centerTitle: true,
+      ),
       body: Stack(
         children: [
           Container(
-            height: height,
-            width: width,
+            width: double.infinity,
+            height: double.infinity,
+
             // color: Colors.green,
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -61,33 +84,33 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
             padding: EdgeInsets.fromLTRB(10, status, 10, status),
             child: Column(
               children: [
-                Container(
-                  height: (height - (2 * status)) * 0.07,
-                  width: width,
-                  // color: Colors.orange,
-                  child: Row(
-                    children: [
-                      Container(
-                        width: (width - 20) * 0.37,
-                        alignment: Alignment.centerLeft,
-                        child: Icon(Icons.arrow_back),
-                      ),
-                      Container(
-                        width: (width - 20) * 0.63,
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Edit Profile',
-                          style: TextStyle(
-                              fontSize: height * 0.025,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: (height - (2 * status)) * 0.02,
-                ),
+                // Container(
+                //   height: (height - (2 * status)) * 0.07,
+                //   width: width,
+                //   // color: Colors.orange,
+                //   child: Row(
+                //     children: [
+                //       Container(
+                //         width: (width - 20) * 0.37,
+                //         alignment: Alignment.centerLeft,
+                //         child: Icon(Icons.arrow_back),
+                //       ),
+                //       Container(
+                //         width: (width - 20) * 0.63,
+                //         alignment: Alignment.centerLeft,
+                //         child: Text(
+                //           'Edit Profile',
+                //           style: TextStyle(
+                //               fontSize: height * 0.025,
+                //               fontWeight: FontWeight.bold),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: (height - (2 * status)) * 0.02,
+                // ),
                 CustomExpandedWithTextAndFormField(
                     height: height,
                     status: status,

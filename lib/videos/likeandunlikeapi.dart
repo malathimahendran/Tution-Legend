@@ -35,6 +35,7 @@ class WishList extends ChangeNotifier {
 
   String? token;
   List youtubeVideoId = [];
+  List youtubeVideoIdnew = [];
   List youtubeVideoLink = [];
 
   bool trueOrFalseChecking = false;
@@ -63,6 +64,32 @@ class WishList extends ChangeNotifier {
     });
   }
 
+  getWishlistnew() async {
+    Shared().shared().then((value) async {
+      List userDetails = await value.getStringList('storeData');
+      token = userDetails[5];
+      l.w(token);
+      var url =
+          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': token!
+      });
+      youtubeVideoId.clear();
+      youtubeVideoLink.clear();
+      var wishListJsonData = json.decode(response.body);
+      l.e("check here$wishListJsonData");
+      for (var i in wishListJsonData['result']) {
+        youtubeVideoId.add(i['video_id']);
+        l.e(youtubeVideoId);
+      }
+      youtubeVideoLink = wishListJsonData['result'];
+      youtubeVideoIdnew = youtubeVideoId;
+      notifyListeners();
+    });
+  }
+
   checkingLikeAndUnlikeVideos({int? gettingVideoId, context}) async {
     l.d(gettingVideoId);
     List onlyVideoId = [];
@@ -79,6 +106,9 @@ class WishList extends ChangeNotifier {
       Provider.of<WishList>(context, listen: false)
           .youtubeVideoLink
           .removeWhere((element) => element['video_id'] == gettingVideoId);
+      Provider.of<WishList>(context, listen: false)
+          .youtubeVideoIdnew
+          .remove(gettingVideoId);
       l.v(youtubeVideoLink);
 
       trueOrFalseChecking = false;
@@ -90,8 +120,10 @@ class WishList extends ChangeNotifier {
       l.w('inside else');
 
       await likevideo(gettingVideoId);
-
-      trueOrFalseChecking = true;
+      Provider.of<WishList>(context, listen: false)
+          .youtubeVideoIdnew
+          .add(gettingVideoId);
+      sayingTrueOrFalse = true;
       notifyListeners();
     }
   }

@@ -82,12 +82,12 @@ class _SearchvideoState extends State<Searchvideo> {
                           child: TextFormField(
                             textInputAction: TextInputAction.search,
                             onFieldSubmitted: (value) async {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Searchingg(
-                                            searchlist: search.text,
-                                          )));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => SubjectVideoslists(
+                              //               standardsubject1: '',
+                              //             )));
                             },
                             controller: search,
                             decoration: InputDecoration(

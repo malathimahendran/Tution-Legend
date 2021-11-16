@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 
 import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
@@ -131,6 +132,7 @@ class _HomeScreenState extends State<HomeScreen>
               enrollmentNumber: enrollmentNumber,
             ),
           ),
+<<<<<<< HEAD
           bottomNavigationBar: Stack(
             children: [
               Container(
@@ -187,6 +189,59 @@ class _HomeScreenState extends State<HomeScreen>
                             ],
                           ),
                         ),
+=======
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/HomeScreenPage/homeScreenTab.png'),
+                  fit: BoxFit.cover),
+            ),
+            width: double.infinity,
+            height: 101.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(iconlist.length, (index) {
+                return GestureDetector(
+                  onTap: () {
+                    widget.searchindex = false;
+                    l.w(_page);
+                    setState(() {
+                      _page = index;
+                    });
+                    l.w(_page);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 38.0),
+                    child: Container(
+                      padding: EdgeInsets.only(bottom: 2),
+                      width: (width) * 1 / 4,
+                      alignment: index == 1
+                          ? Alignment.centerLeft
+                          : index == 2
+                              ? Alignment.centerRight
+                              : null,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CircleAvatar(
+                              radius: 20.0,
+                              backgroundColor: _page == index
+                                  ? Colors.white
+                                  : Colors.transparent,
+                              child: Icon(
+                                iconlist[index],
+                                color: _page == index
+                                    ? HexColor('#243665')
+                                    : Colors.white,
+                                size: 20,
+                              )),
+                          Text(
+                            iconname[index],
+                            style: TextStyle(color: Colors.white, fontSize: 10),
+                          )
+                        ],
+>>>>>>> 34a4c739dd9395b924ad426ce36465833cce4b41
                       ),
                     );
                   }),
