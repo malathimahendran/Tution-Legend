@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,17 +6,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/Control/getdata.dart';
+
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/videos/all_video_api.dart';
 import 'package:tutionmaster/videos/searchvideo.dart';
-import 'package:search_widget/search_widget.dart';
+// import 'package:search_widget/search_widget.dart';
 import 'package:tutionmaster/videos/secondscreen.dart';
 import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:http/http.dart' as http;
 import '../../../play.dart';
+import '../playcontinuewatching.dart';
 import 'likeandunlikeapi.dart';
 
 class Searchvideo extends StatefulWidget {
@@ -26,7 +30,11 @@ class Searchvideo extends StatefulWidget {
 class _SearchvideoState extends State<Searchvideo> {
   var search = TextEditingController();
   var decodeDetailstest;
-  var decodeDetails, token, decodeDetailsData, decodeDetailsnew;
+  var decodeDetails,
+      token,
+      decodeDetailsData,
+      decodeDetailsnew,
+      continuewatchlist;
   List<int>? youtubevideoId = [];
   bool isIconClicked = false;
   List<int> iconClick = [];
@@ -35,8 +43,11 @@ class _SearchvideoState extends State<Searchvideo> {
   var wishlistDetails;
   @override
   void initState() {
-    super.initState();
+    Provider.of<WishList>(context, listen: false).getWishlistnew();
     getUserSubjects();
+    super.initState();
+
+    // Provider.of<SqliteLocalDatabase>(context, listen: false).getvideolist();
   }
 
   getUserSubjects() {
@@ -47,6 +58,9 @@ class _SearchvideoState extends State<Searchvideo> {
       print('nivetha');
       Provider.of<GetSubjectList>(context, listen: false)
           .getSubjectListApi(standardclass);
+      // setState(() {
+
+      // });
     });
   }
 
@@ -59,22 +73,21 @@ class _SearchvideoState extends State<Searchvideo> {
     return SafeArea(
       child: Scaffold(
           resizeToAvoidBottomInset: false,
-          // ignore: non_constant_identifier_names
           body: Consumer<GetSubjectList>(builder: (context, GetSubjectList, _) {
             return Container(
               width: width,
               height: height,
-              // decoration: BoxDecoration(
-              //     image: DecorationImage(
-              //   image: AssetImage('assets/ProfilePage/mainbackground.png'),
-              // )),
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                image: AssetImage('assets/ProfilePage/mainbackground.png'),
+              )),
               child: Padding(
                 padding: const EdgeInsets.only(left: 20),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Container(
                           height: height * 0.06,
@@ -82,32 +95,43 @@ class _SearchvideoState extends State<Searchvideo> {
                           child: TextFormField(
                             textInputAction: TextInputAction.search,
                             onFieldSubmitted: (value) async {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => SubjectVideoslists(
-                              //               standardsubject1: '',
-                              //             )));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Searchingg(
+                                            searchlist: search.text,
+                                          )));
                             },
                             controller: search,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
                               hintText: 'Search videos',
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.search),
-                                onPressed: () async {
-                                  l.w('inside line 126 , in inkwell searchingg');
-                                  // var n = await gosearchapi();
-                                  // l.wtf(n);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Searchingg(
-                                                searchlist: search.text,
-                                              )));
-                                },
-                                color: Colors.red,
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: HexColor('#243665'),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.search,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () async {
+                                      l.w('inside line 126 , in inkwell searchingg');
+                                      // var n = await gosearchapi();
+                                      // l.wtf(n);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Searchingg(
+                                                    searchlist: search.text,
+                                                  )));
+                                    },
+                                    color: Colors.red,
+                                  ),
+                                ),
                               ),
                               // icon: Icon(Icons.search),
                               hintStyle: GoogleFonts.poppins(
@@ -129,100 +153,163 @@ class _SearchvideoState extends State<Searchvideo> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: ((height - status)) * 0.03,
-                      ),
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ),
+                    SizedBox(
+                      height: ((height - status)) * 0.03,
+                    ),
+                    Container(
+                      height: height * 0.9,
+                      child: SingleChildScrollView(
+                        child: Column(
                           children: [
-                            Text(
-                              'Continue Watching',
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: HexColor('#0A1C22')),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 20),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Allvideo()));
-                                },
-                                child: Text(
-                                  'View All',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.blue,
-                                    decoration: TextDecoration.underline,
+                            Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Continue Watching',
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        color: HexColor('#0A1C22')),
                                   ),
-                                ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 20),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Allvideo()));
+                                      },
+                                      child: Text(
+                                        'View All',
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            color: Colors.blue),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
+                            Provider.of<SqliteLocalDatabase>(context,
+                                                listen: true)
+                                            .wathedvideolist ==
+                                        null ||
+                                    Provider.of<SqliteLocalDatabase>(context,
+                                            listen: true)
+                                        .wathedvideolist
+                                        .isEmpty
+                                ? Text('no videos watched')
+                                : Container(
+                                    width: width * 0.9,
+                                    height: height * 0.15,
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: Provider.of<
+                                                            SqliteLocalDatabase>(
+                                                        context,
+                                                        listen: true)
+                                                    .wathedvideolist
+                                                    .length >
+                                                5
+                                            ? 5
+                                            : Provider.of<SqliteLocalDatabase>(
+                                                    context,
+                                                    listen: true)
+                                                .wathedvideolist
+                                                .length,
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                            onTap: () {
+                                              print(Provider.of<
+                                                          SqliteLocalDatabase>(
+                                                      context,
+                                                      listen: false)
+                                                  .wathedvideolist[index]
+                                                  .videoid);
+                                              print(
+                                                  'ggggggggrrrrrrrrrrrrrrrrrrrrrrrrrraaaaaaaaaaaaaaaaaaaaaa');
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => Playcontinue(
+                                                          videoid1: Provider.of<
+                                                                      SqliteLocalDatabase>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .wathedvideolist[
+                                                                  index]
+                                                              .videoid,
+                                                          durationwatched:
+                                                              Provider.of<SqliteLocalDatabase>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .wathedvideolist[
+                                                                      index]
+                                                                  .duration)));
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                width: width * 0.4,
+                                                child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    child: Image.network(
+                                                        'https://img.youtube.com/vi/${Provider.of<SqliteLocalDatabase>(context, listen: true).wathedvideolist[index].videoid}/0.jpg',
+                                                        fit: BoxFit.cover)),
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                  ),
+                            SizedBox(
+                              height: ((height - status)) * 0.01,
+                            ),
+                            GetSubjectList.subjectList == null
+                                ? CircularProgressIndicator()
+                                : Column(
+                                    children: List.generate(
+                                        GetSubjectList.subjectList.length,
+                                        (index) {
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Subjectnametext(
+                                            standardsubject: GetSubjectList
+                                                .subjectList[index],
+                                          ),
+                                          SizedBox(
+                                            height: ((height - status)) * 0.01,
+                                          ),
+                                          SubjectVideoslists(
+                                              standardsubject1: GetSubjectList
+                                                  .subjectList[index]),
+                                          // }),
+                                          SizedBox(
+                                            height: ((height - status)) * 0.01,
+                                          ),
+                                        ],
+                                      );
+                                    }),
+                                  )
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: ((height - status)) * 0.01,
-                      ),
-                      Container(
-                        width: width * 0.9,
-                        height: height * 0.15,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 5,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  print(131);
-                                },
-                                child: Container(
-                                  width: width * 0.4,
-                                  child: Card(
-                                    color: HexColor('#FFFFFF'),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }),
-                      ),
-                      SizedBox(
-                        height: ((height - status)) * 0.01,
-                      ),
-                      GetSubjectList.subjectList == null
-                          ? CircularProgressIndicator()
-                          : Column(
-                              children: List.generate(
-                                  GetSubjectList.subjectList.length, (index) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Subjectnametext(
-                                      standardsubject:
-                                          GetSubjectList.subjectList[index],
-                                    ),
-                                    SizedBox(
-                                      height: ((height - status)) * 0.01,
-                                    ),
-                                    SubjectVideoslists(
-                                        standardsubject1:
-                                            GetSubjectList.subjectList[index]),
-                                    // }),
-                                    SizedBox(
-                                      height: ((height - status)) * 0.01,
-                                    ),
-                                  ],
-                                );
-                              }),
-                            )
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );
@@ -260,7 +347,7 @@ class SubjectVideoslists extends StatefulWidget {
 
 class _SubjectVideoslistsState extends State<SubjectVideoslists> {
   YoutubePlayerController? youtubePlayerController;
-  var selectedsubject,
+  var decodeDetails,
       token,
       decodeDetailsData,
       selectedSubs,
@@ -293,7 +380,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
       }
       decodeDetailsnew.add(decodeDetailsnew[0]);
       setState(() {
-        selectedsubject = decodeDetailsnew;
+        decodeDetails = decodeDetailsnew;
       });
     });
   }
@@ -340,38 +427,35 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
     var height = MediaQuery.of(context).size.height;
     var status = MediaQuery.of(context).padding.top;
     return SafeArea(
-      child: selectedsubject == null
-          ? Center(
-              child: Visibility(
-                  visible: false, child: CircularProgressIndicator()))
+      child: decodeDetails == null
+          ? Center(child: CircularProgressIndicator())
           : Container(
-              height: (selectedsubject.length - 1) < 2
+              height: (decodeDetails.length - 1) < 2
                   ? ((height) * 0.3) / 2
                   : height * 0.3,
               width: width * 0.9,
               child: GridView.builder(
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: selectedsubject.length,
+                  itemCount: decodeDetails.length,
                   gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                    // crossAxisCount: selectedsubject.length <= 2?1:2,
+                    // crossAxisCount: decodeDetails.length <= 2?1:2,
                     crossAxisCount: 2,
                     childAspectRatio: 1.5,
                   ),
                   itemBuilder: (context, index) {
-                    // var s = Provider.of<WishList>(context, listen: true)
-                    //         .onlyVideoId ==
-                    //     (selectedsubjectnew[index]['video_id']);
-                    // l.w(s);
+                    var s = youtubevideoId!
+                        .contains(decodeDetailsnew[index]['video_id']);
+
                     return InkWell(
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Play(
-                                      link: selectedsubject[index]['link'],
+                                      link: decodeDetails[index]['link'],
                                     )));
                       },
-                      child: index >= (selectedsubject.length - 1)
+                      child: index >= (decodeDetails.length - 1)
                           ? GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -421,7 +505,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           child: Image.network(
-                                            'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(selectedsubject[index]['link'])}/0.jpg',
+                                            'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(decodeDetails[index]['link'])}/0.jpg',
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -433,31 +517,39 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 50.0, top: 10.0),
-                                              child: InkWell(
+                                            padding: const EdgeInsets.only(
+                                                left: 50.0, top: 10.0),
+                                            child: InkWell(
                                                 onTap: () {
-                                                  checking(
-                                                      link: decodeDetailsnew[
-                                                          index]['video_id']);
+                                                  Provider.of<WishList>(context,
+                                                          listen: false)
+                                                      .checkingLikeAndUnlikeVideos(
+                                                          context: context,
+                                                          gettingVideoId:
+                                                              decodeDetails[
+                                                                      index]
+                                                                  ['video_id']);
                                                 },
-                                                child: Icon(
-                                                  Icons.favorite,
-                                                  // color: Provider.of<
-                                                  //                 WishList>(
-                                                  //             context,
-                                                  //             listen: true)
-                                                  //         .onlyVideoId
-                                                  //         .contains(
-                                                  //             decodeDetailsnew[
-                                                  //                 index])
-                                                  //     //         .onlyVideoId
-                                                  //     ? Colors.pink
-                                                  //     : Colors.grey)),
-                                                ),
-                                              )),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Icon(Icons.favorite,
+                                                      color: Provider.of<
+                                                                      WishList>(
+                                                                  context,
+                                                                  listen: true)
+                                                              .youtubeVideoIdnew
+                                                              .contains(
+                                                                  decodeDetails[
+                                                                          index]
+                                                                      [
+                                                                      'video_id'])
+                                                          ? Colors.pink
+                                                          : Colors.grey),
+                                                )),
+                                          ),
                                           Text(
-                                            selectedsubject[index]['subject']
+                                            decodeDetails[index]['subject']
                                                 .toString(),
                                             style: TextStyle(
                                                 fontSize: 12,
@@ -465,7 +557,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                                 color: HexColor('#0A1C22')),
                                           ),
                                           Text(
-                                            selectedsubject[index]['lesson']
+                                            decodeDetails[index]['lesson']
                                                 .toString(),
                                             style: TextStyle(
                                                 fontSize: 10,

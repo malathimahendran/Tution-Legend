@@ -30,6 +30,7 @@ class _SearchinggscreenState extends State<Allvideo> {
   void initState() {
     l.wtf('inside init state');
     allvideoApi();
+    Provider.of<WishList>(context, listen: false).getWishlistnew();
     super.initState();
   }
 
@@ -283,16 +284,17 @@ class _SearchinggscreenState extends State<Allvideo> {
 
                                                     InkWell(
                                                         onTap: () {
-                                                          // Provider.of<WishList>(
-                                                          //         context,
-                                                          //         listen: false)
-                                                          //     .checkingLikeAndUnlikeVideos(
-                                                          //         context: context,
-                                                          //         gettingVideoId:
-                                                          //             searchListAllData[
-                                                          //                         'data']
-                                                          //                     [index][
-                                                          //                 'video_id']);
+                                                          Provider.of<WishList>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .checkingLikeAndUnlikeVideos(
+                                                                  context:
+                                                                      context,
+                                                                  gettingVideoId:
+                                                                      decodeDetails[
+                                                                              index]
+                                                                          [
+                                                                          'video_id']);
                                                         },
                                                         child: Icon(
                                                             Icons.favorite,
@@ -301,7 +303,11 @@ class _SearchinggscreenState extends State<Allvideo> {
                                                                         context,
                                                                         listen:
                                                                             true)
-                                                                    .trueOrFalseChecking
+                                                                    .youtubeVideoIdnew
+                                                                    .contains(decodeDetails[
+                                                                            index]
+                                                                        [
+                                                                        'video_id'])
                                                                 ? Colors.pink
                                                                 : Colors.grey)),
                                                   ],

@@ -91,13 +91,13 @@ class WishList extends ChangeNotifier {
   }
 
   checkingLikeAndUnlikeVideos({int? gettingVideoId, context}) async {
-    l.d(gettingVideoId);
-    List onlyVideoId = [];
-    for (var i in youtubeVideoLink) onlyVideoId.add(i['video_id']);
+    // List onlyVideoId = [];
 
-    var k = onlyVideoId.contains(gettingVideoId);
-    l.d(onlyVideoId);
-    l.d(k);
+    // for (var i in youtubeVideoLink) onlyVideoId.add(i['video_id']);
+
+    var k = Provider.of<WishList>(context, listen: false)
+        .youtubeVideoIdnew
+        .contains(gettingVideoId);
     if (k) {
       l.i(gettingVideoId);
       l.w('inside if');
@@ -123,7 +123,8 @@ class WishList extends ChangeNotifier {
       Provider.of<WishList>(context, listen: false)
           .youtubeVideoIdnew
           .add(gettingVideoId);
-      sayingTrueOrFalse = true;
+
+      // sayingTrueOrFalse = true;
       notifyListeners();
     }
   }

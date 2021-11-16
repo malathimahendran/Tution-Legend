@@ -65,39 +65,14 @@ class _VideowishlistState extends State<Videowishlist> {
             width: width,
             child: Column(
               children: [
-                Container(
-                  height: height * 0.06,
-                  width: width * 0.9,
-                  child: TextFormField(
-                    textInputAction: TextInputAction.search,
-                    onFieldSubmitted: (value) {
-                      // searchApi();
-                    },
-                    controller: search,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: 'Search videos',
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          // searchApi();
-                        },
-                        child: Icon(
-                          Icons.search,
-                          color: Colors.red,
-                        ),
-                      ),
-                      // icon: Icon(Icons.search),
-                      hintStyle: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: 11, color: HexColor('#7B7777'))),
-                      // prefixIcon: icon,
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: Colors.grey.shade300)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: HexColor('#27DEBF'))),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Favourites',
+                      style:
+                          TextStyle(fontSize: 21, color: HexColor('#243665')),
                     ),
                   ),
                 ),

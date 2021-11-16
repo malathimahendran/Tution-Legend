@@ -163,47 +163,20 @@ class _SecondscreenState extends State<Secondscreen> {
             width: width,
             child: Column(
               children: [
-                Container(
-                  height: height * 0.06,
-                  width: width * 0.9,
-                  child: TextFormField(
-                    textInputAction: TextInputAction.search,
-                    onFieldSubmitted: (value) {
-                      gosearchApi();
-                    },
-                    controller: search,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: 'Search videos',
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          gosearchApi();
-                        },
-                        child: Icon(
-                          Icons.search,
-                          color: Colors.red,
-                        ),
-                      ),
-                      // icon: Icon(Icons.search),
-                      hintStyle: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: 11, color: HexColor('#7B7777'))),
-                      // prefixIcon: icon,
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: Colors.grey.shade300)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: HexColor('#27DEBF'))),
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    child: Text('Videos',
+                        style: TextStyle(
+                            fontSize: 21, color: HexColor('#243665'))),
                   ),
                 ),
                 SizedBox(
                   height: ((height - status)) * 0.04,
                 ),
                 Flexible(
-                  child: decodeDetails == null
+                  child: decodeDetailsData == null
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
@@ -310,18 +283,26 @@ class _SecondscreenState extends State<Secondscreen> {
                                               InkWell(
                                                   onTap: () {
                                                     Provider.of<WishList>(
-                                                        context,
-                                                        listen: false)
+                                                            context,
+                                                            listen: false)
                                                         .checkingLikeAndUnlikeVideos(
-                                                        context: context,
-                                                        gettingVideoId: decodeDetails[index]['video_id']);
+                                                            context: context,
+                                                            gettingVideoId:
+                                                                decodeDetails[
+                                                                        index][
+                                                                    'video_id']);
                                                   },
                                                   child: Icon(Icons.favorite,
-                                                      color: Provider.of<WishList>(
-                                                          context,
-                                                          listen:
-                                                          true).youtubeVideoIdnew
-                                                          .contains(decodeDetails[index]['video_id'])
+                                                      color: Provider.of<
+                                                                      WishList>(
+                                                                  context,
+                                                                  listen: true)
+                                                              .youtubeVideoIdnew
+                                                              .contains(
+                                                                  decodeDetails[
+                                                                          index]
+                                                                      [
+                                                                      'video_id'])
                                                           ? Colors.pink
                                                           : Colors.grey)),
                                               // LikeButton(
