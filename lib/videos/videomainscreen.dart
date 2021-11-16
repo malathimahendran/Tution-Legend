@@ -434,14 +434,17 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                                       context: context,
                                                       gettingVideoId: decodeDetails[index]['video_id']);
                                                 },
-                                                child: Icon(Icons.favorite,
-                                                    color: Provider.of<WishList>(
-                                                        context,
-                                                        listen:
-                                                        true).youtubeVideoIdnew
-                                                        .contains(decodeDetails[index]['video_id'])
-                                                        ? Colors.pink
-                                                        : Colors.grey)),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Icon(Icons.favorite,
+                                                      color: Provider.of<WishList>(
+                                                          context,
+                                                          listen:
+                                                          true).youtubeVideoIdnew
+                                                          .contains(decodeDetails[index]['video_id'])
+                                                          ? Colors.pink
+                                                          : Colors.grey),
+                                                )),
                                           ),
                                           Text(
                                             decodeDetails[index]['subject']

@@ -59,9 +59,6 @@ class WishList extends ChangeNotifier {
       }
       youtubeVideoLink = wishListJsonData['result'];
       notifyListeners();
-      // setState(() {
-      //   wishlistDetails = decodeDetailsData['result'];
-      // });
     });
   }
   getWishlistnew() async {
@@ -91,11 +88,12 @@ class WishList extends ChangeNotifier {
   }
 
   checkingLikeAndUnlikeVideos({int? gettingVideoId, context}) async {
-    List onlyVideoId = [];
+    // List onlyVideoId = [];
 
-    for (var i in youtubeVideoLink) onlyVideoId.add(i['video_id']);
+    // for (var i in youtubeVideoLink) onlyVideoId.add(i['video_id']);
 
-    var k = onlyVideoId.contains(gettingVideoId);
+    var k =  Provider.of<WishList>(context, listen: false)
+        .youtubeVideoIdnew.contains(gettingVideoId);
     if (k) {
       l.i(gettingVideoId);
       l.w('inside if');
@@ -120,6 +118,7 @@ class WishList extends ChangeNotifier {
       Provider.of<WishList>(context, listen: false)
           .youtubeVideoIdnew
           .add(gettingVideoId);
+
       sayingTrueOrFalse = true;
       notifyListeners();
     }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
+import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/Slider/carosalSlider.dart';
 
@@ -21,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
+Provider.of<SqliteLocalDatabase>(context, listen:false).insertuseremail( );
     selectingHere().whenComplete(() {
       Future.delayed(Duration(seconds: 2), () {
         l.i('insideselectinghere');
