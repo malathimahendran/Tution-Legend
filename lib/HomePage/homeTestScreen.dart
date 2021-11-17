@@ -136,7 +136,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                   ),
                 ),
                 Container(
-                  height: (height - (status + bottom)) * 0.50,
+                  height: (height - (status + bottom)) * 0.45,
                   child: HomeScreenVideos(
                     Selectedsubjectname: 'Recent',
                   ),
