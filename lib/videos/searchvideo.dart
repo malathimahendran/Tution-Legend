@@ -34,6 +34,7 @@ class _SearchinggscreenState extends State<Searchingg> {
   List<int> iconClick = [];
   List<int> apireceivedid = [];
   bool isList = false;
+  bool isLoading = false;
   @override
   void initState() {
     l.wtf('inside init state');
@@ -76,58 +77,6 @@ class _SearchinggscreenState extends State<Searchingg> {
     });
   }
 
-  // getWishlist() async {
-  //   Shared().shared().then((value) async {
-  //     var userDetails = await value.getStringList('storeData');
-  //     token = userDetails[5];
-  //     print("$token" + "27linechapter");
-  //     var url =
-  //         Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
-  //     var response = await http.get(url, headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'Authorization': token
-  //     });
-  //     decodeDetailsData = json.decode(response.body);
-  //     print(decodeDetailsData);
-  //     l.i(decodeDetailsData);
-  //     for (var i in decodeDetailsData['result'])
-  //       youtubevideoId!.add(i['video_id']);
-  //     l.e(youtubevideoId);
-
-  //     print(decodeDetails);
-  //     print("47chapteritem");
-  //   });
-  // }
-
-  // searchApi() async {
-  //   Shared().shared().then((value) async {
-  //     var userDetails = await value.getStringList('storeData');
-  //     // setState(() {
-  //     token = userDetails[5];
-  //     print("$token" + "27linechapter");
-  //     // });
-  //
-  //     print(userDetails);
-  //
-  //     print("28chapter");
-  //     print(33);
-  //
-  //     var url = Uri.parse(
-  //         'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${widget}');
-  //     //  var url = Uri.parse(
-  //     //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
-  //     var response = await http.get(url, headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'Authorization': token
-  //     });
-  //     // decodeDetailsData = json.decode(response.body);
-  //     // setState(() {
-  //     //   decodeDetails = decodeDetailsData['data'];
-  //     // });
-  //   });
-  // }
   searchApi(String Selectedsubjectname) async {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
@@ -191,9 +140,17 @@ class _SearchinggscreenState extends State<Searchingg> {
                               gettingFromWhere: 'textFormField',
                               gettingWhatParameter: search.text);
                         },
-                        child: Icon(
-                          Icons.search,
-                          color: Colors.red,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: HexColor('#243665'),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                       // icon: Icon(Icons.search),
@@ -214,9 +171,50 @@ class _SearchinggscreenState extends State<Searchingg> {
                   height: ((height - status)) * 0.04,
                 ),
                 Flexible(
-                  child: searchListAllData == null
-                      ? Center(
-                          child: CircularProgressIndicator(),
+                  child: searchListAllData == null || decodeDetails.length == 0
+                      ? Container(
+                          child: isLoading == false
+                              ? TweenAnimationBuilder(
+                                  duration: Duration(seconds: 3),
+                                  tween: Tween(begin: 0.0, end: 100.0),
+                                  builder: (context, _, child) {
+                                    return Center(
+                                      child: SizedBox(
+                                        height: 40,
+                                        width: 40,
+                                        child: CircularProgressIndicator(
+                                            color: Colors.teal),
+                                      ),
+                                    );
+                                  },
+                                  onEnd: () {
+                                    setState(() {
+                                      isLoading = true;
+                                      print(isLoading);
+                                    });
+                                  },
+                                )
+                              : Center(
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.search,
+                                          size: height * 0.1,
+                                        ),
+                                        Text(
+                                          'No Results Found',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                         )
                       : Container(
                           height: (height),
@@ -224,38 +222,18 @@ class _SearchinggscreenState extends State<Searchingg> {
                           child: ListView.builder(
                               itemCount: searchListAllData['data'].length,
                               itemBuilder: (context, index) {
-                                // isList = apireceivedid
-                                //     .contains(searchListAllData['data'][index]['video_id']);
-                                // var s = Provider.of<WishList>(
-                                //     context,
-                                //     listen:
-                                //     true).youtubeVideoIdnew
-                                //     .contains(decodeDetails[index]['video_id']);
-
-                                // print('lllllllllllllllllllllll,  $s');
-                                // var you = YoutubePlayerController(
-                                //   initialVideoId: YoutubePlayer.convertUrlToId(
-                                //       searchListAllData['data'][index]
-                                //           ['link'])!,
-                                //   flags: const YoutubePlayerFlags(
-                                //     controlsVisibleAtStart: true,
-                                //     hideControls: true,
-                                //     autoPlay: false,
-                                //     isLive: false,
-                                //   ),
-                                // );
-
                                 return InkWell(
-                                  // onTap: () {
-                                  //   print(131);
-                                  //   Navigator.push(
-                                  //       context,
-                                  //       MaterialPageRoute(
-                                  //           builder: (context) => Play(
-                                  //                 link: searchListAllData['data'][index]
-                                  //                     ['link'],
-                                  //               )));
-                                  // },
+                                  onTap: () {
+                                    print(131);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Play(
+                                                  link:
+                                                      searchListAllData['data']
+                                                          [index]['link'],
+                                                )));
+                                  },
                                   child: Container(
                                       height: (height) * 0.18,
                                       width: width * 0.8,

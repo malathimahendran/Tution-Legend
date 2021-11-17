@@ -87,6 +87,7 @@ class _SearchvideoState extends State<Searchvideo> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
+                      height: height * 0.09,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Container(
@@ -94,42 +95,37 @@ class _SearchvideoState extends State<Searchvideo> {
                           width: width * 0.9,
                           child: TextFormField(
                             textInputAction: TextInputAction.search,
-                            onFieldSubmitted: (value) async {
+                            onFieldSubmitted: (value) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Searchingg(
-                                            searchlist: search.text,
-                                          )));
+                                      builder: (context) =>
+                                          Searchingg(searchlist: search.text)));
                             },
                             controller: search,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
                               hintText: 'Search videos',
-                              suffixIcon: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: HexColor('#243665'),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: IconButton(
-                                    icon: Icon(
+                              suffixIcon: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Searchingg(
+                                              searchlist: search.text)));
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: HexColor('#243665'),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Icon(
                                       Icons.search,
                                       color: Colors.white,
                                     ),
-                                    onPressed: () async {
-                                      l.w('inside line 126 , in inkwell searchingg');
-                                      // var n = await gosearchapi();
-                                      // l.wtf(n);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Searchingg(
-                                                    searchlist: search.text,
-                                                  )));
-                                    },
-                                    color: Colors.red,
                                   ),
                                 ),
                               ),
@@ -158,7 +154,7 @@ class _SearchvideoState extends State<Searchvideo> {
                       height: ((height - status)) * 0.03,
                     ),
                     Container(
-                      height: height * 0.9,
+                      height: height * 0.684,
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
@@ -205,7 +201,9 @@ class _SearchvideoState extends State<Searchvideo> {
                                             listen: true)
                                         .wathedvideolist
                                         .isEmpty
-                                ? Text('no videos watched')
+                                ? Text('No videos watched',
+                                    style: TextStyle(
+                                        fontSize: 17, color: Colors.grey))
                                 : Container(
                                     width: width * 0.9,
                                     height: height * 0.15,
@@ -516,38 +514,32 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 50.0, top: 10.0),
-                                            child: InkWell(
-                                                onTap: () {
-                                                  Provider.of<WishList>(context,
-                                                          listen: false)
-                                                      .checkingLikeAndUnlikeVideos(
-                                                          context: context,
-                                                          gettingVideoId:
-                                                              decodeDetails[
-                                                                      index]
-                                                                  ['video_id']);
-                                                },
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Icon(Icons.favorite,
-                                                      color: Provider.of<
-                                                                      WishList>(
-                                                                  context,
-                                                                  listen: true)
-                                                              .youtubeVideoIdnew
-                                                              .contains(
-                                                                  decodeDetails[
-                                                                          index]
-                                                                      [
-                                                                      'video_id'])
-                                                          ? Colors.pink
-                                                          : Colors.grey),
-                                                )),
-                                          ),
+                                          InkWell(
+                                              onTap: () {
+                                                Provider.of<WishList>(context,
+                                                        listen: false)
+                                                    .checkingLikeAndUnlikeVideos(
+                                                        context: context,
+                                                        gettingVideoId:
+                                                            decodeDetails[index]
+                                                                ['video_id']);
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 40, top: 10),
+                                                child: Icon(Icons.favorite,
+                                                    color: Provider.of<
+                                                                    WishList>(
+                                                                context,
+                                                                listen: true)
+                                                            .youtubeVideoIdnew
+                                                            .contains(
+                                                                decodeDetails[
+                                                                        index][
+                                                                    'video_id'])
+                                                        ? Colors.pink
+                                                        : Colors.grey),
+                                              )),
                                           Text(
                                             decodeDetails[index]['subject']
                                                 .toString(),

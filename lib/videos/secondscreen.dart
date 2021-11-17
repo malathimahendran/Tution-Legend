@@ -196,16 +196,16 @@ class _SecondscreenState extends State<Secondscreen> {
                                 // print(youtubevideoId!.length);
                                 // print(109);
                                 return InkWell(
-                                  // onTap: () {
-                                  //   print(131);
-                                  //   Navigator.push(
-                                  //       context,
-                                  //       MaterialPageRoute(
-                                  //           builder: (context) => Play(
-                                  //                 link: decodeDetails[index]
-                                  //                     ['link'],
-                                  //               )));
-                                  // },
+                                  onTap: () {
+                                    print(131);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Play(
+                                                  link: decodeDetails[index]
+                                                      ['link'],
+                                                )));
+                                  },
                                   child: Container(
                                       height: (height) * 0.18,
                                       width: width * 0.8,

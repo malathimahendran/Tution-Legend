@@ -142,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen>
                       fit: BoxFit.cover),
                 ),
                 width: double.infinity,
-                height: height * 0.15,
+                height: 101.0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: List.generate(iconlist.length, (index) {

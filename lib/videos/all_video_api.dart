@@ -21,6 +21,7 @@ class _SearchinggscreenState extends State<Allvideo> {
   var decodeDetailsData, token, searchListAllData;
   var decodeDetails;
   final l = Logger();
+  bool isLoading = false;
   List<int>? youtubevideoId = [];
   bool isIconClicked = false;
   List<int> iconClick = [];
@@ -141,9 +142,17 @@ class _SearchinggscreenState extends State<Allvideo> {
                               onTap: () {
                                 searchApi();
                               },
-                              child: Icon(
-                                Icons.search,
-                                color: Colors.red,
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: HexColor('#243665'),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Icon(
+                                    Icons.search,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ),
                             // icon: Icon(Icons.search),
@@ -165,12 +174,54 @@ class _SearchinggscreenState extends State<Allvideo> {
                         ),
                       ),
                       SizedBox(
-                        height: ((height - status)) * 0.04,
+                        height: ((height - status)) * 0.02,
                       ),
                       Flexible(
-                        child: decodeDetails == null
-                            ? Center(
-                                child: CircularProgressIndicator(),
+                        child: decodeDetails == null ||
+                                decodeDetails.length == 0
+                            ? Container(
+                                child: isLoading == false
+                                    ? TweenAnimationBuilder(
+                                        duration: Duration(seconds: 3),
+                                        tween: Tween(begin: 0.0, end: 100.0),
+                                        builder: (context, _, child) {
+                                          return Center(
+                                            child: SizedBox(
+                                              height: 40,
+                                              width: 40,
+                                              child: CircularProgressIndicator(
+                                                  color: Colors.teal),
+                                            ),
+                                          );
+                                        },
+                                        onEnd: () {
+                                          setState(() {
+                                            isLoading = true;
+                                            print(isLoading);
+                                          });
+                                        },
+                                      )
+                                    : Center(
+                                        child: Container(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.search,
+                                                size: height * 0.1,
+                                              ),
+                                              Text(
+                                                'No Results Found',
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                               )
                             : Container(
                                 height: (height),
@@ -191,16 +242,17 @@ class _SearchinggscreenState extends State<Allvideo> {
                                       //             [index]['video_id']);
                                       // print('lllllllllllllllllllllll,  $s');
                                       return InkWell(
-                                        // onTap: () {
-                                        //   print(131);
-                                        //   Navigator.push(
-                                        //       context,
-                                        //       MaterialPageRoute(
-                                        //           builder: (context) => Play(
-                                        //                 link: searchListAllData['data'][index]
-                                        //                     ['link'],
-                                        //               )));
-                                        // },
+                                        onTap: () {
+                                          print(131);
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => Play(
+                                                        link:
+                                                            decodeDetails[index]
+                                                                ['link'],
+                                                      )));
+                                        },
                                         child: Container(
                                             height: (height) * 0.18,
                                             width: width * 0.8,

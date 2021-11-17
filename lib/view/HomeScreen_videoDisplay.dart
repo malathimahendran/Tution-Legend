@@ -129,28 +129,27 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                         borderRadius:
                                             BorderRadius.circular(5.0),
                                       ),
-                                      child: Container(
-                                        width: width,
-                                        child: Row(
-                                          // mainAxisAlignment:
-                                          //     MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            // SizedBox(
-                                            //   width: width * 0.01,
-                                            // ),
-                                            InkWell(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            Play(
-                                                              link: GetSelectedsubjectsVideos
-                                                                      .decodeDetails[
-                                                                  index]['link'],
-                                                            )));
-                                              },
-                                              child: Container(
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => Play(
+                                                        link: GetSelectedsubjectsVideos
+                                                                .decodeDetails[
+                                                            index]['link'],
+                                                      )));
+                                        },
+                                        child: Container(
+                                          width: width,
+                                          child: Row(
+                                            // mainAxisAlignment:
+                                            //     MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              // SizedBox(
+                                              //   width: width * 0.01,
+                                              // ),
+                                              Container(
                                                 height: height * 0.135,
                                                 width: width * 0.3,
                                                 child: Padding(
@@ -168,98 +167,102 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              width: width * 0.05,
-                                            ),
-                                            // Image.asset('assets/Carousel/image1.png'),
-                                            Container(
-                                                width: width * 0.48,
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    // Text(wishlistDetails['data'][index]
-                                                    //     ['link']),
-                                                    Text(
-                                                      GetSelectedsubjectsVideos
-                                                          .decodeDetails[index]
-                                                              ['subject']
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 17,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: HexColor(
-                                                              '#0A1C22')),
-                                                    ),
-                                                    SizedBox(
-                                                      height: height * 0.005,
-                                                    ),
-                                                    Text(
-                                                      GetSelectedsubjectsVideos
-                                                          .decodeDetails[index]
-                                                              ['lesson']
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          color: HexColor(
-                                                              '#0A1C22')),
-                                                    ),
-                                                    SizedBox(
-                                                      height: height * 0.002,
-                                                    ),
-
-                                                    Container(
-                                                      child: Row(
-                                                        children: [
-                                                          Icon(Icons
-                                                              .access_alarm),
-                                                          SizedBox(
-                                                            width: width * 0.01,
-                                                          ),
-                                                          Text(
-                                                            (you.metadata
-                                                                        .duration ??
-                                                                    '')
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                fontSize: 11,
-                                                                color: HexColor(
-                                                                    '#0A1C22')),
-                                                          ),
-                                                        ],
+                                              SizedBox(
+                                                width: width * 0.05,
+                                              ),
+                                              // Image.asset('assets/Carousel/image1.png'),
+                                              Container(
+                                                  width: width * 0.48,
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      // Text(wishlistDetails['data'][index]
+                                                      //     ['link']),
+                                                      Text(
+                                                        GetSelectedsubjectsVideos
+                                                            .decodeDetails[
+                                                                index]
+                                                                ['subject']
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 17,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: HexColor(
+                                                                '#0A1C22')),
                                                       ),
-                                                    ),
-                                                    Text(
-                                                      ' Free',
-                                                      style: TextStyle(
-                                                          fontSize: 13,
-                                                          color: HexColor(
-                                                              '#0A1C22')),
-                                                    ),
-                                                  ],
-                                                )),
+                                                      SizedBox(
+                                                        height: height * 0.005,
+                                                      ),
+                                                      Text(
+                                                        GetSelectedsubjectsVideos
+                                                            .decodeDetails[
+                                                                index]['lesson']
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color: HexColor(
+                                                                '#0A1C22')),
+                                                      ),
+                                                      SizedBox(
+                                                        height: height * 0.002,
+                                                      ),
 
-                                            // InkWell(
-                                            //     onTap: () {
-                                            //       checking(
-                                            //           link: GetSelectedsubjectsVideos
-                                            //                   .decodeDetails[
-                                            //               index]['video_id']);
-                                            //     },
-                                            //     child: Icon(Icons.favorite,
-                                            //         color: s
-                                            //             ? Colors.pink
-                                            //             : Colors.grey)),
-                                            // SizedBox(
-                                            //   width: width * 0.01,
-                                            // ),
-                                          ],
+                                                      Container(
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(Icons
+                                                                .access_alarm),
+                                                            SizedBox(
+                                                              width:
+                                                                  width * 0.01,
+                                                            ),
+                                                            Text(
+                                                              (you.metadata
+                                                                          .duration ??
+                                                                      '')
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  fontSize: 11,
+                                                                  color: HexColor(
+                                                                      '#0A1C22')),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        ' Free',
+                                                        style: TextStyle(
+                                                            fontSize: 13,
+                                                            color: HexColor(
+                                                                '#0A1C22')),
+                                                      ),
+                                                    ],
+                                                  )),
+
+                                              // InkWell(
+                                              //     onTap: () {
+                                              //       checking(
+                                              //           link: GetSelectedsubjectsVideos
+                                              //                   .decodeDetails[
+                                              //               index]['video_id']);
+                                              //     },
+                                              //     child: Icon(Icons.favorite,
+                                              //         color: s
+                                              //             ? Colors.pink
+                                              //             : Colors.grey)),
+                                              // SizedBox(
+                                              //   width: width * 0.01,
+                                              // ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     )),
