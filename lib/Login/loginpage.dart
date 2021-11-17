@@ -8,6 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:platform_device_id/platform_device_id.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/FCM%20Token/fcm_token.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
@@ -40,6 +41,7 @@ class _LoginPageState extends State<LoginPage> {
       token;
   bool secureText = true;
   var controller;
+
   // Function fun = signInWithGoogle(){};
   Function fu = (a) {};
   var email = TextEditingController();
@@ -49,6 +51,45 @@ class _LoginPageState extends State<LoginPage> {
   var fcm_token;
   String? deviceId, finalDeviceId;
   GoogleSignInAccount? googleUser;
+
+  void handleRemeberme(bool value) {
+    print("Handle Rember Me");
+    isChecked = value;
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        prefs.setBool("remember_me", value);
+        prefs.setString('email', email.text);
+        prefs.setString('password', password.text);
+        l.i(email.text);
+      },
+    );
+    setState(() {
+      isChecked = value;
+    });
+  }
+
+  void loadUserEmailPassword() async {
+    print("Load Email");
+    try {
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      var _email = _prefs.getString("email") ?? "";
+      var _password = _prefs.getString("password") ?? "";
+      var _remeberMe = _prefs.getBool("remember_me") ?? false;
+
+      print(_remeberMe);
+      print(_email);
+      print(_password);
+      if (_remeberMe) {
+        setState(() {
+          isChecked = true;
+        });
+        email.text = _email;
+        password.text = _password;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   signInWithGoogle() async {
     googleUser = await GoogleSignIn().signIn();
@@ -79,6 +120,7 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     initPlatformState();
     getToken();
+    loadUserEmailPassword();
   }
 
   getToken() async {
@@ -389,6 +431,7 @@ class _LoginPageState extends State<LoginPage> {
                                           value: isChecked,
                                           onChanged: (value) => setState(() {
                                                 isChecked = value!;
+                                                handleRemeberme(value);
                                                 // signInButtonEnable = !signInButtonEnable;
                                               })),
                                     ),
