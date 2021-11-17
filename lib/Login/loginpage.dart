@@ -298,7 +298,7 @@ class _LoginPageState extends State<LoginPage> {
         decoration: BoxDecoration(
           // color: Colors.pink,
           image: DecorationImage(
-              image: AssetImage("assets/ProfilePage/mainbackground.png"),
+              image: AssetImage("assets/RegisterPage/registerbackground.png"),
               fit: BoxFit.fill),
         ),
         child: Stack(

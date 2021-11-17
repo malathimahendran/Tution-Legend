@@ -9,6 +9,7 @@ import 'package:logger/logger.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
+import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 import 'package:tutionmaster/ProfilePage/logout.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
@@ -34,17 +35,55 @@ class _ProfileState extends State<Profile> {
       googleId,
       token,
       decodeDetailsData,
+      profileDetailsData,
       decodeDetails,
-      amount;
+      amount,
+      data,
+      standardClass;
   var imageFile;
   var subscribedDate;
   var endingDate;
   void initState() {
     super.initState();
+    // LogOutForAll.outTemporary(context);
     getUserName();
     getPlanDetails();
-
+    getProfileDetails();
     print(29);
+  }
+
+  getProfileDetails() {
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      // setState(() {
+      token = userDetails[5];
+      print("$token" + "51 line");
+
+      var url = Uri.parse(
+          'http://www.cviacserver.tk/tuitionlegend/home/user_profile');
+
+      var response = await http.get(url, headers: {'Authorization': token});
+      profileDetailsData = json.decode(response.body);
+      l.d(profileDetailsData);
+      data = profileDetailsData['data'];
+      l.w(data);
+      setState(() {
+        standardClass = data[0]['class'];
+        l.e("$standardClass,sdjfksdfjksdfjdkfdksfjk");
+      });
+      storingAllDetails(
+          userName: userName,
+          storeemail: email,
+          standard: standard,
+          phone: mobileNumber,
+          profileImage: profileImage,
+          token: token,
+          standardFromGetApi: standardClass,
+          googleId: googleId,
+          enrollmentNumber: enrollmentNumber,
+          school: school,
+          academicYear: academicYear);
+    });
   }
 
   getPlanDetails() async {
@@ -66,8 +105,8 @@ class _ProfileState extends State<Profile> {
         subscribedDate =
             result[0]['subscribed_date'].toString().substring(0, 10);
         l.wtf(subscribedDate);
-        endingDate = result[0]['ending_date'].toString().substring(0, 10);
-        l.wtf(endingDate);
+        endingDate = result[0]['ending_date'].toString();
+        l.wtf("$endingDate,dffffffffffff");
         amount = result[0]['amount'];
         l.wtf(amount);
       });
@@ -145,7 +184,8 @@ class _ProfileState extends State<Profile> {
   @override
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   Widget build(BuildContext context) {
-    l.e(subscribedDate);
+    l.e(standardClass);
+
     // getUserName();
     // print(widget.indexnumber);
     print(43);
@@ -266,14 +306,11 @@ class _ProfileState extends State<Profile> {
                                       SizedBox(
                                         height: ((height - status)) * 0.006,
                                       ),
-                                      enrollmentNumber == null
-                                          ? Text('')
-                                          : Text(
-                                              'EnrollmentNumber:$enrollmentNumber',
-                                              style: TextStyle(
-                                                  color: HexColor('#0AB4A4'),
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold)),
+                                      Text('EnrollmentNumber:$enrollmentNumber',
+                                          style: TextStyle(
+                                              color: HexColor('#0AB4A4'),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold)),
                                     ],
                                   ),
                                 )
@@ -297,14 +334,12 @@ class _ProfileState extends State<Profile> {
                                         SizedBox(
                                           width: width * 0.03,
                                         ),
-                                        standard == null
-                                            ? Text('')
-                                            : Text(
-                                                'class-$standard',
-                                                style: TextStyle(
-                                                    color: HexColor('#05534B'),
-                                                    fontSize: 12),
-                                              )
+                                        Text(
+                                          'class-$standardClass',
+                                          style: TextStyle(
+                                              color: HexColor('#05534B'),
+                                              fontSize: 12),
+                                        )
                                       ],
                                     ),
                                     SizedBox(
@@ -345,7 +380,7 @@ class _ProfileState extends State<Profile> {
                                           width: width * 0.03,
                                         ),
                                         Text(
-                                          'Academic Year $academicYear',
+                                          'Academic Year : $academicYear',
                                           style: TextStyle(
                                               color: HexColor('#05534B'),
                                               fontSize: 12),
@@ -502,7 +537,7 @@ class _ProfileState extends State<Profile> {
                     )
                   : Container(),
               Container(
-                height: (height - status) * 0.13,
+                height: (height - status) * 0.16,
                 width: width * 0.9,
                 child: Card(
                     child: Column(
@@ -522,7 +557,54 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         amount == null
-                            ? Container()
+                            ? Container(
+                                width: width * 0.9,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: Image.asset(
+                                              "assets/ProfilePage/year.png"),
+                                        ),
+                                        SizedBox(
+                                          width: width * 0.03,
+                                        ),
+                                        Text("Free"),
+                                      ],
+                                    ),
+                                    Container(
+                                      width: width * 0.6,
+                                      child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              primary: Colors.red,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10))),
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PaymentDesign()));
+                                          },
+                                          child: Text("Subscribe Now",
+                                              style: GoogleFonts.poppins(
+                                                textStyle: TextStyle(
+                                                    color: Colors.white),
+                                              ))),
+                                    ),
+                                  ],
+                                ),
+                              )
                             : Container(
                                 width: width * 0.9,
                                 child: Column(
@@ -530,17 +612,36 @@ class _ProfileState extends State<Profile> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Text(
-                                      "   Subscribed Amount:$amount",
-                                      style: TextStyle(fontSize: 12),
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                            "assets/ProfilePage/year.png"),
+                                        Text(
+                                          "$amount",
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      "   Subscribed Date:$subscribedDate",
-                                      style: TextStyle(fontSize: 12),
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          "assets/ProfilePage/calendar1.png",
+                                        ),
+                                        Text(
+                                          "$subscribedDate",
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      "   Plan End Date:$endingDate",
-                                      style: TextStyle(fontSize: 12),
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                            "assets/ProfilePage/clock.png"),
+                                        Text(
+                                          "$endingDate",
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                      ],
                                     )
                                   ],
                                 ),

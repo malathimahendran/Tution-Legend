@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +43,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
   void initState() {
     super.initState();
     getUserName();
+    Provider.of<SqliteLocalDatabase>(context, listen: false).getvideolist();
   }
 
   @override

@@ -148,6 +148,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
     print(res.signature);
     print(58);
     print("sfdfffffffffffffffffffffffffff");
+    print("$subscriptionId,ssssssssssssss");
     paymentPostApi(subId: subscriptionId);
     Toast.show("Payment success", context, duration: 3);
     Navigator.popAndPushNamed(context, '/homescreen');
@@ -215,11 +216,11 @@ class _PaymentDesignState extends State<PaymentDesign> {
                                 fit: BoxFit.fill)),
                       ),
                       Positioned(
-                        top: (height - status) * 0.18,
-                        left: width * 0.13,
+                        top: (height - status) * 0.17,
+                        left: width * 0.11,
                         child: Container(
-                            height: height * 0.07,
-                            width: height * 0.07,
+                            height: height * 0.1,
+                            width: height * 0.1,
                             child: profileImage == null || profileImage == ""
                                 ? Container(
                                     height: (height - status) * 0.08,
@@ -447,7 +448,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
                   CheckboxListTile(
                     activeColor: Colors.red,
                     checkColor: Colors.white,
-                    contentPadding: EdgeInsets.zero,
+                    contentPadding: EdgeInsets.only(left: 25),
                     controlAffinity: ListTileControlAffinity.leading,
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -517,9 +518,11 @@ class _PaymentDesignState extends State<PaymentDesign> {
   hello({int? gettingTheIndex}) {
     if (gettingTheIndex == null) {
       l.w(result[0]['amount']);
+      subscriptionId = result[0]['subscription_id'];
       return result[0]['amount'];
     } else {
       l.w(result[gettingTheIndex]['amount']);
+      subscriptionId = result[gettingTheIndex]['subscription_id'];
       return result[gettingTheIndex]['amount'];
     }
   }

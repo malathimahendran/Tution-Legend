@@ -22,7 +22,12 @@ class Searchingg extends StatefulWidget {
 
 class _SearchinggscreenState extends State<Searchingg> {
   var search = TextEditingController();
-  var decodeDetails, token, searchListAllData;
+  var decodeDetails,
+      token,
+      searchListAllData,
+      decodeDetailsData,
+      decodeDetailsnew,
+      selectedSubs;
   final l = Logger();
   List<int>? youtubevideoId = [];
   bool isIconClicked = false;
@@ -36,6 +41,7 @@ class _SearchinggscreenState extends State<Searchingg> {
     gosearchapi(
         gettingFromWhere: 'fromInItState',
         gettingWhatParameter: widget.searchlist);
+    Provider.of<WishList>(context, listen: false).getWishlistnew();
     super.initState();
   }
 
@@ -64,6 +70,7 @@ class _SearchinggscreenState extends State<Searchingg> {
       });
       setState(() {
         searchListAllData = json.decode(response.body);
+        decodeDetails = searchListAllData['data'];
       });
       l.e(searchListAllData);
     });
@@ -92,32 +99,51 @@ class _SearchinggscreenState extends State<Searchingg> {
   //   });
   // }
 
-  searchApi() async {
+  // searchApi() async {
+  //   Shared().shared().then((value) async {
+  //     var userDetails = await value.getStringList('storeData');
+  //     // setState(() {
+  //     token = userDetails[5];
+  //     print("$token" + "27linechapter");
+  //     // });
+  //
+  //     print(userDetails);
+  //
+  //     print("28chapter");
+  //     print(33);
+  //
+  //     var url = Uri.parse(
+  //         'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${widget}');
+  //     //  var url = Uri.parse(
+  //     //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
+  //     var response = await http.get(url, headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json',
+  //       'Authorization': token
+  //     });
+  //     // decodeDetailsData = json.decode(response.body);
+  //     // setState(() {
+  //     //   decodeDetails = decodeDetailsData['data'];
+  //     // });
+  //   });
+  // }
+  searchApi(String Selectedsubjectname) async {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
-      // setState(() {
       token = userDetails[5];
-      print("$token" + "27linechapter");
-      // });
-
-      print(userDetails);
-
-      print("28chapter");
-      print(33);
-
+      selectedSubs = Selectedsubjectname.replaceAll(" ", "");
       var url = Uri.parse(
-          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${widget}');
-      //  var url = Uri.parse(
-      //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
+          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/$selectedSubs');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': token
+        'Authorization': token,
       });
-      // decodeDetailsData = json.decode(response.body);
-      // setState(() {
-      //   decodeDetails = decodeDetailsData['data'];
-      // });
+      decodeDetailsData = json.decode(response.body);
+      decodeDetailsnew = decodeDetailsData['data'];
+      setState(() {
+        decodeDetails = decodeDetailsnew;
+      });
     });
   }
 
@@ -197,10 +223,13 @@ class _SearchinggscreenState extends State<Searchingg> {
                               itemBuilder: (context, index) {
                                 // isList = apireceivedid
                                 //     .contains(searchListAllData['data'][index]['video_id']);
-                                var s = youtubevideoId!.contains(
-                                    searchListAllData['data'][index]
-                                        ['video_id']);
-                                print('lllllllllllllllllllllll,  $s');
+                                // var s = Provider.of<WishList>(
+                                //     context,
+                                //     listen:
+                                //     true).youtubeVideoIdnew
+                                //     .contains(decodeDetails[index]['video_id']);
+
+                                // print('lllllllllllllllllllllll,  $s');
                                 // var you = YoutubePlayerController(
                                 //   initialVideoId: YoutubePlayer.convertUrlToId(
                                 //       searchListAllData['data'][index]
@@ -306,15 +335,34 @@ class _SearchinggscreenState extends State<Searchingg> {
                                                         .checkingLikeAndUnlikeVideos(
                                                             context: context,
                                                             gettingVideoId:
-                                                                searchListAllData[
-                                                                            'data']
-                                                                        [index][
+                                                                decodeDetails[
+                                                                        index][
                                                                     'video_id']);
+                                                    // checking(
+                                                    //     link: decodeDetails[
+                                                    //     index]['video_id']);
+                                                    // Provider.of<WishList>(
+                                                    //     context,
+                                                    //     listen:
+                                                    //     false).getwishvideoidlist();
                                                   },
-                                                  child: Icon(Icons.favorite,
-                                                      color: s
-                                                          ? Colors.pink
-                                                          : Colors.grey)),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Icon(Icons.favorite,
+                                                        color: Provider.of<
+                                                                        WishList>(
+                                                                    context,
+                                                                    listen:
+                                                                        true)
+                                                                .youtubeVideoIdnew
+                                                                .contains(decodeDetails[
+                                                                        index][
+                                                                    'video_id'])
+                                                            ? Colors.pink
+                                                            : Colors.grey),
+                                                  )),
                                               // LikeButton(
                                               //   // onTap: () {
 

@@ -8,23 +8,23 @@ class Shared {
   }
 }
 
-storingAllDetails({
-  userName,
-  storeemail,
-  phone,
-  standard,
-  profileImage,
-  token,
-  googleId,
-  enrollmentNumber,
-  school,
-  academicYear,
-}) async {
+storingAllDetails(
+    {userName,
+    storeemail,
+    phone,
+    standard,
+    profileImage,
+    token,
+    googleId,
+    enrollmentNumber,
+    school,
+    academicYear,
+    standardFromGetApi}) async {
   final l = Logger();
 
   List<String> storing = [
     userName ?? "",
-    storeemail,
+    storeemail ?? "",
     phone ?? "",
     standard ?? "",
     profileImage ?? "",
@@ -33,12 +33,13 @@ storingAllDetails({
     enrollmentNumber ?? "",
     school ?? "",
     academicYear ?? "",
+    standardFromGetApi ?? ""
   ];
 
   // print("${storing[token].toString()},zzzzzzzzzzzzzzline 34");
 
   l.wtf(storing);
-  print('line 37 in sharedpreference320');
+  print('line 42 in sharedpreference320');
   Shared().shared().then((value) => value.setStringList('storeData', storing));
   l.w(storing);
 }

@@ -34,7 +34,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      // extendBody: true,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -61,8 +60,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
           Container(
             width: double.infinity,
             height: double.infinity,
-
-            // color: Colors.green,
             decoration: BoxDecoration(
               image: DecorationImage(
                   image:
@@ -70,13 +67,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                   fit: BoxFit.fill),
             ),
           ),
-          // Container(
-          //   height: height,
-          //   width: width,
-          //   margin: EdgeInsets.only(top: status),
-          //   alignment: Alignment.topCenter,
-          //   child: Image.asset('assets/LoginPage/logintop.png'),
-          // ),
           Container(
             height: height - status,
             width: width,
@@ -84,33 +74,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
             padding: EdgeInsets.fromLTRB(10, status, 10, status),
             child: Column(
               children: [
-                // Container(
-                //   height: (height - (2 * status)) * 0.07,
-                //   width: width,
-                //   // color: Colors.orange,
-                //   child: Row(
-                //     children: [
-                //       Container(
-                //         width: (width - 20) * 0.37,
-                //         alignment: Alignment.centerLeft,
-                //         child: Icon(Icons.arrow_back),
-                //       ),
-                //       Container(
-                //         width: (width - 20) * 0.63,
-                //         alignment: Alignment.centerLeft,
-                //         child: Text(
-                //           'Edit Profile',
-                //           style: TextStyle(
-                //               fontSize: height * 0.025,
-                //               fontWeight: FontWeight.bold),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // SizedBox(
-                //   height: (height - (2 * status)) * 0.02,
-                // ),
                 CustomExpandedWithTextAndFormField(
                     height: height,
                     status: status,
