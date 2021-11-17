@@ -32,18 +32,20 @@ unlikevideo(videoId) async {
 
 class WishList extends ChangeNotifier {
   final l = Logger();
+
   String? token;
   List youtubeVideoId = [];
   List youtubeVideoIdnew = [];
   List youtubeVideoLink = [];
-  bool sayingTrueOrFalse = false;
+
+  bool trueOrFalseChecking = false;
   getWishlist() async {
     Shared().shared().then((value) async {
       List userDetails = await value.getStringList('storeData');
       token = userDetails[5];
       l.w(token);
       var url =
-      Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -61,13 +63,14 @@ class WishList extends ChangeNotifier {
       notifyListeners();
     });
   }
+
   getWishlistnew() async {
     Shared().shared().then((value) async {
       List userDetails = await value.getStringList('storeData');
       token = userDetails[5];
       l.w(token);
       var url =
-      Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -82,7 +85,7 @@ class WishList extends ChangeNotifier {
         l.e(youtubeVideoId);
       }
       youtubeVideoLink = wishListJsonData['result'];
-      youtubeVideoIdnew=youtubeVideoId;
+      youtubeVideoIdnew = youtubeVideoId;
       notifyListeners();
     });
   }
@@ -92,8 +95,9 @@ class WishList extends ChangeNotifier {
 
     // for (var i in youtubeVideoLink) onlyVideoId.add(i['video_id']);
 
-    var k =  Provider.of<WishList>(context, listen: false)
-        .youtubeVideoIdnew.contains(gettingVideoId);
+    var k = Provider.of<WishList>(context, listen: false)
+        .youtubeVideoIdnew
+        .contains(gettingVideoId);
     if (k) {
       l.i(gettingVideoId);
       l.w('inside if');
@@ -107,7 +111,8 @@ class WishList extends ChangeNotifier {
           .remove(gettingVideoId);
       l.v(youtubeVideoLink);
 
-      sayingTrueOrFalse = false;
+      trueOrFalseChecking = false;
+
       notifyListeners();
     } else {
       l.i(gettingVideoId);
@@ -119,9 +124,8 @@ class WishList extends ChangeNotifier {
           .youtubeVideoIdnew
           .add(gettingVideoId);
 
-      sayingTrueOrFalse = true;
+      // sayingTrueOrFalse = true;
       notifyListeners();
     }
   }
-
 }

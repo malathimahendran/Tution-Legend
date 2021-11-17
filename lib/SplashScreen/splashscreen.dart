@@ -7,7 +7,6 @@ import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/Slider/carosalSlider.dart';
-
 import '../SHARED PREFERENCES/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,10 +19,11 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final l = Logger();
   var selectHere;
+  static bool isComingIn = false;
   @override
   void initState() {
     super.initState();
-Provider.of<SqliteLocalDatabase>(context, listen:false).insertuseremail( );
+
     selectingHere().whenComplete(() {
       Future.delayed(Duration(seconds: 2), () {
         l.i('insideselectinghere');
@@ -49,6 +49,9 @@ Provider.of<SqliteLocalDatabase>(context, listen:false).insertuseremail( );
     //   selectHere = shared.getStringList('pic');
     // });
     // print(selectHere);
+    setState(() {
+      isComingIn = true;
+    });
   }
 
   @override
@@ -56,6 +59,7 @@ Provider.of<SqliteLocalDatabase>(context, listen:false).insertuseremail( );
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
+
     return Scaffold(
         body: Container(
       margin: EdgeInsets.only(
