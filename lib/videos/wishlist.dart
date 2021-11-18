@@ -48,41 +48,20 @@ class _VideowishlistState extends State<Videowishlist> {
               image: AssetImage('assets/ProfilePage/mainbackground.png'),
             )),
             margin: EdgeInsets.only(
-              top: status,
+              top: height * 0.03,
             ),
             height: height,
             width: width,
             child: Column(
               children: [
-                Container(
-                  height: height * 0.06,
-                  width: width * 0.9,
-                  child: TextFormField(
-                    textInputAction: TextInputAction.search,
-                    onFieldSubmitted: (value) {},
-                    controller: search,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: 'Search videos',
-                      suffixIcon: InkWell(
-                        onTap: () {},
-                        child: Icon(
-                          Icons.search,
-                          color: Colors.red,
-                        ),
-                      ),
-                      // icon: Icon(Icons.search),
-                      hintStyle: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: 11, color: HexColor('#7B7777'))),
-                      // prefixIcon: icon,
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: Colors.grey.shade300)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: HexColor('#27DEBF'))),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Favourites',
+                      style:
+                          TextStyle(fontSize: 21, color: HexColor('#243665')),
                     ),
                   ),
                 ),
@@ -109,9 +88,13 @@ class _VideowishlistState extends State<Videowishlist> {
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   child: Container(
-                                      height: (height) * 0.12,
-                                      width: width,
+                                      height: (height) * 0.18,
+                                      width: width * 0.8,
+                                      // child: YoutubePlayer(
+                                      //   controller: you,
+                                      // ),
                                       child: Card(
+                                        elevation: 5,
                                         color: HexColor('#FFFFFF'),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -139,15 +122,21 @@ class _VideowishlistState extends State<Videowishlist> {
                                                   //                       .youtubeVideoLink[index]['link'],
                                                   //                 )));
                                                 },
-                                                child: Container(
-                                                  width: width * 0.2,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                    child: Image.network(
-                                                      'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(Provider.of<WishList>(context, listen: false).youtubeVideoLink[index]['link'])}/0.jpg',
-                                                      fit: BoxFit.cover,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10),
+                                                  child: Container(
+                                                    height: height * 0.12,
+                                                    width: width * 0.23,
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                      child: Image.network(
+                                                        'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(Provider.of<WishList>(context, listen: false).youtubeVideoLink[index]['link'])}/0.jpg',
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -157,7 +146,7 @@ class _VideowishlistState extends State<Videowishlist> {
                                                 padding:
                                                     EdgeInsets.only(left: 10),
                                                 child: Container(
-                                                    width: width * 0.58,
+                                                    width: width * 0.52,
                                                     child: Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/videos/all_video_api.dart';
 import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
 
 import 'homescreen.dart';
@@ -42,6 +44,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
   void initState() {
     super.initState();
     getUserName();
+    Provider.of<SqliteLocalDatabase>(context, listen: false).getvideolist();
   }
 
   @override
@@ -87,7 +90,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomeScreen(true)));
+                                    builder: (context) => Allvideo()));
                           },
                           child: Icon(Icons.search))
                     ],
@@ -133,7 +136,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                   ),
                 ),
                 Container(
-                  height: (height - (status + bottom)) * 0.50,
+                  height: (height - (status + bottom)) * 0.45,
                   child: HomeScreenVideos(
                     Selectedsubjectname: 'Recent',
                   ),

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:logger/logger.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/Login/loginpage.dart';
 import 'package:tutionmaster/ProfilePage/logout.dart';
+import 'package:tutionmaster/SplashScreen/constants.dart';
 
 class Carosel extends StatefulWidget {
   Carosel({Key? key}) : super(key: key);
@@ -16,6 +18,16 @@ class Carosel extends StatefulWidget {
 }
 
 class _CaroselState extends State<Carosel> {
+  final l = Logger();
+  @override
+  void initState() {
+    Multi.check();
+    Multi.isComingIn = true;
+    l.i(Multi.isComingIn);
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   int currentPos = 0;
   List<String> listPaths = [
@@ -32,6 +44,10 @@ class _CaroselState extends State<Carosel> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
+    double unitHeightValue = MediaQuery.of(context).size.height * 0.01;
+    double unitWidthValue = MediaQuery.of(context).size.width * 0.01;
+    double buttonText = 2;
+    double subText = 1.8;
     return Scaffold(
         body: Container(
       height: height - status,
@@ -74,11 +90,12 @@ class _CaroselState extends State<Carosel> {
                 Padding(
                   padding: const EdgeInsets.only(top: 30),
                   child: Container(
-                    width: width * 0.7,
+                    width: width * 0.6,
                     child: Text('${titles[currentPos]}',
                         style: GoogleFonts.poppins(
                           textStyle: TextStyle(
-                              fontSize: 13, color: HexColor('#707070')),
+                              fontSize: unitHeightValue * subText,
+                              color: HexColor('#707070')),
                         )),
                   ),
                 ),
@@ -123,7 +140,9 @@ class _CaroselState extends State<Carosel> {
                       },
                       child: Text(
                         'Get Started',
-                        style: GoogleFonts.poppins(),
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: unitHeightValue * buttonText)),
                       ),
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
@@ -155,7 +174,7 @@ class MyImageView extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
-    // TODO: implement build
+
     return Container(
         height: (height - status) * 0.60,
         width: width * 0.6,

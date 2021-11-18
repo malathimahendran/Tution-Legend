@@ -4,10 +4,10 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
+import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/Slider/carosalSlider.dart';
-import 'package:tutionmaster/videos/likeandunlikeapi.dart';
-
+import 'package:tutionmaster/SplashScreen/constants.dart';
 import '../SHARED PREFERENCES/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,19 +20,23 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final l = Logger();
   var selectHere;
+
   @override
   void initState() {
     super.initState();
-    Provider.of<WishList>(context, listen: false).getWishlist();
+
     selectingHere().whenComplete(() {
+      Multi.check();
       Future.delayed(Duration(seconds: 2), () {
         l.i('insideselectinghere');
-
+        l.i(Multi.isComingIn);
         Navigator.popAndPushNamed(
             context,
-            selectHere == null
+            selectHere == null && Multi.isComingIn == null
                 ? AllRouteNames.carosalSlider
-                : AllRouteNames.homescreen);
+                : selectHere == null
+                    ? AllRouteNames.loginpage
+                    : AllRouteNames.homescreen);
       });
     });
   }
@@ -56,6 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
+
     return Scaffold(
         body: Container(
       margin: EdgeInsets.only(

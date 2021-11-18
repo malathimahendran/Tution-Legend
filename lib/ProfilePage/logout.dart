@@ -16,7 +16,7 @@ class LogOutForAll {
       l.i('log out gor google');
     });
     Shared().shared().then((value) {
-      value.clear();
+      value.remove('storeData');
       l.i('clear in shared preference');
 
       var hello = value.getStringList('storeData');

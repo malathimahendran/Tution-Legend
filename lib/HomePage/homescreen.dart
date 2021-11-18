@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
@@ -87,11 +88,6 @@ class _HomeScreenState extends State<HomeScreen>
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
-
-    // return WillPopScope(
-    // onWillPop: () {
-    //   return Future.value(true);
-    // },
     return WillPopScope(
       onWillPop: _page != 0
           ? () {
@@ -124,64 +120,79 @@ class _HomeScreenState extends State<HomeScreen>
               enrollmentNumber: enrollmentNumber,
             ),
           ),
-          bottomNavigationBar: Container(
-            // decoration: BoxDecoration(
-            //   image: DecorationImage(
-            //       image: AssetImage('assets/HomeScreenPage/homeScreenTab.png'),
-            //       fit: BoxFit.cover),
-            // ),
-            color: Colors.black,
-            width: double.infinity,
-            height: 101.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(iconlist.length, (index) {
-                return GestureDetector(
-                  onTap: () {
-                    widget.searchindex = false;
-                    // l.w(_page);
-                    setState(() {
-                      _page = index;
-                    });
-                    // l.w(_page);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 38.0),
-                    child: Container(
-                      padding: EdgeInsets.only(bottom: 2),
-                      width: (width) * 1 / 4,
-                      alignment: index == 1
-                          ? Alignment.centerLeft
-                          : index == 2
-                              ? Alignment.centerRight
-                              : null,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CircleAvatar(
-                              radius: 20.0,
-                              backgroundColor: _page == index
-                                  ? Colors.white
-                                  : Colors.transparent,
-                              child: Icon(
-                                iconlist[index],
-                                color: _page == index
-                                    ? HexColor('#243665')
-                                    : Colors.white,
-                                size: 20,
-                              )),
-                          Text(
-                            iconname[index],
-                            style: TextStyle(color: Colors.white, fontSize: 10),
-                          )
-                        ],
+          bottomNavigationBar: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image:
+                          AssetImage('assets/HomeScreenPage/homescreentab.png'),
+                      fit: BoxFit.cover),
+                ),
+                width: double.infinity,
+                height: 101.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(iconlist.length, (index) {
+                    return GestureDetector(
+                      onTap: () {
+                        widget.searchindex = false;
+                        l.w(_page);
+                        setState(() {
+                          _page = index;
+                        });
+                        l.w(_page);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 38.0),
+                        child: Container(
+                          padding: EdgeInsets.only(bottom: 2),
+                          width: (width) * 1 / 4,
+                          alignment: index == 1
+                              ? Alignment.centerLeft
+                              : index == 2
+                                  ? Alignment.centerRight
+                                  : null,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              CircleAvatar(
+                                  radius: 20.0,
+                                  backgroundColor: _page == index
+                                      ? Colors.white
+                                      : Colors.transparent,
+                                  child: Icon(
+                                    iconlist[index],
+                                    color: _page == index
+                                        ? HexColor('#243665')
+                                        : Colors.white,
+                                    size: 20,
+                                  )),
+                              Text(
+                                iconname[index],
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                    );
+                  }),
+                ),
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: height * 0.03,
+                child: CircleAvatar(
+                  radius: 25.0,
+                  child: Image.asset(
+                    'assets/HomeScreenPage/livevideo.png',
                   ),
-                );
-              }),
-            ),
+                ),
+              )
+            ],
           ),
           body: pages[_page],
         ),

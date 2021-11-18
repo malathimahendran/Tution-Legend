@@ -7,11 +7,12 @@ import 'package:tutionmaster/model/Watched_video.dart';
 class SqliteLocalDatabase extends ChangeNotifier {
   List<Watchedvideos> wathedvideolist = [];
   static Database? _database;
+  List<String> sqlemailget = [];
   Future<Database> initializedatabase() async {
     final videolistdatabase = await openDatabase(
       join(await getDatabasesPath(), 'videolist_database.db'),
-      onCreate: (db, version) {
-        return db.execute(
+      onCreate: (db, version) async {
+        await db.execute(
           'CREATE TABLE videolist( videoid INT PRIMARY KEY, duration INT)',
         );
       },
@@ -40,10 +41,9 @@ class SqliteLocalDatabase extends ChangeNotifier {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db!.query('videolist');
     for (int i = 0; i < maps.length; i++) {
-      videolistitem.add( Watchedvideos(
+      videolistitem.add(Watchedvideos(
         videoid: maps[i]['videoid'],
         duration: maps[i]['duration'],
-
       ));
     }
     wathedvideolist = videolistitem.reversed.toList();

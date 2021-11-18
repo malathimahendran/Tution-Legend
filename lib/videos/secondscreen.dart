@@ -38,6 +38,7 @@ class _SecondscreenState extends State<Secondscreen> {
   void initState() {
     super.initState();
     functioncall();
+    Provider.of<WishList>(context, listen: false).getWishlistnew();
   }
 
   functioncall() async {
@@ -46,28 +47,66 @@ class _SecondscreenState extends State<Secondscreen> {
     // await getWishlist();
   }
 
-  // getWishlist() async {
-  //   Shared().shared().then((value) async {
-  //     var userDetails = await value.getStringList('storeData');
-  //     token = userDetails[5];
-  //     print("$token" + "27linechapter");
-  //     var url =
-  //         Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
-  //     var response = await http.get(url, headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'Authorization': token
-  //     });
-  //     decodeDetailsData = json.decode(response.body);
-  //     print(decodeDetailsData);
-  //     l.i(decodeDetailsData);
-  //     for (var i in decodeDetailsData['result'])
-  //       youtubevideoId!.add(i['video_id']);
-  //     l.e(youtubevideoId);
-  //     print(decodeDetails);
-  //     print("47chapteritem");
-  //   });
-  // }
+  gosearchApi() async {
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      // setState(() {
+      token = userDetails[5];
+      print("$token" + "27linechapter");
+      // });
+
+      print(userDetails);
+
+      print("28chapter");
+      print(33);
+
+      var url = Uri.parse(
+          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
+      //  var url = Uri.parse(
+      //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': token,
+      });
+      decodeDetailsData = json.decode(response.body);
+      l.w(decodeDetailsData);
+      setState(() {
+        decodeDetails = decodeDetailsData['data'];
+      });
+
+      print(decodeDetails['data']);
+      print("47chapteritem");
+    });
+    // print('44');
+    // decodeDetails = json.decode(response.body);
+    // setState(() {});
+    // print(decodeDetails['data']);
+  }
+
+  getWishlist() async {
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      token = userDetails[5];
+      print("$token" + "27linechapter");
+      var url =
+          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': token
+      });
+      decodeDetailsData = json.decode(response.body);
+      print(decodeDetailsData);
+      l.i(decodeDetailsData);
+      for (var i in decodeDetailsData['result'])
+        youtubevideoId!.add(i['video_id']);
+      l.e(youtubevideoId);
+
+      print(decodeDetails);
+      print("47chapteritem");
+    });
+  }
 
   searchApi() async {
     Shared().shared().then((value) async {
@@ -125,47 +164,20 @@ class _SecondscreenState extends State<Secondscreen> {
             width: width,
             child: Column(
               children: [
-                Container(
-                  height: height * 0.06,
-                  width: width * 0.9,
-                  child: TextFormField(
-                    textInputAction: TextInputAction.search,
-                    onFieldSubmitted: (value) {
-                      // searchApi();
-                    },
-                    controller: search,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: 'Search videos',
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          // searchApi();
-                        },
-                        child: Icon(
-                          Icons.search,
-                          color: Colors.red,
-                        ),
-                      ),
-                      // icon: Icon(Icons.search),
-                      hintStyle: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: 11, color: HexColor('#7B7777'))),
-                      // prefixIcon: icon,
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: Colors.grey.shade300)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: HexColor('#27DEBF'))),
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    child: Text('Videos',
+                        style: TextStyle(
+                            fontSize: 21, color: HexColor('#243665'))),
                   ),
                 ),
                 SizedBox(
                   height: ((height - status)) * 0.04,
                 ),
                 Flexible(
-                  child: decodeDetails == null
+                  child: decodeDetailsData == null
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
@@ -186,23 +198,23 @@ class _SecondscreenState extends State<Secondscreen> {
                                 // print(109);
                                 return InkWell(
                                   onTap: () {
-                                    // print(131);
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) => Play(
-                                    //               link: decodeDetails[index]
-                                    //                   ['link'],
-                                    //             )));
+                                    print(131);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Play(
+                                                  link: decodeDetails[index]
+                                                      ['link'],
+                                                )));
                                   },
                                   child: Container(
-                                      height: (height) * 0.12,
+                                      height: (height) * 0.18,
                                       width: width * 0.8,
                                       // child: YoutubePlayer(
                                       //   controller: you,
                                       // ),
                                       child: Card(
-                                        elevation: 10,
+                                        elevation: 5,
                                         color: HexColor('#FFFFFF'),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -210,17 +222,21 @@ class _SecondscreenState extends State<Secondscreen> {
                                         ),
                                         child: Container(
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              Container(
-                                                width: width * 0.2,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                  child: Image.network(
-                                                    'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(decodeDetails[index]['link'])}/0.jpg',
-                                                    fit: BoxFit.cover,
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 15),
+                                                child: Container(
+                                                  height: height * 0.12,
+                                                  width: width * 0.23,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    child: Image.network(
+                                                      'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(decodeDetails[index]['link'])}/0.jpg',
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                   // child: YoutubePlayer(
                                                   //   controller: you,
@@ -230,9 +246,9 @@ class _SecondscreenState extends State<Secondscreen> {
                                               // Image.asset('assets/Carousel/image1.png'),
                                               Padding(
                                                 padding:
-                                                    EdgeInsets.only(left: 10),
+                                                    EdgeInsets.only(left: 15),
                                                 child: Container(
-                                                    width: width * 0.58,
+                                                    width: width * 0.52,
                                                     child: Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
@@ -277,14 +293,15 @@ class _SecondscreenState extends State<Secondscreen> {
                                                             context: context,
                                                             gettingVideoId:
                                                                 decodeDetails[
-                                                                    index]);
+                                                                        index][
+                                                                    'video_id']);
                                                   },
                                                   child: Icon(Icons.favorite,
                                                       color: Provider.of<
                                                                       WishList>(
                                                                   context,
                                                                   listen: true)
-                                                              .youtubeVideoLink
+                                                              .youtubeVideoIdnew
                                                               .contains(
                                                                   decodeDetails[
                                                                           index]
