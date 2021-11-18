@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:toast/toast.dart';
+// import 'package:toast/toast.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
@@ -149,18 +149,18 @@ class _PaymentDesignState extends State<PaymentDesign> {
     print(58);
     print("sfdfffffffffffffffffffffffffff");
     paymentPostApi(subId: subscriptionId);
-    Toast.show("Payment success", context, duration: 3);
+    // Toast.show("Payment success", context, duration: 3);
     Navigator.popAndPushNamed(context, '/homescreen');
   }
 
   void handlerErrorFailure() {
     print("Payment error");
-    Toast.show("Payment error", context);
+    // Toast.show("Payment error", context);
   }
 
   void handlerExternalWallet() {
     print("External Wallet");
-    Toast.show("External Wallet", context);
+    // Toast.show("External Wallet", context);
   }
 
   @override

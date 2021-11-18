@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import 'Control/continuewating.dart';
+import 'model/Watched_video.dart';
 
 class Play extends StatefulWidget {
   Play({this.link});
@@ -21,26 +25,26 @@ class _PlayState extends State<Play> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
     ]);
-    party();
+    // party();
     super.initState();
   }
 
-  party() async {
-    int newDura = await gettingDura();
-    l.w(newDura);
-    duration = newDura;
-    l.i(duration);
-    _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(widget.link)!,
-      flags: YoutubePlayerFlags(
-        hideControls: false,
-        autoPlay: duration != 0 ? true : false,
-        isLive: false,
-        startAt: duration!,
-      ),
-    );
-    setState(() {});
-  }
+  // party() async {
+  //   int newDura = await gettingDura();
+  //   l.w(newDura);
+  //   duration = newDura;
+  //   l.i(duration);
+  //   _controller = YoutubePlayerController(
+  //     initialVideoId: YoutubePlayer.convertUrlToId(widget.link)!,
+  //     flags: YoutubePlayerFlags(
+  //       hideControls: false,
+  //       autoPlay: duration != 0 ? true : false,
+  //       isLive: false,
+  //       startAt: duration!,
+  //     ),
+  //   );
+  //   setState(() {});
+  // }
 
   void dispose() {
     _controller?.dispose();
@@ -59,32 +63,34 @@ class _PlayState extends State<Play> {
         l.w(_controller!.value.position);
         Duration currentDuration = _controller!.value.position;
         l.i(currentDuration);
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
-        sharedPreferences.setDouble(
-            'dura', (currentDuration.inSeconds.toDouble()));
+        Provider.of<SqliteLocalDatabase>(context, listen: false)
+            .insertvideolist(Watchedvideos(
+                videoid: YoutubePlayer.convertUrlToId(widget.link)!,
+                duration: currentDuration.inSeconds));
+        Provider.of<SqliteLocalDatabase>(context, listen: false).getvideolist();
+        // _controller.toggleFullScreenMode();
         return Future.value(true);
       },
       child: Scaffold(
         body: Container(
           child: Center(
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              child: _controller != null
-                  ? YoutubePlayer(controller: _controller!)
-                  : Text('Waiting'),
-            ),
-          ),
+              // child: Container(
+              //   height: double.infinity,
+              //   width: double.infinity,
+              //   child: _controller != null
+              //       ? YoutubePlayer(controller: _controller!)
+              //       : Text('Waiting'),
+              // ),
+              ),
         ),
       ),
     );
   }
 
-  gettingDura() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    value = sharedPreferences.getDouble('dura');
-    l.e(value);
-    return value!.round();
-  }
+  // gettingDura() async {
+  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //   value = sharedPreferences.getDouble('dura');
+  //   l.e(value);
+  //   return value!.round();
+  // }
 }

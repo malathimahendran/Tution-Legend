@@ -86,7 +86,6 @@ class _SearchinggscreenState extends State<Searchingg> {
   //     for (var i in decodeDetailsData['result'])
   //       youtubevideoId!.add(i['video_id']);
   //     l.e(youtubevideoId);
-
   //     print(decodeDetails);
   //     print("47chapteritem");
   //   });
@@ -99,25 +98,13 @@ class _SearchinggscreenState extends State<Searchingg> {
       token = userDetails[5];
       print("$token" + "27linechapter");
       // });
-
-      print(userDetails);
-
-      print("28chapter");
-      print(33);
-
       var url = Uri.parse(
           'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${widget}');
-      //  var url = Uri.parse(
-      //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': token
       });
-      // decodeDetailsData = json.decode(response.body);
-      // setState(() {
-      //   decodeDetails = decodeDetailsData['data'];
-      // });
     });
   }
 
@@ -197,10 +184,10 @@ class _SearchinggscreenState extends State<Searchingg> {
                               itemBuilder: (context, index) {
                                 // isList = apireceivedid
                                 //     .contains(searchListAllData['data'][index]['video_id']);
-                                var s = youtubevideoId!.contains(
-                                    searchListAllData['data'][index]
-                                        ['video_id']);
-                                print('lllllllllllllllllllllll,  $s');
+                                // var s = youtubevideoId!.contains(
+                                //     searchListAllData['data'][index]
+                                //         ['video_id']);
+                                // print('lllllllllllllllllllllll,  $s');
                                 // var you = YoutubePlayerController(
                                 //   initialVideoId: YoutubePlayer.convertUrlToId(
                                 //       searchListAllData['data'][index]
@@ -307,12 +294,19 @@ class _SearchinggscreenState extends State<Searchingg> {
                                                             context: context,
                                                             gettingVideoId:
                                                                 searchListAllData[
-                                                                            'data']
-                                                                        [index][
-                                                                    'video_id']);
+                                                                        'data']
+                                                                    [index]);
                                                   },
                                                   child: Icon(Icons.favorite,
-                                                      color: s
+                                                      color: Provider.of<
+                                                                      WishList>(
+                                                                  context,
+                                                                  listen: true)
+                                                              .youtubeVideoLink
+                                                              .contains(
+                                                                  searchListAllData[
+                                                                          'data']
+                                                                      [index])
                                                           ? Colors.pink
                                                           : Colors.grey)),
                                               // LikeButton(

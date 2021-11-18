@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   void initState() {
     super.initState();
-    Provider.of<WishList>(context, listen: false).getWishlist();
+
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
       // var token = userDetails[5];

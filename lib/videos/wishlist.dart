@@ -203,18 +203,18 @@ class _VideowishlistState extends State<Videowishlist> {
 
                                               InkWell(
                                                   onTap: () {
-                                                    Provider.of<WishList>(
+                                                    Provider.of<
+                                                                WishList>(
                                                             context,
                                                             listen: false)
                                                         .checkingLikeAndUnlikeVideos(
                                                             context: context,
-                                                            gettingVideoId: Provider.of<
-                                                                            WishList>(
+                                                            gettingVideoId: Provider
+                                                                    .of<WishList>(
                                                                         context,
                                                                         listen:
                                                                             false)
-                                                                    .youtubeVideoLink[
-                                                                index]['video_id']);
+                                                                .youtubeVideoLink[index]);
                                                   },
                                                   child: Icon(Icons.favorite,
                                                       color: Colors.pink)),

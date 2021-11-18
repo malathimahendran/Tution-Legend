@@ -44,16 +44,13 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
   //     decodeDetailsData = json.decode(response.body);
   //     print(decodeDetailsData);
   //     l.i(decodeDetailsData);
-
   //     for (var i in decodeDetailsData['result']) {
   //       youtubevideoId!.add(i['video_id']);
   //       l.e(youtubevideoId);
   //     }
-
   //     setState(() {
   //       wishlistDetails = decodeDetailsData['result'];
   //     });
-
   //     print(decodeDetails);
   //     print("47chapteritem");
   //   });
@@ -224,46 +221,46 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                           SizedBox(
                                                             width: width * 0.01,
                                                           ),
-                                                          InkWell(
-                                                            onTap: () {
-                                                              Provider.of<WishList>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .checkingLikeAndUnlikeVideos(
-                                                                      context:
-                                                                          context,
-                                                                      gettingVideoId:
-                                                                          GetSelectedsubjectsVideos
-                                                                              .decodeDetails[index]);
+                                                          // InkWell(
+                                                          //   onTap: () {
+                                                          //     Provider.of<WishList>(
+                                                          //             context,
+                                                          //             listen:
+                                                          //                 false)
+                                                          //         .checkingLikeAndUnlikeVideos(
+                                                          //             context:
+                                                          //                 context,
+                                                          //             gettingVideoId:
+                                                          //                 GetSelectedsubjectsVideos
+                                                          //                     .decodeDetails[index]);
 
-                                                              // GetSelectedsubjectsVideos
-                                                              //     .decodeDetails[index]
-                                                              //         ['subject']
-                                                            },
-                                                            child: Icon(
-                                                              Icons.favorite,
-                                                              color: Provider.of<
-                                                                              WishList>(
-                                                                          context,
-                                                                          listen:
-                                                                              true)
-                                                                      .youtubeVideoLink
-                                                                      .contains(
-                                                                          GetSelectedsubjectsVideos
-                                                                              .decodeDetails[index])
-                                                                  ? Colors.pink
-                                                                  : Colors.grey,
-                                                              size: 45,
-                                                            ),
-                                                          ),
-                                                          // Text(
-                                                          //   '1hr 9mnt',
-                                                          //   style: TextStyle(
-                                                          //       fontSize: 11,
-                                                          //       color: HexColor(
-                                                          //           '#0A1C22')),
+                                                          //     // GetSelectedsubjectsVideos
+                                                          //     //     .decodeDetails[index]
+                                                          //     //         ['subject']
+                                                          //   },
+                                                          //   child: Icon(
+                                                          //     Icons.favorite,
+                                                          //     color: Provider.of<
+                                                          //                     WishList>(
+                                                          //                 context,
+                                                          //                 listen:
+                                                          //                     true)
+                                                          //             .youtubeVideoLink
+                                                          //             .contains(
+                                                          //                 GetSelectedsubjectsVideos
+                                                          //                     .decodeDetails[index])
+                                                          //         ? Colors.pink
+                                                          //         : Colors.grey,
+                                                          //     size: 45,
+                                                          //   ),
                                                           // ),
+                                                          Text(
+                                                            '1hr 9mnt',
+                                                            style: TextStyle(
+                                                                fontSize: 11,
+                                                                color: HexColor(
+                                                                    '#0A1C22')),
+                                                          ),
                                                         ],
                                                       ),
                                                     ),

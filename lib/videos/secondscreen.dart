@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -40,33 +41,33 @@ class _SecondscreenState extends State<Secondscreen> {
   }
 
   functioncall() async {
+    // Provider.of<WishList>(context, listen: false).getWishlist();
     await searchApi();
-    await getWishlist();
+    // await getWishlist();
   }
 
-  getWishlist() async {
-    Shared().shared().then((value) async {
-      var userDetails = await value.getStringList('storeData');
-      token = userDetails[5];
-      print("$token" + "27linechapter");
-      var url =
-          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
-      var response = await http.get(url, headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': token
-      });
-      decodeDetailsData = json.decode(response.body);
-      print(decodeDetailsData);
-      l.i(decodeDetailsData);
-      for (var i in decodeDetailsData['result'])
-        youtubevideoId!.add(i['video_id']);
-      l.e(youtubevideoId);
-
-      print(decodeDetails);
-      print("47chapteritem");
-    });
-  }
+  // getWishlist() async {
+  //   Shared().shared().then((value) async {
+  //     var userDetails = await value.getStringList('storeData');
+  //     token = userDetails[5];
+  //     print("$token" + "27linechapter");
+  //     var url =
+  //         Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+  //     var response = await http.get(url, headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json',
+  //       'Authorization': token
+  //     });
+  //     decodeDetailsData = json.decode(response.body);
+  //     print(decodeDetailsData);
+  //     l.i(decodeDetailsData);
+  //     for (var i in decodeDetailsData['result'])
+  //       youtubevideoId!.add(i['video_id']);
+  //     l.e(youtubevideoId);
+  //     print(decodeDetails);
+  //     print("47chapteritem");
+  //   });
+  // }
 
   searchApi() async {
     Shared().shared().then((value) async {
@@ -176,23 +177,23 @@ class _SecondscreenState extends State<Secondscreen> {
                               itemBuilder: (context, index) {
                                 // isList = apireceivedid
                                 //     .contains(decodeDetails[index]['video_id']);
-                                var s = youtubevideoId!.contains(
-                                    decodeDetails12[index]['video_id']);
-                                print('lllllllllllllllllllllll,  $s');
+                                // var s = youtubevideoId!.contains(
+                                //     decodeDetails12[index]['video_id']);
+                                // print('lllllllllllllllllllllll,  $s');
 
                                 // print(decodeDetails[index]['link']);
                                 // print(youtubevideoId!.length);
                                 // print(109);
                                 return InkWell(
                                   onTap: () {
-                                    print(131);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Play(
-                                                  link: decodeDetails[index]
-                                                      ['link'],
-                                                )));
+                                    // print(131);
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) => Play(
+                                    //               link: decodeDetails[index]
+                                    //                   ['link'],
+                                    //             )));
                                   },
                                   child: Container(
                                       height: (height) * 0.12,
@@ -269,12 +270,26 @@ class _SecondscreenState extends State<Secondscreen> {
 
                                               InkWell(
                                                   onTap: () {
-                                                    checking(
-                                                        link: decodeDetails12[
-                                                            index]['video_id']);
+                                                    Provider.of<WishList>(
+                                                            context,
+                                                            listen: false)
+                                                        .checkingLikeAndUnlikeVideos(
+                                                            context: context,
+                                                            gettingVideoId:
+                                                                decodeDetails[
+                                                                    index]);
                                                   },
                                                   child: Icon(Icons.favorite,
-                                                      color: s
+                                                      color: Provider.of<
+                                                                      WishList>(
+                                                                  context,
+                                                                  listen: true)
+                                                              .youtubeVideoLink
+                                                              .contains(
+                                                                  decodeDetails[
+                                                                          index]
+                                                                      [
+                                                                      'video_id'])
                                                           ? Colors.pink
                                                           : Colors.grey)),
                                               // LikeButton(

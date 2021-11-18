@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/Control/getdata.dart';
-
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/videos/searchvideo.dart';
@@ -16,6 +16,7 @@ import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:http/http.dart' as http;
 import '../../../play.dart';
+import '../playcontinuewatching.dart';
 import 'likeandunlikeapi.dart';
 
 class Searchvideo extends StatefulWidget {
@@ -26,7 +27,11 @@ class Searchvideo extends StatefulWidget {
 class _SearchvideoState extends State<Searchvideo> {
   var search = TextEditingController();
   var decodeDetailstest;
-  var decodeDetails, token, decodeDetailsData, decodeDetailsnew;
+  var decodeDetails,
+      token,
+      decodeDetailsData,
+      decodeDetailsnew,
+      continuewatchlist;
   List<int>? youtubevideoId = [];
   bool isIconClicked = false;
   List<int> iconClick = [];
@@ -37,6 +42,7 @@ class _SearchvideoState extends State<Searchvideo> {
   void initState() {
     super.initState();
     getUserSubjects();
+    Provider.of<SqliteLocalDatabase>(context, listen: false).getvideolist();
   }
 
   getUserSubjects() {
@@ -55,6 +61,9 @@ class _SearchvideoState extends State<Searchvideo> {
 
   @override
   Widget build(BuildContext context) {
+    // setState(() {
+    //   continuewatchlist=Provider.of<SqliteLocalDatabase>(context, listen: true).wathedvideolist;
+    // });
     l.w('here is the start of the widget');
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
@@ -84,12 +93,12 @@ class _SearchvideoState extends State<Searchvideo> {
                           child: TextFormField(
                             // textInputAction: TextInputAction.search,
                             // onFieldSubmitted: (value) async {
-                            //   // Navigator.push(
-                            //   //     context,
-                            //   //     MaterialPageRoute(
-                            //   //         builder: (context) => SubjectVideoslists(
-                            //   //               standardsubject1: '',
-                            //   //             )));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => SubjectVideoslists(
+                            //               standardsubject1: '',
+                            //             )));
                             // },
                             controller: search,
                             decoration: InputDecoration(
@@ -144,29 +153,73 @@ class _SearchvideoState extends State<Searchvideo> {
                       SizedBox(
                         height: ((height - status)) * 0.01,
                       ),
-                      Container(
-                        width: width * 0.9,
-                        height: height * 0.15,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 5,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  print(131);
-                                },
-                                child: Container(
-                                  width: width * 0.4,
-                                  child: Card(
-                                    color: HexColor('#FFFFFF'),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }),
-                      ),
+                      Provider.of<SqliteLocalDatabase>(context, listen: true)
+                                      .wathedvideolist ==
+                                  null ||
+                              Provider.of<SqliteLocalDatabase>(context,
+                                      listen: true)
+                                  .wathedvideolist
+                                  .isEmpty
+                          ? Text('no videos watched')
+                          : Container(
+                              width: width * 0.9,
+                              height: height * 0.15,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: Provider.of<SqliteLocalDatabase>(
+                                                  context,
+                                                  listen: true)
+                                              .wathedvideolist
+                                              .length >
+                                          5
+                                      ? 5
+                                      : Provider.of<SqliteLocalDatabase>(
+                                              context,
+                                              listen: true)
+                                          .wathedvideolist
+                                          .length,
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        print(Provider.of<SqliteLocalDatabase>(
+                                                context,
+                                                listen: false)
+                                            .wathedvideolist[index]
+                                            .videoid);
+                                        print(
+                                            'ggggggggrrrrrrrrrrrrrrrrrrrrrrrrrraaaaaaaaaaaaaaaaaaaaaa');
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Playcontinue(
+                                                    videoid1: Provider.of<
+                                                                SqliteLocalDatabase>(
+                                                            context,
+                                                            listen: false)
+                                                        .wathedvideolist[index]
+                                                        .videoid,
+                                                    durationwatched: Provider
+                                                            .of<SqliteLocalDatabase>(
+                                                                context,
+                                                                listen: false)
+                                                        .wathedvideolist[index]
+                                                        .duration)));
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          width: width * 0.4,
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: Image.network(
+                                                  'https://img.youtube.com/vi/${Provider.of<SqliteLocalDatabase>(context, listen: true).wathedvideolist[index].videoid}/0.jpg',
+                                                  fit: BoxFit.cover)),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ),
                       SizedBox(
                         height: ((height - status)) * 0.01,
                       ),
@@ -332,17 +385,17 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                     childAspectRatio: 1.5,
                   ),
                   itemBuilder: (context, index) {
-                    var s = youtubevideoId!
-                        .contains(decodeDetailsnew[index]['video_id']);
+                    // var s = youtubevideoId!
+                    //     .contains(decodeDetailsnew[index]['video_id']);
 
                     return InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Play(
-                                      link: decodeDetails[index]['link'],
-                                    )));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => Play(
+                        //               link: decodeDetails[index]['link'],
+                        //             )));
                       },
                       child: index >= (decodeDetails.length - 1)
                           ? GestureDetector(
@@ -410,12 +463,26 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                                 left: 50.0, top: 10.0),
                                             child: InkWell(
                                                 onTap: () {
-                                                  checking(
-                                                      link: decodeDetailsnew[
-                                                          index]['video_id']);
+                                                  // checking(
+                                                  //     link: decodeDetailsnew[
+                                                  //         index]['video_id']);
+                                                  Provider.of<WishList>(context,
+                                                          listen: false)
+                                                      .checkingLikeAndUnlikeVideos(
+                                                          context: context,
+                                                          gettingVideoId:
+                                                              decodeDetails[
+                                                                  index]);
                                                 },
                                                 child: Icon(Icons.favorite,
-                                                    color: s
+                                                    color: Provider.of<
+                                                                    WishList>(
+                                                                context,
+                                                                listen: false)
+                                                            .youtubeVideoLink
+                                                            .contains(
+                                                                decodeDetails[
+                                                                    index])
                                                         ? Colors.pink
                                                         : Colors.grey)),
                                           ),
