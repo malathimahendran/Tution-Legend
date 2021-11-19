@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/Control/continuewating.dart';
@@ -20,9 +21,14 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final l = Logger();
   var selectHere;
-
+  var checkloggedfirsttime;
   @override
   void initState() {
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        checkloggedfirsttime = prefs.getBool("checkingGetstarted");
+      },
+    );
     super.initState();
 
     selectingHere().whenComplete(() {
@@ -30,13 +36,12 @@ class _SplashScreenState extends State<SplashScreen> {
       Future.delayed(Duration(seconds: 2), () {
         l.i('insideselectinghere');
         l.i(Multi.isComingIn);
-        Navigator.popAndPushNamed(
-            context,
-            selectHere == null && Multi.isComingIn == null
-                ? AllRouteNames.carosalSlider
-                : selectHere == null
-                    ? AllRouteNames.loginpage
-                    : AllRouteNames.homescreen);
+        if (checkloggedfirsttime == null) {
+          Navigator.popAndPushNamed(context, AllRouteNames.carosalSlider);
+        } else if (selectHere == null) {
+          Navigator.popAndPushNamed(context, AllRouteNames.loginpage);
+        } else
+          Navigator.popAndPushNamed(context, AllRouteNames.homescreen);
       });
     });
   }
