@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 
@@ -28,13 +29,15 @@ class Searchvideo extends StatefulWidget {
 }
 
 class _SearchvideoState extends State<Searchvideo> {
+  final formKey = GlobalKey<FormState>();
   var search = TextEditingController();
   var decodeDetailstest;
   var decodeDetails,
       token,
       decodeDetailsData,
       decodeDetailsnew,
-      continuewatchlist;
+      continuewatchlist,
+      onChange;
   List<int>? youtubevideoId = [];
   bool isIconClicked = false;
   List<int> iconClick = [];
@@ -93,58 +96,81 @@ class _SearchvideoState extends State<Searchvideo> {
                         child: Container(
                           height: height * 0.06,
                           width: width * 0.9,
-                          child: TextFormField(
-                            textInputAction: TextInputAction.search,
-                            onFieldSubmitted: (value) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          Searchingg(searchlist: search.text)));
-                            },
-                            controller: search,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintText: 'Search videos',
-                              suffixIcon: InkWell(
-                                onTap: () {
+                          child: Form(
+                            key: formKey,
+                            child: TextFormField(
+                              textInputAction: TextInputAction.search,
+                              onChanged: (value) {},
+                              onFieldSubmitted: (value) {
+                                if (search.text == '') {
+                                  print('hello');
+                                } else {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => Searchingg(
                                               searchlist: search.text)));
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: HexColor('#243665'),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Icon(
-                                      Icons.search,
-                                      color: Colors.white,
+                                }
+                              },
+                              controller: search,
+                              // autovalidateMode:
+                              //     AutovalidateMode.onUserInteraction,
+                              // validator: (val) {
+                              //   if (val == '') {
+                              //     return "hello sorry";
+                              //   } else if (val!.length < 2) {
+                              //     return 'hello length';
+                              //   } else {
+                              //     return null;
+                              //   }
+                              // },
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: 'Search videos',
+                                suffixIcon: InkWell(
+                                  onTap: () {
+                                    if (search.text == '') {
+                                      print('hello');
+                                    } else {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Searchingg(
+                                                  searchlist: search.text)));
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: HexColor('#243665'),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Icon(
+                                        Icons.search,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
+                                // icon: Icon(Icons.search),
+                                hintStyle: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: 11,
+                                        color: HexColor('#7B7777'))),
+                                // prefixIcon: icon,
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10.0)),
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade300)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10.0)),
+                                    borderSide:
+                                        BorderSide(color: HexColor('#27DEBF'))),
                               ),
-                              // icon: Icon(Icons.search),
-                              hintStyle: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      fontSize: 11,
-                                      color: HexColor('#7B7777'))),
-                              // prefixIcon: icon,
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0)),
-                                  borderSide:
-                                      BorderSide(color: Colors.grey.shade300)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0)),
-                                  borderSide:
-                                      BorderSide(color: HexColor('#27DEBF'))),
                             ),
                           ),
                         ),
@@ -364,8 +390,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
       var userDetails = await value.getStringList('storeData');
       token = userDetails[5];
       selectedSubs = Selectedsubjectname.replaceAll(" ", "");
-      var url = Uri.parse(
-          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/$selectedSubs');
+      var url = Uri.parse('$searchApiCall$selectedSubs');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -383,29 +408,6 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
     });
   }
 
-  getWishlist() async {
-    Shared().shared().then((value) async {
-      var userDetails = await value.getStringList('storeData');
-      token = userDetails[5];
-
-      var url =
-          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
-      var response = await http.get(url, headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': '$token'
-      });
-      decodeDetailsData = json.decode(response.body);
-
-      for (var i in decodeDetailsData['result'])
-        youtubevideoId!.add(i['video_id']);
-
-      setState(() {
-        wishlistDetails = decodeDetailsData['result'];
-      });
-    });
-  }
-
   void initState() {
     super.initState();
     functioncall();
@@ -414,7 +416,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
   functioncall() async {
     await searchApi(widget.standardsubject1!);
 
-    await getWishlist();
+    //   await getWishlist();
   }
 
   @override
@@ -441,8 +443,8 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                     childAspectRatio: 1.5,
                   ),
                   itemBuilder: (context, index) {
-                    var s = youtubevideoId!
-                        .contains(decodeDetailsnew[index]['video_id']);
+                    // var s = youtubevideoId!
+                    //     .contains(decodeDetailsnew[index]['video_id']);
 
                     return InkWell(
                       onTap: () {

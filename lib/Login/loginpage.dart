@@ -9,6 +9,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/FCM%20Token/fcm_token.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
@@ -144,8 +145,7 @@ class _LoginPageState extends State<LoginPage> {
 
   loginApi() async {
     var decodeDetails;
-    var url =
-        Uri.parse('http://www.cviacserver.tk/tuitionlegend/register/sign_in');
+    var url = Uri.parse(loginApiCall);
     var response = await http.post(url, body: {
       'email': email.text.toString(),
       'password': password.text.toString(),
@@ -483,12 +483,13 @@ class _LoginPageState extends State<LoginPage> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      child: Image.asset(
-                                        'assets/LoginPage/google.jpeg',
-                                        height: 20,
-                                        width: 30,
-                                      ),
-                                    ),
+
+                                        // child: Image.asset(
+                                        //   'assets/LoginPage/google.jpeg',
+                                        //   height: 20,
+                                        //   width: 30,
+                                        // ),
+                                        ),
                                     Container(
                                         // color: HexColor('#0077FF'),
                                         // height: height * 0.04,

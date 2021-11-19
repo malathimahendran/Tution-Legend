@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/videos/all_video_api.dart';
 import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
-
 import 'homescreen.dart';
 
 class HomeTestScreen extends StatefulWidget {
   HomeTestScreen({Key? key}) : super(key: key);
-
   @override
   _HomeTestScreenState createState() => _HomeTestScreenState();
 }
@@ -44,6 +43,11 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
   void initState() {
     super.initState();
     getUserName();
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        prefs.setBool("checkingGetstarted", true);
+      },
+    );
     Provider.of<SqliteLocalDatabase>(context, listen: false).getvideolist();
   }
 
@@ -51,7 +55,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    var status = MediaQuery.of(context).padding.top;
+    // v = MediaQuery.of(context).padding.top;
     var bottom = kBottomNavigationBarHeight;
     return Scaffold(body: SafeArea(
       child: Consumer<GetSubjectList>(builder: (context, GetSubjectList, _) {
@@ -66,7 +70,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
               children: [
                 Container(
                   // color: Colors.blue,
-                  height: (height - (status + bottom)) * 0.06,
+                  height: (height) * 0.06,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -99,7 +103,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                 Container(
                   alignment: Alignment.center,
                   // color: Colors.red,
-                  height: (height - (status + bottom)) * 0.25,
+                  height: (height) * 0.25,
                   child: Stack(children: [
                     Container(
                       decoration: BoxDecoration(
@@ -107,7 +111,7 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                               image: AssetImage(
                                   'assets/HomeScreenPage/homeScreenCard.png'),
                               fit: BoxFit.fill)),
-                      height: (height - status) * 0.25,
+                      height: (height) * 0.25,
                       width: width * 0.9,
                     ),
                     Positioned(
@@ -124,19 +128,19 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                   ]),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 20.0, 30.0, 0.0),
+                  padding: const EdgeInsets.fromLTRB(15.0, 10.0, 30.0, 0.0),
                   child: Text(
                     'Recent Videos',
                     textAlign: TextAlign.start,
                     style: GoogleFonts.poppins(
                         textStyle: TextStyle(
+                            fontSize: 17,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.black)),
+                            color: HexColor('#0A1C22'))),
                   ),
                 ),
                 Container(
-                  height: (height - (status + bottom)) * 0.45,
+                  height: (height) * 0.4554,
                   child: HomeScreenVideos(
                     Selectedsubjectname: 'Recent',
                   ),
