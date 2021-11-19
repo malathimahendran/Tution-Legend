@@ -8,18 +8,19 @@ class Shared {
   }
 }
 
-storingAllDetails(
-    {userName,
-    storeemail,
-    phone,
-    standard,
-    profileImage,
-    token,
-    googleId,
-    enrollmentNumber,
-    school,
-    academicYear,
-    standardFromGetApi}) async {
+storingAllDetails({
+  userName,
+  storeemail,
+  phone,
+  standard,
+  profileImage,
+  token,
+  googleId,
+  enrollmentNumber,
+  school,
+  academicYear,
+  standardFromGetApi,
+}) async {
   final l = Logger();
 
   List<String> storing = [
@@ -33,7 +34,7 @@ storingAllDetails(
     enrollmentNumber ?? "",
     school ?? "",
     academicYear ?? "",
-    standardFromGetApi ?? ""
+    standardFromGetApi ?? "",
   ];
 
   // print("${storing[token].toString()},zzzzzzzzzzzzzzline 34");

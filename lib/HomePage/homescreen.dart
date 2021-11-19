@@ -140,7 +140,6 @@ class _HomeScreenState extends State<HomeScreen>
                       image:
                           AssetImage('assets/HomeScreenPage/homeScreenTab.png'),
                       fit: BoxFit.cover),
-                  color: Colors.transparent,
                 ),
                 width: double.infinity,
                 height: 101.0,

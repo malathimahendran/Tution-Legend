@@ -32,11 +32,13 @@ unlikevideo(videoId) async {
 
 class WishList extends ChangeNotifier {
   final l = Logger();
+
   String? token;
   List youtubeVideoId = [];
   List youtubeVideoIdnew = [];
   List youtubeVideoLink = [];
-  bool sayingTrueOrFalse = false;
+
+  bool trueOrFalseChecking = false;
   getWishlist() async {
     Shared().shared().then((value) async {
       List userDetails = await value.getStringList('storeData');
@@ -109,7 +111,8 @@ class WishList extends ChangeNotifier {
           .remove(gettingVideoId);
       l.v(youtubeVideoLink);
 
-      sayingTrueOrFalse = false;
+      trueOrFalseChecking = false;
+
       notifyListeners();
     } else {
       l.i(gettingVideoId);
@@ -121,7 +124,7 @@ class WishList extends ChangeNotifier {
           .youtubeVideoIdnew
           .add(gettingVideoId);
 
-      sayingTrueOrFalse = true;
+      // sayingTrueOrFalse = true;
       notifyListeners();
     }
   }

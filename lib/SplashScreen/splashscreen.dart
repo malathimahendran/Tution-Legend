@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
+import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/Slider/carosalSlider.dart';
-
 import '../SHARED PREFERENCES/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,6 +19,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final l = Logger();
   var selectHere;
+  static bool isComingIn = false;
   @override
   void initState() {
     super.initState();
@@ -47,6 +49,9 @@ class _SplashScreenState extends State<SplashScreen> {
     //   selectHere = shared.getStringList('pic');
     // });
     // print(selectHere);
+    setState(() {
+      isComingIn = true;
+    });
   }
 
   @override
@@ -54,6 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
+
     return Scaffold(
         body: Container(
       margin: EdgeInsets.only(
