@@ -30,22 +30,60 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
   var wishlistDetails;
   var you;
   var video1, url;
-  var yt = YoutubeExplode();
+  YoutubeExplode yt = YoutubeExplode();
   var video;
   var duration;
+
   @override
   void initState() {
     super.initState();
     Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
         .searchApi(widget.Selectedsubjectname);
+    gett();
 
     // getWishlist();
   }
 
-  get() async {
-    var video = await yt.videos.get('https://youtube.com/watch?v=Dpp1sIL1m5Q');
-    duration = video.duration;
-    l.wtf(duration);
+  main(sam) {
+    l.wtf(sam);
+    YoutubePlayerController control = YoutubePlayerController(
+        initialVideoId: YoutubePlayer.convertUrlToId(sam)!,
+        flags: YoutubePlayerFlags(
+          autoPlay: false,
+          isLive: false,
+        ));
+
+    var k = control.value.isReady;
+    l.wtf(k);
+    var dura = control.value.metaData.duration;
+    l.wtf(dura);
+    if (k) {
+      return Text('$dura');
+    } else {
+      return Text('notReady');
+    }
+  }
+
+  gett() async {
+    l.i('inside line 47');
+    l.i(yt.videos.commentsClient);
+    l.i(yt.videos.closedCaptions);
+
+    l.i(yt);
+    // l.w(yt.httpClient.get('Dpp1sIL1m5Q'));
+    var lika = 'https://youtube.com/watch?v=Dpp1sIL1m5Q';
+    // var y = await yt.httpClient.get('https://youtube.com/watch?v=Dpp1sIL1m5Q');
+    // l.w(y.body);
+    var lm = await yt.videos.get('eKkJm0jeUds');
+    l.w(lm.duration);
+// 'https://www.youtube.com/watch?v=eKkJm0jeUds'
+    // var video = await yt.videos.get('Dpp1sIL1m5Q');
+    // duration = video.duration;
+    // l.wtf(duration);
+
+    Future.delayed(Duration(seconds: 3), () {
+      yt.close();
+    });
   }
 
   @override
@@ -213,23 +251,27 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                                 width: width *
                                                                     0.01,
                                                               ),
-                                                              Provider.of<Videoduration>(
-                                                                              context,
-                                                                              listen: true)
-                                                                          .duration1 ==
-                                                                      null
-                                                                  ? Text('')
-                                                                  : Text(
-                                                                      Provider.of<Videoduration>(
-                                                                              context,
-                                                                              listen: true)
-                                                                          .duration1,
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              11,
-                                                                          color:
-                                                                              HexColor('#0A1C22')),
-                                                                    ),
+
+                                                              main(GetSelectedsubjectsVideos
+                                                                      .decodeDetails[
+                                                                  index]['link']),
+                                                              // Provider.of<Videoduration>(
+                                                              //                 context,
+                                                              //                 listen: true)
+                                                              //             .duration1 ==
+                                                              //         null
+                                                              //     ? Text('')
+                                                              //     : Text(
+                                                              //         Provider.of<Videoduration>(
+                                                              //                 context,
+                                                              //                 listen: true)
+                                                              //             .duration1,
+                                                              //         style: TextStyle(
+                                                              //             fontSize:
+                                                              //                 11,
+                                                              //             color:
+                                                              //                 HexColor('#0A1C22')),
+                                                              //       ),
                                                             ],
                                                           ),
                                                         ),

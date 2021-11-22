@@ -6,9 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:logger/logger.dart';
+import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
+import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/ProfilePage/logout.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
@@ -39,6 +41,7 @@ class _ProfileState extends State<Profile> {
   var imageFile;
   var subscribedDate;
   var endingDate;
+  bool isLoading = false;
   void initState() {
     super.initState();
     getUserName();
@@ -54,8 +57,7 @@ class _ProfileState extends State<Profile> {
       token = userDetails[5];
       print("$token" + "51 line");
 
-      var url =
-          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/get_payment');
+      var url = Uri.parse(getPlanDetailsCall);
 
       var response = await http.get(url, headers: {'Authorization': token});
       decodeDetailsData = json.decode(response.body);
@@ -522,7 +524,52 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         amount == null
-                            ? Container()
+                            ? Container(
+                                child: isLoading == false
+                                    ? TweenAnimationBuilder(
+                                        duration: Duration(seconds: 3),
+                                        tween: Tween(begin: 0.0, end: 100.0),
+                                        builder: (context, _, child) {
+                                          return Center(
+                                            child: SizedBox(
+                                              height: 40,
+                                              width: 40,
+                                              child: CircularProgressIndicator(
+                                                  // color: Colors.teal
+                                                  ),
+                                            ),
+                                          );
+                                        },
+                                        onEnd: () {
+                                          setState(() {
+                                            isLoading = true;
+                                            print(isLoading);
+                                          });
+                                        },
+                                      )
+                                    : Container(
+                                        width: width * 0.6,
+                                        child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Colors.red,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10))),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          PaymentDesign()));
+                                            },
+                                            child: Text("Subscribe Now",
+                                                style: GoogleFonts.poppins(
+                                                  textStyle: TextStyle(
+                                                      color: Colors.white),
+                                                ))),
+                                      ),
+                              )
                             : Container(
                                 width: width * 0.9,
                                 child: Column(

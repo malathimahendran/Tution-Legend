@@ -12,5 +12,8 @@ final String getWishListCall = baseUrl + 'home/wish_list';
 final String likeVideoCall = baseUrl + 'home/like';
 final String unLikeVideoCall = baseUrl + 'home/dislike';
 final String allVideoApiCall = baseUrl + 'home/class_wise_lectures/title/All';
-// final String loginApiCall = baseUrl + 'register/sign_in';
-
+final String getPlanDetailsCall = baseUrl + 'home/get_payment';
+final String profileUpdateApiCall = baseUrl + 'home/update_user_profile';
+final String paymentPostApiCall = baseUrl + 'home/payment';
+final String getPaymentApiCall = baseUrl + 'home/get_subscription';
+// final String getPlanDetailsCall = baseUrl + 'home/get_payment';

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 // import 'package:toast/toast.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
@@ -89,8 +90,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
       print("28chapter");
       print(33);
 
-      var url = Uri.parse(
-          'http://www.cviacserver.tk/tuitionlegend/home/get_subscription');
+      var url = Uri.parse(getPaymentApiCall);
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -115,8 +115,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
       token = userDetails[5];
       print("$token" + "27linechapter");
       print(userDetails);
-      var url =
-          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/payment');
+      var url = Uri.parse(paymentPostApiCall);
       var response = await http.post(url, body: {
         'subscription_id': subId.toString(),
         'subscribed_date': formattedDate.toString(),
