@@ -12,6 +12,7 @@ import 'package:tutionmaster/play.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class HomeScreenVideos extends StatefulWidget {
   String Selectedsubjectname;
@@ -28,6 +29,7 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
   List<int> iconClick = [];
   final l = Logger();
   var wishlistDetails;
+
   var you;
   var video1, url;
   var yt = YoutubeExplode();
@@ -38,14 +40,30 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
     super.initState();
     Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
         .searchApi(widget.Selectedsubjectname);
-
     // getWishlist();
+    gett();
   }
 
-  get() async {
-    var video = await yt.videos.get('https://youtube.com/watch?v=Dpp1sIL1m5Q');
-    duration = video.duration;
-    l.wtf(duration);
+  gett() async {
+    l.i('inside line 47');
+    l.i(yt.videos.commentsClient);
+    l.i(yt.videos.closedCaptions);
+
+    l.i(yt);
+    // l.w(yt.httpClient.get('Dpp1sIL1m5Q'));
+    var lika = 'https://youtube.com/watch?v=Dpp1sIL1m5Q';
+    // var y = await yt.httpClient.get('https://youtube.com/watch?v=Dpp1sIL1m5Q');
+    // l.w(y.body);
+    var lm = await yt.videos.get('eKkJm0jeUds');
+    l.w(lm.duration);
+// 'https://www.youtube.com/watch?v=eKkJm0jeUds'
+    // var video = await yt.videos.get('Dpp1sIL1m5Q');
+    // duration = video.duration;
+    // l.wtf(duration);
+
+    Future.delayed(Duration(seconds: 3), () {
+      yt.close();
+    });
   }
 
   @override

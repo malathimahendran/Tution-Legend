@@ -338,19 +338,23 @@ class _SearchinggscreenState extends State<Searchingg> {
                                                     //     listen:
                                                     //     false).getwishvideoidlist();
                                                   },
-                                                  child: Icon(Icons.favorite,
-                                                      color: Provider.of<
-                                                                      WishList>(
-                                                                  context,
-                                                                  listen: true)
-                                                              .youtubeVideoIdnew
-                                                              .contains(
-                                                                  decodeDetails[
-                                                                          index]
-                                                                      [
-                                                                      'video_id'])
-                                                          ? Colors.pink
-                                                          : Colors.grey)),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Icon(Icons.favorite,
+                                                        color: Provider.of<
+                                                                        WishList>(
+                                                                    context,
+                                                                    listen:
+                                                                        true)
+                                                                .youtubeVideoIdnew
+                                                                .contains(decodeDetails[
+                                                                        index][
+                                                                    'video_id'])
+                                                            ? Colors.pink
+                                                            : Colors.grey),
+                                                  )),
                                             ],
                                           ),
                                         ),

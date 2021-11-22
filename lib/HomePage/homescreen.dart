@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
+import 'package:tutionmaster/Live/live.dart';
 
 import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
@@ -138,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen>
                 decoration: BoxDecoration(
                   image: DecorationImage(
                       image:
-                          AssetImage('assets/HomeScreenPage/homescreentab.png'),
+                          AssetImage('assets/HomeScreenPage/homeScreenTab.png'),
                       fit: BoxFit.cover),
                 ),
                 width: double.infinity,
@@ -183,7 +184,8 @@ class _HomeScreenState extends State<HomeScreen>
                                   )),
                               Text(
                                 iconname[index],
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10),
                               )
                             ],
                           ),
@@ -210,8 +212,14 @@ class _HomeScreenState extends State<HomeScreen>
                 bottom: height * 0.03,
                 child: CircleAvatar(
                   radius: 25.0,
-                  child: Image.asset(
-                    'assets/HomeScreenPage/livevideo.png',
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Live()));
+                    },
+                    child: Image.asset(
+                      'assets/HomeScreenPage/livevideo.png',
+                    ),
                   ),
                 ),
               )

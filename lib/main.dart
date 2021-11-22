@@ -62,10 +62,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
 
         theme: ThemeData(
-            textTheme: TextTheme(),
-            cardTheme: CardTheme(),
-            primarySwatch: Colors.blue,
-            fontFamily: "poppins"),
+          primarySwatch: Colors.blue,
+          fontFamily: "poppins",
+        ),
         // home: Vlc(),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
