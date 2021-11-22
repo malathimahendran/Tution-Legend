@@ -25,7 +25,7 @@ class _VideowishlistState extends State<Videowishlist> {
   // }
   void initState() {
     super.initState();
-    Provider.of<WishList>(context, listen: false).getWishlist();
+    Provider.of<WishList>(context, listen: false).getWishlistnew();
 
     // functioncall();
   }
@@ -69,11 +69,11 @@ class _VideowishlistState extends State<Videowishlist> {
                   padding: const EdgeInsets.only(left: 15),
                   child: Container(
                     alignment: Alignment.topLeft,
-                    child: Text(
-                      'Favourites',
-                      style:
-                          TextStyle(fontSize: 21, color: HexColor('#243665')),
-                    ),
+                    child: Text('Favourites',
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: HexColor('#0A1C22'))),
                   ),
                 ),
                 SizedBox(
@@ -84,7 +84,7 @@ class _VideowishlistState extends State<Videowishlist> {
                           .youtubeVideoLink
                           .isEmpty
                       ? Center(
-                          child: CircularProgressIndicator(),
+                          child: Text("No Datas Found"),
                         )
                       : Container(
                           height: height,

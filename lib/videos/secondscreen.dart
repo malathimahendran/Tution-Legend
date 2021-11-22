@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -59,8 +60,7 @@ class _SecondscreenState extends State<Secondscreen> {
       print("28chapter");
       print(33);
 
-      var url = Uri.parse(
-          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/${search.text}');
+      var url = Uri.parse('$searchApiCall${search.text}');
       //  var url = Uri.parse(
       //         'https://www.cviacserver.tk/parampara/v1/getTourSinglePlan/${userId[1]}');
       var response = await http.get(url, headers: {
@@ -167,9 +167,11 @@ class _SecondscreenState extends State<Secondscreen> {
                   padding: const EdgeInsets.only(left: 15),
                   child: Container(
                     alignment: Alignment.topLeft,
-                    child: Text('Videos',
+                    child: Text(widget.Selectedsubjectname,
                         style: TextStyle(
-                            fontSize: 21, color: HexColor('#243665'))),
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: HexColor('#0A1C22'))),
                   ),
                 ),
                 SizedBox(
@@ -342,29 +344,5 @@ class _SecondscreenState extends State<Secondscreen> {
             ),
           )),
     );
-  }
-
-  checking({link}) async {
-    print('${link.runtimeType}');
-    if (link != null) {
-      final bool sV = youtubevideoId!.contains(link);
-      if (sV) {
-        setState(() {
-          print('wwwwwwwwwwwwwwwwwwwww,  inside if');
-
-          youtubevideoId!.remove(link);
-        });
-        await unlikevideo(link);
-      } else {
-        print('hhhhhhhhhhhhhhhhhhhhhhhhhh,  inside else');
-
-        setState(() {
-          youtubevideoId!.add(link);
-          print("Zzzzzzzzzzzzzzzzzzzzzzzz${youtubevideoId!.length}");
-        });
-        await likevideo(link);
-      }
-    } else
-      return;
   }
 }

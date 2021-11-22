@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 
 likevideo(videoId) async {
   Shared().shared().then((value) async {
     var userDetails = await value.getStringList('storeData');
     var token = userDetails[5];
-    var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/like');
+    var url = Uri.parse(likeVideoCall);
     var response = await http.post(url,
         body: {'video_id': videoId.toString()},
         headers: {'Authorization': token!});
@@ -22,7 +23,7 @@ unlikevideo(videoId) async {
   Shared().shared().then((value) async {
     var userDetails = await value.getStringList('storeData');
     var token = userDetails[5];
-    var url = Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/dislike');
+    var url = Uri.parse(unLikeVideoCall);
     var response = await http.post(url,
         body: {'video_id': videoId.toString()},
         headers: {'Authorization': token!});
@@ -39,38 +40,13 @@ class WishList extends ChangeNotifier {
   List youtubeVideoLink = [];
 
   bool trueOrFalseChecking = false;
-  getWishlist() async {
-    Shared().shared().then((value) async {
-      List userDetails = await value.getStringList('storeData');
-      token = userDetails[5];
-      l.w(token);
-      var url =
-          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
-      var response = await http.get(url, headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': token!
-      });
-      youtubeVideoId.clear();
-      youtubeVideoLink.clear();
-      var wishListJsonData = json.decode(response.body);
-      l.e("check here$wishListJsonData");
-      for (var i in wishListJsonData['result']) {
-        youtubeVideoId.add(i['video_id']);
-        l.e(youtubeVideoId);
-      }
-      youtubeVideoLink = wishListJsonData['result'];
-      notifyListeners();
-    });
-  }
 
   getWishlistnew() async {
     Shared().shared().then((value) async {
       List userDetails = await value.getStringList('storeData');
       token = userDetails[5];
       l.w(token);
-      var url =
-          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/wish_list');
+      var url = Uri.parse(getWishListCall);
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',

@@ -196,7 +196,7 @@ class _PaymentDesignState extends State<PaymentDesign> {
       l.wtf("$result,rabitttt");
       subscribedId = result[0]['subscribed_id'];
 
-      if (result != null) {
+      if (result != []) {
         setState(() {
           statusForPaymentGetApi = "true";
         });
@@ -236,400 +236,393 @@ class _PaymentDesignState extends State<PaymentDesign> {
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
     final orientation = MediaQuery.of(context).orientation;
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-        ),
-        title: Text(
-          "Payment",
-          style: TextStyle(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
               color: Colors.white,
-              fontSize: height * 0.025,
-              fontWeight: FontWeight.bold),
+            ),
+          ),
+          title: Text(
+            "Payment",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: height * 0.025,
+                fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          centerTitle: true,
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        centerTitle: true,
-      ),
-      extendBodyBehindAppBar: true,
-      body: subscribedId == null
-          ? Center(child: CircularProgressIndicator())
-          : Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: ExactAssetImage(
-                          'assets/ProfilePage/mainbackground.png'))),
-              width: double.infinity,
-              height: double.infinity,
-              child: Column(
+        extendBodyBehindAppBar: true,
+        body: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: ExactAssetImage(
+                      'assets/ProfilePage/mainbackground.png'))),
+          width: double.infinity,
+          height: double.infinity,
+          child: Column(
+            children: [
+              Stack(
                 children: [
-                  Stack(
-                    children: [
-                      Container(
-                        height: (height - status) * 0.35,
-                        width: width,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: ExactAssetImage(
-                                    'assets/LoginPage/logintop.png'),
-                                fit: BoxFit.fill)),
-                      ),
-                      Positioned(
-                        top: (height - status) * 0.17,
-                        left: width * 0.11,
-                        child: Container(
-                            height: height * 0.1,
-                            width: height * 0.1,
-                            child: profileImage == null || profileImage == ""
-                                ? Container(
-                                    height: (height - status) * 0.08,
-                                    width: width * 0.15,
-                                    color: Colors.redAccent[400],
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      userName
-                                          .toString()
-                                          .substring(0, 1)
-                                          .toUpperCase(),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 30),
-                                    ))
-                                : Image.network(profileImage)),
-                      ),
-                      Positioned(
-                        top: (height - status) * 0.17,
-                        left: width * 0.35,
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "$userName",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              SizedBox(height: height * 0.005),
-                              Text("Student"),
-                              SizedBox(height: height * 0.005),
-                              Text("Enrollment no:$enrollmentNumber")
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                  Container(
+                    height: (height - status) * 0.35,
+                    width: width,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: ExactAssetImage(
+                                'assets/LoginPage/logintop.png'),
+                            fit: BoxFit.fill)),
                   ),
+                  Positioned(
+                    top: (height - status) * 0.17,
+                    left: width * 0.11,
+                    child: Container(
+                        height: height * 0.1,
+                        width: height * 0.1,
+                        child: profileImage == null || profileImage == ""
+                            ? Container(
+                                height: (height - status) * 0.08,
+                                width: width * 0.15,
+                                color: Colors.redAccent[400],
+                                alignment: Alignment.center,
+                                child: Text(
+                                  userName
+                                      .toString()
+                                      .substring(0, 1)
+                                      .toUpperCase(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 30),
+                                ))
+                            : Image.network(profileImage)),
+                  ),
+                  Positioned(
+                    top: (height - status) * 0.17,
+                    left: width * 0.35,
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "$userName",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          SizedBox(height: height * 0.005),
+                          Text("Student"),
+                          SizedBox(height: height * 0.005),
+                          Text("Enrollment no:$enrollmentNumber")
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
 
-                  statusForPaymentGetApi == "true"
-                      ? Container(
+              statusForPaymentGetApi == "true"
+                  ? Container(
+                      height: (height - status) * 0.3,
+                      width: width,
+                      child: Column(
+                        children: [
+                          Text("Already Subscribed",
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue)),
+                          SizedBox(height: height * 0.01),
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text("      Your Plan Details:",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.pink)),
+                          ),
+                          SizedBox(height: height * 0.05),
+                          Container(
+                            height: height * 0.12,
+                            width: width * 0.9,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.teal[200],
+                            ),
+                            child: Column(
+                              children: [
+                                SizedBox(height: height * 0.01),
+                                Text(
+                                  "Rs.$amount/Yearly",
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.blue[900]),
+                                ),
+                                Text(
+                                    "Your plan is expired within $numberOfDaysLeft days",
+                                    style: TextStyle(color: Colors.blue[900])),
+                                Text("Subscribed Date: $subscribedDate",
+                                    style: TextStyle(color: Colors.blue[900]))
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : result == null
+                      ? CircularProgressIndicator()
+                      : Container(
                           height: (height - status) * 0.3,
                           width: width,
-                          child: Column(
-                            children: [
-                              Text("Already Subscribed",
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blue)),
-                              SizedBox(height: height * 0.01),
-                              Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Text("      Your Plan Details:",
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.pink)),
-                              ),
-                              SizedBox(height: height * 0.05),
-                              Container(
-                                height: height * 0.12,
-                                width: width * 0.9,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.teal[200],
-                                ),
-                                child: Column(
-                                  children: [
-                                    SizedBox(height: height * 0.01),
-                                    Text(
-                                      "Rs.$amount/Yearly",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.blue[900]),
-                                    ),
-                                    Text(
-                                        "Your plan is expired within $numberOfDaysLeft days",
-                                        style:
-                                            TextStyle(color: Colors.blue[900])),
-                                    Text("Subscribed Date: $subscribedDate",
-                                        style:
-                                            TextStyle(color: Colors.blue[900]))
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : result == null
-                          ? CircularProgressIndicator()
-                          : Container(
-                              height: (height - status) * 0.3,
-                              width: width,
-                              // padding: EdgeInsets.symmetric(horizontal: width * 0.10),
-                              child: CarouselSlider.builder(
-                                  itemCount: result.length,
-                                  carouselController: scroll,
-                                  itemBuilder: (context, index, pageViewIndex) {
-                                    // // print("$context,hafjsdgfjsdfjdg");
-                                    // print("$pageViewIndex,jjjjjjjjjjjjjjjjjjjjjjj");
-                                    return Container(
-                                      width: width,
-                                      child: Card(
-                                          elevation: 5,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          color: HexColor('#FFFFFF'),
-                                          child: Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Column(
+                          // padding: EdgeInsets.symmetric(horizontal: width * 0.10),
+                          child: CarouselSlider.builder(
+                              itemCount: result.length,
+                              carouselController: scroll,
+                              itemBuilder: (context, index, pageViewIndex) {
+                                // // print("$context,hafjsdgfjsdfjdg");
+                                // print("$pageViewIndex,jjjjjjjjjjjjjjjjjjjjjjj");
+                                return Container(
+                                  width: width,
+                                  child: Card(
+                                      elevation: 5,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      color: HexColor('#FFFFFF'),
+                                      child: Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              "Payment",
+                                              style: TextStyle(
+                                                fontSize: 17,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: height * 0.01,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  "Payment",
+                                                  "\u20B9",
                                                   style: TextStyle(
-                                                    fontSize: 17,
-                                                  ),
+                                                      fontSize: 35,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
-                                                SizedBox(
-                                                  height: height * 0.01,
+                                                Text(
+                                                  (result[index]['amount'] ??
+                                                          "")
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 30),
                                                 ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      "\u20B9",
-                                                      style: TextStyle(
-                                                          fontSize: 35,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    Text(
-                                                      (result[index]
-                                                                  ['amount'] ??
-                                                              "")
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 30),
-                                                    ),
-                                                    Text(
-                                                      "/Yearly",
-                                                    )
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: height * 0.01,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    Text(
-                                                      "Date",
-                                                      style: TextStyle(
-                                                          fontSize: 12),
-                                                    ),
-                                                    Text("    Time",
-                                                        style: TextStyle(
-                                                            fontSize: 12))
-                                                  ],
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    Text("12 mar 2020",
-                                                        style: TextStyle(
-                                                            fontSize: 12)),
-                                                    Text("Mon,15.00",
-                                                        style: TextStyle(
-                                                            fontSize: 12))
-                                                  ],
+                                                Text(
+                                                  "/Yearly",
                                                 )
                                               ],
                                             ),
-                                          )),
-                                    );
-                                  },
-                                  options: CarouselOptions(
-                                      height: 250,
-                                      onPageChanged: (index, method) {
-                                        num2 = index;
-                                      },
-                                      enableInfiniteScroll: false,
-                                      enlargeCenterPage: true,
-                                      initialPage: 0,
-                                      enlargeStrategy:
-                                          CenterPageEnlargeStrategy.height)),
-                            ),
-                  // Flexible(
-                  //   child: Container(
-                  //     height: (height - status) * 0.3,
-                  //     width: width,
-                  //     padding: EdgeInsets.symmetric(horizontal: width * 0.10),
-                  //     child: ListView.builder(
-                  //       itemExtent: width * 0.8,
-                  //       scrollDirection: Axis.horizontal,
-                  //       itemCount: result.length,
-                  //       physics: PageScrollPhysics(),
-                  //       itemBuilder: (context, index) {
-                  //         print("$index,268 line payment");
-                  //         indexAmount = result[index]['amount'];
-                  //         print("$result,269 lineee");
-                  //         return Container(
-                  //           width: width,
-                  //           child: Card(
-                  //               elevation: 5,
-                  //               shape: RoundedRectangleBorder(
-                  //                 borderRadius: BorderRadius.circular(10),
-                  //               ),
-                  //               color: HexColor('#FFFFFF'),
-                  //               child: Padding(
-                  //                 padding: EdgeInsets.all(10),
-                  //                 child: Column(
-                  //                   children: [
-                  //                                                     Text(
-                  //                       "Payment",
-                  //                       style: TextStyle(
-                  //                         fontSize: 17,
-                  //                       ),
-                  //                     ),
-                  //                     SizedBox(
-                  //                       height: height * 0.01,
-                  //                     ),
-                  //                     Row(
-                  //                       mainAxisAlignment:
-                  //                           MainAxisAlignment.center,
-                  //                       children: [
-                  //                         Text(
-                  //                           "\u20B9",
-                  //                           style: TextStyle(
-                  //                               fontSize: 35,
-                  //                               fontWeight: FontWeight.bold),
-                  //                         ),
-                  //                         Text(
-                  //                           (result[index]['amount'] ?? "")
-                  //                               .toString(),
-                  //                           style: TextStyle(
-                  //                               fontWeight: FontWeight.bold,
-                  //                               fontSize: 30),
-                  //                         ),
-                  //                         Text(
-                  //                           "/Yearly",
-                  //                         )
-                  //                       ],
-                  //                     ),
-                  //                     SizedBox(
-                  //                       height: height * 0.01,
-                  //                     ),
-                  //                     Row(
-                  //                       mainAxisAlignment:
-                  //                           MainAxisAlignment.spaceEvenly,
-                  //                       children: [
-                  //                         Text(
-                  //                           "Date",
-                  //                           style: TextStyle(fontSize: 12),
-                  //                         ),
-                  //                         Text("    Time",
-                  //                             style: TextStyle(fontSize: 12))
-                  //                       ],
-                  //                     ),
-                  //                     Row(
-                  //                       mainAxisAlignment:
-                  //                           MainAxisAlignment.spaceEvenly,
-                  //                       children: [
-                  //                         Text("12 mar 2020",
-                  //                             style: TextStyle(fontSize: 12)),
-                  //                         Text("Mon,15.00",
-                  //                             style: TextStyle(fontSize: 12))
-                  //                       ],
-                  //                     )
-                  //                   ],
-                  //                 ),
-                  //               )),
-                  //         );
-                  //       },
-                  //     ),
-                  //   ),
-                  // ),
-                  SizedBox(height: height * 0.1),
-                  statusForPaymentGetApi == "true"
-                      ? Container()
-                      : CheckboxListTile(
-                          activeColor: Colors.red,
-                          checkColor: Colors.white,
-                          contentPadding: EdgeInsets.only(left: 25),
-                          controlAffinity: ListTileControlAffinity.leading,
-                          title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                  'Check here to indicate that you have read agree to our,',
-                                  style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        color: Colors.black, fontSize: 9),
-                                  )),
-                              Text(
-                                "Terms and Conditions",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  decoration: TextDecoration.underline,
-                                  fontSize: 10,
-                                ),
-                              )
-                            ],
-                          ),
-                          value: isChecked,
-                          onChanged: (value) => setState(() {
-                            isChecked = value!;
-                          }),
-                        ),
-                  SizedBox(height: height * 0.01),
-                  statusForPaymentGetApi == "true"
-                      ? Container()
-                      : Container(
-                          width: width * 0.8,
-                          height: height * 0.05,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  primary: HexColor("#243665"),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20))),
-                              onPressed: () async {
-                                var amount = await hello(gettingTheIndex: num2);
-                                l.wtf(amount);
-                                openCheckout(amount: amount);
+                                            SizedBox(
+                                              height: height * 0.01,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Text(
+                                                  "Date",
+                                                  style:
+                                                      TextStyle(fontSize: 12),
+                                                ),
+                                                Text("    Time",
+                                                    style:
+                                                        TextStyle(fontSize: 12))
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Text("12 mar 2020",
+                                                    style: TextStyle(
+                                                        fontSize: 12)),
+                                                Text("Mon,15.00",
+                                                    style:
+                                                        TextStyle(fontSize: 12))
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      )),
+                                );
                               },
-                              child: Text("Subscribe Now",
-                                  style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(color: Colors.white),
-                                  ))),
+                              options: CarouselOptions(
+                                  height: 250,
+                                  onPageChanged: (index, method) {
+                                    num2 = index;
+                                  },
+                                  enableInfiniteScroll: false,
+                                  enlargeCenterPage: true,
+                                  initialPage: 0,
+                                  enlargeStrategy:
+                                      CenterPageEnlargeStrategy.height)),
                         ),
-                ],
-              ),
-            ),
+              // Flexible(
+              //   child: Container(
+              //     height: (height - status) * 0.3,
+              //     width: width,
+              //     padding: EdgeInsets.symmetric(horizontal: width * 0.10),
+              //     child: ListView.builder(
+              //       itemExtent: width * 0.8,
+              //       scrollDirection: Axis.horizontal,
+              //       itemCount: result.length,
+              //       physics: PageScrollPhysics(),
+              //       itemBuilder: (context, index) {
+              //         print("$index,268 line payment");
+              //         indexAmount = result[index]['amount'];
+              //         print("$result,269 lineee");
+              //         return Container(
+              //           width: width,
+              //           child: Card(
+              //               elevation: 5,
+              //               shape: RoundedRectangleBorder(
+              //                 borderRadius: BorderRadius.circular(10),
+              //               ),
+              //               color: HexColor('#FFFFFF'),
+              //               child: Padding(
+              //                 padding: EdgeInsets.all(10),
+              //                 child: Column(
+              //                   children: [
+              //                                                     Text(
+              //                       "Payment",
+              //                       style: TextStyle(
+              //                         fontSize: 17,
+              //                       ),
+              //                     ),
+              //                     SizedBox(
+              //                       height: height * 0.01,
+              //                     ),
+              //                     Row(
+              //                       mainAxisAlignment:
+              //                           MainAxisAlignment.center,
+              //                       children: [
+              //                         Text(
+              //                           "\u20B9",
+              //                           style: TextStyle(
+              //                               fontSize: 35,
+              //                               fontWeight: FontWeight.bold),
+              //                         ),
+              //                         Text(
+              //                           (result[index]['amount'] ?? "")
+              //                               .toString(),
+              //                           style: TextStyle(
+              //                               fontWeight: FontWeight.bold,
+              //                               fontSize: 30),
+              //                         ),
+              //                         Text(
+              //                           "/Yearly",
+              //                         )
+              //                       ],
+              //                     ),
+              //                     SizedBox(
+              //                       height: height * 0.01,
+              //                     ),
+              //                     Row(
+              //                       mainAxisAlignment:
+              //                           MainAxisAlignment.spaceEvenly,
+              //                       children: [
+              //                         Text(
+              //                           "Date",
+              //                           style: TextStyle(fontSize: 12),
+              //                         ),
+              //                         Text("    Time",
+              //                             style: TextStyle(fontSize: 12))
+              //                       ],
+              //                     ),
+              //                     Row(
+              //                       mainAxisAlignment:
+              //                           MainAxisAlignment.spaceEvenly,
+              //                       children: [
+              //                         Text("12 mar 2020",
+              //                             style: TextStyle(fontSize: 12)),
+              //                         Text("Mon,15.00",
+              //                             style: TextStyle(fontSize: 12))
+              //                       ],
+              //                     )
+              //                   ],
+              //                 ),
+              //               )),
+              //         );
+              //       },
+              //     ),
+              //   ),
+              // ),
+              SizedBox(height: height * 0.1),
+              statusForPaymentGetApi == "true"
+                  ? Container()
+                  : CheckboxListTile(
+                      activeColor: Colors.red,
+                      checkColor: Colors.white,
+                      contentPadding: EdgeInsets.only(left: 25),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                              'Check here to indicate that you have read agree to our,',
+                              style: GoogleFonts.poppins(
+                                textStyle:
+                                    TextStyle(color: Colors.black, fontSize: 9),
+                              )),
+                          Text(
+                            "Terms and Conditions",
+                            style: TextStyle(
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline,
+                              fontSize: 10,
+                            ),
+                          )
+                        ],
+                      ),
+                      value: isChecked,
+                      onChanged: (value) => setState(() {
+                        isChecked = value!;
+                      }),
+                    ),
+              SizedBox(height: height * 0.01),
+              statusForPaymentGetApi == "true"
+                  ? Container()
+                  : Container(
+                      width: width * 0.8,
+                      height: height * 0.05,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: HexColor("#243665"),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20))),
+                          onPressed: () async {
+                            var amount = await hello(gettingTheIndex: num2);
+                            l.wtf(amount);
+                            openCheckout(amount: amount);
+                          },
+                          child: Text("Subscribe Now",
+                              style: GoogleFonts.poppins(
+                                textStyle: TextStyle(color: Colors.white),
+                              ))),
+                    ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

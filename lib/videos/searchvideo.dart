@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -62,8 +63,7 @@ class _SearchinggscreenState extends State<Searchingg> {
       } else {
         selectedParameterToSend = gettingWhatParameter;
       }
-      var url = Uri.parse(
-          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/$selectedParameterToSend');
+      var url = Uri.parse('$searchApiCall$selectedParameterToSend');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -82,8 +82,7 @@ class _SearchinggscreenState extends State<Searchingg> {
       var userDetails = await value.getStringList('storeData');
       token = userDetails[5];
       selectedSubs = Selectedsubjectname.replaceAll(" ", "");
-      var url = Uri.parse(
-          'http://www.cviacserver.tk/tuitionlegend/home/class_wise_lectures/title/$selectedSubs');
+      var url = Uri.parse('$searchApiCall$selectedSubs');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -125,9 +124,13 @@ class _SearchinggscreenState extends State<Searchingg> {
                   child: TextFormField(
                     textInputAction: TextInputAction.search,
                     onFieldSubmitted: (value) {
-                      gosearchapi(
-                          gettingFromWhere: 'textFormField',
-                          gettingWhatParameter: search.text);
+                      if (search.text == '') {
+                        print('hello');
+                      } else {
+                        gosearchapi(
+                            gettingFromWhere: 'textFormField',
+                            gettingWhatParameter: search.text);
+                      }
                     },
                     controller: search,
                     decoration: InputDecoration(
@@ -136,9 +139,13 @@ class _SearchinggscreenState extends State<Searchingg> {
                       hintText: 'Search videos',
                       suffixIcon: InkWell(
                         onTap: () {
-                          gosearchapi(
-                              gettingFromWhere: 'textFormField',
-                              gettingWhatParameter: search.text);
+                          if (search.text == '') {
+                            print('hello');
+                          } else {
+                            gosearchapi(
+                                gettingFromWhere: 'textFormField',
+                                gettingWhatParameter: search.text);
+                          }
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),

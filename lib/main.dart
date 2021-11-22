@@ -6,6 +6,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
+import 'package:tutionmaster/Control/videoduration.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/ProfilePage/HELPER%20FUNCTION/provider_for_edit_page.dart';
 import 'package:tutionmaster/SplashScreen/splashscreen.dart';
@@ -51,6 +52,9 @@ class MyApp extends StatelessWidget {
         }),
         ChangeNotifierProvider.value(
           value: SqliteLocalDatabase(),
+        ),
+        ChangeNotifierProvider.value(
+          value: Videoduration(),
         ),
       ],
       child: MaterialApp(

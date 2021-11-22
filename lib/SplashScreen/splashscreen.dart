@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/Slider/carosalSlider.dart';
+import 'package:tutionmaster/SplashScreen/constants.dart';
 import '../SHARED PREFERENCES/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,20 +21,27 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final l = Logger();
   var selectHere;
-  static bool isComingIn = false;
+  var checkloggedfirsttime;
   @override
   void initState() {
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        checkloggedfirsttime = prefs.getBool("checkingGetstarted");
+      },
+    );
     super.initState();
 
     selectingHere().whenComplete(() {
+      Multi.check();
       Future.delayed(Duration(seconds: 2), () {
         l.i('insideselectinghere');
-
-        Navigator.popAndPushNamed(
-            context,
-            selectHere == null
-                ? AllRouteNames.carosalSlider
-                : AllRouteNames.homescreen);
+        l.i(Multi.isComingIn);
+        if (checkloggedfirsttime == null) {
+          Navigator.popAndPushNamed(context, AllRouteNames.carosalSlider);
+        } else if (selectHere == null) {
+          Navigator.popAndPushNamed(context, AllRouteNames.loginpage);
+        } else
+          Navigator.popAndPushNamed(context, AllRouteNames.homescreen);
       });
     });
   }
@@ -49,9 +58,6 @@ class _SplashScreenState extends State<SplashScreen> {
     //   selectHere = shared.getStringList('pic');
     // });
     // print(selectHere);
-    setState(() {
-      isComingIn = true;
-    });
   }
 
   @override

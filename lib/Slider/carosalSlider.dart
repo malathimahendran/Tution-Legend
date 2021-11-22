@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:logger/logger.dart';
 import 'package:platform_device_id/platform_device_id.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/Login/loginpage.dart';
 import 'package:tutionmaster/ProfilePage/logout.dart';
+import 'package:tutionmaster/SplashScreen/constants.dart';
 
 class Carosel extends StatefulWidget {
   Carosel({Key? key}) : super(key: key);
@@ -16,6 +19,16 @@ class Carosel extends StatefulWidget {
 }
 
 class _CaroselState extends State<Carosel> {
+  final l = Logger();
+  @override
+  void initState() {
+    Multi.check();
+    Multi.isComingIn = true;
+    l.i(Multi.isComingIn);
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   int currentPos = 0;
   List<String> listPaths = [

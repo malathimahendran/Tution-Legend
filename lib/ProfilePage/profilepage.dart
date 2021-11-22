@@ -37,6 +37,7 @@ class _ProfileState extends State<Profile> {
       decodeDetailsData,
       profileDetailsData,
       decodeDetails,
+      result,
       amount,
       data,
       status,
@@ -105,8 +106,8 @@ class _ProfileState extends State<Profile> {
       l.e(decodeDetailsData);
       var decode = response.body;
       l.e(decode);
-      var result = decodeDetailsData['result'];
-      l.wtf(result);
+      result = decodeDetailsData['result'];
+      l.wtf("$result,jjresult");
       if (result != null) {
         status = true;
         l.i("SDFSFSFSDF");
@@ -219,7 +220,7 @@ class _ProfileState extends State<Profile> {
     var status = MediaQuery.of(context).padding.top;
     return SafeArea(
       child: Scaffold(
-        body: subscribed_id == null
+        body: result == null
             ? Center(child: CircularProgressIndicator())
             : Container(
                 decoration: BoxDecoration(
@@ -609,6 +610,9 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                height: height * 0.01,
+                              ),
                               amount == null
                                   ? Container(
                                       width: width * 0.9,
@@ -686,6 +690,9 @@ class _ProfileState extends State<Profile> {
                                               ),
                                             ],
                                           ),
+                                          SizedBox(
+                                            height: height * 0.01,
+                                          ),
                                           Row(
                                             children: [
                                               Padding(
@@ -703,6 +710,9 @@ class _ProfileState extends State<Profile> {
                                                 style: TextStyle(fontSize: 12),
                                               ),
                                             ],
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.01,
                                           ),
                                           Row(
                                             children: [
