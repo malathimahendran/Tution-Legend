@@ -250,24 +250,29 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                                 width: width *
                                                                     0.01,
                                                               ),
-                                                              Provider.of<Videoduration>(
-                                                                              context,
-                                                                              listen: true)
-                                                                          .duration1 ==
-                                                                      null
-                                                                  ? Text('')
-                                                                  : Text(
-                                                                      Provider.of<Videoduration>(
-                                                                              context,
-                                                                              listen: true)
-                                                                          .duration1
-                                                                          .toString(),
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              11,
-                                                                          color:
-                                                                              HexColor('#0A1C22')),
-                                                                    ),
+                                                              customText(
+                                                                  getText: GetSelectedsubjectsVideos
+                                                                              .decodeDetails[
+                                                                          index]
+                                                                      ['link'])
+                                                              // Provider.of<Videoduration>(
+                                                              //                 context,
+                                                              //                 listen: true)
+                                                              //             .duration1 ==
+                                                              //         null
+                                                              //     ? Text('')
+                                                              //     : Text(
+                                                              //         Provider.of<Videoduration>(
+                                                              //                 context,
+                                                              //                 listen: true)
+                                                              //             .duration1
+                                                              //             .toString(),
+                                                              //         style: TextStyle(
+                                                              //             fontSize:
+                                                              //                 11,
+                                                              //             color:
+                                                              //                 HexColor('#0A1C22')),
+                                                              //       ),
                                                             ],
                                                           ),
                                                         ),
