@@ -56,12 +56,13 @@ class _CustomExpandedWithTextAndFormFieldState
   var storeUserName,
       userEmail,
       userMobileNo,
-      standard,
+      standard1,
       token,
       profileImage,
       enrollmentNumber,
       school,
       academicYear,
+      standardFromGetApi,
       googleId;
   final l = Logger();
   userdatas() {
@@ -71,26 +72,24 @@ class _CustomExpandedWithTextAndFormFieldState
       storeUserName = userDetails[0];
       userEmail = userDetails[1];
       userMobileNo = userDetails[2];
-      standard = userDetails[3];
+      standard1 = userDetails[3];
       token = userDetails[5];
       profileImage = userDetails[4];
       enrollmentNumber = userDetails[7];
       school = userDetails[8];
       googleId = userDetails[6];
       academicYear = userDetails[9];
-      print('$storeUserName,47');
+      standardFromGetApi = userDetails[10];
+      print('$standardFromGetApi,47');
+      widget.grade.text = standardFromGetApi.toString();
       widget.userName.text = storeUserName.toString();
       widget.email.text = userEmail.toString();
       widget.contactNumber.text = userMobileNo.toString();
-      widget.enrollmentNumber.text =
-          enrollmentNumber == null ? "" : enrollmentNumber.toString();
-      widget.schoolName.text = school == null ? "" : school.toString();
-      widget.academicYear.text =
-          academicYear == null ? "" : academicYear.toString();
-      l.wtf(widget.academicYear.text);
-      setState(() {
-        widget.grade.text = standard.toString();
-      });
+      widget.enrollmentNumber.text = enrollmentNumber.toString();
+      widget.schoolName.text = school.toString();
+      widget.academicYear.text = academicYear.toString();
+
+      l.wtf(academicYear);
     });
   }
 
@@ -101,7 +100,7 @@ class _CustomExpandedWithTextAndFormFieldState
       'email': widget.email.text.toString(),
       'phone': widget.contactNumber.text.toString(),
       'password': widget.password.text.toString(),
-      'class': widget.grade.text.toString(),
+      'class': standard1,
       'enrollment_number': widget.enrollmentNumber.text.toString(),
       'school': widget.schoolName.text.toString(),
       'academic_year': widget.academicYear.text.toString()
@@ -116,22 +115,23 @@ class _CustomExpandedWithTextAndFormFieldState
     var storeemail = editFullDetails['result']['email'];
     var phone = editFullDetails['result']['phone'];
     var standard = editFullDetails['result']['class'];
+    print("$standard,hhhhhhhhhhhhhh");
     var enrollmentNumber = editFullDetails['result']['enrollment_number'];
     var school = editFullDetails['result']['school'];
     var academicYear = editFullDetails['result']['academic_year'];
 
     storingAllDetails(
-      userName: userName,
-      storeemail: storeemail,
-      phone: phone,
-      standard: standard,
-      profileImage: profileImage,
-      token: token,
-      googleId: googleId,
-      enrollmentNumber: enrollmentNumber,
-      school: school,
-      academicYear: academicYear,
-    );
+        userName: userName,
+        storeemail: storeemail,
+        phone: phone,
+        standard: standard,
+        profileImage: profileImage,
+        token: token,
+        googleId: googleId,
+        enrollmentNumber: enrollmentNumber,
+        school: school,
+        academicYear: academicYear,
+        standardFromGetApi: standardFromGetApi);
     if (status == true) {
       final snackBar = SnackBar(
         backgroundColor: HexColor('#27AE60'),

@@ -294,19 +294,23 @@ class _SecondscreenState extends State<Secondscreen> {
                                                                         index][
                                                                     'video_id']);
                                                   },
-                                                  child: Icon(Icons.favorite,
-                                                      color: Provider.of<
-                                                                      WishList>(
-                                                                  context,
-                                                                  listen: true)
-                                                              .youtubeVideoIdnew
-                                                              .contains(
-                                                                  decodeDetails[
-                                                                          index]
-                                                                      [
-                                                                      'video_id'])
-                                                          ? Colors.pink
-                                                          : Colors.grey)),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Icon(Icons.favorite,
+                                                        color: Provider.of<
+                                                                        WishList>(
+                                                                    context,
+                                                                    listen:
+                                                                        true)
+                                                                .youtubeVideoIdnew
+                                                                .contains(decodeDetails[
+                                                                        index][
+                                                                    'video_id'])
+                                                            ? Colors.pink
+                                                            : Colors.grey),
+                                                  )),
                                               // LikeButton(
                                               //   // onTap: () {
 

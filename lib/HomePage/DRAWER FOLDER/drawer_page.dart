@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
+import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 
 class DrawerPage extends StatefulWidget {
   final double? height;

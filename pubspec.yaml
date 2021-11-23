@@ -47,12 +47,14 @@ dependencies:
   razorpay_flutter: ^1.2.7
   
   provider: ^6.0.1
-#  toast: ^0.1.5
+
   image_picker: ^0.8.4+1
   search_widget: ^1.0.2
-  youtube_explode_dart: ^1.9.10
+  toast: ^0.1.5
+  youtube_explode_dart: ^1.10.8
+  xml: ^5.3.1
+  # youtube_explode_dart: ^1.9.10
  
-
   
 
  
