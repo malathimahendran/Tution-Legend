@@ -250,42 +250,48 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                                 width: width *
                                                                     0.01,
                                                               ),
-                                                              // Text('hello')
-                                                              customText(
-                                                                getText: GetSelectedsubjectsVideos
-                                                                        .decodeDetails[
-                                                                    index]['link'],
-                                                              ),
-                                                              // main(GetSelectedsubjectsVideos
-                                                              //         .decodeDetails[
-                                                              //     index]['link']),
-                                                              // Provider.of<Videoduration>(
-                                                              //                 context,
-                                                              //                 listen: true)
-                                                              //             .duration1 ==
-                                                              //         null
-                                                              //     ? Text('')
-                                                              //     : Text(
-                                                              //         Provider.of<Videoduration>(
-                                                              //                 context,
-                                                              //                 listen: true)
-                                                              //             .duration1
-                                                              //             .toString(),
-                                                              //         style: TextStyle(
-                                                              //             fontSize:
-                                                              //                 11,
-                                                              //             color:
-                                                              //                 HexColor('#0A1C22')),
+                                                              Provider.of<Videoduration>(
+                                                                              context,
+                                                                              listen: true)
+                                                                          .duration1 ==
+                                                                      null
+                                                                  ? Text('')
+                                                                  : Text(
+                                                                      Provider.of<Videoduration>(
+                                                                              context,
+                                                                              listen: true)
+                                                                          .duration1
+                                                                          .toString(),
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              11,
+                                                                          color:
+                                                                              HexColor('#0A1C22')),
+                                                                    ),
                                                             ],
                                                           ),
                                                         ),
-                                                        Text(
-                                                          ' Free',
-                                                          style: TextStyle(
-                                                              fontSize: 13,
-                                                              color: HexColor(
-                                                                  '#0A1C22')),
-                                                        ),
+                                                        GetSelectedsubjectsVideos
+                                                                            .decodeDetails[
+                                                                        index][
+                                                                    'subscribe'] ==
+                                                                0
+                                                            ? Text(
+                                                                ' Free',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        13,
+                                                                    color: HexColor(
+                                                                        '#27AE60')),
+                                                              )
+                                                            : Text(
+                                                                ' Premium',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        13,
+                                                                    color: HexColor(
+                                                                        '#F39C12')),
+                                                              ),
                                                       ],
                                                     )),
                                               ],

@@ -316,6 +316,26 @@ class _SearchinggscreenState extends State<Searchingg> {
                                                               color: HexColor(
                                                                   '#0A1C22')),
                                                         ),
+                                                        searchListAllData['data']
+                                                                        [index][
+                                                                    'subscribe'] ==
+                                                                0
+                                                            ? Text(
+                                                                'Free',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        13,
+                                                                    color: HexColor(
+                                                                        '#27AE60')),
+                                                              )
+                                                            : Text(
+                                                                'Premium',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        13,
+                                                                    color: HexColor(
+                                                                        '#F39C12')),
+                                                              ),
                                                       ],
                                                     )),
                                               ),
