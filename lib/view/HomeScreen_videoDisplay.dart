@@ -32,16 +32,35 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
 
   var you;
   var video1, url;
-  var yt = YoutubeExplode();
+  YoutubeExplode yt = YoutubeExplode();
   var video;
   var duration;
+
   @override
   void initState() {
     super.initState();
     Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
         .searchApi(widget.Selectedsubjectname);
+    // Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
+    //     .gettingAllDurations(context: context);
+    // gett();
+
     // getWishlist();
-    gett();
+  }
+
+  main(sam) {
+    if (sam == sam) {
+      return Text('waiting');
+    }
+
+    // var duration;
+    // var duration = dura.duration;
+    // // // l.w(duration);
+    // if (duration != null) {
+    //   return Text('$duration');
+    // } else {
+    //   return Text('waiting');
+    // }
   }
 
   gett() async {
@@ -54,16 +73,16 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
     var lika = 'https://youtube.com/watch?v=Dpp1sIL1m5Q';
     // var y = await yt.httpClient.get('https://youtube.com/watch?v=Dpp1sIL1m5Q');
     // l.w(y.body);
-    var lm = await yt.videos.get('eKkJm0jeUds');
+    var lm = await yt.videos.get('https://www.youtube.com/watch?v=eKkJm0jeUds');
     l.w(lm.duration);
 // 'https://www.youtube.com/watch?v=eKkJm0jeUds'
     // var video = await yt.videos.get('Dpp1sIL1m5Q');
     // duration = video.duration;
     // l.wtf(duration);
 
-    Future.delayed(Duration(seconds: 3), () {
-      yt.close();
-    });
+    // Future.delayed(Duration(seconds: 3), () {
+    //   yt.close();
+    // });
   }
 
   @override
@@ -101,25 +120,25 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                               itemCount: GetSelectedsubjectsVideos
                                   .decodeDetails.length,
                               itemBuilder: (context, index) {
-                                Provider.of<Videoduration>(context,
-                                        listen: false)
-                                    .getvideoduration((GetSelectedsubjectsVideos
-                                            .decodeDetails[index]['link'])
-                                        .toString());
-                                l.i(GetSelectedsubjectsVideos
-                                    .decodeDetails[index]['link']);
+                                // Provider.of<Videoduration>(context,
+                                //         listen: false)
+                                //     .getvideoduration((GetSelectedsubjectsVideos
+                                //             .decodeDetails[index]['link'])
+                                //         .toString());
+                                // l.i(GetSelectedsubjectsVideos
+                                //     .decodeDetails[index]['link']);
 
-                                you = YoutubePlayerController(
-                                  initialVideoId: YoutubePlayer.convertUrlToId(
-                                      GetSelectedsubjectsVideos
-                                          .decodeDetails[index]['link'])!,
-                                  flags: const YoutubePlayerFlags(
-                                    controlsVisibleAtStart: true,
-                                    hideControls: true,
-                                    autoPlay: false,
-                                    isLive: false,
-                                  ),
-                                );
+                                // you = YoutubePlayerController(
+                                //   initialVideoId: YoutubePlayer.convertUrlToId(
+                                //       GetSelectedsubjectsVideos
+                                //           .decodeDetails[index]['link'])!,
+                                //   flags: const YoutubePlayerFlags(
+                                //     controlsVisibleAtStart: true,
+                                //     hideControls: true,
+                                //     autoPlay: false,
+                                //     isLive: false,
+                                //   ),
+                                // );
 
                                 return InkWell(
                                   child: Container(
@@ -290,5 +309,38 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
         );
       }),
     ));
+  }
+}
+
+class customText extends StatefulWidget {
+  final String? getText;
+  customText({this.getText});
+
+  @override
+  State<customText> createState() => _customTextState();
+}
+
+class _customTextState extends State<customText> {
+  YoutubeExplode yt = YoutubeExplode();
+  String? dura;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    gets();
+  }
+
+  gets() async {
+    var k = await yt.videos.get(widget.getText);
+    setState(() {
+      dura = k.duration.toString();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return dura == null
+        ? Center(child: Text('waiting'))
+        : Text('${dura.toString().substring(2, 7)}');
   }
 }
