@@ -101,13 +101,13 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                               itemCount: GetSelectedsubjectsVideos
                                   .decodeDetails.length,
                               itemBuilder: (context, index) {
-                                Provider.of<Videoduration>(context,
-                                        listen: false)
-                                    .getvideoduration((GetSelectedsubjectsVideos
-                                            .decodeDetails[index]['link'])
-                                        .toString());
-                                l.i(GetSelectedsubjectsVideos
-                                    .decodeDetails[index]['link']);
+                                // Provider.of<Videoduration>(context,
+                                //         listen: false)
+                                //     .getvideoduration((GetSelectedsubjectsVideos
+                                //             .decodeDetails[index]['link'])
+                                //         .toString());
+                                // l.i(GetSelectedsubjectsVideos
+                                //     .decodeDetails[index]['link']);
 
                                 you = YoutubePlayerController(
                                   initialVideoId: YoutubePlayer.convertUrlToId(
