@@ -39,6 +39,7 @@ class _VideowishlistState extends State<Videowishlist> {
   String? token;
   List<int>? youtubevideoId = [];
   bool isIconClicked = false;
+  bool isLoading = false;
   List<int> iconClick = [];
   final l = Logger();
   var wishlistDetails;
@@ -83,8 +84,49 @@ class _VideowishlistState extends State<Videowishlist> {
                   child: Provider.of<WishList>(context, listen: true)
                           .youtubeVideoLink
                           .isEmpty
-                      ? Center(
-                          child: Text("No Datas Found"),
+                      ? Container(
+                          child: isLoading == false
+                              ? TweenAnimationBuilder(
+                                  duration: Duration(seconds: 3),
+                                  tween: Tween(begin: 0.0, end: 100.0),
+                                  builder: (context, _, child) {
+                                    return Center(
+                                      child: SizedBox(
+                                        height: 40,
+                                        width: 40,
+                                        child: CircularProgressIndicator(
+                                            color: Colors.teal),
+                                      ),
+                                    );
+                                  },
+                                  onEnd: () {
+                                    setState(() {
+                                      isLoading = true;
+                                      print(isLoading);
+                                    });
+                                  },
+                                )
+                              : Center(
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.search,
+                                          size: height * 0.1,
+                                        ),
+                                        Text(
+                                          'No Results Found',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                         )
                       : Container(
                           height: height,

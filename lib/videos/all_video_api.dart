@@ -49,8 +49,7 @@ class _SearchinggscreenState extends State<Allvideo> {
       print("28chapter");
       print(33);
 
-      var url = Uri.parse(
-          '$allVideoApiCall');
+      var url = Uri.parse('$allVideoApiCall');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -331,6 +330,26 @@ class _SearchinggscreenState extends State<Allvideo> {
                                                                     color: HexColor(
                                                                         '#0A1C22')),
                                                               ),
+                                                              decodeDetails[index]
+                                                                          [
+                                                                          'subscribe'] ==
+                                                                      0
+                                                                  ? Text(
+                                                                      'Free',
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              13,
+                                                                          color:
+                                                                              HexColor('#27AE60')),
+                                                                    )
+                                                                  : Text(
+                                                                      'Premium',
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              13,
+                                                                          color:
+                                                                              HexColor('#F39C12')),
+                                                                    ),
                                                             ],
                                                           )),
                                                     ),

@@ -38,6 +38,7 @@ class _SearchvideoState extends State<Searchvideo> {
       decodeDetailsnew,
       continuewatchlist,
       onChange;
+
   List<int>? youtubevideoId = [];
   bool isIconClicked = false;
   List<int> iconClick = [];
@@ -377,6 +378,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
       selectedSubs,
       decodeDetailsLength,
       decodeDetailsnew;
+  bool isLoading = false;
   var search = TextEditingController();
   List<int>? youtubevideoId = [];
   bool isIconClicked = false;
@@ -397,6 +399,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
         'Authorization': token,
       });
       decodeDetailsData = json.decode(response.body);
+      l.e(decodeDetailsData);
       decodeDetailsnew = decodeDetailsData['data'];
 
       if (decodeDetailsnew.length > 3) {
@@ -429,7 +432,32 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
     var status = MediaQuery.of(context).padding.top;
     return SafeArea(
       child: decodeDetails == null
-          ? Center(child: CircularProgressIndicator())
+          ? Container(
+              child: isLoading == false
+                  ? TweenAnimationBuilder(
+                      duration: Duration(seconds: 3),
+                      tween: Tween(begin: 0.0, end: 100.0),
+                      builder: (context, _, child) {
+                        return Center(
+                          child: SizedBox(
+                            height: 40,
+                            width: 40,
+                            child:
+                                CircularProgressIndicator(color: Colors.teal),
+                          ),
+                        );
+                      },
+                      onEnd: () {
+                        setState(() {
+                          isLoading = true;
+                          print(isLoading);
+                        });
+                      },
+                    )
+                  : Center(
+                      child: Text("No Videos Found"),
+                    ),
+            )
           : Container(
               height: (decodeDetails.length - 1) < 2
                   ? ((height) * 0.3) / 2
@@ -558,6 +586,21 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                                 fontSize: 10,
                                                 color: HexColor('#0A1C22')),
                                           ),
+                                          decodeDetails[index]['subscribe'] == 0
+                                              ? Text(
+                                                  'Free',
+                                                  style: TextStyle(
+                                                      fontSize: 10,
+                                                      color:
+                                                          HexColor('#27AE60')),
+                                                )
+                                              : Text(
+                                                  'Premium',
+                                                  style: TextStyle(
+                                                      fontSize: 10,
+                                                      color:
+                                                          HexColor('#F39C12')),
+                                                ),
                                         ],
                                       ),
                                     ),

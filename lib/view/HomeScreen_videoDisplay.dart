@@ -241,7 +241,8 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                                       Provider.of<Videoduration>(
                                                                               context,
                                                                               listen: true)
-                                                                          .duration1,
+                                                                          .duration1
+                                                                          .toString(),
                                                                       style: TextStyle(
                                                                           fontSize:
                                                                               11,
@@ -251,13 +252,27 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                             ],
                                                           ),
                                                         ),
-                                                        Text(
-                                                          ' Free',
-                                                          style: TextStyle(
-                                                              fontSize: 13,
-                                                              color: HexColor(
-                                                                  '#0A1C22')),
-                                                        ),
+                                                        GetSelectedsubjectsVideos
+                                                                            .decodeDetails[
+                                                                        index][
+                                                                    'subscribe'] ==
+                                                                0
+                                                            ? Text(
+                                                                ' Free',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        13,
+                                                                    color: HexColor(
+                                                                        '#27AE60')),
+                                                              )
+                                                            : Text(
+                                                                ' Premium',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        13,
+                                                                    color: HexColor(
+                                                                        '#F39C12')),
+                                                              ),
                                                       ],
                                                     )),
                                               ],
