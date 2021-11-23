@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:logger/logger.dart';
+import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
@@ -98,8 +99,7 @@ class _ProfileState extends State<Profile> {
       token = userDetails[5];
       print("$token" + "51 line");
 
-      var url =
-          Uri.parse('http://www.cviacserver.tk/tuitionlegend/home/get_payment');
+      var url = Uri.parse(getPlanDetailsCall);
 
       var response = await http.get(url, headers: {'Authorization': token});
       decodeDetailsData = json.decode(response.body);

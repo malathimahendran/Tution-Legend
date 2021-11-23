@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
@@ -93,8 +94,7 @@ class _CustomExpandedWithTextAndFormFieldState
   }
 
   profileUpdateApi() async {
-    var url = Uri.parse(
-        'http://www.cviacserver.tk/tuitionlegend/home/update_user_profile');
+    var url = Uri.parse(profileUpdateApiCall);
     var response = await http.put(url, body: {
       'user_name': widget.userName.text.toString(),
       'email': widget.email.text.toString(),
