@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
+import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:http/http.dart' as http;
 import '../../../play.dart';
@@ -255,6 +256,14 @@ class _VideowishlistState extends State<Videowishlist> {
                                                               color: HexColor(
                                                                   '#0A1C22')),
                                                         ),
+                                                        customText(
+                                                          getText: Provider.of<
+                                                                          WishList>(
+                                                                      context,
+                                                                      listen: false)
+                                                                  .youtubeVideoLink[
+                                                              index]['link'],
+                                                        )
                                                       ],
                                                     )),
                                               ),

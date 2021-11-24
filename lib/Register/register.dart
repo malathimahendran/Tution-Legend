@@ -594,12 +594,13 @@ class Textfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
+    // var height = MediaQuery.of(context).size.height;
+    var height = 1500.0;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
     return Container(
       width: width * 0.8,
-      height: height * 0.077,
+      height: height * 0.073,
       child: Card(
         elevation: 10,
         shape:
@@ -616,10 +617,10 @@ class Textfield extends StatelessWidget {
 
           controller: controller,
           decoration: InputDecoration(
-              contentPadding: EdgeInsets.zero,
+              contentPadding: EdgeInsets.all(height * 0.004),
               hintText: hintText,
-              hintStyle:
-                  GoogleFonts.poppins(textStyle: TextStyle(fontSize: 12)),
+              hintStyle: GoogleFonts.poppins(
+                  textStyle: TextStyle(fontSize: height * 0.013)),
               filled: true,
               fillColor: HexColor('#FFFFFF'),
               enabledBorder: OutlineInputBorder(

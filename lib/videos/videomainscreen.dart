@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -557,7 +558,8 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                               },
                                               child: Padding(
                                                 padding: const EdgeInsets.only(
-                                                    left: 40, top: 10),
+                                                  left: 50,
+                                                ),
                                                 child: Icon(Icons.favorite,
                                                     color: Provider.of<
                                                                     WishList>(
@@ -579,13 +581,54 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                                 fontWeight: FontWeight.bold,
                                                 color: HexColor('#0A1C22')),
                                           ),
-                                          Text(
-                                            decodeDetails[index]['lesson']
-                                                .toString(),
-                                            style: TextStyle(
-                                                fontSize: 10,
-                                                color: HexColor('#0A1C22')),
+
+                                          FittedBox(
+                                            fit: BoxFit.fitWidth,
+                                            child: Text(
+                                              decodeDetails[index]['lesson']
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontSize: 11,
+                                                  color: HexColor('#0A1C22')),
+                                            ),
                                           ),
+                                          Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.access_alarm,
+                                                  color: HexColor('#009688'),
+                                                  size: 20,
+                                                ),
+                                                SizedBox(
+                                                  width: width * 0.005,
+                                                ),
+
+                                                customText(
+                                                    getText:
+                                                        decodeDetails[index]
+                                                            ['link'])
+                                                // Text(Provider.of<
+                                                //             GetVideoduration>(
+                                                //         context,
+                                                //         listen:
+                                                //             true)
+                                                //     .dura
+                                                //     .toString()
+                                                //     .substring(
+                                                //         2, 7))
+                                              ],
+                                            ),
+                                          ),
+                                          // FittedBox(
+                                          //   fit: BoxFit.fitHeight,
+                                          //   child: Text(
+                                          //     'h',
+                                          //     maxLines: 2,
+                                          //     style: TextStyle(fontSize: 10),
+                                          //     // textDirection: TextDirection.ltr,
+                                          //   ),
+                                          // ),
                                           decodeDetails[index]['subscribe'] == 0
                                               ? Text(
                                                   'Free',

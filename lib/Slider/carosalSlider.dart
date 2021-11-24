@@ -10,6 +10,7 @@ import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/Login/loginpage.dart';
 import 'package:tutionmaster/ProfilePage/logout.dart';
 import 'package:tutionmaster/SplashScreen/constants.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class Carosel extends StatefulWidget {
   Carosel({Key? key}) : super(key: key);
@@ -92,12 +93,10 @@ class _CaroselState extends State<Carosel> {
                   padding: const EdgeInsets.only(top: 30),
                   child: Container(
                     width: width * 0.6,
-                    child: Text('${titles[currentPos]}',
-                        style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: unitHeightValue * subText,
-                              color: HexColor('#707070')),
-                        )),
+                    child: AutoSizeText.rich(TextSpan(
+                        text:
+                            'Education is the passport to the future, for tomorrow belongs to those who prepare for it today',
+                        children: [])),
                   ),
                 ),
                 Row(
