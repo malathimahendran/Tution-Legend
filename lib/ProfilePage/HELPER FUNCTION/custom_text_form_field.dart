@@ -79,8 +79,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                   context: context,
                   value: widget.value,
                 );
-                // l.i(controllers);
-
                 widget.controller.text =
                     Provider.of<ProviderFunction>(context, listen: false)
                         .date

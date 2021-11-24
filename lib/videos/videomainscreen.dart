@@ -460,8 +460,8 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
             )
           : Container(
               height: (decodeDetails.length - 1) < 2
-                  ? ((height) * 0.3) / 2
-                  : height * 0.3,
+                  ? ((height) * 0.4) / 2
+                  : height * 0.4,
               width: width * 0.9,
               child: GridView.builder(
                   physics: NeverScrollableScrollPhysics(),
@@ -469,7 +469,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                   gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                     // crossAxisCount: decodeDetails.length <= 2?1:2,
                     crossAxisCount: 2,
-                    childAspectRatio: 1.5,
+                    childAspectRatio: 1.2,
                   ),
                   itemBuilder: (context, index) {
                     // var s = youtubevideoId!
@@ -529,7 +529,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                           left: 5.0, right: 8.0),
                                       child: Container(
                                         width: width * 0.17,
-                                        height: height * 0.08,
+                                        height: height * 0.09,
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(15),

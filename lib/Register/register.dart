@@ -215,9 +215,16 @@ class _RegisterState extends State<Register> {
     // print(googleMail);
     // print("$googleDetails" + "61");
     // print(widget.deviceId);
+    // var height = 600.0;
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
+    double unitHeightValue = MediaQuery.of(context).size.height * 0.01;
+    double subTextGetStarted = 2.5;
+    double subTextCreateAccount = 1.5;
+    double subTextSmall = 1.4;
+    double subTextLogin = 1.6;
+    l.wtf(height);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
@@ -261,7 +268,7 @@ class _RegisterState extends State<Register> {
                         child: Text("Let's Get Started",
                             style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
-                              fontSize: 22.0,
+                              fontSize: unitHeightValue * subTextGetStarted,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                               // fontFamily: 'Pacifico',
@@ -269,13 +276,13 @@ class _RegisterState extends State<Register> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: ((height - status)) * 0.01,
-                  ),
+                  // SizedBox(
+                  //   height: ((height - status)) * 0.01,
+                  // ),
                   Text('Create Your Account',
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
-                        fontSize: 12.0,
+                        fontSize: unitHeightValue * subTextCreateAccount,
                         color: Colors.black,
                         // fontFamily: 'Pacifico',
                       )))
@@ -292,6 +299,9 @@ class _RegisterState extends State<Register> {
                   child: Column(
                     children: [
                       Textfield(
+                        unitHeightValue,
+                        subTextSmall,
+                        textCapitalization: TextCapitalization.sentences,
                         hintText: 'UserName',
                         controller: username,
                         icon: Icon(Icons.person, color: HexColor('#3F3F3F')),
@@ -299,8 +309,9 @@ class _RegisterState extends State<Register> {
                       SizedBox(
                         height: ((height - status)) * 0.03,
                       ),
-                      Textfield(
+                      Textfield(unitHeightValue, subTextSmall,
                           type: TextInputType.number,
+                          textCapitalization: TextCapitalization.none,
                           hintText: 'MobileNo',
                           controller: mobileno,
                           icon: Icon(Icons.phone_iphone,
@@ -308,9 +319,10 @@ class _RegisterState extends State<Register> {
                       SizedBox(
                         height: ((height - status)) * 0.03,
                       ),
-                      Textfield(
+                      Textfield(unitHeightValue, subTextSmall,
                           read: widget.googleuser != null ? true : false,
                           type: TextInputType.emailAddress,
+                          textCapitalization: TextCapitalization.none,
                           hintText: 'Email',
                           controller: email,
                           icon: Icon(Icons.email, color: HexColor('#3F3F3F'))),
@@ -319,7 +331,8 @@ class _RegisterState extends State<Register> {
                       ),
                       Container(
                         width: width * 0.8,
-                        height: height * 0.073,
+                        height: height * 0.077,
+                        alignment: Alignment.center,
                         child: Card(
                           elevation: 10,
                           shape: RoundedRectangleBorder(
@@ -333,9 +346,17 @@ class _RegisterState extends State<Register> {
                             changeIcon: true,
                             items: items,
                             decoration: InputDecoration(
+                                contentPadding: EdgeInsets.zero,
+                                // constraints: BoxConstraints(
+                                //   maxHeight: height * 0.077,
+                                //   maxWidth: width * 0.8,
+                                // ),
+                                // contentPadding: EdgeInsets.zero,
                                 hintText: 'Board Of Education',
                                 hintStyle: GoogleFonts.poppins(
-                                    textStyle: TextStyle(fontSize: 12)),
+                                    textStyle: TextStyle(
+                                        fontSize:
+                                            unitHeightValue * subTextSmall)),
                                 filled: true,
                                 suffixIcon: Icon(
                                   Icons.arrow_drop_down,
@@ -382,12 +403,17 @@ class _RegisterState extends State<Register> {
                       ),
                       Container(
                         width: width * 0.8,
-                        height: height * 0.073,
+                        height: height * 0.077,
+                        alignment: Alignment.center,
                         child: Card(
                           elevation: 10,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
                           child: SelectFormField(
+                            // autofocus: false,
+                            autocorrect: true,
+                            enableInteractiveSelection: true,
+                            // expands: true,
                             onChanged: (val) {
                               classId = val;
                             },
@@ -396,9 +422,12 @@ class _RegisterState extends State<Register> {
                             changeIcon: true,
                             items: itemclass,
                             decoration: InputDecoration(
+                                contentPadding: EdgeInsets.zero,
                                 hintText: 'Standard',
                                 hintStyle: GoogleFonts.poppins(
-                                    textStyle: TextStyle(fontSize: 12)),
+                                    textStyle: TextStyle(
+                                        fontSize:
+                                            unitHeightValue * subTextSmall)),
                                 filled: true,
                                 suffixIcon: Icon(
                                   Icons.arrow_drop_down,
@@ -442,6 +471,8 @@ class _RegisterState extends State<Register> {
                                 height: ((height - status)) * 0.03,
                               ),
                               Textfield(
+                                unitHeightValue,
+                                subTextSmall,
                                 suffixicon: IconButton(
                                   color: HexColor('#3F3F3F'),
                                   icon: secureText1
@@ -454,6 +485,7 @@ class _RegisterState extends State<Register> {
                                   },
                                 ),
                                 obscuretext: secureText1,
+                                textCapitalization: TextCapitalization.none,
                                 hintText: 'Password',
                                 controller: password,
                                 icon: Icon(Icons.lock,
@@ -462,7 +494,7 @@ class _RegisterState extends State<Register> {
                               SizedBox(
                                 height: ((height - status)) * 0.03,
                               ),
-                              Textfield(
+                              Textfield(unitHeightValue, subTextSmall,
                                   suffixicon: IconButton(
                                     color: HexColor('#3F3F3F'),
                                     icon: secureText
@@ -473,21 +505,21 @@ class _RegisterState extends State<Register> {
                                         secureText = !secureText;
                                       });
                                     },
-                                  ),
-                                  validator: (val) {
-                                    call(String values) {
-                                      if (values.isEmpty) {
-                                        return "Confirm Password is required";
-                                      } else if (values != password.text) {
-                                        return "Password does not match";
-                                      } else {
-                                        return null;
-                                      }
-                                    }
+                                  ), validator: (val) {
+                                call(String values) {
+                                  if (values.isEmpty) {
+                                    return "Confirm Password is required";
+                                  } else if (values != password.text) {
+                                    return "Password does not match";
+                                  } else {
+                                    return null;
+                                  }
+                                }
 
-                                    return call(val);
-                                  },
+                                return call(val);
+                              },
                                   obscuretext: secureText,
+                                  textCapitalization: TextCapitalization.none,
                                   hintText: 'Confirm Password',
                                   controller: confirmpassword,
                                   icon: Icon(Icons.lock,
@@ -497,8 +529,8 @@ class _RegisterState extends State<Register> {
                       SizedBox(
                         height: ((height - status)) * 0.03,
                       ),
-                      Textfield(
-                          type: TextInputType.number,
+                      Textfield(unitHeightValue, subTextSmall,
+                          textCapitalization: TextCapitalization.none,
                           hintText: 'Referral Code',
                           controller: referralcode,
                           icon: Icon(
@@ -517,7 +549,9 @@ class _RegisterState extends State<Register> {
                             },
                             child: Text(
                               'Create Account',
-                              style: GoogleFonts.poppins(),
+                              style: TextStyle(
+                                  fontSize:
+                                      unitHeightValue * subTextCreateAccount),
                             ),
                             style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
@@ -536,7 +570,8 @@ class _RegisterState extends State<Register> {
                         children: [
                           Text(
                             'Already have an account?',
-                            style: GoogleFonts.poppins(),
+                            style: TextStyle(
+                                fontSize: unitHeightValue * subTextSmall),
                           ),
                           SizedBox(
                             width: 2,
@@ -549,7 +584,8 @@ class _RegisterState extends State<Register> {
                             child: Text('SignIn',
                                 style: GoogleFonts.poppins(
                                   textStyle: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: unitHeightValue *
+                                          subTextCreateAccount,
                                       decoration: TextDecoration.underline,
                                       color: HexColor('#514880')),
                                 )),
@@ -572,7 +608,10 @@ class _RegisterState extends State<Register> {
 }
 
 class Textfield extends StatelessWidget {
-  final hintText,
+  final unitHeightValue,
+      subTextSmall,
+      textCapitalization,
+      hintText,
       icon,
       controller,
       read,
@@ -581,7 +620,10 @@ class Textfield extends StatelessWidget {
       suffixicon,
       validator;
 
-  Textfield({
+  Textfield(
+    this.unitHeightValue,
+    this.subTextSmall, {
+    this.textCapitalization,
     this.hintText,
     this.icon,
     this.suffixicon,
@@ -600,26 +642,24 @@ class Textfield extends StatelessWidget {
     return Container(
       width: width * 0.8,
       height: height * 0.077,
+      alignment: Alignment.center,
       child: Card(
         elevation: 10,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
         child: TextFormField(
+          textCapitalization: textCapitalization,
           validator: validator,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           obscureText: obscuretext,
           keyboardType: type,
-          readOnly: read,
-
-          // expands: true,
-          // minLines: null,
-
           controller: controller,
           decoration: InputDecoration(
               contentPadding: EdgeInsets.zero,
               hintText: hintText,
-              hintStyle:
-                  GoogleFonts.poppins(textStyle: TextStyle(fontSize: 12)),
+              hintStyle: GoogleFonts.poppins(
+                  textStyle:
+                      TextStyle(fontSize: unitHeightValue * subTextSmall)),
               filled: true,
               fillColor: HexColor('#FFFFFF'),
               enabledBorder: OutlineInputBorder(

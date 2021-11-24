@@ -48,7 +48,7 @@ class _CaroselState extends State<Carosel> {
     double unitHeightValue = MediaQuery.of(context).size.height * 0.01;
     double unitWidthValue = MediaQuery.of(context).size.width * 0.01;
     double buttonText = 2;
-    double subText = 1.8;
+    double subText = 1.6;
     return Scaffold(
         body: Container(
       height: height - status,
@@ -81,7 +81,7 @@ class _CaroselState extends State<Carosel> {
                       enableInfiniteScroll: false,
                       initialPage: 0,
                       autoPlay: false,
-                      height: 200.0,
+                      height: 150.0,
                       onPageChanged: (index, reason) {
                         setState(() {
                           currentPos = index;

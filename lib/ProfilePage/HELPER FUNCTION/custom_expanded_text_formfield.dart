@@ -85,9 +85,11 @@ class _CustomExpandedWithTextAndFormFieldState
       widget.userName.text = storeUserName.toString();
       widget.email.text = userEmail.toString();
       widget.contactNumber.text = userMobileNo.toString();
-      widget.enrollmentNumber.text = enrollmentNumber.toString();
-      widget.schoolName.text = school.toString();
-      widget.academicYear.text = academicYear.toString();
+      widget.enrollmentNumber.text =
+          enrollmentNumber == "null" ? "" : enrollmentNumber.toString();
+      widget.schoolName.text = school == "null" ? "" : school.toString();
+      widget.academicYear.text =
+          academicYear == "null" ? "" : academicYear.toString();
 
       l.wtf(academicYear);
     });

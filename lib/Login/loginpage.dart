@@ -319,10 +319,15 @@ class _LoginPageState extends State<LoginPage> {
     var font = 2;
     final keyss = MediaQuery.of(context).viewInsets.bottom != 0;
     // var height1=height-status;
-
+    double unitHeightValue = MediaQuery.of(context).size.height * 0.01;
+    double subTextWelcome = 1.8;
+    double subTextExistAccount = 1.7;
+    double subTextSmall = 1.4;
+    double subTextSignup = 1.5;
+    double subTextLogin = 1.6;
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        // resizeToAvoidBottomInset: false,
         // appBar: AppBar(
         //   flexibleSpace: Container(
         //     height: (height - status) * 0.30,
@@ -334,231 +339,260 @@ class _LoginPageState extends State<LoginPage> {
         //             fit: BoxFit.fill)),
         //   ),
         // ),
-        body: Container(
-          height: height,
-          // padding: EdgeInsets.only(top: 100),
-          decoration: BoxDecoration(
-            // color: Colors.pink,
-            image: DecorationImage(
-                image: AssetImage("assets/RegisterPage/registerbackground.png"),
-                fit: BoxFit.fill),
-          ),
-          child: Stack(
-            children: [
-              Container(
-                height: (height - status) * 0.20,
-                width: width,
-                decoration: BoxDecoration(
-                    // color: Colors.pink,
-                    image: DecorationImage(
-                        image: AssetImage("assets/LoginPage/logintop.png"),
-                        fit: BoxFit.fill)),
-              ),
-              Positioned(
-                top: 150,
-                child: Column(
-                  children: [
-                    Container(
-                        height: (height - status) * 0.80,
-                        width: width,
-                        // color: Colors.black,
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              "assets/LoginPage/logincenter.png",
-                              height: height * 0.2,
-                              width: width * 1,
-                            ),
-                            SizedBox(height: 4),
-                            Text("Welcome",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: height1 * font)),
-                            SizedBox(height: 4),
-                            Text(
-                              "Login to your existing Account",
-                              style: GoogleFonts.poppins(),
-                            ),
-                            SizedBox(height: 7),
-                            customContainerTextField(
-                              height,
-                              width,
-                              hintText = "UserName or Email",
-                              icon = Icon(Icons.person),
-                              controller = email,
-                            ),
-                            SizedBox(height: 7),
-                            customContainerTextField(
-                              height,
-                              width,
-                              hintText = "Password",
-                              icon = Icon(Icons.lock),
-                              controller = password,
-                              obscureText: secureText,
-                              suffixIcon: IconButton(
-                                color: HexColor('#3F3F3F'),
-                                icon: secureText
-                                    ? Icon(Icons.visibility_off)
-                                    : Icon(Icons.visibility),
-                                onPressed: () {
-                                  setState(() {
-                                    secureText = !secureText;
-                                  });
-                                },
+        body: SingleChildScrollView(
+          child: Container(
+            height: height,
+            // padding: EdgeInsets.only(top: 100),
+            decoration: BoxDecoration(
+              // color: Colors.pink,
+              image: DecorationImage(
+                  image:
+                      AssetImage("assets/RegisterPage/registerbackground.png"),
+                  fit: BoxFit.fill),
+            ),
+            child: Stack(
+              children: [
+                Container(
+                  height: (height - status) * 0.20,
+                  width: width,
+                  decoration: BoxDecoration(
+                      // color: Colors.pink,
+                      image: DecorationImage(
+                          image: AssetImage("assets/LoginPage/logintop.png"),
+                          fit: BoxFit.fill)),
+                ),
+                Positioned(
+                  top: 150,
+                  child: Column(
+                    children: [
+                      Container(
+                          height: (height - status) * 0.80,
+                          width: width,
+                          // color: Colors.black,
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                "assets/LoginPage/logincenter.png",
+                                height: height * 0.2,
+                                width: width * 1,
                               ),
-                            ),
-                            // SizedBox(height: 5),
-                            Container(
-                              width: width * 0.8,
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Theme(
-                                        data: ThemeData(
-                                          unselectedWidgetColor: Colors.black,
+                              SizedBox(height: 4),
+                              Text("Welcome",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          unitHeightValue * subTextWelcome)),
+                              SizedBox(height: 4),
+                              Text(
+                                "Login to your existing Account",
+                                style: TextStyle(
+                                    fontSize:
+                                        unitHeightValue * subTextExistAccount),
+                              ),
+                              SizedBox(height: 7),
+                              customContainerTextField(
+                                height,
+                                width,
+                                unitHeightValue,
+                                subTextSmall,
+                                hintText = "UserName or Email",
+                                icon = Icon(Icons.person),
+                                controller = email,
+                              ),
+                              SizedBox(height: 7),
+                              customContainerTextField(
+                                height,
+                                width,
+                                unitHeightValue,
+                                subTextSmall,
+                                hintText = "Password",
+                                icon = Icon(Icons.lock),
+                                controller = password,
+                                obscureText: secureText,
+                                suffixIcon: IconButton(
+                                  color: HexColor('#3F3F3F'),
+                                  icon: secureText
+                                      ? Icon(Icons.visibility_off)
+                                      : Icon(Icons.visibility),
+                                  onPressed: () {
+                                    setState(() {
+                                      secureText = !secureText;
+                                    });
+                                  },
+                                ),
+                              ),
+                              // SizedBox(height: 5),
+                              Container(
+                                width: width * 0.8,
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Theme(
+                                          data: ThemeData(
+                                            unselectedWidgetColor: Colors.black,
+                                          ),
+                                          child: CheckboxListTile(
+                                              activeColor: HexColor('#FF465C'),
+                                              checkColor: Colors.white,
+                                              contentPadding: EdgeInsets.zero,
+                                              controlAffinity:
+                                                  ListTileControlAffinity
+                                                      .leading,
+                                              title: Text('Remember me  ',
+                                                  style: GoogleFonts.poppins(
+                                                    textStyle: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize:
+                                                            unitHeightValue *
+                                                                subTextSmall),
+                                                  )),
+                                              value: isChecked,
+                                              onChanged: (value) =>
+                                                  setState(() {
+                                                    isChecked = value!;
+                                                    handleRemeberme(value);
+                                                    // signInButtonEnable = !signInButtonEnable;
+                                                  })),
                                         ),
-                                        child: CheckboxListTile(
-                                            activeColor: HexColor('#FF465C'),
-                                            checkColor: Colors.white,
-                                            contentPadding: EdgeInsets.zero,
-                                            controlAffinity:
-                                                ListTileControlAffinity.leading,
-                                            title: Text('Remember me  ',
+                                      ),
+                                    ),
+                                    Text("Forgot Password?",
+                                        style: GoogleFonts.poppins(
+                                            textStyle: TextStyle(
+                                                fontSize: unitHeightValue *
+                                                    subTextSmall)))
+                                  ],
+                                ),
+                              ),
+                              // SizedBox(height: 5),
+                              Container(
+                                width: width * 0.8,
+                                child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: HexColor("#243665"),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20))),
+                                    onPressed: () {
+                                      loginApi();
+                                    },
+                                    child: Text("Log In",
+                                        style: GoogleFonts.poppins(
+                                          textStyle: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: unitHeightValue *
+                                                  subTextLogin),
+                                        ))),
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                "OR",
+                                style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize:
+                                            unitHeightValue * subTextLogin)),
+                              ),
+                              SizedBox(height: 2),
+                              Container(
+                                width: width * 0.4,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      signInWithGoogle();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20))),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          child: Image.asset(
+                                            'assets/LoginPage/google.jpeg',
+                                            height: 20,
+                                            width: 30,
+                                          ),
+                                        ),
+                                        Container(
+                                            // color: HexColor('#0077FF'),
+                                            // height: height * 0.04,
+                                            width: width * 0.2,
+                                            child: Text("Login",
                                                 style: GoogleFonts.poppins(
                                                   textStyle: TextStyle(
                                                       color: Colors.black,
-                                                      fontSize: 12),
-                                                )),
-                                            value: isChecked,
-                                            onChanged: (value) => setState(() {
-                                                  isChecked = value!;
-                                                  handleRemeberme(value);
-                                                  // signInButtonEnable = !signInButtonEnable;
-                                                })),
-                                      ),
-                                    ),
-                                  ),
-                                  Text("Forgot Password?",
-                                      style: GoogleFonts.poppins(
-                                          textStyle: TextStyle(fontSize: 12)))
-                                ],
+                                                      fontSize:
+                                                          unitHeightValue *
+                                                              subTextLogin),
+                                                ))),
+                                      ],
+                                    )),
                               ),
-                            ),
-                            // SizedBox(height: 5),
-                            Container(
-                              width: width * 0.8,
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      primary: HexColor("#243665"),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20))),
-                                  onPressed: () {
-                                    loginApi();
-                                  },
-                                  child: Text("Log In",
-                                      style: GoogleFonts.poppins(
-                                        textStyle:
-                                            TextStyle(color: Colors.white),
-                                      ))),
-                            ),
-                            SizedBox(height: 2),
-                            Text(
-                              "OR",
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(fontSize: 12)),
-                            ),
-                            SizedBox(height: 2),
-                            Container(
-                              width: width * 0.4,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    signInWithGoogle();
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20))),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        child: Image.asset(
-                                          'assets/LoginPage/google.jpeg',
-                                          height: 20,
-                                          width: 30,
-                                        ),
-                                      ),
-                                      Container(
-                                          // color: HexColor('#0077FF'),
-                                          // height: height * 0.04,
-                                          width: width * 0.2,
-                                          child: Text("Login",
-                                              style: GoogleFonts.poppins(
-                                                textStyle: TextStyle(
-                                                    color: Colors.black),
-                                              ))),
-                                    ],
-                                  )),
-                            ),
-                            SizedBox(height: 3),
-                            Container(
-                              width: width * 0.6,
-                              child: Row(children: [
-                                Text(
-                                  "Don't have an account?",
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.popAndPushNamed(
-                                        context, AllRouteNames.registerpage,
-                                        arguments: ArgumentPass(
-                                          deviceId: finalDeviceId,
-                                          googleUser: null,
-                                        ));
-                                  },
-                                  child: Text(
-                                    "Sign Up",
-                                    style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            decoration:
-                                                TextDecoration.underline,
-                                            fontSize: 13,
-                                            color: HexColor('#514880'))),
+                              SizedBox(height: 3),
+                              Container(
+                                width: width * 0.6,
+                                child: Row(children: [
+                                  Text(
+                                    "Don't have an account?",
+                                    style: TextStyle(
+                                        fontSize:
+                                            unitHeightValue * subTextSmall),
                                   ),
-                                )
-                              ]),
-                            )
-                          ],
-                        ))
-                  ],
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.popAndPushNamed(
+                                          context, AllRouteNames.registerpage,
+                                          arguments: ArgumentPass(
+                                            deviceId: finalDeviceId,
+                                            googleUser: null,
+                                          ));
+                                    },
+                                    child: Text(
+                                      "Sign Up",
+                                      style: GoogleFonts.poppins(
+                                          textStyle: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              fontSize: unitHeightValue *
+                                                  subTextSmall,
+                                              color: HexColor('#514880'))),
+                                    ),
+                                  )
+                                ]),
+                              )
+                            ],
+                          ))
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Container customContainerTextField(
-      double height, double width, hintText, icon, controller,
+  Container customContainerTextField(double height, double width,
+      double unitHeightValue, double subTextSmall, hintText, icon, controller,
       {obscureText = false, suffixIcon}) {
     return Container(
-      height: height * 0.05,
+      height: height * 0.075,
       width: width * 0.8,
+      alignment: Alignment.center,
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
+          contentPadding: EdgeInsets.zero,
           suffixIcon: suffixIcon,
           hintText: hintText,
-          hintStyle: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 12)),
+          hintStyle: GoogleFonts.poppins(
+              textStyle: TextStyle(fontSize: unitHeightValue * subTextSmall)),
           prefixIcon: icon,
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
