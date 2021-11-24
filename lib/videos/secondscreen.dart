@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
+import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'likeandunlikeapi.dart';
@@ -277,6 +278,37 @@ class _SecondscreenState extends State<Secondscreen> {
                                                               fontSize: 15,
                                                               color: HexColor(
                                                                   '#0A1C22')),
+                                                        ),
+                                                        Container(
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .access_alarm,
+                                                                color: HexColor(
+                                                                    '#009688'),
+                                                                size: 20,
+                                                              ),
+                                                              SizedBox(
+                                                                width: width *
+                                                                    0.01,
+                                                              ),
+
+                                                              customText(
+                                                                  getText: decodeDetails[
+                                                                          index]
+                                                                      ['link'])
+                                                              // Text(Provider.of<
+                                                              //             GetVideoduration>(
+                                                              //         context,
+                                                              //         listen:
+                                                              //             true)
+                                                              //     .dura
+                                                              //     .toString()
+                                                              //     .substring(
+                                                              //         2, 7))
+                                                            ],
+                                                          ),
                                                         ),
                                                       ],
                                                     )),

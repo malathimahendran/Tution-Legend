@@ -5,10 +5,12 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
+import 'package:tutionmaster/Control/getvideoduration.dart';
 import 'package:tutionmaster/Control/videoduration.dart';
 import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
+import 'package:tutionmaster/videos/likeandunlikeapi.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -41,6 +43,7 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
     super.initState();
     Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
         .searchApi(widget.Selectedsubjectname);
+    Provider.of<WishList>(context, listen: false).getWishlistnew();
     // Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
     //     .gettingAllDurations(context: context);
     // gett();
@@ -120,6 +123,14 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                               itemCount: GetSelectedsubjectsVideos
                                   .decodeDetails.length,
                               itemBuilder: (context, index) {
+                                // Provider.of<GetVideoduration>(context,
+                                //         listen: true)
+                                //     .getduration(GetSelectedsubjectsVideos
+                                //         .decodeDetails[index]['link']
+                                //         .toString());
+                                // l.e(GetSelectedsubjectsVideos
+                                //     .decodeDetails[index]['link']
+                                //     .toString());
                                 // Provider.of<Videoduration>(context,
                                 //         listen: false)
                                 //     .getvideoduration((GetSelectedsubjectsVideos
@@ -244,30 +255,32 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                         Container(
                                                           child: Row(
                                                             children: [
-                                                              Icon(Icons
-                                                                  .access_alarm),
+                                                              Icon(
+                                                                Icons
+                                                                    .access_alarm,
+                                                                color: HexColor(
+                                                                    '#009688'),
+                                                                size: 20,
+                                                              ),
                                                               SizedBox(
                                                                 width: width *
-                                                                    0.01,
+                                                                    0.005,
                                                               ),
-                                                              Provider.of<Videoduration>(
-                                                                              context,
-                                                                              listen: true)
-                                                                          .duration1 ==
-                                                                      null
-                                                                  ? Text('')
-                                                                  : Text(
-                                                                      Provider.of<Videoduration>(
-                                                                              context,
-                                                                              listen: true)
-                                                                          .duration1
-                                                                          .toString(),
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              11,
-                                                                          color:
-                                                                              HexColor('#0A1C22')),
-                                                                    ),
+
+                                                              customText(
+                                                                  getText: GetSelectedsubjectsVideos
+                                                                              .decodeDetails[
+                                                                          index]
+                                                                      ['link'])
+                                                              // Text(Provider.of<
+                                                              //             GetVideoduration>(
+                                                              //         context,
+                                                              //         listen:
+                                                              //             true)
+                                                              //     .dura
+                                                              //     .toString()
+                                                              //     .substring(
+                                                              //         2, 7))
                                                             ],
                                                           ),
                                                         ),
@@ -294,6 +307,32 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                               ),
                                                       ],
                                                     )),
+                                                InkWell(
+                                                  onTap: () {
+                                                    Provider.of<WishList>(
+                                                            context,
+                                                            listen: false)
+                                                        .checkingLikeAndUnlikeVideos(
+                                                            context: context,
+                                                            gettingVideoId:
+                                                                GetSelectedsubjectsVideos
+                                                                            .decodeDetails[
+                                                                        index][
+                                                                    'video_id']);
+                                                  },
+                                                  child: Icon(Icons.favorite,
+                                                      color: Provider.of<
+                                                                      WishList>(
+                                                                  context,
+                                                                  listen: true)
+                                                              .youtubeVideoIdnew
+                                                              .contains(GetSelectedsubjectsVideos
+                                                                          .decodeDetails[
+                                                                      index]
+                                                                  ['video_id'])
+                                                          ? Colors.pink
+                                                          : Colors.grey),
+                                                )
                                               ],
                                             ),
                                           ),
@@ -340,7 +379,13 @@ class _customTextState extends State<customText> {
   @override
   Widget build(BuildContext context) {
     return dura == null
-        ? Center(child: Text('waiting'))
-        : Text('${dura.toString().substring(2, 7)}');
+        ? Text(
+            'waiting',
+            style: TextStyle(fontSize: 9),
+          )
+        : Text(
+            '${dura.toString().substring(2, 7)}',
+            style: TextStyle(fontSize: 11, color: HexColor('#009688')),
+          );
   }
 }

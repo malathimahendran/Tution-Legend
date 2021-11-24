@@ -15,6 +15,7 @@ import 'package:tutionmaster/videos/likeandunlikeapi.dart';
 import 'ALLROUTES/routegenerator.dart';
 import 'Control/continuewating.dart';
 import 'Control/getdata.dart';
+import 'Control/getvideoduration.dart';
 import 'HomePage/try.dart';
 import 'Login/loginpage.dart';
 import 'ProfilePage/profilepage.dart';
@@ -56,6 +57,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: Videoduration(),
         ),
+        ChangeNotifierProvider.value(
+          value: GetVideoduration(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -65,7 +69,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           fontFamily: "poppins",
         ),
-        // home: Vlc(),
+        // home: Carosel(),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
