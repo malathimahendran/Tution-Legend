@@ -644,6 +644,9 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                                       color:
                                                           HexColor('#F39C12')),
                                                 ),
+                                          customText(
+                                              getText: decodeDetails[index]
+                                                  ['link'])
                                         ],
                                       ),
                                     ),

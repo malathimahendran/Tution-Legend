@@ -267,20 +267,16 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                                     0.005,
                                                               ),
 
+
+
                                                               customText(
                                                                   getText: GetSelectedsubjectsVideos
                                                                               .decodeDetails[
                                                                           index]
                                                                       ['link'])
-                                                              // Text(Provider.of<
-                                                              //             GetVideoduration>(
-                                                              //         context,
-                                                              //         listen:
-                                                              //             true)
-                                                              //     .dura
-                                                              //     .toString()
-                                                              //     .substring(
-                                                              //         2, 7))
+
+                                                            
+
                                                             ],
                                                           ),
                                                         ),
