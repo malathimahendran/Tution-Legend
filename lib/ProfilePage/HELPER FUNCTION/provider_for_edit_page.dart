@@ -15,7 +15,7 @@ class ProviderFunction extends ChangeNotifier {
         initialDatePickerMode: DatePickerMode.year,
         initialDate: today,
         firstDate: today,
-        lastDate: DateTime(2022),
+        lastDate: DateTime(DateTime.now().year + 1),
         initialEntryMode: DatePickerEntryMode.calendarOnly);
     // ignore: await_only_futures
     // date = await YearPicker(
@@ -26,7 +26,7 @@ class ProviderFunction extends ChangeNotifier {
     // );
     print(date);
 
-    notifyListeners();
+    // notifyListeners();
     return date;
   }
 }

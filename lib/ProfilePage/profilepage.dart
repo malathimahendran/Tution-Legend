@@ -125,7 +125,7 @@ class _ProfileState extends State<Profile> {
         endingDate = DateTime.parse(
             result[0]['ending_date'].toString().substring(0, 10));
 
-        l.w(endingDate);
+        l.v(endingDate);
         // var bus = DateTime(int.parse(endingDate));
 
         var cu = DateTime.parse(DateTime.now().toString().substring(0, 10));

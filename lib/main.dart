@@ -62,9 +62,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: GetVideoduration(),
         ),
-        ChangeNotifierProvider.value(
-          value: GetPaymentDetails(),
-        )
+        ChangeNotifierProvider(create: (context) {
+          return GetPaymentDetails();
+        }),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

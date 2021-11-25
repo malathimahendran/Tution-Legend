@@ -47,7 +47,7 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
     Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
         .searchApi(widget.Selectedsubjectname);
     Provider.of<WishList>(context, listen: false).getWishlistnew();
-    // Provider.of<GetPaymentDetails>(context, listen: false).getPlanDetails();
+    Provider.of<GetPaymentDetails>(context, listen: false).getPlanDetails();
     // getPlanDetails();
     // Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
     //     .gettingAllDurations(context: context);

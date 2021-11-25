@@ -79,11 +79,16 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                   context: context,
                   value: widget.value,
                 );
+
                 widget.controller.text =
                     Provider.of<ProviderFunction>(context, listen: false)
                         .date
                         .toString()
                         .substring(0, 10);
+                l.i(Provider.of<ProviderFunction>(context, listen: false)
+                    .date
+                    .toString()
+                    .substring(0, 10));
               },
             ),
             enabledBorder: OutlineInputBorder(
