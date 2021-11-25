@@ -108,6 +108,8 @@ class _ProfileState extends State<Profile> {
       l.e(decode);
       result = decodeDetailsData['result'];
       l.wtf("$result,jjresult");
+      var status1 = decodeDetailsData['status'];
+      l.v(status1);
       if (result != null) {
         status = true;
         l.i("SDFSFSFSDF");

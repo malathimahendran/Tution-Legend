@@ -319,7 +319,9 @@ class _PaymentDesignState extends State<PaymentDesign> {
                           SizedBox(height: height * 0.005),
                           Text("Student"),
                           SizedBox(height: height * 0.005),
-                          Text("Enrollment no:$enrollmentNumber")
+                          enrollmentNumber == "null"
+                              ? Text("")
+                              : Text("Enrollment no:$enrollmentNumber")
                         ],
                       ),
                     ),
@@ -409,13 +411,8 @@ class _PaymentDesignState extends State<PaymentDesign> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                Text(
-                                                  "\u20B9",
-                                                  style: TextStyle(
-                                                      fontSize: 35,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
+                                                Image.asset(
+                                                    'assets/ProfilePage/rupee.png'),
                                                 Text(
                                                   (result[index]['amount'] ??
                                                           "")

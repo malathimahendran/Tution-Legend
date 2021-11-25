@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,8 +12,10 @@ import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
+import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/videos/all_video_api.dart';
+import 'package:tutionmaster/videos/paymentgetforvideosfreeorpremium.dart';
 import 'package:tutionmaster/videos/searchvideo.dart';
 // import 'package:search_widget/search_widget.dart';
 import 'package:tutionmaster/videos/secondscreen.dart';
@@ -460,8 +463,8 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
             )
           : Container(
               height: (decodeDetails.length - 1) < 2
-                  ? ((height) * 0.4) / 2
-                  : height * 0.4,
+                  ? ((height) * 0.3) / 2
+                  : height * 0.3,
               width: width * 0.9,
               child: GridView.builder(
                   physics: NeverScrollableScrollPhysics(),
@@ -469,7 +472,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                   gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                     // crossAxisCount: decodeDetails.length <= 2?1:2,
                     crossAxisCount: 2,
-                    childAspectRatio: 1.2,
+                    childAspectRatio: 1.5,
                   ),
                   itemBuilder: (context, index) {
                     // var s = youtubevideoId!
@@ -477,12 +480,21 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
 
                     return InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Play(
-                                      link: decodeDetails[index]['link'],
-                                    )));
+                        decodeDetails[index]['subscribe'] == 0 ||
+                                Provider.of<GetPaymentDetails>(context,
+                                            listen: false)
+                                        .statusCheckingPremiumOrFree ==
+                                    true
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Play(
+                                          link: decodeDetails[index]['link'],
+                                        )))
+                            : Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PaymentDesign()));
                       },
                       child: index >= (decodeDetails.length - 1)
                           ? GestureDetector(
@@ -529,7 +541,7 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                           left: 5.0, right: 8.0),
                                       child: Container(
                                         width: width * 0.17,
-                                        height: height * 0.09,
+                                        height: height * 0.08,
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(15),
@@ -557,7 +569,8 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                               },
                                               child: Padding(
                                                 padding: const EdgeInsets.only(
-                                                    left: 40, top: 10),
+                                                  left: 50,
+                                                ),
                                                 child: Icon(Icons.favorite,
                                                     color: Provider.of<
                                                                     WishList>(
@@ -579,13 +592,54 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                                 fontWeight: FontWeight.bold,
                                                 color: HexColor('#0A1C22')),
                                           ),
-                                          Text(
-                                            decodeDetails[index]['lesson']
-                                                .toString(),
-                                            style: TextStyle(
-                                                fontSize: 10,
-                                                color: HexColor('#0A1C22')),
+
+                                          FittedBox(
+                                            fit: BoxFit.fitWidth,
+                                            child: Text(
+                                              decodeDetails[index]['lesson']
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontSize: 11,
+                                                  color: HexColor('#0A1C22')),
+                                            ),
                                           ),
+                                          Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.access_alarm,
+                                                  color: HexColor('#009688'),
+                                                  size: 20,
+                                                ),
+                                                SizedBox(
+                                                  width: width * 0.005,
+                                                ),
+
+                                                customText(
+                                                    getText:
+                                                        decodeDetails[index]
+                                                            ['link'])
+                                                // Text(Provider.of<
+                                                //             GetVideoduration>(
+                                                //         context,
+                                                //         listen:
+                                                //             true)
+                                                //     .dura
+                                                //     .toString()
+                                                //     .substring(
+                                                //         2, 7))
+                                              ],
+                                            ),
+                                          ),
+                                          // FittedBox(
+                                          //   fit: BoxFit.fitHeight,
+                                          //   child: Text(
+                                          //     'h',
+                                          //     maxLines: 2,
+                                          //     style: TextStyle(fontSize: 10),
+                                          //     // textDirection: TextDirection.ltr,
+                                          //   ),
+                                          // ),
                                           decodeDetails[index]['subscribe'] == 0
                                               ? Text(
                                                   'Free',
@@ -601,9 +655,6 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                                       color:
                                                           HexColor('#F39C12')),
                                                 ),
-                                          customText(
-                                              getText: decodeDetails[index]
-                                                  ['link'])
                                         ],
                                       ),
                                     ),

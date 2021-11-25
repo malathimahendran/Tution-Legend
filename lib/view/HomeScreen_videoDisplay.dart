@@ -4,11 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
+import 'package:tutionmaster/Control/getvideoduration.dart';
 import 'package:tutionmaster/Control/videoduration.dart';
+import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
+import 'package:tutionmaster/videos/likeandunlikeapi.dart';
+import 'package:tutionmaster/videos/paymentgetforvideosfreeorpremium.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -41,6 +46,9 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
     super.initState();
     Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
         .searchApi(widget.Selectedsubjectname);
+    Provider.of<WishList>(context, listen: false).getWishlistnew();
+    // Provider.of<GetPaymentDetails>(context, listen: false).getPlanDetails();
+    // getPlanDetails();
     // Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
     //     .gettingAllDurations(context: context);
     // gett();
@@ -85,6 +93,28 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
     // });
   }
 
+  // getPlanDetails() async {
+  //   Shared().shared().then((value) async {
+  //     var userDetails = await value.getStringList('storeData');
+  //     // setState(() {
+  //     var token = userDetails[5];
+  //     print("$token" + "51 line");
+
+  //     var url = Uri.parse(getPlanDetailsCall);
+
+  //     var response = await http.get(url, headers: {'Authorization': token});
+  //     decodeDetailsData = json.decode(response.body);
+  //     l.e(decodeDetailsData);
+  //     var decode = response.body;
+  //     l.e(decode);
+  //     var result = decodeDetailsData['result'];
+  //     l.wtf("$result,homescreenvideodisplayfreepremiumplan");
+
+  //     statuscheckingpremiumorfree = decodeDetailsData['status'];
+  //     l.v(statuscheckingpremiumorfree);
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     print(widget.Selectedsubjectname);
@@ -120,6 +150,14 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                               itemCount: GetSelectedsubjectsVideos
                                   .decodeDetails.length,
                               itemBuilder: (context, index) {
+                                // Provider.of<GetVideoduration>(context,
+                                //         listen: true)
+                                //     .getduration(GetSelectedsubjectsVideos
+                                //         .decodeDetails[index]['link']
+                                //         .toString());
+                                // l.e(GetSelectedsubjectsVideos
+                                //     .decodeDetails[index]['link']
+                                //     .toString());
                                 // Provider.of<Videoduration>(context,
                                 //         listen: false)
                                 //     .getvideoduration((GetSelectedsubjectsVideos
@@ -153,14 +191,30 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                         ),
                                         child: InkWell(
                                           onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => Play(
-                                                          link: GetSelectedsubjectsVideos
-                                                                  .decodeDetails[
-                                                              index]['link'],
-                                                        )));
+                                            GetSelectedsubjectsVideos
+                                                                    .decodeDetails[
+                                                                index]
+                                                            ['subscribe'] ==
+                                                        0 ||
+                                                    Provider.of<GetPaymentDetails>(
+                                                                context,
+                                                                listen: false)
+                                                            .statusCheckingPremiumOrFree ==
+                                                        true
+                                                ? Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Play(
+                                                              link: GetSelectedsubjectsVideos
+                                                                      .decodeDetails[
+                                                                  index]['link'],
+                                                            )))
+                                                : Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            PaymentDesign()));
                                           },
                                           child: Container(
                                             width: width,
@@ -244,35 +298,22 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                         Container(
                                                           child: Row(
                                                             children: [
-                                                              Icon(Icons
-                                                                  .access_alarm),
+                                                              Icon(
+                                                                Icons
+                                                                    .access_alarm,
+                                                                color: HexColor(
+                                                                    '#009688'),
+                                                                size: 20,
+                                                              ),
                                                               SizedBox(
                                                                 width: width *
-                                                                    0.01,
+                                                                    0.005,
                                                               ),
                                                               customText(
                                                                   getText: GetSelectedsubjectsVideos
                                                                               .decodeDetails[
                                                                           index]
                                                                       ['link'])
-                                                              // Provider.of<Videoduration>(
-                                                              //                 context,
-                                                              //                 listen: true)
-                                                              //             .duration1 ==
-                                                              //         null
-                                                              //     ? Text('')
-                                                              //     : Text(
-                                                              //         Provider.of<Videoduration>(
-                                                              //                 context,
-                                                              //                 listen: true)
-                                                              //             .duration1
-                                                              //             .toString(),
-                                                              //         style: TextStyle(
-                                                              //             fontSize:
-                                                              //                 11,
-                                                              //             color:
-                                                              //                 HexColor('#0A1C22')),
-                                                              //       ),
                                                             ],
                                                           ),
                                                         ),
@@ -299,6 +340,32 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                               ),
                                                       ],
                                                     )),
+                                                InkWell(
+                                                  onTap: () {
+                                                    Provider.of<WishList>(
+                                                            context,
+                                                            listen: false)
+                                                        .checkingLikeAndUnlikeVideos(
+                                                            context: context,
+                                                            gettingVideoId:
+                                                                GetSelectedsubjectsVideos
+                                                                            .decodeDetails[
+                                                                        index][
+                                                                    'video_id']);
+                                                  },
+                                                  child: Icon(Icons.favorite,
+                                                      color: Provider.of<
+                                                                      WishList>(
+                                                                  context,
+                                                                  listen: true)
+                                                              .youtubeVideoIdnew
+                                                              .contains(GetSelectedsubjectsVideos
+                                                                          .decodeDetails[
+                                                                      index]
+                                                                  ['video_id'])
+                                                          ? Colors.pink
+                                                          : Colors.grey),
+                                                )
                                               ],
                                             ),
                                           ),
@@ -345,7 +412,13 @@ class _customTextState extends State<customText> {
   @override
   Widget build(BuildContext context) {
     return dura == null
-        ? Center(child: Text('waiting'))
-        : Text('${dura.toString().substring(2, 7)}');
+        ? Text(
+            'waiting',
+            style: TextStyle(fontSize: 9),
+          )
+        : Text(
+            '${dura.toString().substring(2, 7)}',
+            style: TextStyle(fontSize: 11, color: HexColor('#009688')),
+          );
   }
 }

@@ -637,6 +637,7 @@ class Textfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
+    // var height = 1500.0;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
     return Container(
@@ -655,7 +656,7 @@ class Textfield extends StatelessWidget {
           keyboardType: type,
           controller: controller,
           decoration: InputDecoration(
-              contentPadding: EdgeInsets.zero,
+              contentPadding: EdgeInsets.all(height * 0.004),
               hintText: hintText,
               hintStyle: GoogleFonts.poppins(
                   textStyle:
