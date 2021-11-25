@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -41,6 +42,7 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
   @override
   void initState() {
     super.initState();
+
     Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
         .searchApi(widget.Selectedsubjectname);
     Provider.of<WishList>(context, listen: false).getWishlistnew();
@@ -266,7 +268,6 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                                 width: width *
                                                                     0.005,
                                                               ),
-
                                                               customText(
                                                                   getText: GetSelectedsubjectsVideos
                                                                               .decodeDetails[

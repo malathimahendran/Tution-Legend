@@ -533,7 +533,7 @@ class _ProfileState extends State<Profile> {
                 ),
                 googleId == null || googleId == ""
                     ? Container(
-                        height: (height - status) * 0.1,
+                        height: (height - status) * 0.12,
                         width: width * 0.9,
                         child: Card(
                           elevation: 5,

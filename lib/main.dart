@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,7 @@ import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/ProfilePage/HELPER%20FUNCTION/provider_for_edit_page.dart';
 import 'package:tutionmaster/SplashScreen/splashscreen.dart';
 import 'package:tutionmaster/videos/likeandunlikeapi.dart';
+import 'package:tutionmaster/work.dart';
 
 import 'ALLROUTES/routegenerator.dart';
 import 'Control/continuewating.dart';
@@ -26,6 +28,7 @@ import 'videos/vlc.dart';
 
 main() {
   WidgetsFlutterBinding.ensureInitialized();
+
   // Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
@@ -35,6 +38,11 @@ main() {
 }
 
 class MyApp extends StatelessWidget {
+  Future disableCapture() async {
+    //disable screenshots and record screen in current screen
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -69,7 +77,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           fontFamily: "poppins",
         ),
-        // home: Carosel(),
+        // home: MyAppp(),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
       ),

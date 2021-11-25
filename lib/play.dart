@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -23,6 +24,7 @@ class _PlayState extends State<Play> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
     ]);
+    disableCapture();
     super.initState();
   }
 
@@ -31,7 +33,12 @@ class _PlayState extends State<Play> {
     // SystemChrome.setPreferredOrientations([
     //   DeviceOrientation.portraitUp,
     // ]);
+
     super.dispose();
+  }
+
+  disableCapture() async {
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   }
 
   @override
@@ -65,7 +72,10 @@ class _PlayState extends State<Play> {
         l.w(_controller!.value.position);
         Duration currentDuration = _controller!.value.position;
         l.i(currentDuration);
-        Provider.of<SqliteLocalDatabase>(context, listen: false).insertvideolist(Watchedvideos( videoid:YoutubePlayer.convertUrlToId(widget.link)!, duration: currentDuration.inSeconds ));
+        Provider.of<SqliteLocalDatabase>(context, listen: false)
+            .insertvideolist(Watchedvideos(
+                videoid: YoutubePlayer.convertUrlToId(widget.link)!,
+                duration: currentDuration.inSeconds));
         Provider.of<SqliteLocalDatabase>(context, listen: false).getvideolist();
         // _controller.toggleFullScreenMode();
         return Future.value(true);
