@@ -6,12 +6,14 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
+import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
 import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'likeandunlikeapi.dart';
+import 'paymentgetforvideosfreeorpremium.dart';
 
 class Searchingg extends StatefulWidget {
   Searchingg({this.details, this.searchlist});
@@ -234,14 +236,27 @@ class _SearchinggscreenState extends State<Searchingg> {
                                 return InkWell(
                                   onTap: () {
                                     print(131);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Play(
-                                                  link:
-                                                      searchListAllData['data']
-                                                          [index]['link'],
-                                                )));
+                                    searchListAllData['data'][index]
+                                                    ['subscribe'] ==
+                                                0 ||
+                                            Provider.of<GetPaymentDetails>(
+                                                        context,
+                                                        listen: false)
+                                                    .statusCheckingPremiumOrFree ==
+                                                true
+                                        ? Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Play(
+                                                      link: searchListAllData[
+                                                              'data'][index]
+                                                          ['link'],
+                                                    )))
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PaymentDesign()));
                                   },
                                   child: Container(
                                       height: (height) * 0.18,

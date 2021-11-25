@@ -10,7 +10,6 @@ import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/Login/loginpage.dart';
 import 'package:tutionmaster/ProfilePage/logout.dart';
 import 'package:tutionmaster/SplashScreen/constants.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 class Carosel extends StatefulWidget {
   Carosel({Key? key}) : super(key: key);
@@ -49,7 +48,7 @@ class _CaroselState extends State<Carosel> {
     double unitHeightValue = MediaQuery.of(context).size.height * 0.01;
     double unitWidthValue = MediaQuery.of(context).size.width * 0.01;
     double buttonText = 2;
-    double subText = 1.8;
+    double subText = 1.6;
     return Scaffold(
         body: Container(
       height: height - status,
@@ -82,7 +81,7 @@ class _CaroselState extends State<Carosel> {
                       enableInfiniteScroll: false,
                       initialPage: 0,
                       autoPlay: false,
-                      height: 200.0,
+                      height: 150.0,
                       onPageChanged: (index, reason) {
                         setState(() {
                           currentPos = index;
@@ -93,10 +92,12 @@ class _CaroselState extends State<Carosel> {
                   padding: const EdgeInsets.only(top: 30),
                   child: Container(
                     width: width * 0.6,
-                    child: AutoSizeText.rich(TextSpan(
-                        text:
-                            'Education is the passport to the future, for tomorrow belongs to those who prepare for it today',
-                        children: [])),
+                    child: Text('${titles[currentPos]}',
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: unitHeightValue * subText,
+                              color: HexColor('#707070')),
+                        )),
                   ),
                 ),
                 Row(

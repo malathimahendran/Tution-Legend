@@ -53,7 +53,9 @@ class _StartLearningState extends State<StartLearning> {
                     child: Text("    Learn anytime\n    and anywhere",
                         style: GoogleFonts.poppins(
                           textStyle: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 24),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                              color: Colors.white),
                         )),
                   ),
                   SizedBox(height: 20),
@@ -61,7 +63,7 @@ class _StartLearningState extends State<StartLearning> {
                     alignment: Alignment.bottomLeft,
                     child: Text(
                       "    Perfect time to spent\n    your day to learn something\n    new everyday anywhere.",
-                      style: GoogleFonts.poppins(),
+                      style: TextStyle(color: Colors.white),
                     ),
                   )
                 ],

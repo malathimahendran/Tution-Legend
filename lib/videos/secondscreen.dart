@@ -6,12 +6,14 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
+import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
 import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'likeandunlikeapi.dart';
+import 'paymentgetforvideosfreeorpremium.dart';
 
 class Secondscreen extends StatefulWidget {
   String Selectedsubjectname;
@@ -201,13 +203,24 @@ class _SecondscreenState extends State<Secondscreen> {
                                 return InkWell(
                                   onTap: () {
                                     print(131);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Play(
-                                                  link: decodeDetails[index]
-                                                      ['link'],
-                                                )));
+                                    decodeDetails[index]['subscribe'] == 0 ||
+                                            Provider.of<GetPaymentDetails>(
+                                                        context,
+                                                        listen: false)
+                                                    .statusCheckingPremiumOrFree ==
+                                                true
+                                        ? Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Play(
+                                                      link: decodeDetails[index]
+                                                          ['link'],
+                                                    )))
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PaymentDesign()));
                                   },
                                   child: Container(
                                       height: (height) * 0.18,
@@ -279,6 +292,25 @@ class _SecondscreenState extends State<Secondscreen> {
                                                               color: HexColor(
                                                                   '#0A1C22')),
                                                         ),
+                                                        decodeDetails[index][
+                                                                    'subscribe'] ==
+                                                                0
+                                                            ? Text(
+                                                                'Free',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                    color: HexColor(
+                                                                        '#27AE60')),
+                                                              )
+                                                            : Text(
+                                                                'Premium',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                    color: HexColor(
+                                                                        '#F39C12')),
+                                                              ),
                                                         Container(
                                                           child: Row(
                                                             children: [

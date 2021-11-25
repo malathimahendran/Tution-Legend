@@ -1,12 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import 'ALL API FOLDER/all_api.dart';
 import 'Control/continuewating.dart';
+import 'SHARED PREFERENCES/shared_preferences.dart';
 import 'model/Watched_video.dart';
+import 'package:http/http.dart' as http;
 
 class Play extends StatefulWidget {
   Play({this.link});
@@ -19,6 +25,7 @@ class Play extends StatefulWidget {
 class _PlayState extends State<Play> {
   YoutubePlayerController? _controller;
   final l = Logger();
+  bool? status;
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([
@@ -26,6 +33,7 @@ class _PlayState extends State<Play> {
     ]);
     disableCapture();
     super.initState();
+    getPlanDetails();
   }
 
   void dispose() {
@@ -39,6 +47,27 @@ class _PlayState extends State<Play> {
 
   disableCapture() async {
     await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  }
+
+  getPlanDetails() async {
+    Shared().shared().then((value) async {
+      var userDetails = await value.getStringList('storeData');
+      // setState(() {
+      var token = userDetails[5];
+      print("$token" + "51 line");
+
+      var url = Uri.parse(getPlanDetailsCall);
+
+      var response = await http.get(url, headers: {'Authorization': token});
+      var decodeDetailsData = json.decode(response.body);
+      l.e(decodeDetailsData);
+
+      var result = decodeDetailsData['result'];
+      l.wtf("$result,homescreenvideodisplayfreepremiumplan");
+
+      status = decodeDetailsData['status'];
+      l.v(status);
+    });
   }
 
   @override
@@ -81,16 +110,14 @@ class _PlayState extends State<Play> {
         return Future.value(true);
       },
       child: Scaffold(
-        body: Container(
-          child: Center(
+          body: Container(
+        child: Center(
             child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              child: YoutubePlayer(controller: _controller!),
-            ),
-          ),
-        ),
-      ),
+          height: double.infinity,
+          width: double.infinity,
+          child: YoutubePlayer(controller: _controller!),
+        )),
+      )),
     );
   }
 }

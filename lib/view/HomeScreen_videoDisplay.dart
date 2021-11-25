@@ -5,13 +5,16 @@ import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
 import 'package:tutionmaster/Control/getvideoduration.dart';
 import 'package:tutionmaster/Control/videoduration.dart';
+import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
 import 'package:tutionmaster/videos/likeandunlikeapi.dart';
+import 'package:tutionmaster/videos/paymentgetforvideosfreeorpremium.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -46,6 +49,8 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
     Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
         .searchApi(widget.Selectedsubjectname);
     Provider.of<WishList>(context, listen: false).getWishlistnew();
+    // Provider.of<GetPaymentDetails>(context, listen: false).getPlanDetails();
+    // getPlanDetails();
     // Provider.of<GetSelectedsubjectsVideos>(context, listen: false)
     //     .gettingAllDurations(context: context);
     // gett();
@@ -89,6 +94,28 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
     //   yt.close();
     // });
   }
+
+  // getPlanDetails() async {
+  //   Shared().shared().then((value) async {
+  //     var userDetails = await value.getStringList('storeData');
+  //     // setState(() {
+  //     var token = userDetails[5];
+  //     print("$token" + "51 line");
+
+  //     var url = Uri.parse(getPlanDetailsCall);
+
+  //     var response = await http.get(url, headers: {'Authorization': token});
+  //     decodeDetailsData = json.decode(response.body);
+  //     l.e(decodeDetailsData);
+  //     var decode = response.body;
+  //     l.e(decode);
+  //     var result = decodeDetailsData['result'];
+  //     l.wtf("$result,homescreenvideodisplayfreepremiumplan");
+
+  //     statuscheckingpremiumorfree = decodeDetailsData['status'];
+  //     l.v(statuscheckingpremiumorfree);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -166,14 +193,30 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                         ),
                                         child: InkWell(
                                           onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => Play(
-                                                          link: GetSelectedsubjectsVideos
-                                                                  .decodeDetails[
-                                                              index]['link'],
-                                                        )));
+                                            GetSelectedsubjectsVideos
+                                                                    .decodeDetails[
+                                                                index]
+                                                            ['subscribe'] ==
+                                                        0 ||
+                                                    Provider.of<GetPaymentDetails>(
+                                                                context,
+                                                                listen: false)
+                                                            .statusCheckingPremiumOrFree ==
+                                                        true
+                                                ? Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Play(
+                                                              link: GetSelectedsubjectsVideos
+                                                                      .decodeDetails[
+                                                                  index]['link'],
+                                                            )))
+                                                : Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            PaymentDesign()));
                                           },
                                           child: Container(
                                             width: width,
@@ -273,15 +316,6 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                                               .decodeDetails[
                                                                           index]
                                                                       ['link'])
-                                                              // Text(Provider.of<
-                                                              //             GetVideoduration>(
-                                                              //         context,
-                                                              //         listen:
-                                                              //             true)
-                                                              //     .dura
-                                                              //     .toString()
-                                                              //     .substring(
-                                                              //         2, 7))
                                                             ],
                                                           ),
                                                         ),
