@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,7 @@ import 'videos/vlc.dart';
 
 main() {
   WidgetsFlutterBinding.ensureInitialized();
+
   // Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
@@ -37,6 +39,11 @@ main() {
 }
 
 class MyApp extends StatelessWidget {
+  Future disableCapture() async {
+    //disable screenshots and record screen in current screen
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
