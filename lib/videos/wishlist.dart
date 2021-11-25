@@ -4,12 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:http/http.dart' as http;
 import '../../../play.dart';
 import 'likeandunlikeapi.dart';
+import 'paymentgetforvideosfreeorpremium.dart';
 
 class Videowishlist extends StatefulWidget {
   const Videowishlist({Key? key}) : super(key: key);
@@ -180,17 +182,34 @@ class _VideowishlistState extends State<Videowishlist> {
                                               ),
                                               InkWell(
                                                 onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder:
-                                                              (context) => Play(
-                                                                    link: Provider.of<WishList>(
-                                                                            context,
-                                                                            listen:
-                                                                                false)
-                                                                        .youtubeVideoLink[index]['link'],
-                                                                  )));
+                                                  Provider.of<WishList>(context,
+                                                                          listen:
+                                                                              false)
+                                                                      .youtubeVideoLink[index]
+                                                                  [
+                                                                  'subscribe'] ==
+                                                              0 ||
+                                                          Provider.of<GetPaymentDetails>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .statusCheckingPremiumOrFree ==
+                                                              true
+                                                      ? Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) =>
+                                                                      Play(
+                                                                        link: Provider.of<WishList>(context,
+                                                                                listen: false)
+                                                                            .youtubeVideoLink[index]['link'],
+                                                                      )))
+                                                      : Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  PaymentDesign()));
                                                 },
                                                 child: Padding(
                                                   padding:
@@ -256,6 +275,28 @@ class _VideowishlistState extends State<Videowishlist> {
                                                               color: HexColor(
                                                                   '#0A1C22')),
                                                         ),
+                                                        Provider.of<WishList>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .youtubeVideoLink[index]['subscribe'] ==
+                                                                0
+                                                            ? Text(
+                                                                'Free',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                    color: HexColor(
+                                                                        '#27AE60')),
+                                                              )
+                                                            : Text(
+                                                                'Premium',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                    color: HexColor(
+                                                                        '#F39C12')),
+                                                              ),
                                                         customText(
                                                           getText: Provider.of<
                                                                           WishList>(

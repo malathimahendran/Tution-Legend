@@ -12,8 +12,10 @@ import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
+import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/videos/all_video_api.dart';
+import 'package:tutionmaster/videos/paymentgetforvideosfreeorpremium.dart';
 import 'package:tutionmaster/videos/searchvideo.dart';
 // import 'package:search_widget/search_widget.dart';
 import 'package:tutionmaster/videos/secondscreen.dart';
@@ -478,12 +480,21 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
 
                     return InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Play(
-                                      link: decodeDetails[index]['link'],
-                                    )));
+                        decodeDetails[index]['subscribe'] == 0 ||
+                                Provider.of<GetPaymentDetails>(context,
+                                            listen: false)
+                                        .statusCheckingPremiumOrFree ==
+                                    true
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Play(
+                                          link: decodeDetails[index]['link'],
+                                        )))
+                            : Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PaymentDesign()));
                       },
                       child: index >= (decodeDetails.length - 1)
                           ? GestureDetector(
@@ -644,9 +655,6 @@ class _SubjectVideoslistsState extends State<SubjectVideoslists> {
                                                       color:
                                                           HexColor('#F39C12')),
                                                 ),
-                                          customText(
-                                              getText: decodeDetails[index]
-                                                  ['link'])
                                         ],
                                       ),
                                     ),

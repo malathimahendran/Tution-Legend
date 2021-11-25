@@ -80,7 +80,7 @@ class _DrawerPageState extends State<DrawerPage> {
                                 TextStyle(color: Colors.white, fontSize: 12))),
                   ),
                   Container(
-                    child: widget.enrollmentNumber! == null
+                    child: widget.enrollmentNumber! == "null"
                         ? Text('')
                         : Text('Enrollment no:${widget.enrollmentNumber!}',
                             style: GoogleFonts.poppins(
@@ -99,41 +99,7 @@ class _DrawerPageState extends State<DrawerPage> {
         child: Column(
           children: [
             SizedBox(
-              height: widget.height! * 0.05,
-            ),
-            Container(
-              width: widget.width! * 0.65,
-              height: widget.height! * 0.075,
-              child: Card(
-                color: HexColor('#243665'),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: widget.width! * 0.04,
-                    ),
-                    Icon(
-                      Icons.person,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: widget.width! * 0.03,
-                    ),
-                    Text(
-                        widget.storeUserName == null
-                            ? ""
-                            : widget.storeUserName!,
-                        style: GoogleFonts.poppins(
-                            textStyle:
-                                TextStyle(color: Colors.white, fontSize: 13)))
-                  ],
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: widget.height! * 0.01,
+              height: widget.height! * 0.03,
             ),
             InkWell(
               onTap: () {

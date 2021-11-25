@@ -11,6 +11,7 @@ import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/ProfilePage/HELPER%20FUNCTION/provider_for_edit_page.dart';
 import 'package:tutionmaster/SplashScreen/splashscreen.dart';
 import 'package:tutionmaster/videos/likeandunlikeapi.dart';
+import 'package:tutionmaster/videos/paymentgetforvideosfreeorpremium.dart';
 
 import 'ALLROUTES/routegenerator.dart';
 import 'Control/continuewating.dart';
@@ -18,6 +19,7 @@ import 'Control/getdata.dart';
 import 'Control/getvideoduration.dart';
 import 'HomePage/try.dart';
 import 'Login/loginpage.dart';
+import 'Login/validationtry.dart';
 import 'ProfilePage/profilepage.dart';
 import 'Register/register.dart';
 import 'Slider/carosalSlider.dart';
@@ -60,6 +62,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: GetVideoduration(),
         ),
+        ChangeNotifierProvider.value(
+          value: GetPaymentDetails(),
+        )
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -69,7 +74,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           fontFamily: "poppins",
         ),
-        // home: Carosel(),
+        // home: LoginFormValidation(),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
