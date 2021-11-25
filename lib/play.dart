@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
@@ -30,6 +31,7 @@ class _PlayState extends State<Play> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
     ]);
+    disableCapture();
     super.initState();
     getPlanDetails();
   }
@@ -39,7 +41,12 @@ class _PlayState extends State<Play> {
     // SystemChrome.setPreferredOrientations([
     //   DeviceOrientation.portraitUp,
     // ]);
+
     super.dispose();
+  }
+
+  disableCapture() async {
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   }
 
   getPlanDetails() async {

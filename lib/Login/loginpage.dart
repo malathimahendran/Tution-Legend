@@ -46,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
   // GlobalKey<FormState> formkey = GlobalKey<FormState>();
   // Function fun = signInWithGoogle(){};
   Function fu = (a) {};
+  final formKey = GlobalKey<FormState>();
   var email = TextEditingController();
   var password = TextEditingController();
   bool isChecked = false;
@@ -53,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
   var fcm_token;
   String? deviceId, finalDeviceId;
   GoogleSignInAccount? googleUser;
+  bool isPressed = false;
 
   void handleRemeberme(bool value) {
     print("Handle Rember Me");
@@ -146,6 +148,9 @@ class _LoginPageState extends State<LoginPage> {
 
   loginApi() async {
     var decodeDetails;
+    setState(() {
+      isPressed = true;
+    });
     var url = Uri.parse(loginApiCall);
     var response = await http.post(url, body: {
       'email': email.text.toString(),
@@ -477,12 +482,14 @@ class _LoginPageState extends State<LoginPage> {
                                   width: width * 0.8,
                                   child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                          primary: HexColor("#243665"),
+                                          primary: isPressed == false
+                                              ? HexColor("#243665")
+                                              : Colors.grey[100],
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(20))),
                                       onPressed: () {
-                                        loginApi();
+                                        isPressed == false ? loginApi() : null;
                                         // if (formkey.currentState!.validate()) {
                                         //   Text("ERERere");
                                         //   print("Validated");
@@ -620,5 +627,9 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  valid({val}) {
+    if (val == 'email') {}
   }
 }
