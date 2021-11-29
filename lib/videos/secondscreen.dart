@@ -273,7 +273,7 @@ class _SecondscreenState extends State<Secondscreen> {
                                                         //     ['link']),
                                                         Text(
                                                           decodeDetails[index]
-                                                                  ['subject']
+                                                                  ['lesson']
                                                               .toString(),
                                                           style: TextStyle(
                                                               fontSize: 15,
@@ -284,33 +284,14 @@ class _SecondscreenState extends State<Secondscreen> {
                                                                   '#0A1C22')),
                                                         ),
                                                         Text(
-                                                          decodeDetails[index]
-                                                                  ['lesson']
+                                                          decodeDetails[index][
+                                                                  'description']
                                                               .toString(),
                                                           style: TextStyle(
-                                                              fontSize: 15,
+                                                              fontSize: 12,
                                                               color: HexColor(
                                                                   '#0A1C22')),
                                                         ),
-                                                        decodeDetails[index][
-                                                                    'subscribe'] ==
-                                                                0
-                                                            ? Text(
-                                                                'Free',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        10,
-                                                                    color: HexColor(
-                                                                        '#27AE60')),
-                                                              )
-                                                            : Text(
-                                                                'Premium',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        10,
-                                                                    color: HexColor(
-                                                                        '#F39C12')),
-                                                              ),
                                                         Container(
                                                           child: Row(
                                                             children: [
@@ -342,6 +323,25 @@ class _SecondscreenState extends State<Secondscreen> {
                                                             ],
                                                           ),
                                                         ),
+                                                        decodeDetails[index][
+                                                                    'subscribe'] ==
+                                                                0
+                                                            ? Text(
+                                                                'Free',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                    color: HexColor(
+                                                                        '#27AE60')),
+                                                              )
+                                                            : Text(
+                                                                'Premium',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                    color: HexColor(
+                                                                        '#F39C12')),
+                                                              ),
                                                       ],
                                                     )),
                                               ),
