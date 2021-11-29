@@ -13,6 +13,7 @@ import 'package:tutionmaster/ProfilePage/HELPER%20FUNCTION/provider_for_edit_pag
 import 'package:tutionmaster/SplashScreen/splashscreen.dart';
 import 'package:tutionmaster/videos/likeandunlikeapi.dart';
 import 'package:tutionmaster/videos/paymentgetforvideosfreeorpremium.dart';
+import 'package:tutionmaster/work.dart';
 
 import 'ALLROUTES/routegenerator.dart';
 import 'Control/continuewating.dart';
@@ -81,7 +82,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           fontFamily: "poppins",
         ),
-        // home: LoginFormValidation(),
+        // home: MyAppp(),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
       ),

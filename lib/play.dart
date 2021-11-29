@@ -47,6 +47,8 @@ class _PlayState extends State<Play> {
 
   disableCapture() async {
     await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+    await FlutterWindowManager.addFlags(
+        FlutterWindowManager.FLAG_HARDWARE_ACCELERATED);
   }
 
   getPlanDetails() async {
