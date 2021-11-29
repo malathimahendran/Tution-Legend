@@ -12,7 +12,7 @@ class ProviderFunction extends ChangeNotifier {
   selectingDate({context}) async {
     date = await showDatePicker(
         context: context,
-        initialDatePickerMode: DatePickerMode.year,
+        // initialDatePickerMode: DatePickerMode.year,
         initialDate: today,
         firstDate: today,
         lastDate: DateTime(DateTime.now().year + 1),
@@ -20,6 +20,7 @@ class ProviderFunction extends ChangeNotifier {
     // ignore: await_only_futures
     // date = await YearPicker(
     //   firstDate: DateTime(2010),
+
     //   lastDate: DateTime(2022),
     //   selectedDate: DateTime(2021),
     //   onChanged: (value) {},

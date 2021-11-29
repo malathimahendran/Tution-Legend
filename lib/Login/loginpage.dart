@@ -452,18 +452,17 @@ class _LoginPageState extends State<LoginPage> {
                                                     ListTileControlAffinity
                                                         .leading,
                                                 title: Text('Remember me  ',
-                                                    style: GoogleFonts.poppins(
-                                                      textStyle: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize:
-                                                              unitHeightValue *
-                                                                  subTextSmall),
-                                                    )),
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize:
+                                                            unitHeightValue *
+                                                                subTextSmall)),
                                                 value: isChecked,
                                                 onChanged: (value) =>
                                                     setState(() {
                                                       isChecked = value!;
                                                       handleRemeberme(value);
+
                                                       // signInButtonEnable = !signInButtonEnable;
                                                     })),
                                           ),
@@ -482,14 +481,12 @@ class _LoginPageState extends State<LoginPage> {
                                   width: width * 0.8,
                                   child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                          primary: isPressed == false
-                                              ? HexColor("#243665")
-                                              : Colors.grey[100],
+                                          primary: HexColor("#243665"),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(20))),
                                       onPressed: () {
-                                        isPressed == false ? loginApi() : null;
+                                        loginApi();
                                         // if (formkey.currentState!.validate()) {
                                         //   Text("ERERere");
                                         //   print("Validated");

@@ -64,6 +64,19 @@ class _CustomExpandedWithTextAndFormFieldState
       academicYear,
       standardFromGetApi,
       googleId;
+  clicking({context, value, control}) async {
+    if (value == 'visible') {
+      Provider.of<ProviderFunction>(context, listen: false)
+          .changingTrueOrFalse();
+    } else if (value == 'calendar') {
+      var returnDate =
+          await Provider.of<ProviderFunction>(context, listen: false)
+              .selectingDate(context: context);
+      l.w(returnDate);
+      return returnDate;
+    }
+  }
+
   final l = Logger();
   userdatas() {
     Shared().shared().then((value) async {
@@ -252,9 +265,27 @@ class _CustomExpandedWithTextAndFormFieldState
                 height: widget.height,
                 hintText: 'Academic Year',
                 prefixIcon: Icons.school,
-                suffixIcon: Icons.calendar_today,
                 controller: widget.academicYear,
                 value: 'calendar',
+                suffixIconOnPressed: IconButton(
+                  icon: Icon(Icons.calendar_today),
+                  onPressed: () async {
+                    await clicking(
+                      context: context,
+                      value: 'calendar',
+                    );
+
+                    widget.academicYear.text =
+                        Provider.of<ProviderFunction>(context, listen: false)
+                            .date
+                            .toString()
+                            .substring(0, 10);
+                    l.i(Provider.of<ProviderFunction>(context, listen: false)
+                        .date
+                        .toString()
+                        .substring(0, 10));
+                  },
+                ),
               ),
               SizedBox(
                 height: (widget.height - (2 * widget.status)) * 0.015,

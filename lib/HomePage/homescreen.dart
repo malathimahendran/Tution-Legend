@@ -139,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen>
                 decoration: BoxDecoration(
                   image: DecorationImage(
                       image:
-                          AssetImage('assets/HomeScreenPage/homeScreentab.png'),
+                          AssetImage('assets/HomeScreenPage/homeScreenTab.png'),
                       fit: BoxFit.cover),
                 ),
                 width: double.infinity,

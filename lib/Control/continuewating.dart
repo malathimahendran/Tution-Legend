@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:logger/logger.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tutionmaster/model/Watched_video.dart';
 
 class SqliteLocalDatabase extends ChangeNotifier {
+  final l = Logger();
   List<Watchedvideos> wathedvideolist = [];
   static Database? _database;
   List<String> sqlemailget = [];
@@ -30,10 +32,13 @@ class SqliteLocalDatabase extends ChangeNotifier {
 
   Future<void> insertvideolist(Watchedvideos videoitem) async {
     final db = await database;
-    await db!.insert(
-      'videolist',
-      videoitem.toMap(),
-    );
+
+    final ds = await db!.query('videolist');
+
+    l.w(ds);
+    var ls = await db.update('videolist', videoitem.toMap(),
+        where: 'videoid = ?', whereArgs: [videoitem.videoid]);
+    l.w(ls);
   }
 
   Future<void> getvideolist() async {
@@ -46,7 +51,20 @@ class SqliteLocalDatabase extends ChangeNotifier {
         duration: maps[i]['duration'],
       ));
     }
+    l.wtf(
+      'line no 55,${videolistitem.first.duration} ',
+    );
+    l.wtf(
+      'line no 55,${videolistitem[1].duration} ',
+    );
+    l.wtf(
+      'line no 55,${videolistitem[2].duration} ',
+    );
+    l.wtf(
+      'line no 55,${videolistitem.last.duration} ',
+    );
     wathedvideolist = videolistitem.reversed.toList();
+
     notifyListeners();
   }
 
