@@ -111,9 +111,6 @@ class _PasswordsecondscreenState extends State<Passwordsecondscreen> {
                           },
                           onCompleted: (pin) async {
                             print("Completed: " + pin);
-                            SharedPreferences otp =
-                                await SharedPreferences.getInstance();
-                            otp.setString('StoreOTP', otp.toString());
                           },
                         ),
                       ),

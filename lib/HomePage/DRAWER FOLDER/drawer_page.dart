@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:tutionmaster/HomePage/changepassword.dart';
 import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 
@@ -142,10 +143,18 @@ class _DrawerPageState extends State<DrawerPage> {
                   SizedBox(
                     width: widget.width! * 0.03,
                   ),
-                  Text('ChangePassword',
-                      style: GoogleFonts.poppins(
-                          textStyle:
-                              TextStyle(color: Colors.black, fontSize: 13)))
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Passwordchange()));
+                    },
+                    child: Text('ChangePassword',
+                        style: GoogleFonts.poppins(
+                            textStyle:
+                                TextStyle(color: Colors.black, fontSize: 13))),
+                  )
                 ],
               ),
             ),

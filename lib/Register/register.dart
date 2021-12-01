@@ -16,11 +16,13 @@ import 'package:http/http.dart' as http;
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/StartingLearningPage/startlearning.dart';
 import 'package:logger/logger.dart';
+import 'package:twilio_phone_verify/twilio_phone_verify.dart';
 
 class Register extends StatefulWidget {
   // const Register({Key? key, String? deviceId}) : super(key: key);
   Register({this.deviceId, this.googleuser});
   final deviceId;
+
   final googleuser;
 
   @override
@@ -28,6 +30,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  TwilioPhoneVerify? twilioPhoneVerify;
   final l = Logger();
   var googleDetails, profileImage, chooseclass;
   bool secureText = true;
@@ -51,6 +54,7 @@ class _RegisterState extends State<Register> {
   List<Map<String, dynamic>> items = [];
   List<Map<String, dynamic>> itemclass = [];
   String? originalGoogleId;
+  var twilioResponse;
   get read => null;
   @override
   void initState() {
@@ -225,6 +229,7 @@ class _RegisterState extends State<Register> {
     double subTextSmall = 1.4;
     double subTextLogin = 1.6;
     l.wtf(height);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
@@ -240,7 +245,6 @@ class _RegisterState extends State<Register> {
               image: AssetImage('assets/RegisterPage/registerbackground.png'),
               fit: BoxFit.fill),
         ),
-        // backgroundColor: Color(0xF2F9F9F9),
 
         child: Column(
           children: [

@@ -19,6 +19,7 @@ import 'ALLROUTES/routegenerator.dart';
 import 'Control/continuewating.dart';
 import 'Control/getdata.dart';
 import 'Control/getvideoduration.dart';
+import 'HomePage/changepassword.dart';
 import 'HomePage/try.dart';
 import 'Login/loginpage.dart';
 import 'Login/validationtry.dart';
@@ -82,9 +83,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           fontFamily: "poppins",
         ),
-        // home: MyAppp(),
-        initialRoute: '/',
-        onGenerateRoute: RouteGenerator.generateRoute,
+        home: Register(),
+        // initialRoute: '/',
+        // onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
   }
