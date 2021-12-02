@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:otp_text_field/otp_field.dart';
 import 'package:twilio_phone_verify/twilio_phone_verify.dart';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
@@ -17,6 +18,7 @@ import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/StartingLearningPage/startlearning.dart';
 import 'package:logger/logger.dart';
 import 'package:otp_autofill/otp_autofill.dart';
+import 'package:otp_text_field/style.dart';
 
 class Register extends StatefulWidget {
   // const Register({Key? key, String? deviceId}) : super(key: key);
@@ -31,6 +33,7 @@ class Register extends StatefulWidget {
 enum VerificationState { enterPhone, enterSmsCode }
 
 class _RegisterState extends State<Register> {
+  OTPInteractor? _otpInteractor;
   final l = Logger();
   TwilioPhoneVerify? _twilioPhoneVerify;
   bool loading = false;
@@ -73,9 +76,10 @@ class _RegisterState extends State<Register> {
 
     getGoogleData();
     _twilioPhoneVerify = TwilioPhoneVerify(
-        accountSid: 'ACdc4d93f70864f141748c3437b71235df',
-        serviceSid: 'VA6da4df8c164f236b586786ad3ecbe37b',
-        authToken: 'dd64691d4c13d4a244d0240745f1fe41');
+        accountSid: 'xxxxxxxxxxxx',
+        serviceSid: 'xxxxxxxxxxxx',
+        authToken: 'xxxxxxxxxxxxxxxxx');
+    print("twilio error");
   }
 
   chooseBoard() async {
@@ -326,12 +330,20 @@ class _RegisterState extends State<Register> {
     changeLoading(true);
     TwilioResponse twilioResponse =
         await _twilioPhoneVerify!.sendSmsCode("+91${mobileno.text}");
-
+    print("+91${mobileno.text}");
     if (twilioResponse.successful!) {
-      changeSuccessMessage('Code sent to ${mobileno.text}');
+      print("Successful");
+      changeSuccessMessage('Code sent to "+91${mobileno.text}"');
       await Future.delayed(Duration(seconds: 1));
       switchToSmsCode();
     } else {
+      print(twilioResponse.statusCode);
+      print(twilioResponse.verification);
+
+      print(twilioResponse.successful);
+      print(twilioResponse.errorMessage);
+
+      print("error");
       changeErrorMessage(twilioResponse.errorMessage);
     }
     changeLoading(false);
@@ -341,6 +353,7 @@ class _RegisterState extends State<Register> {
   double subTextCreateAccount = 1.5;
   double subTextSmall = 1.4;
   double subTextLogin = 1.6;
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -376,8 +389,6 @@ class _RegisterState extends State<Register> {
               image: AssetImage('assets/RegisterPage/registerbackground.png'),
               fit: BoxFit.fill),
         ),
-        // backgroundColor: Color(0xF2F9F9F9),
-
         child: Column(
           children: [
             Container(
@@ -776,6 +787,23 @@ class _RegisterState extends State<Register> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // OTPTextField(
+            //   length: 6,
+            //   fieldStyle: FieldStyle.box,
+
+            //   onChanged: (String verificationCode) {
+
+            //     showDialog(
+            //         context: context,
+            //         builder: (context) {
+            //           return AlertDialog(
+            //             title: Text("Verification Code"),
+            //             content: Text('Code entered is $verificationCode'),
+            //           );
+            //         });
+            //   },
+            // ),
+
             TextField(
               controller: smsCodeController,
               keyboardType: TextInputType.number,
