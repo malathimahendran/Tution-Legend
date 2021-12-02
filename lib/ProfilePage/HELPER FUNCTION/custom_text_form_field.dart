@@ -18,6 +18,7 @@ class CustomTextFormField extends StatefulWidget {
   final bool? obsecure;
   final bool? readOnly;
   final TextInputType? keyboardType;
+  final suffixIconOnPressed;
   CustomTextFormField(
       {this.height,
       this.width,
@@ -29,7 +30,8 @@ class CustomTextFormField extends StatefulWidget {
       this.focusNode,
       this.obsecure = false,
       this.readOnly = false,
-      this.keyboardType});
+      this.keyboardType,
+      this.suffixIconOnPressed});
 
   @override
   _CustomTextFormFieldState createState() => _CustomTextFormFieldState();
@@ -72,20 +74,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 widget.prefixIcon,
               ),
             ),
-            suffixIcon: IconButton(
-              icon: Icon(widget.suffixIcon),
-              onPressed: () async {
-                await clicking(
-                  context: context,
-                  value: widget.value,
-                );
-                widget.controller.text =
-                    Provider.of<ProviderFunction>(context, listen: false)
-                        .date
-                        .toString()
-                        .substring(0, 10);
-              },
-            ),
+            suffixIcon: widget.suffixIconOnPressed,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(color: Color(0xF2FFFFFF), width: 1),
@@ -98,19 +87,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ),
       ),
     );
-  }
-
-  clicking({context, value, control}) async {
-    if (value == 'visible') {
-      Provider.of<ProviderFunction>(context, listen: false)
-          .changingTrueOrFalse();
-    } else if (value == 'calendar') {
-      var returnDate =
-          await Provider.of<ProviderFunction>(context, listen: false)
-              .selectingDate(context: context);
-      l.w(returnDate);
-      return returnDate;
-    }
   }
 }
 

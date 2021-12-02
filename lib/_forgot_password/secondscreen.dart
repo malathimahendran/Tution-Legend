@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tutionmaster/FORGOT%20PASSWORD/changepassword.dart';
+import 'package:tutionmaster/_forgot_password/thirdscreen.dart';
+// import 'package:tutionmaster/FORGOT%20PASSWORD/changepassword.dart';
 
 class Passwordsecondscreen extends StatefulWidget {
   Passwordsecondscreen({this.email});
@@ -15,16 +18,28 @@ class Passwordsecondscreen extends StatefulWidget {
 }
 
 class _PasswordsecondscreenState extends State<Passwordsecondscreen> {
+  var otp, status;
   verifyOtp() async {
     var email = widget.email;
-    SharedPreferences otp = await SharedPreferences.getInstance();
-    var useOTP = otp.getString('StoreOTP');
+    // SharedPreferences otp = await SharedPreferences.getInstance();
+    // var useOTP = otp.getString('StoreOTP');
+    // print("$useOTP,22 line");
+    print("$otp,jjjjjjjjjjjj");
     String url = 'http://www.cviacserver.tk/tuitionlegend/register/compare_otp';
     final response = await http
-        .post(Uri.parse(url), body: {'email': email, 'tempotp': useOTP});
+        .post(Uri.parse(url), body: {'email': email, 'otp': otp.toString()});
     print(response);
     print(response.body);
-    if (response.statusCode == 200) {}
+    var decodeDetails = json.decode(response.body);
+    status = decodeDetails['status'];
+    if (status == true) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Changepassword(
+                    email: widget.email,
+                  )));
+    }
   }
 
   @override
@@ -46,7 +61,8 @@ class _PasswordsecondscreenState extends State<Passwordsecondscreen> {
                   height: height * 0.3,
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('assets/LoginPage/logintop.png'))),
+                          image: AssetImage('assets/LoginPage/logintop.png'),
+                          fit: BoxFit.fill)),
                 ),
                 Container(
                   width: width * 0.73,
@@ -111,9 +127,7 @@ class _PasswordsecondscreenState extends State<Passwordsecondscreen> {
                           },
                           onCompleted: (pin) async {
                             print("Completed: " + pin);
-                            SharedPreferences otp =
-                                await SharedPreferences.getInstance();
-                            otp.setString('StoreOTP', otp.toString());
+                            otp = pin;
                           },
                         ),
                       ),
@@ -129,10 +143,10 @@ class _PasswordsecondscreenState extends State<Passwordsecondscreen> {
                   child: ElevatedButton(
                       onPressed: () {
                         verifyOtp();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Changepassword()));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => Changepassword()));
                       },
                       child: Text(
                         'Next',

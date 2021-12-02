@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22.201" height="25.586" viewBox="0 0 22.201 25.586">
+  <g id="time-control-tool" transform="translate(-46.651)">
+    <g id="Group_370" data-name="Group 370" transform="translate(46.651)">
+      <path id="Path_994" data-name="Path 994" d="M59.3,4.28V3.323h2.355v-.2A3.122,3.122,0,0,0,58.529,0H56.257a3.123,3.123,0,0,0-3.122,3.122v.2h2.407v.949A10.738,10.738,0,1,0,59.3,4.28Zm-1.9,18.847a8.283,8.283,0,1,1,8.283-8.284A8.293,8.293,0,0,1,57.393,23.127Z" transform="translate(-46.651)" fill="#023129"/>
+      <path id="Path_995" data-name="Path 995" d="M537.168,100.6l-1.742-1.742a.825.825,0,0,0-1.168,0l-1.412,1.413,2.911,2.909,1.411-1.412A.825.825,0,0,0,537.168,100.6Z" transform="translate(-515.208 -95.039)" fill="#023129"/>
+      <path id="Path_996" data-name="Path 996" d="M136.484,195.237a7.762,7.762,0,1,0,7.8,7.761h-7.8Z" transform="translate(-125.779 -188.154)" fill="#023129"/>
+    </g>
+  </g>
+</svg>
