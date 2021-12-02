@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutionmaster/HomePage/homescreen.dart';
+import 'package:tutionmaster/videos/videomainscreen.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/model/Watched_video.dart';
@@ -25,6 +27,7 @@ class _PlaycontinueState extends State<Playcontinue> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
     ]);
+    Future.delayed(Duration(seconds: 1));
     party();
     super.initState();
   }
@@ -40,7 +43,7 @@ class _PlaycontinueState extends State<Playcontinue> {
         hideControls: false,
         autoPlay: widget.durationwatched != 0 ? true : false,
         isLive: false,
-        startAt:widget.durationwatched ,
+        startAt: widget.durationwatched,
       ),
     );
     // setState(() {});
@@ -56,19 +59,27 @@ class _PlaycontinueState extends State<Playcontinue> {
     l.e(widget.videoid1);
     return WillPopScope(
       onWillPop: () async {
-        SystemChrome.setPreferredOrientations([
-          DeviceOrientation.portraitUp,
-        ]);
         l.w(_controller!.value.position);
         Duration currentDuration = _controller!.value.position;
         l.i(currentDuration);
-        Provider.of<SqliteLocalDatabase>(context, listen: false).insertvideolist(Watchedvideos( videoid: widget.videoid1, duration: currentDuration.inSeconds ));
+        Provider.of<SqliteLocalDatabase>(context, listen: false)
+            .insertvideolist(Watchedvideos(
+                videoid: widget.videoid1, duration: currentDuration.inSeconds));
         // SharedPreferences sharedPreferences =
         // await SharedPreferences.getInstance();
         // sharedPreferences.setDouble(
         //     'dura', (currentDuration.inSeconds.toDouble()));
-
-        return Future.value(true);
+        // Future.delayed(Duration(seconds: 2));
+        // Provider.of<SqliteLocalDatabase>(context, listen: false).changing();
+        // Provider.of<SqliteLocalDatabase>(context, listen: false).getvideolist();
+        l.w('line 77 above return in playcontinuewatching');
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+        ]);
+        Navigator.pop(context, 'hello');
+        return Future.value(
+          true,
+        );
       },
       child: Scaffold(
         body: Container(

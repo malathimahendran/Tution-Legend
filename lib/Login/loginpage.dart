@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/FCM%20Token/fcm_token.dart';
+// import 'package:tutionmaster/FORGOT%20PASSWORD/forgotpasswpord.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/Login/argumentpass.dart';
 import 'package:tutionmaster/ProfilePage/logout.dart';
@@ -21,6 +22,7 @@ import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/StartingLearningPage/startlearning.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:tutionmaster/_forgot_password/firstscreen.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -148,17 +150,16 @@ class _LoginPageState extends State<LoginPage> {
 
   loginApi() async {
     var decodeDetails;
-    setState(() {
-      isPressed = true;
-    });
+    l.e('helo');
     var url = Uri.parse(loginApiCall);
     var response = await http.post(url, body: {
       'email': email.text.toString(),
       'password': password.text.toString(),
       'device_id': finalDeviceId.toString(),
+      // 'device_id':3.toString()
     }).then((value) async {
       var decodeDetails = json.decode(value.body);
-
+      print("$finalDeviceId,deviceID");
       var statuscode = value.statusCode;
 
       if (statuscode == 200) {
@@ -468,11 +469,20 @@ class _LoginPageState extends State<LoginPage> {
                                           ),
                                         ),
                                       ),
-                                      Text("Forgot Password?",
-                                          style: GoogleFonts.poppins(
-                                              textStyle: TextStyle(
-                                                  fontSize: unitHeightValue *
-                                                      subTextSmall)))
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Passwordscreen1()));
+                                        },
+                                        child: Text("Forgot Password?",
+                                            style: GoogleFonts.poppins(
+                                                textStyle: TextStyle(
+                                                    fontSize: unitHeightValue *
+                                                        subTextSmall))),
+                                      )
                                     ],
                                   ),
                                 ),

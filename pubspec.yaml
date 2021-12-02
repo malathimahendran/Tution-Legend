@@ -57,7 +57,11 @@ dependencies:
   auto_size_text: ^3.0.0
 
   form_field_validator: ^1.1.0
+  otp_text_field: ^1.1.1
   flutter_windowmanager: ^0.2.0
+  twilio_phone_verify: ^2.0.0
+  otp_autofill: ^2.0.0
+  
   
 
 dev_dependencies:
@@ -91,6 +95,8 @@ flutter:
     - assets/RegisterPage/
     - assets/ProfilePage/
     - assets/SplashScreen/
+    - assets/try/
+    - assets/FORGOTPASSWORD/
  
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -47,6 +47,8 @@ class _PlayState extends State<Play> {
 
   disableCapture() async {
     await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+    await FlutterWindowManager.addFlags(
+        FlutterWindowManager.FLAG_HARDWARE_ACCELERATED);
   }
 
   getPlanDetails() async {
@@ -105,7 +107,9 @@ class _PlayState extends State<Play> {
             .insertvideolist(Watchedvideos(
                 videoid: YoutubePlayer.convertUrlToId(widget.link)!,
                 duration: currentDuration.inSeconds));
+
         Provider.of<SqliteLocalDatabase>(context, listen: false).getvideolist();
+
         // _controller.toggleFullScreenMode();
         return Future.value(true);
       },

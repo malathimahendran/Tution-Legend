@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:twilio_phone_verify/twilio_phone_verify.dart';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/StartingLearningPage/startlearning.dart';
 import 'package:logger/logger.dart';
+import 'package:otp_autofill/otp_autofill.dart';
 
 class Register extends StatefulWidget {
   // const Register({Key? key, String? deviceId}) : super(key: key);
@@ -27,16 +28,23 @@ class Register extends StatefulWidget {
   _RegisterState createState() => _RegisterState();
 }
 
+enum VerificationState { enterPhone, enterSmsCode }
+
 class _RegisterState extends State<Register> {
   final l = Logger();
+  TwilioPhoneVerify? _twilioPhoneVerify;
+  bool loading = false;
   var googleDetails, profileImage, chooseclass;
   bool secureText = true;
   bool secureText1 = true;
   List<dynamic> board = [];
   List<dynamic> boardid = [];
   String? selectedValue = '9th Standard';
+
   var username = TextEditingController();
+
   var mobileno = TextEditingController();
+
   var email = TextEditingController();
   var deviceid = TextEditingController();
   var boardofeducation = TextEditingController();
@@ -48,16 +56,26 @@ class _RegisterState extends State<Register> {
   var boardController = TextEditingController();
   var chooseboard;
   var classId;
+
   List<Map<String, dynamic>> items = [];
   List<Map<String, dynamic>> itemclass = [];
   String? originalGoogleId;
+  String? errorMessage;
+  String? successMessage;
+  var verificationState = VerificationState.enterPhone;
   get read => null;
+  var smsCodeController = TextEditingController();
+  //  String phoneNumber = "+91 ${mobileno.text.toString().trim()}";
   @override
   void initState() {
     super.initState();
     chooseBoard();
 
     getGoogleData();
+    _twilioPhoneVerify = TwilioPhoneVerify(
+        accountSid: 'ACdc4d93f70864f141748c3437b71235df',
+        serviceSid: 'VA6da4df8c164f236b586786ad3ecbe37b',
+        authToken: 'dd64691d4c13d4a244d0240745f1fe41');
   }
 
   chooseBoard() async {
@@ -76,6 +94,79 @@ class _RegisterState extends State<Register> {
       });
     }
   }
+
+  void verifyCode() async {
+    if (mobileno.text.isEmpty || smsCodeController.text.isEmpty || loading)
+      return;
+    changeLoading(true);
+    TwilioResponse twilioResponse = await _twilioPhoneVerify!.verifySmsCode(
+        phone: "+91${mobileno.text}", code: smsCodeController.text);
+    if (twilioResponse.successful!) {
+      if (twilioResponse.verification!.status == VerificationStatus.approved) {
+        changeSuccessMessage('Phone number is approved');
+        registerApi();
+      } else {
+        changeSuccessMessage('Invalid code');
+      }
+    } else {
+      changeErrorMessage(twilioResponse.errorMessage);
+    }
+    changeLoading(false);
+  }
+
+  _loader() => SizedBox(
+        height: 15,
+        width: 15,
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          valueColor: AlwaysStoppedAnimation(Colors.white),
+        ),
+      );
+  _errorWidget() => Material(
+        borderRadius: BorderRadius.circular(5),
+        color: Colors.red.withOpacity(.1),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          child: Row(
+            children: [
+              Expanded(
+                  child: Text(
+                errorMessage!,
+                style: TextStyle(color: Colors.red),
+              )),
+              IconButton(
+                  icon: Icon(
+                    Icons.close,
+                    size: 16,
+                  ),
+                  onPressed: () => changeErrorMessage(null))
+            ],
+          ),
+        ),
+      );
+
+  _successWidget() => Material(
+        borderRadius: BorderRadius.circular(5),
+        color: Colors.green.withOpacity(.1),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          child: Row(
+            children: [
+              Expanded(
+                  child: Text(
+                successMessage!,
+                style: TextStyle(color: Colors.green),
+              )),
+              IconButton(
+                  icon: Icon(
+                    Icons.close,
+                    size: 16,
+                  ),
+                  onPressed: () => changeSuccessMessage(null))
+            ],
+          ),
+        ),
+      );
 
   gettingClasses({board_id}) async {
     var url = Uri.parse(
@@ -106,7 +197,7 @@ class _RegisterState extends State<Register> {
       'phone': mobileno.text.toString(),
       'password': password.text.toString(),
       'device_id': widget.deviceId.toString(),
-      // 'device_id': 34.toString(),
+      // 'device_id': 3.toString(),
       'fcm': "",
       'reference_code': referralcode.text.toString(),
       'class': classId.toString(),
@@ -206,25 +297,70 @@ class _RegisterState extends State<Register> {
     });
   }
 
+  void switchToPhoneNumber() {
+    if (loading) return;
+    changeSuccessMessage(null);
+    changeErrorMessage(null);
+    setState(() {
+      verificationState = VerificationState.enterPhone;
+    });
+  }
+
+  void switchToSmsCode() async {
+    changeSuccessMessage(null);
+    changeErrorMessage(null);
+    changeLoading(false);
+    setState(() {
+      verificationState = VerificationState.enterSmsCode;
+    });
+  }
+
+  void changeLoading(bool status) => setState(() => loading = status);
+  void changeErrorMessage(var message) =>
+      setState(() => errorMessage = message);
+
+  void changeSuccessMessage(var message) =>
+      setState(() => successMessage = message);
+  void sendCode() async {
+    if (mobileno.text.isEmpty || loading) return;
+    changeLoading(true);
+    TwilioResponse twilioResponse =
+        await _twilioPhoneVerify!.sendSmsCode("+91${mobileno.text}");
+
+    if (twilioResponse.successful!) {
+      changeSuccessMessage('Code sent to ${mobileno.text}');
+      await Future.delayed(Duration(seconds: 1));
+      switchToSmsCode();
+    } else {
+      changeErrorMessage(twilioResponse.errorMessage);
+    }
+    changeLoading(false);
+  }
+
+  double subTextGetStarted = 2.5;
+  double subTextCreateAccount = 1.5;
+  double subTextSmall = 1.4;
+  double subTextLogin = 1.6;
   @override
   Widget build(BuildContext context) {
-    // googleDetails = widget.googleuser;
-    // String googleUserName = googleDetails.displayName;
-    // var googleMail = googleDetails.email;
-    // print(googleUserName);
-    // print(googleMail);
-    // print("$googleDetails" + "61");
-    // print(widget.deviceId);
-    // var height = 600.0;
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
     double unitHeightValue = MediaQuery.of(context).size.height * 0.01;
-    double subTextGetStarted = 2.5;
-    double subTextCreateAccount = 1.5;
-    double subTextSmall = 1.4;
-    double subTextLogin = 1.6;
-    l.wtf(height);
+    return verificationState == VerificationState.enterPhone
+        ? _buildEnterPhoneNumber(height, width, status, unitHeightValue)
+        : _buildEnterSmsCode();
+  }
+  // googleDetails = widget.googleuser;
+  // String googleUserName = googleDetails.displayName;
+  // var googleMail = googleDetails.email;
+  // print(googleUserName);
+  // print(googleMail);
+  // print("$googleDetails" + "61");
+  // print(widget.deviceId);
+  // var height = 600.0;
+
+  _buildEnterPhoneNumber(height, width, status, unitHeightValue) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
@@ -545,14 +681,17 @@ class _RegisterState extends State<Register> {
                         height: height * 0.05,
                         child: ElevatedButton(
                             onPressed: () {
-                              registerApi();
+                              // registerApi();
+                              sendCode();
                             },
-                            child: Text(
-                              'Create Account',
-                              style: TextStyle(
-                                  fontSize:
-                                      unitHeightValue * subTextCreateAccount),
-                            ),
+                            child: loading
+                                ? _loader()
+                                : Text(
+                                    'Create Account',
+                                    style: TextStyle(
+                                        fontSize: unitHeightValue *
+                                            subTextCreateAccount),
+                                  ),
                             style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
                                     HexColor('#243665')),
@@ -562,6 +701,18 @@ class _RegisterState extends State<Register> {
                                   borderRadius: BorderRadius.circular(20.0),
                                 )))),
                       ),
+                      if (errorMessage != null) ...[
+                        SizedBox(
+                          height: 30,
+                        ),
+                        _errorWidget()
+                      ],
+                      if (successMessage != null) ...[
+                        SizedBox(
+                          height: 30,
+                        ),
+                        _successWidget()
+                      ],
                       SizedBox(
                         height: ((height - status)) * 0.03,
                       ),
@@ -600,6 +751,65 @@ class _RegisterState extends State<Register> {
                 ),
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _buildEnterSmsCode() {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: 18,
+            color: Theme.of(context).primaryColor,
+          ),
+          onPressed: switchToPhoneNumber,
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(40.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: smsCodeController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(labelText: 'Enter Sms Code'),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: double.infinity,
+              height: 40,
+              child: TextButton(
+                  onPressed: verifyCode,
+                  style: TextButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor),
+                  child: loading
+                      ? _loader()
+                      : Text(
+                          'Verify',
+                          style: TextStyle(color: Colors.white),
+                        )),
+            ),
+            if (errorMessage != null) ...[
+              SizedBox(
+                height: 30,
+              ),
+              _errorWidget()
+            ],
+            if (successMessage != null) ...[
+              SizedBox(
+                height: 30,
+              ),
+              _successWidget()
+            ]
           ],
         ),
       ),

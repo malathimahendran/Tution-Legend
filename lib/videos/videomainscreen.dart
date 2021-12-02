@@ -263,7 +263,8 @@ class _SearchvideoState extends State<Searchvideo> {
                                                   .videoid);
                                               print(
                                                   'ggggggggrrrrrrrrrrrrrrrrrrrrrrrrrraaaaaaaaaaaaaaaaaaaaaa');
-                                              Navigator.push(
+
+                                              var k = Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) => Playcontinue(
@@ -282,6 +283,15 @@ class _SearchvideoState extends State<Searchvideo> {
                                                                   .wathedvideolist[
                                                                       index]
                                                                   .duration)));
+                                              if (k != null) {
+                                                l.w('hello');
+
+                                                // Provider.of<SqliteLocalDatabase>(
+                                                //         context,
+                                                //         listen: false)
+                                                //     .getvideolist();
+                                                l.w('hello how are you');
+                                              }
                                             },
                                             child: Padding(
                                               padding:

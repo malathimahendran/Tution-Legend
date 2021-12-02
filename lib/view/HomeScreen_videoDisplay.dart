@@ -267,10 +267,10 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                           GetSelectedsubjectsVideos
                                                               .decodeDetails[
                                                                   index]
-                                                                  ['subject']
+                                                                  ['lesson']
                                                               .toString(),
                                                           style: TextStyle(
-                                                              fontSize: 17,
+                                                              fontSize: 15,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -284,11 +284,12 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                         Text(
                                                           GetSelectedsubjectsVideos
                                                               .decodeDetails[
-                                                                  index]
-                                                                  ['lesson']
+                                                                  index][
+                                                                  'description']
                                                               .toString(),
+                                                          maxLines: 2,
                                                           style: TextStyle(
-                                                              fontSize: 14,
+                                                              fontSize: 12,
                                                               color: HexColor(
                                                                   '#0A1C22')),
                                                         ),
