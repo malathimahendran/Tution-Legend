@@ -29,8 +29,16 @@ class Register extends StatefulWidget {
   _RegisterState createState() => _RegisterState();
 }
 
+enum VerificationState { enterPhone, enterSmsCode }
+
 class _RegisterState extends State<Register> {
   TwilioPhoneVerify? twilioPhoneVerify;
+  var verificationState = VerificationState.enterPhone;
+  var phoneNumberController = TextEditingController();
+  var smsCodeController = TextEditingController();
+  bool loading = false;
+  String? errorMessage;
+  String? successMessage;
   final l = Logger();
   var googleDetails, profileImage, chooseclass;
   bool secureText = true;
@@ -54,13 +62,13 @@ class _RegisterState extends State<Register> {
   List<Map<String, dynamic>> items = [];
   List<Map<String, dynamic>> itemclass = [];
   String? originalGoogleId;
-  var twilioResponse;
+
+  TwilioResponse? twilioResponse;
   get read => null;
   @override
   void initState() {
     super.initState();
     chooseBoard();
-
     getGoogleData();
   }
 
@@ -212,14 +220,69 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    // googleDetails = widget.googleuser;
-    // String googleUserName = googleDetails.displayName;
-    // var googleMail = googleDetails.email;
-    // print(googleUserName);
-    // print(googleMail);
-    // print("$googleDetails" + "61");
-    // print(widget.deviceId);
-    // var height = 600.0;
+    void changeErrorMessage(var message) =>
+        setState(() => errorMessage = message);
+
+    void changeSuccessMessage(var message) =>
+        setState(() => successMessage = message);
+
+    void changeLoading(bool status) => setState(() => loading = status);
+
+    void switchToSmsCode() async {
+      changeSuccessMessage(null);
+      changeErrorMessage(null);
+      changeLoading(false);
+      setState(() {
+        verificationState = VerificationState.enterSmsCode;
+      });
+    }
+
+    void switchToPhoneNumber() {
+      if (loading) return;
+      changeSuccessMessage(null);
+      changeErrorMessage(null);
+      setState(() {
+        verificationState = VerificationState.enterPhone;
+      });
+    }
+
+    void sendCode() async {
+      if (mobileno.text.isEmpty || loading) return;
+      changeLoading(true);
+      twilioResponse = await twilioPhoneVerify!.sendSmsCode(mobileno.text);
+      l.e(twilioResponse);
+      if (twilioResponse!.successful == true) {
+        changeSuccessMessage('Code sent to ${mobileno.text}');
+        await Future.delayed(Duration(seconds: 1));
+        // Navigator.push(context, MaterialPageRoute(builder: (context)=>));
+        switchToSmsCode();
+      } else {
+        changeErrorMessage(twilioResponse!.errorMessage);
+      }
+      changeLoading(false);
+    }
+
+    void verifyCode() async {
+      if (phoneNumberController.text.isEmpty ||
+          smsCodeController.text.isEmpty ||
+          loading) return;
+      changeLoading(true);
+      twilioResponse = await twilioPhoneVerify!.verifySmsCode(
+          phone: phoneNumberController.text, code: smsCodeController.text);
+
+      if (twilioResponse!.successful == true) {
+        if (twilioResponse!.verification!.status ==
+            VerificationStatus.approved) {
+          changeSuccessMessage('Phone number is approved');
+        } else {
+          changeSuccessMessage('Invalid code');
+        }
+      } else {
+        changeErrorMessage(twilioResponse!.errorMessage);
+      }
+      changeLoading(false);
+    }
+
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
@@ -245,7 +308,6 @@ class _RegisterState extends State<Register> {
               image: AssetImage('assets/RegisterPage/registerbackground.png'),
               fit: BoxFit.fill),
         ),
-
         child: Column(
           children: [
             Container(
@@ -318,6 +380,11 @@ class _RegisterState extends State<Register> {
                           textCapitalization: TextCapitalization.none,
                           hintText: 'MobileNo',
                           controller: mobileno,
+                          suffixicon: IconButton(
+                              onPressed: () {
+                                sendCode();
+                              },
+                              icon: Icon(Icons.verified)),
                           icon: Icon(Icons.phone_iphone,
                               color: HexColor('#3F3F3F'))),
                       SizedBox(
@@ -549,7 +616,8 @@ class _RegisterState extends State<Register> {
                         height: height * 0.05,
                         child: ElevatedButton(
                             onPressed: () {
-                              registerApi();
+                              verifyCode();
+                              // registerApi();
                             },
                             child: Text(
                               'Create Account',
