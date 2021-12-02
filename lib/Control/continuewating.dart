@@ -36,11 +36,11 @@ class SqliteLocalDatabase extends ChangeNotifier {
     final db = await database;
 
     final List<Map<String, dynamic>> ds = await db!.query('videolist');
-    for (var i in ds)
-      listOfVideos
-          .add(Watchedvideos(videoid: i['videoid'], duration: i['duration']));
-    l.w(ds);
-    l.w("${videoitem.videoid},${videoitem.duration}, line 42");
+    // for (var i in ds)
+    //   listOfVideos
+    //       .add(Watchedvideos(videoid: i['videoid'], duration: i['duration']));
+    // l.w(ds);
+    // l.w("${videoitem.videoid},${videoitem.duration}, line 42");
     var a = await db.insert('videolist', videoitem.toMap());
     l.v(a);
     // for (var i in listOfVideos) onlyIds.add(i.videoid);
