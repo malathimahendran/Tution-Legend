@@ -24,6 +24,7 @@ class Register extends StatefulWidget {
   // const Register({Key? key, String? deviceId}) : super(key: key);
   Register({this.deviceId, this.googleuser});
   final deviceId;
+
   final googleuser;
 
   @override
@@ -33,10 +34,16 @@ class Register extends StatefulWidget {
 enum VerificationState { enterPhone, enterSmsCode }
 
 class _RegisterState extends State<Register> {
-  OTPInteractor? _otpInteractor;
+  TwilioPhoneVerify? twilioPhoneVerify;
+  var verificationState = VerificationState.enterPhone;
+  var phoneNumberController = TextEditingController();
+  var smsCodeController = TextEditingController();
+  bool loading = false;
+  String? errorMessage;
+  String? successMessage;
   final l = Logger();
   TwilioPhoneVerify? _twilioPhoneVerify;
-  bool loading = false;
+
   var googleDetails, profileImage, chooseclass;
   bool secureText = true;
   bool secureText1 = true;
@@ -63,24 +70,29 @@ class _RegisterState extends State<Register> {
   List<Map<String, dynamic>> items = [];
   List<Map<String, dynamic>> itemclass = [];
   String? originalGoogleId;
-  String? errorMessage;
-  String? successMessage;
-  var verificationState = VerificationState.enterPhone;
+
   get read => null;
-  var smsCodeController = TextEditingController();
+
   //  String phoneNumber = "+91 ${mobileno.text.toString().trim()}";
   @override
   void initState() {
     super.initState();
     chooseBoard();
-
     getGoogleData();
+
     _twilioPhoneVerify = TwilioPhoneVerify(
-        accountSid: 'xxxxxxxxxxxx',
-        serviceSid: 'xxxxxxxxxxxx',
-        authToken: 'xxxxxxxxxxxxxxxxx');
-    print("twilio error");
+        accountSid: 'ACba137bfcc7b40b262f8e4520adf2cd41',
+        serviceSid: 'VA6cfc4b9c45a6db4b9d826e7f311883b4',
+        authToken: 'e660946baf2076cb673978ba350488a2');
   }
+
+//  getAppSignature() async {
+//     String signature = await SmsRetrieved.getAppSignature();
+//     print("App Hash Key:  $signature");
+//   }
+  // listOPT() async {
+  //   await SmsAutoFill().listenForCode;
+  // }
 
   chooseBoard() async {
     var url = Uri.parse(
@@ -787,26 +799,23 @@ class _RegisterState extends State<Register> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // OTPTextField(
-            //   length: 6,
-            //   fieldStyle: FieldStyle.box,
-
-            //   onChanged: (String verificationCode) {
-
-            //     showDialog(
-            //         context: context,
-            //         builder: (context) {
-            //           return AlertDialog(
-            //             title: Text("Verification Code"),
-            //             content: Text('Code entered is $verificationCode'),
-            //           );
-            //         });
+            // PinFieldAutoFill(
+            //   decoration: UnderlineDecoration(
+            //     textStyle: TextStyle(fontSize: 20, color: Colors.black),
+            //     colorBuilder: FixedColorBuilder(Colors.black.withOpacity(0.3)),
+            //   ),
+            //   codeLength: 6,
+            //   onCodeSubmitted: (code) {},
+            //   onCodeChanged: (code) {
+            //     if (code?.length == 6) {
+            //       FocusScope.of(context).requestFocus(FocusNode());
+            //     }
             //   },
             // ),
-
             TextField(
               controller: smsCodeController,
               keyboardType: TextInputType.number,
+              autofillHints: [AutofillHints.oneTimeCode],
               decoration: InputDecoration(labelText: 'Enter Sms Code'),
             ),
             SizedBox(

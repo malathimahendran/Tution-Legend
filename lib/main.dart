@@ -14,11 +14,11 @@ import 'package:tutionmaster/SplashScreen/splashscreen.dart';
 import 'package:tutionmaster/videos/likeandunlikeapi.dart';
 import 'package:tutionmaster/videos/paymentgetforvideosfreeorpremium.dart';
 import 'package:tutionmaster/work.dart';
-
 import 'ALLROUTES/routegenerator.dart';
 import 'Control/continuewating.dart';
 import 'Control/getdata.dart';
 import 'Control/getvideoduration.dart';
+import 'HomePage/changepassword.dart';
 import 'HomePage/try.dart';
 import 'Login/loginpage.dart';
 import 'Login/validationtry.dart';
@@ -77,12 +77,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-
         theme: ThemeData(
           primarySwatch: Colors.blue,
           fontFamily: "poppins",
         ),
-        // home: MyAppp(),
+        // home: Register(),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
