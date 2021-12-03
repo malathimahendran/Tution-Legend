@@ -61,12 +61,7 @@ dependencies:
   flutter_windowmanager: ^0.2.0
   twilio_phone_verify: ^2.0.0
   otp_autofill: ^2.0.0
-<<<<<<< HEAD
   sms_autofill: ^2.2.0
-=======
-  pin_input_text_field: ^4.1.1
-  otp_text_field: ^1.1.1
->>>>>>> c8ef6fb69c102402101d877e02975d83446b6efc
   
   
 
