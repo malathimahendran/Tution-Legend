@@ -71,7 +71,7 @@ class _PlaycontinueState extends State<Playcontinue> {
         //     'dura', (currentDuration.inSeconds.toDouble()));
         // Future.delayed(Duration(seconds: 2));
         // Provider.of<SqliteLocalDatabase>(context, listen: false).changing();
-        // Provider.of<SqliteLocalDatabase>(context, listen: false).getvideolist();
+        Provider.of<SqliteLocalDatabase>(context, listen: false).getvideolist();
         l.w('line 77 above return in playcontinuewatching');
         SystemChrome.setPreferredOrientations([
           DeviceOrientation.portraitUp,

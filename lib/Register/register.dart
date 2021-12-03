@@ -43,11 +43,8 @@ class _RegisterState extends State<Register> {
   List<dynamic> board = [];
   List<dynamic> boardid = [];
   String? selectedValue = '9th Standard';
-
   var username = TextEditingController();
-
   var mobileno = TextEditingController();
-
   var email = TextEditingController();
   var deviceid = TextEditingController();
   var boardofeducation = TextEditingController();
@@ -68,6 +65,7 @@ class _RegisterState extends State<Register> {
   var verificationState = VerificationState.enterPhone;
   get read => null;
   var smsCodeController = TextEditingController();
+
   //  String phoneNumber = "+91 ${mobileno.text.toString().trim()}";
   @override
   void initState() {
@@ -76,10 +74,9 @@ class _RegisterState extends State<Register> {
 
     getGoogleData();
     _twilioPhoneVerify = TwilioPhoneVerify(
-        accountSid: 'xxxxxxxxxxxx',
-        serviceSid: 'xxxxxxxxxxxx',
-        authToken: 'xxxxxxxxxxxxxxxxx');
-    print("twilio error");
+        accountSid: 'ACdc4d93f70864f141748c3437b71235df',
+        serviceSid: 'VA6da4df8c164f236b586786ad3ecbe37b',
+        authToken: '225982eb8e7a963130bd865019cb0ab9');
   }
 
   chooseBoard() async {
@@ -362,7 +359,7 @@ class _RegisterState extends State<Register> {
     double unitHeightValue = MediaQuery.of(context).size.height * 0.01;
     return verificationState == VerificationState.enterPhone
         ? _buildEnterPhoneNumber(height, width, status, unitHeightValue)
-        : _buildEnterSmsCode();
+        : _buildEnterSmsCode(width);
   }
   // googleDetails = widget.googleuser;
   // String googleUserName = googleDetails.displayName;
@@ -440,6 +437,7 @@ class _RegisterState extends State<Register> {
               child: Container(
                 height: (height - status) * 0.85,
                 width: width,
+                padding: EdgeInsets.symmetric(horizontal: width * 0.1),
                 child: SingleChildScrollView(
                   // reverse: true,
 
@@ -692,8 +690,8 @@ class _RegisterState extends State<Register> {
                         height: height * 0.05,
                         child: ElevatedButton(
                             onPressed: () {
-                              // registerApi();
-                              sendCode();
+                              registerApi();
+                              // sendCode();
                             },
                             child: loading
                                 ? _loader()
@@ -768,7 +766,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  _buildEnterSmsCode() {
+  _buildEnterSmsCode(width) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -787,23 +785,24 @@ class _RegisterState extends State<Register> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // OTPTextField(
-            //   length: 6,
-            //   fieldStyle: FieldStyle.box,
-
-            //   onChanged: (String verificationCode) {
-
-            //     showDialog(
-            //         context: context,
-            //         builder: (context) {
-            //           return AlertDialog(
-            //             title: Text("Verification Code"),
-            //             content: Text('Code entered is $verificationCode'),
-            //           );
-            //         });
-            //   },
+            // Container(
+            //   width: (width * 0.9),
+            //   // height: height * 0.3,
+            //   child: OTPTextField(
+            //     length: 6,
+            //     width: MediaQuery.of(context).size.width,
+            //     textFieldAlignment: MainAxisAlignment.spaceAround,
+            //     fieldWidth: width * 0.1,
+            //     fieldStyle: FieldStyle.box,
+            //     style: TextStyle(fontSize: 10),
+            //     onChanged: (pin) {
+            //       print("Changed: " + pin);
+            //     },
+            //     onCompleted: (pin) async {
+            //       verifyCode();
+            //     },
+            //   ),
             // ),
-
             TextField(
               controller: smsCodeController,
               keyboardType: TextInputType.number,
@@ -878,15 +877,22 @@ class Textfield extends StatelessWidget {
     // var height = 1500.0;
     var width = MediaQuery.of(context).size.width;
     var status = MediaQuery.of(context).padding.top;
-    return Container(
-      width: width * 0.8,
-      height: height * 0.077,
-      alignment: Alignment.center,
-      child: Card(
-        elevation: 10,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
-        child: TextFormField(
+    return Stack(
+      children: [
+        Container(
+          height: height * 0.05,
+          width: width * 0.8,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(40.0),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey.shade400,
+                    blurRadius: 2.0,
+                    spreadRadius: 0.6,
+                    offset: Offset(0, 12))
+              ]),
+        ),
+        TextFormField(
           textCapitalization: textCapitalization,
           validator: validator,
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -909,10 +915,18 @@ class Textfield extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(40.0)),
                 borderSide: BorderSide(color: Color(0xF227DEBF), width: 1),
               ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                borderSide: BorderSide(color: Colors.red, width: 1),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                borderSide: BorderSide(color: Colors.red, width: 1),
+              ),
               prefixIcon: icon,
               suffixIcon: suffixicon),
         ),
-      ),
+      ],
     );
   }
 }

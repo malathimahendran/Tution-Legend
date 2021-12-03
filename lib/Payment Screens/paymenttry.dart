@@ -606,11 +606,25 @@ class _PaymentDesignState extends State<PaymentDesign> {
                               primary: HexColor("#243665"),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20))),
-                          onPressed: () async {
-                            var amount = await hello(gettingTheIndex: num2);
-                            l.wtf(amount);
-                            openCheckout(amount: amount);
-                          },
+                          onPressed: isChecked
+                              ? () async {
+                                  var amount =
+                                      await hello(gettingTheIndex: num2);
+                                  l.wtf(amount);
+                                  openCheckout(amount: amount);
+                                }
+                              : () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          duration: Duration(seconds: 1),
+                                          behavior: SnackBarBehavior.floating,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          content: Text(
+                                              'Please tick the checkbox')));
+                                },
                           child: Text("Subscribe Now",
                               style: GoogleFonts.poppins(
                                 textStyle: TextStyle(color: Colors.white),
