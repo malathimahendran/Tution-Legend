@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:tutionmaster/_forgot_password/secondscreen.dart';
@@ -27,7 +28,7 @@ class _Passwordscreen1State extends State<Passwordscreen1> {
     l.w(otpdecode);
     var status = otpdecode['status'];
     if (status == true) {
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) => Passwordsecondscreen(
@@ -53,23 +54,31 @@ class _Passwordscreen1State extends State<Passwordscreen1> {
     print(height);
     var width = MediaQuery.of(context).size.width;
     print(width);
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
           height: height,
           width: width,
-          color: Colors.white,
+          // color: Colors.white,
           child: SingleChildScrollView(
             child: Column(
               children: [
                 Container(
                   height: height * 0.3,
                   decoration: BoxDecoration(
+                      // color: Colors.black,
                       image: DecorationImage(
-                          image: AssetImage('assets/LoginPage/logintop.png'))),
+                          image: AssetImage('assets/LoginPage/logintop.png'),
+                          fit: BoxFit.fill)),
                 ),
                 Container(
                   width: width * 0.73,
+                  decoration: BoxDecoration(
+                      // color: Colors.black,
+                      image: DecorationImage(
+                          image: AssetImage(
+                              'assets/RegisterPage/registerbackground.png'),
+                          fit: BoxFit.fill)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -77,17 +86,18 @@ class _Passwordscreen1State extends State<Passwordscreen1> {
                       Padding(
                         padding: const EdgeInsets.only(right: 97),
                         child: Text(
-                          'Forgot Password',
+                          'Forgot Password          ',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
-                              fontFamily: 'RobotoMono',
                               color: Colors.black),
                         ),
                       ),
                       SizedBox(
                         height: height * 0.02,
                       ),
+                      // SvgPicture.asset(
+                      //     'assets/ForgotPassword/forgotPasswordmail.svg'),
                       Image.asset(
                         'assets/FORGOTPASSWORD/verification.jpg',
                         width: width * 0.6,
@@ -100,7 +110,6 @@ class _Passwordscreen1State extends State<Passwordscreen1> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
-                          fontFamily: 'RobotoMono',
                           color: Colors.black,
                         ),
                       ),
@@ -109,7 +118,6 @@ class _Passwordscreen1State extends State<Passwordscreen1> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 13,
-                          fontFamily: 'RobotoMono',
                           color: Colors.grey,
                         ),
                       ),

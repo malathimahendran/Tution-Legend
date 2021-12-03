@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/FCM%20Token/fcm_token.dart';
-import 'package:tutionmaster/FORGOT%20PASSWORD/forgotpasswpord.dart';
+// import 'package:tutionmaster/FORGOT%20PASSWORD/forgotpasswpord.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/Login/argumentpass.dart';
 import 'package:tutionmaster/ProfilePage/logout.dart';
@@ -156,9 +156,10 @@ class _LoginPageState extends State<LoginPage> {
       'email': email.text.toString(),
       'password': password.text.toString(),
       'device_id': finalDeviceId.toString(),
+      // 'device_id':3.toString()
     }).then((value) async {
       var decodeDetails = json.decode(value.body);
-
+      print("$finalDeviceId,deviceID");
       var statuscode = value.statusCode;
 
       if (statuscode == 200) {
@@ -452,18 +453,17 @@ class _LoginPageState extends State<LoginPage> {
                                                     ListTileControlAffinity
                                                         .leading,
                                                 title: Text('Remember me  ',
-                                                    style: GoogleFonts.poppins(
-                                                      textStyle: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize:
-                                                              unitHeightValue *
-                                                                  subTextSmall),
-                                                    )),
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize:
+                                                            unitHeightValue *
+                                                                subTextSmall)),
                                                 value: isChecked,
                                                 onChanged: (value) =>
                                                     setState(() {
                                                       isChecked = value!;
                                                       handleRemeberme(value);
+
                                                       // signInButtonEnable = !signInButtonEnable;
                                                     })),
                                           ),
@@ -471,7 +471,7 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          Navigator.push(
+                                          Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
@@ -496,7 +496,7 @@ class _LoginPageState extends State<LoginPage> {
                                               borderRadius:
                                                   BorderRadius.circular(20))),
                                       onPressed: () {
-                                        isPressed == false ? loginApi() : null;
+                                        loginApi();
                                         // if (formkey.currentState!.validate()) {
                                         //   Text("ERERere");
                                         //   print("Validated");
