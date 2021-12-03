@@ -81,9 +81,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           fontFamily: "poppins",
         ),
-        home: Register(),
-        // initialRoute: '/',
-        // onGenerateRoute: RouteGenerator.generateRoute,
+        // home: Register(),
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
   }

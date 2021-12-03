@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sms_autofill/sms_autofill.dart';
+import 'package:otp_text_field/otp_field.dart';
 import 'package:twilio_phone_verify/twilio_phone_verify.dart';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +18,7 @@ import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/StartingLearningPage/startlearning.dart';
 import 'package:logger/logger.dart';
 import 'package:otp_autofill/otp_autofill.dart';
+import 'package:otp_text_field/style.dart';
 
 class Register extends StatefulWidget {
   // const Register({Key? key, String? deviceId}) : super(key: key);
@@ -341,12 +342,20 @@ class _RegisterState extends State<Register> {
     changeLoading(true);
     TwilioResponse twilioResponse =
         await _twilioPhoneVerify!.sendSmsCode("+91${mobileno.text}");
-
+    print("+91${mobileno.text}");
     if (twilioResponse.successful!) {
-      changeSuccessMessage('Code sent to ${mobileno.text}');
+      print("Successful");
+      changeSuccessMessage('Code sent to "+91${mobileno.text}"');
       await Future.delayed(Duration(seconds: 1));
       switchToSmsCode();
     } else {
+      print(twilioResponse.statusCode);
+      print(twilioResponse.verification);
+
+      print(twilioResponse.successful);
+      print(twilioResponse.errorMessage);
+
+      print("error");
       changeErrorMessage(twilioResponse.errorMessage);
     }
     changeLoading(false);
@@ -356,6 +365,7 @@ class _RegisterState extends State<Register> {
   double subTextCreateAccount = 1.5;
   double subTextSmall = 1.4;
   double subTextLogin = 1.6;
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
