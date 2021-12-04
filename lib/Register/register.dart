@@ -24,6 +24,7 @@ class Register extends StatefulWidget {
   // const Register({Key? key, String? deviceId}) : super(key: key);
   Register({this.deviceId, this.googleuser});
   final deviceId;
+
   final googleuser;
 
   @override
@@ -33,10 +34,16 @@ class Register extends StatefulWidget {
 enum VerificationState { enterPhone, enterSmsCode }
 
 class _RegisterState extends State<Register> {
-  OTPInteractor? _otpInteractor;
+  TwilioPhoneVerify? twilioPhoneVerify;
+  var verificationState = VerificationState.enterPhone;
+  var phoneNumberController = TextEditingController();
+  var smsCodeController = TextEditingController();
+  bool loading = false;
+  String? errorMessage;
+  String? successMessage;
   final l = Logger();
   TwilioPhoneVerify? _twilioPhoneVerify;
-  bool loading = false;
+
   var googleDetails, profileImage, chooseclass;
   bool secureText = true;
   bool secureText1 = true;
@@ -60,23 +67,55 @@ class _RegisterState extends State<Register> {
   List<Map<String, dynamic>> items = [];
   List<Map<String, dynamic>> itemclass = [];
   String? originalGoogleId;
-  String? errorMessage;
-  String? successMessage;
-  var verificationState = VerificationState.enterPhone;
+
   get read => null;
-  var smsCodeController = TextEditingController();
 
   //  String phoneNumber = "+91 ${mobileno.text.toString().trim()}";
   @override
   void initState() {
     super.initState();
     chooseBoard();
-
     getGoogleData();
+
     _twilioPhoneVerify = TwilioPhoneVerify(
         accountSid: 'ACdc4d93f70864f141748c3437b71235df',
         serviceSid: 'VA6da4df8c164f236b586786ad3ecbe37b',
         authToken: '225982eb8e7a963130bd865019cb0ab9');
+  }
+
+//  getAppSignature() async {
+//     String signature = await SmsRetrieved.getAppSignature();
+//     print("App Hash Key:  $signature");
+//   }
+  // listOPT() async {
+  //   await SmsAutoFill().listenForCode;
+  // }
+  validateMobileNumberApi() async {
+    l.v(mobileno.text);
+    var mobileNumber = mobileno.text;
+    l.v(mobileNumber);
+    var url = Uri.parse(
+        'http://www.cviacserver.tk/tuitionlegend/register/validate_mobile/$mobileNumber');
+    var response = await http.get(url);
+    l.w(response.body);
+    var decodeDetails = json.decode(response.body);
+
+    var status = decodeDetails["status"];
+    print(status);
+    if (status == true) {
+      sendCode();
+    } else {
+      final snackBar = SnackBar(
+        backgroundColor: Colors.red,
+        content: Text('Your mobile number is already exist'),
+        duration: Duration(seconds: 5),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   chooseBoard() async {
@@ -330,6 +369,7 @@ class _RegisterState extends State<Register> {
     print("+91${mobileno.text}");
     if (twilioResponse.successful!) {
       print("Successful");
+
       changeSuccessMessage('Code sent to "+91${mobileno.text}"');
       await Future.delayed(Duration(seconds: 1));
       switchToSmsCode();
@@ -690,7 +730,8 @@ class _RegisterState extends State<Register> {
                         height: height * 0.05,
                         child: ElevatedButton(
                             onPressed: () {
-                              registerApi();
+                              validateMobileNumberApi();
+                              // registerApi();
                               // sendCode();
                             },
                             child: loading
@@ -806,6 +847,7 @@ class _RegisterState extends State<Register> {
             TextField(
               controller: smsCodeController,
               keyboardType: TextInputType.number,
+              autofillHints: [AutofillHints.oneTimeCode],
               decoration: InputDecoration(labelText: 'Enter Sms Code'),
             ),
             SizedBox(

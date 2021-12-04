@@ -287,7 +287,7 @@ class _SearchinggscreenState extends State<Allvideo> {
                                               color: HexColor('#FFFFFF'),
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(40.0),
+                                                    BorderRadius.circular(15.0),
                                               ),
                                               child: Container(
                                                 child: Row(
@@ -303,7 +303,7 @@ class _SearchinggscreenState extends State<Allvideo> {
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(
-                                                                      40.0),
+                                                                      15.0),
                                                           child: Image.network(
                                                             'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(decodeDetails[index]['link'])}/0.jpg',
                                                             fit: BoxFit.cover,
