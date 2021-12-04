@@ -45,7 +45,7 @@ class _PasswordchangeState extends State<Passwordchange> {
       var status = otpdecode['status'];
       if (status == true) {
         final snackBar = SnackBar(
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.teal.shade600,
           content: Text('Password Updated Successfully'),
           duration: Duration(seconds: 1),
           behavior: SnackBarBehavior.floating,
@@ -54,6 +54,7 @@ class _PasswordchangeState extends State<Passwordchange> {
           ),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
         Navigator.pop(context);
       } else {
         final snackBar = SnackBar(
@@ -91,7 +92,8 @@ class _PasswordchangeState extends State<Passwordchange> {
                       decoration: BoxDecoration(
                           image: DecorationImage(
                               image:
-                                  AssetImage('assets/LoginPage/logintop.png'))),
+                                  AssetImage('assets/LoginPage/logintop.png'),
+                              fit: BoxFit.fill)),
                     ),
                     Container(
                         child: Row(

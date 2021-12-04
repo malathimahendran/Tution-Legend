@@ -263,8 +263,8 @@ class _ProfileState extends State<Profile> {
                                     color: HexColor('#F9F9F9'), fontSize: 20),
                               )),
                           Positioned(
-                              top: (height - status) * 0.07,
-                              left: width * 0.9,
+                              top: (height - status) * 0.06,
+                              left: width * 0.85,
                               child: InkWell(
                                   onTap: () async {
                                     var hello = await Navigator.push(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
@@ -84,10 +85,7 @@ class _PasswordsecondscreenState extends State<Passwordsecondscreen> {
                       SizedBox(
                         height: height * 0.02,
                       ),
-                      Image.asset(
-                        'assets/FORGOTPASSWORD/forgotpassword.png',
-                        width: width * 0.6,
-                      ),
+                      SvgPicture.asset('assets/FORGOTPASSWORD/otp.svg'),
                       SizedBox(
                         height: height * 0.02,
                       ),

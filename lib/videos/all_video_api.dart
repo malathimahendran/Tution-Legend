@@ -302,7 +302,8 @@ class _SearchinggscreenState extends State<Allvideo> {
                                                         child: ClipRRect(
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(15),
+                                                                  .circular(
+                                                                      15.0),
                                                           child: Image.network(
                                                             'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(decodeDetails[index]['link'])}/0.jpg',
                                                             fit: BoxFit.cover,

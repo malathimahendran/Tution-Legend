@@ -172,7 +172,7 @@ class _VideowishlistState extends State<Videowishlist> {
                                             color: HexColor('#FFFFFF'),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(5.0),
+                                                  BorderRadius.circular(15.0),
                                             ),
                                             child: Container(
                                               child: Row(

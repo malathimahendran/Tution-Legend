@@ -103,11 +103,10 @@ class _PlayState extends State<Play> {
         l.w(_controller!.value.position);
         Duration currentDuration = _controller!.value.position;
         l.i(currentDuration);
-        Provider.of<SqliteLocalDatabase>(context, listen: false)
+        await Provider.of<SqliteLocalDatabase>(context, listen: false)
             .insertvideolist(Watchedvideos(
                 videoid: YoutubePlayer.convertUrlToId(widget.link)!,
                 duration: currentDuration.inSeconds));
-
         Provider.of<SqliteLocalDatabase>(context, listen: false).getvideolist();
 
         // _controller.toggleFullScreenMode();

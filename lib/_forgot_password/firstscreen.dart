@@ -96,12 +96,7 @@ class _Passwordscreen1State extends State<Passwordscreen1> {
                       SizedBox(
                         height: height * 0.02,
                       ),
-                      // SvgPicture.asset(
-                      //     'assets/ForgotPassword/forgotPasswordmail.svg'),
-                      Image.asset(
-                        'assets/FORGOTPASSWORD/verification.jpg',
-                        width: width * 0.6,
-                      ),
+                      SvgPicture.asset('assets/FORGOTPASSWORD/mail.svg'),
                       SizedBox(
                         height: height * 0.02,
                       ),

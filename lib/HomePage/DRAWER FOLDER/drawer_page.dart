@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:logger/logger.dart';
 import 'package:tutionmaster/HomePage/changepassword.dart';
 import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
@@ -26,8 +27,11 @@ class DrawerPage extends StatefulWidget {
 }
 
 class _DrawerPageState extends State<DrawerPage> {
+  final l = Logger();
   @override
   Widget build(BuildContext context) {
+    l.v(widget.profileImage);
+    l.v(widget.userName);
     return Drawer(
         child: Column(children: [
       Container(
@@ -40,14 +44,17 @@ class _DrawerPageState extends State<DrawerPage> {
             Container(
               padding: EdgeInsets.only(left: 10),
               // color: Colors.green,
-              child: widget.profileImage == null || widget.profileImage == ""
+
+              child: widget.profileImage == null ||
+                      widget.profileImage == "" ||
+                      widget.profileImage!.isEmpty
                   ? Container(
                       height: (widget.height! - widget.status!) * 0.08,
                       width: widget.width! * 0.15,
                       color: Colors.redAccent[400],
                       alignment: Alignment.center,
                       child: Text(
-                        widget.userName
+                        widget.storeUserName
                             .toString()
                             .substring(0, 1)
                             .toUpperCase(),
@@ -104,7 +111,7 @@ class _DrawerPageState extends State<DrawerPage> {
             ),
             InkWell(
               onTap: () {
-                Navigator.pop(context);
+                Navigator.of(context).pop();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => PaymentDesign()));
               },
@@ -145,6 +152,7 @@ class _DrawerPageState extends State<DrawerPage> {
                   ),
                   InkWell(
                     onTap: () {
+                      Navigator.pop(context);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
