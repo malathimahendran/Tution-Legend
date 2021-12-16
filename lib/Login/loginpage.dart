@@ -17,6 +17,7 @@ import 'package:tutionmaster/FCM%20Token/fcm_token.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/Login/argumentpass.dart';
 import 'package:tutionmaster/ProfilePage/logout.dart';
+
 import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/StartingLearningPage/startlearning.dart';
@@ -156,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
       'email': email.text.toString(),
       'password': password.text.toString(),
       'device_id': finalDeviceId.toString(),
-      // 'device_id':3.toString()
+      // 'fcm': fcm_token.toString()
     }).then((value) async {
       var decodeDetails = json.decode(value.body);
       print("$finalDeviceId,deviceID");
@@ -242,7 +243,7 @@ class _LoginPageState extends State<LoginPage> {
     var status = decodeDetail['status'];
     print(
         '$statusCode,$status,$decodeDetail,"line192 Login Page google login"');
-
+    print(fcm_token);
     if (status == false) {
       Navigator.popAndPushNamed(context, AllRouteNames.registerpage,
           arguments:

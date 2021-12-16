@@ -408,7 +408,16 @@ class _ProfileState extends State<Profile> {
                                                                     .bold)),
                                               ],
                                             ),
-                                          )
+                                          ),
+                                          // Align(
+                                          //   alignment: Alignment.centerRight,
+                                          //   child: Padding(
+                                          //     padding:
+                                          //         const EdgeInsets.all(10.0),
+                                          //     child: Image.asset(
+                                          //         'assets/ProfilePage/edit.png'),
+                                          //   ),
+                                          // )
                                         ],
                                       )),
                                       Container(

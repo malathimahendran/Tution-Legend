@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
@@ -28,10 +30,20 @@ import 'Slider/carosalSlider.dart';
 import 'StartingLearningPage/startlearning.dart';
 import 'videos/vlc.dart';
 
+// Future onBackgroundMessageHandling(RemoteMessage message) async {
+//   final l = Logger();
+//   if (message != null) {
+//     l.i(message.notification!.title);
+//     l.i(message.data.toString());
+//     print(message.notification!.body);
+//     print(message.data.toString());
+//   }
+// }
+
 main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Firebase.initializeApp();
+  Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(new MyApp());

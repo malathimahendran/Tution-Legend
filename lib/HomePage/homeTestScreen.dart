@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:tutionmaster/videos/all_video_api.dart';
 import 'package:tutionmaster/view/HomeScreen_videoDisplay.dart';
 import 'homescreen.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeTestScreen extends StatefulWidget {
   HomeTestScreen({Key? key}) : super(key: key);
@@ -100,32 +101,50 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                     ],
                   ),
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  // color: Colors.red,
-                  height: (height) * 0.25,
-                  child: Stack(children: [
+                CarouselSlider(
+                  items: [
                     Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/HomeScreenPage/homeScreenCard.png'),
-                              fit: BoxFit.fill)),
+                      alignment: Alignment.center,
+                      // color: Colors.red,
                       height: (height) * 0.25,
-                      width: width * 0.9,
+                      child: Stack(children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/HomeScreenPage/homeScreenCard.png'),
+                                  fit: BoxFit.fill)),
+                          height: (height) * 0.25,
+                          width: width * 0.9,
+                        ),
+                        Positioned(
+                          bottom: height * 0.1,
+                          child: Text(
+                            '       Start\n       Learning',
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25,
+                                    color: Colors.white)),
+                          ),
+                        ),
+                      ]),
                     ),
-                    Positioned(
-                      bottom: height * 0.1,
-                      child: Text(
-                        '       Start\n       Learning',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
-                                color: Colors.white)),
-                      ),
+                    Container(
+                      color: Colors.blue,
+                      height: (height) * 0.2,
+                      width: width * 0.6,
                     ),
-                  ]),
+                    Container(
+                      color: Colors.red,
+                      height: (height) * 0.2,
+                      width: width * 0.6,
+                    ),
+                  ],
+                  //Slider Container properties
+                  options: CarouselOptions(
+                    autoPlay: true,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(15.0, 10.0, 30.0, 0.0),
