@@ -266,23 +266,22 @@ class _ProfileState extends State<Profile> {
                               top: (height - status) * 0.06,
                               left: width * 0.85,
                               child: InkWell(
-                                onTap: () async {
-                                  var hello = await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProfileEditPage()));
-                                  if (hello != null) {
-                                    l.w(hello);
-                                    getUserName();
-                                  }
-                                },
-                                // child: Padding(
-                                //   padding: const EdgeInsets.all(10.0),
-                                //   child: Image.asset(
-                                //       'assets/ProfilePage/edit.png'),
-                                // )
-                              )),
+                                  onTap: () async {
+                                    var hello = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProfileEditPage()));
+                                    if (hello != null) {
+                                      l.w(hello);
+                                      getUserName();
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Image.asset(
+                                        'assets/ProfilePage/edit.png'),
+                                  ))),
                           Positioned(
                             top: (height - status) * 0.1,
                             left: width * 0.05,
@@ -410,11 +409,6 @@ class _ProfileState extends State<Profile> {
                                               ],
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Image.asset(
-                                                'assets/ProfilePage/edit.png'),
-                                          )
                                         ],
                                       )),
                                       Container(
