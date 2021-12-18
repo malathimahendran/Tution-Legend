@@ -137,21 +137,26 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                 height: height * 0.005,
               ),
               Flexible(
-                child: GetSelectedsubjectsVideos.decodeDetails == null
+                child: GetSelectedsubjectsVideos.decodeDetails == null ||
+                        GetSelectedsubjectsVideos.decodeDetails.length == 0
                     ? Center(
                         child: CircularProgressIndicator(),
                       )
                     : Padding(
                         padding: EdgeInsets.only(left: 10),
                         child: Container(
-                          height: height * 0.78,
-                          width: width * 0.95,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(90)),
-                          child: ListView.builder(
-                              itemCount: GetSelectedsubjectsVideos
-                                  .decodeDetails.length,
-                              itemBuilder: (context, index) {
+                            height: height * 0.78,
+                            width: width * 0.95,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(90)),
+                            // child: ListView.builder(
+                            //     itemCount: GetSelectedsubjectsVideos
+                            //         .decodeDetails.length,
+                            //     itemBuilder: (context, index) {
+                            child: SingleChildScrollView(
+                                child: Column(children: [
+                              ...GetSelectedsubjectsVideos.decodeDetails
+                                  .map((e) {
                                 // Provider.of<GetVideoduration>(context,
                                 //         listen: true)
                                 //     .getduration(GetSelectedsubjectsVideos
@@ -183,7 +188,7 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                 return InkWell(
                                   child: Container(
                                       height: height * 0.18,
-                                      width: width * 0.8,
+                                      width: width * 0.95,
                                       child: Card(
                                         elevation: 5,
                                         color: HexColor('#FFFFFF'),
@@ -193,11 +198,7 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                         ),
                                         child: InkWell(
                                           onTap: () {
-                                            GetSelectedsubjectsVideos
-                                                                    .decodeDetails[
-                                                                index]
-                                                            ['subscribe'] ==
-                                                        0 ||
+                                            e['subscribe'] == 0 ||
                                                     Provider.of<GetPaymentDetails>(
                                                                 context,
                                                                 listen: false)
@@ -208,9 +209,7 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             Play(
-                                                              link: GetSelectedsubjectsVideos
-                                                                      .decodeDetails[
-                                                                  index]['link'],
+                                                              link: e['link'],
                                                             )))
                                                 : Navigator.push(
                                                     context,
@@ -239,7 +238,7 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                           BorderRadius.circular(
                                                               15),
                                                       child: Image.network(
-                                                        'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(GetSelectedsubjectsVideos.decodeDetails[index]['link'])}/0.jpg',
+                                                        'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(e['link'])}/0.jpg',
                                                         fit: BoxFit.cover,
                                                       ),
                                                     ),
@@ -264,10 +263,7 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                         // Text(wishlistDetails['data'][index]
                                                         //     ['link']),
                                                         Text(
-                                                          GetSelectedsubjectsVideos
-                                                              .decodeDetails[
-                                                                  index]
-                                                                  ['lesson']
+                                                          e['lesson']
                                                               .toString(),
                                                           style: TextStyle(
                                                               fontSize: 15,
@@ -282,10 +278,7 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                               height * 0.005,
                                                         ),
                                                         Text(
-                                                          GetSelectedsubjectsVideos
-                                                              .decodeDetails[
-                                                                  index][
-                                                                  'description']
+                                                          e['description']
                                                               .toString(),
                                                           maxLines: 2,
                                                           style: TextStyle(
@@ -313,18 +306,12 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                                     0.005,
                                                               ),
                                                               customText(
-                                                                  getText: GetSelectedsubjectsVideos
-                                                                              .decodeDetails[
-                                                                          index]
-                                                                      ['link'])
+                                                                  getText:
+                                                                      e['link'])
                                                             ],
                                                           ),
                                                         ),
-                                                        GetSelectedsubjectsVideos
-                                                                            .decodeDetails[
-                                                                        index][
-                                                                    'subscribe'] ==
-                                                                0
+                                                        e['subscribe'] == 0
                                                             ? Text(
                                                                 ' Free',
                                                                 style: TextStyle(
@@ -351,10 +338,7 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                         .checkingLikeAndUnlikeVideos(
                                                             context: context,
                                                             gettingVideoId:
-                                                                GetSelectedsubjectsVideos
-                                                                            .decodeDetails[
-                                                                        index][
-                                                                    'video_id']);
+                                                                e['video_id']);
                                                   },
                                                   child: Icon(Icons.favorite,
                                                       color: Provider.of<
@@ -362,10 +346,8 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                                                   context,
                                                                   listen: true)
                                                               .youtubeVideoIdnew
-                                                              .contains(GetSelectedsubjectsVideos
-                                                                          .decodeDetails[
-                                                                      index]
-                                                                  ['video_id'])
+                                                              .contains(
+                                                                  e['video_id'])
                                                           ? Colors.pink
                                                           : Colors.grey),
                                                 )
@@ -375,8 +357,10 @@ class _HomeScreenVideosState extends State<HomeScreenVideos> {
                                         ),
                                       )),
                                 );
-                              }),
-                        ),
+                              }).toList()
+                            ]))
+                            // }),
+                            ),
                       ),
               ),
             ],
