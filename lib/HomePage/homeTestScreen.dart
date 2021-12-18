@@ -18,6 +18,7 @@ class HomeTestScreen extends StatefulWidget {
 }
 
 class _HomeTestScreenState extends State<HomeTestScreen> {
+  int? currentPos = 0;
   var userName;
   int ind = 0;
   getUserName() {
@@ -101,9 +102,23 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                     ],
                   ),
                 ),
-                CarouselSlider(
-                  items: [
-                    Container(
+                CarouselSlider.builder(
+                  itemCount: 3,
+
+                  options: CarouselOptions(
+                      onPageChanged: (ind, reason) {
+                        setState(() {
+                          currentPos = ind;
+                        });
+                      },
+                      // pageSnapping: true,
+                      // autoPlay: true,
+                      enableInfiniteScroll: false,
+                      enlargeCenterPage: true,
+                      initialPage: 0,
+                      enlargeStrategy: CenterPageEnlargeStrategy.height),
+                  itemBuilder: (context, index, pageviewIndex) {
+                    return Container(
                       alignment: Alignment.center,
                       // color: Colors.red,
                       height: (height) * 0.25,
@@ -115,12 +130,12 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                                       'assets/HomeScreenPage/homeScreenCard.png'),
                                   fit: BoxFit.fill)),
                           height: (height) * 0.25,
-                          width: width * 0.9,
+                          width: width * 0.75,
                         ),
                         Positioned(
                           bottom: height * 0.1,
                           child: Text(
-                            '       Start\n       Learning',
+                            '   Start\n   Learning',
                             style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -129,25 +144,72 @@ class _HomeTestScreenState extends State<HomeTestScreen> {
                           ),
                         ),
                       ]),
-                    ),
-                    Container(
-                      color: Colors.blue,
-                      height: (height) * 0.2,
-                      width: width * 0.6,
-                    ),
-                    Container(
-                      color: Colors.red,
-                      height: (height) * 0.2,
-                      width: width * 0.6,
-                    ),
-                  ],
+                    );
+                  },
+
+                  // Container(
+                  //   alignment: Alignment.center,
+                  //   // color: Colors.red,
+                  //   height: (height) * 0.25,
+                  //   child: Stack(children: [
+                  //     Container(
+                  //       decoration: BoxDecoration(
+                  //           image: DecorationImage(
+                  //               image: AssetImage(
+                  //                   'assets/HomeScreenPage/homeScreenCard.png'),
+                  //               fit: BoxFit.fill)),
+                  //       height: (height) * 0.25,
+                  //       width: width * 0.9,
+                  //     ),
+                  //     Positioned(
+                  //       bottom: height * 0.1,
+                  //       child: Text(
+                  //         '       Start\n       Learning',
+                  //         style: GoogleFonts.poppins(
+                  //             textStyle: TextStyle(
+                  //                 fontWeight: FontWeight.bold,
+                  //                 fontSize: 25,
+                  //                 color: Colors.white)),
+                  //       ),
+                  //     ),
+                  //   ]),
+                  // ),
+                  // Container(
+                  //   color: Colors.blue,
+                  //   height: (height) * 0.2,
+                  //   width: width * 0.8,
+                  // ),
+                  // Container(
+                  //   color: Colors.red,
+                  //   height: (height) * 0.2,
+                  //   width: width * 0.8,
+                  // ),
+
                   //Slider Container properties
-                  options: CarouselOptions(
-                    autoPlay: true,
-                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ...[0, 1, 2].map((e) {
+                      int index = [0, 1, 2].indexOf(e);
+                      print(index);
+                      return Container(
+                        width: 8.0,
+                        height: 10.0,
+                        margin: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 2.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: HexColor('#000000')),
+                          shape: BoxShape.circle,
+                          color:
+                              currentPos == index ? Colors.black : Colors.white,
+                        ),
+                      );
+                    }).toList()
+                  ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(15.0, 10.0, 30.0, 0.0),
+                  padding: const EdgeInsets.fromLTRB(15.0, 0.0, 21.0, 0.0),
                   child: Text(
                     'Recent Videos',
                     textAlign: TextAlign.start,

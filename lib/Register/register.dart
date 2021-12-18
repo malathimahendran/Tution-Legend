@@ -22,6 +22,7 @@ import 'package:logger/logger.dart';
 
 import 'package:otp_text_field/style.dart';
 import 'package:telephony/telephony.dart';
+import '../main.dart';
 import 'login_class.dart';
 
 class Register extends StatefulWidget {
@@ -80,6 +81,7 @@ class _RegisterState extends State<Register> {
   @override
   void initState() {
     super.initState();
+    initPlatformState();
     chooseBoard();
     getGoogleData();
     getToken();
@@ -161,7 +163,7 @@ class _RegisterState extends State<Register> {
         phone: "+91${mobileno.text}", code: smsCodeController.text);
     if (twilioResponse.successful!) {
       if (twilioResponse.verification!.status == VerificationStatus.approved) {
-        changeSuccessMessage('Phone number is approved');
+        // changeSuccessMessage('Phone number is approved');
         registerApi();
       } else {
         changeSuccessMessage('Invalid code');
@@ -409,9 +411,11 @@ class _RegisterState extends State<Register> {
   double subTextSmall = 1.4;
   double subTextLogin = 1.6;
   onMessage(SmsMessage message) async {
+    l.wtf(message);
     setState(() {
       _message = message.body ?? "Error reading message body.";
     });
+    l.w(_message);
   }
 
   onSendStatus(SendStatus status) {
@@ -420,16 +424,40 @@ class _RegisterState extends State<Register> {
     });
   }
 
-  onBackgroundMessage(SmsMessage message) {
-    debugPrint("onBackgroundMessage called");
-  }
+  // onBackgroundMessage(SmsMessage message) {
+  //   l.wtf(message);
+  //   print("onBackgroundMessage called");
+  //   l.w('inside background');
+  // }
 
-  Future<void> initPlatformState() async {
+  Future initPlatformState() async {
     final bool? result = await telephony.requestPhoneAndSmsPermissions;
+    final bool? result1 = await telephony.requestSmsPermissions;
 
+    l.wtf(result1);
+    l.wtf(result);
     if (result != null && result) {
+      // l.wtf('inside if condition in initplatformstate');
+      // var z = telephony.isSmsCapable;
+      // l.wtf(z);
+      // var y = telephony.phoneType;
+      // l.wtf(y);
+      // var x = telephony.handler(call)
       telephony.listenIncomingSms(
-          onNewMessage: onMessage, onBackgroundMessage: onBackgroundMessage);
+        listenInBackground: false,
+        onNewMessage: (SmsMessage message) {
+          l.wtf('helllo');
+          l.wtf(message);
+          setState(() {
+            smsCodeController.text = message.body.toString().substring(32, 38);
+          });
+        },
+        // onBackgroundMessage: onBackgroundMessage,
+      );
+      // var k = await telephony.getConversations();
+      // l.wtf(k);
+      // var m = await telephony.getInboxSms();
+      // l.wtf(m);
     }
 
     if (!mounted) return;
