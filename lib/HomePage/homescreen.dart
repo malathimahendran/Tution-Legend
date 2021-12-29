@@ -120,17 +120,20 @@ class _HomeScreenState extends State<HomeScreen>
         child: Scaffold(
           key: HomeScreen.scaffoldkey1,
           resizeToAvoidBottomInset: false,
-          drawer: Container(
-            width: width * 0.75,
-            height: height,
-            child: DrawerPage(
+          drawer: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: width * 0.75,
               height: height,
-              width: width,
-              status: status,
-              profileImage: profileImage,
-              storeUserName: storeUserName,
-              userName: userName,
-              enrollmentNumber: enrollmentNumber,
+              child: DrawerPage(
+                height: height,
+                width: width,
+                status: status,
+                profileImage: profileImage,
+                storeUserName: storeUserName,
+                userName: userName,
+                enrollmentNumber: enrollmentNumber,
+              ),
             ),
           ),
           bottomNavigationBar: Stack(

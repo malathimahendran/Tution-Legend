@@ -261,8 +261,6 @@ class _SearchvideoState extends State<Searchvideo> {
                                                       listen: false)
                                                   .wathedvideolist[index]
                                                   .videoid);
-                                              print(
-                                                  'ggggggggrrrrrrrrrrrrrrrrrrrrrrrrrraaaaaaaaaaaaaaaaaaaaaa');
 
                                               var k = Navigator.push(
                                                   context,

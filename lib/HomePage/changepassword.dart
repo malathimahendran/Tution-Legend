@@ -15,6 +15,9 @@ class Passwordchange extends StatefulWidget {
 
 class _PasswordchangeState extends State<Passwordchange> {
   bool secureText = true;
+  bool secureText1 = true;
+  bool secureText2 = true;
+
   var currentPassword = TextEditingController();
   var newPassword = TextEditingController();
   var email, token;
@@ -59,7 +62,8 @@ class _PasswordchangeState extends State<Passwordchange> {
       } else {
         final snackBar = SnackBar(
           backgroundColor: Colors.red,
-          content: Text('Please use registered mail Id'),
+          content: Text(
+              'Please use registered mail Id & Please Check your current password'),
           duration: Duration(seconds: 1),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -129,21 +133,54 @@ class _PasswordchangeState extends State<Passwordchange> {
                         controller: currentPassword,
                         obscuretext: secureText,
                         hintText: 'Current Password',
+                        suffixIcon: IconButton(
+                          color: HexColor('#3F3F3F'),
+                          icon: secureText
+                              ? Icon(Icons.visibility_off)
+                              : Icon(Icons.visibility),
+                          onPressed: () {
+                            setState(() {
+                              secureText = !secureText;
+                            });
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: height * 0.05,
                       ),
                       TextField(
                         controller: newPassword,
-                        obscuretext: secureText,
+                        obscuretext: secureText1,
                         hintText: 'New Password',
+                        suffixIcon: IconButton(
+                          color: HexColor('#3F3F3F'),
+                          icon: secureText1
+                              ? Icon(Icons.visibility_off)
+                              : Icon(Icons.visibility),
+                          onPressed: () {
+                            setState(() {
+                              secureText1 = !secureText1;
+                            });
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: height * 0.05,
                       ),
                       TextField(
-                        obscuretext: secureText,
+                        obscuretext: secureText2,
                         hintText: 'Confirm New Password',
+                        suffixIcon: IconButton(
+                          color: HexColor('#3F3F3F'),
+                          icon: secureText2
+                              ? Icon(Icons.visibility_off)
+                              : Icon(Icons.visibility),
+                          onPressed: () {
+                            setState(() {
+                              secureText2 = !secureText2;
+                            });
+                          },
+                        ),
                         validator: (val) {
                           call(String values) {
                             if (values.isEmpty) {
@@ -199,8 +236,13 @@ class _PasswordchangeState extends State<Passwordchange> {
 }
 
 class TextField extends StatelessWidget {
-  TextField({this.hintText, this.obscuretext, this.controller, this.validator});
-  final hintText, obscuretext, controller, validator;
+  TextField(
+      {this.hintText,
+      this.obscuretext,
+      this.controller,
+      this.validator,
+      this.suffixIcon});
+  final hintText, obscuretext, controller, validator, suffixIcon;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -211,6 +253,7 @@ class TextField extends StatelessWidget {
         cursorColor: HexColor('#707070'),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         decoration: InputDecoration(
+            suffixIcon: suffixIcon,
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: HexColor('#707070')),
             ),
