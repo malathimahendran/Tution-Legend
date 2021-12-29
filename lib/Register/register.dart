@@ -71,6 +71,7 @@ class _RegisterState extends State<Register> {
   var classId;
   var fcm_token;
   var formKey = GlobalKey<FormState>();
+  //  String _valueToValidate = '';
   List<Map<String, dynamic>> items = [];
   List<Map<String, dynamic>> itemclass = [];
   String? originalGoogleId;
@@ -500,7 +501,7 @@ class _RegisterState extends State<Register> {
         ),
         child: Form(
           key: formKey,
-          autovalidate: true,
+          // autovalidate: true,
           child: Column(
             children: [
               Container(
@@ -514,8 +515,7 @@ class _RegisterState extends State<Register> {
                             width: width * 0.25,
                             child: InkWell(
                               onTap: () {
-                                Navigator.popAndPushNamed(
-                                    context, '/loginpage');
+                                Navigator.pop(context);
                               },
                               child: Icon(
                                 Icons.arrow_back,
@@ -606,7 +606,9 @@ class _RegisterState extends State<Register> {
                           controller: email,
                           icon: Icon(Icons.email, color: HexColor('#3F3F3F')),
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value.isEmpty ||
+                                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    .hasMatch(value)) {
                               return 'Enter a valid Email';
                             }
                             return null;
@@ -615,15 +617,23 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: ((height - status)) * 0.03,
                         ),
-                        Container(
-                          width: width * 0.8,
-                          height: height * 0.077,
-                          alignment: Alignment.center,
-                          child: Card(
-                            elevation: 10,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0)),
-                            child: SelectFormField(
+                        Stack(
+                          children: [
+                            Container(
+                              height: height * 0.05,
+                              width: width * 0.8,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.shade400,
+                                        blurRadius: 2.0,
+                                        spreadRadius: 0.6,
+                                        offset: Offset(0, 12))
+                                  ]),
+                            ),
+                            SelectFormField(
+                              // autovalidate: true,
                               type: SelectFormFieldType.dropdown,
                               controller: boardController,
                               onChanged: (val) {
@@ -635,6 +645,13 @@ class _RegisterState extends State<Register> {
                               },
                               changeIcon: true,
                               items: items,
+
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please choose board of education';
+                                }
+                                return null;
+                              },
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.zero,
                                   // constraints: BoxConstraints(
@@ -677,10 +694,22 @@ class _RegisterState extends State<Register> {
                                     borderSide:
                                         BorderSide(color: Color(0xF227DEBF)),
                                   ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(40.0)),
+                                    borderSide:
+                                        BorderSide(color: Colors.red, width: 1),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(40.0)),
+                                    borderSide:
+                                        BorderSide(color: Colors.red, width: 1),
+                                  ),
                                   prefixIcon: Icon(Icons.school,
                                       color: HexColor('#3F3F3F'))),
                             ),
-                          ),
+                          ],
                         ),
                         // Textfield(
                         //     read: true,
@@ -691,15 +720,22 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: ((height - status)) * 0.03,
                         ),
-                        Container(
-                          width: width * 0.8,
-                          height: height * 0.077,
-                          alignment: Alignment.center,
-                          child: Card(
-                            elevation: 10,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0)),
-                            child: SelectFormField(
+                        Stack(
+                          children: [
+                            Container(
+                              height: height * 0.05,
+                              width: width * 0.8,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.shade400,
+                                        blurRadius: 2.0,
+                                        spreadRadius: 0.6,
+                                        offset: Offset(0, 12))
+                                  ]),
+                            ),
+                            SelectFormField(
                               enabled: itemclass.isEmpty ? false : true,
                               // autofocus: false,
                               autocorrect: true,
@@ -713,6 +749,12 @@ class _RegisterState extends State<Register> {
                               controller: itemclass.isEmpty ? null : standard,
                               changeIcon: true,
                               items: itemclass,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please choose standard';
+                                }
+                                return null;
+                              },
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.zero,
                                   hintText: 'Standard',
@@ -750,10 +792,22 @@ class _RegisterState extends State<Register> {
                                     borderSide:
                                         BorderSide(color: Color(0xF227DEBF)),
                                   ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(40.0)),
+                                    borderSide:
+                                        BorderSide(color: Colors.red, width: 1),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(40.0)),
+                                    borderSide:
+                                        BorderSide(color: Colors.red, width: 1),
+                                  ),
                                   prefixIcon: Icon(Icons.school,
                                       color: HexColor('#3F3F3F'))),
                             ),
-                          ),
+                          ],
                         ),
                         Visibility(
                             visible: widget.googleuser == null ? true : false,
@@ -843,7 +897,9 @@ class _RegisterState extends State<Register> {
                           height: height * 0.05,
                           child: ElevatedButton(
                               onPressed: () {
-                                validateMobileNumberApi();
+                                if (formKey.currentState!.validate()) {
+                                  validateMobileNumberApi();
+                                }
                                 // registerApi();
                                 // sendCode();
                               },
@@ -1132,7 +1188,8 @@ class Textfield extends StatelessWidget {
         TextFormField(
           textCapitalization: textCapitalization,
           validator: validator,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
+          // autovalidateMode: AutovalidateMode.onUserInteraction,
+          // autovalidate: true,
           obscureText: obscuretext,
           keyboardType: type,
           controller: controller,
