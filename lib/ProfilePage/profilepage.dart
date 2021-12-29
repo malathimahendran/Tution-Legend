@@ -9,6 +9,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:logger/logger.dart';
 import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
+import 'package:tutionmaster/HomePage/changepassword.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
@@ -598,61 +599,71 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                       googleId == null || googleId == ""
-                          ? Container(
-                              height: (height - status) * 0.12,
-                              width: width * 0.9,
-                              child: Card(
-                                elevation: 5,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                color: HexColor('#FFFFFF'),
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        child: Text(
-                                          'Password',
-                                          style: GoogleFonts.poppins(
-                                              textStyle: TextStyle(
-                                                  color: HexColor('#B91124'),
-                                                  fontSize: 13)),
+                          ? InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Passwordchange()));
+                              },
+                              child: Container(
+                                height: (height - status) * 0.12,
+                                width: width * 0.9,
+                                child: Card(
+                                  elevation: 5,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  color: HexColor('#FFFFFF'),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          child: Text(
+                                            'Password',
+                                            style: GoogleFonts.poppins(
+                                                textStyle: TextStyle(
+                                                    color: HexColor('#B91124'),
+                                                    fontSize: 13)),
+                                          ),
                                         ),
-                                      ),
-                                      Container(
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.lock,
-                                              color: HexColor('#023129'),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 5),
-                                              child: Text(
-                                                '',
-                                                style: TextStyle(
-                                                    color: HexColor('#023129'),
-                                                    fontSize: 30),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 240),
-                                              child: Icon(
-                                                Icons.remove_red_eye,
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.lock,
                                                 color: HexColor('#023129'),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5),
+                                                child: Text(
+                                                  '',
+                                                  style: TextStyle(
+                                                      color:
+                                                          HexColor('#023129'),
+                                                      fontSize: 30),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 240),
+                                                child: Icon(
+                                                  Icons.remove_red_eye,
+                                                  color: HexColor('#023129'),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    //
                                   ),
-                                  //
                                 ),
                               ),
                             )

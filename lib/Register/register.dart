@@ -500,6 +500,7 @@ class _RegisterState extends State<Register> {
         ),
         child: Form(
           key: formKey,
+          autovalidate: true,
           child: Column(
             children: [
               Container(
@@ -565,29 +566,52 @@ class _RegisterState extends State<Register> {
                           hintText: 'UserName',
                           controller: username,
                           icon: Icon(Icons.person, color: HexColor('#3F3F3F')),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Enter a valid UserName';
+                            }
+                            return null;
+                          },
                         ),
                         SizedBox(
                           height: ((height - status)) * 0.03,
                         ),
-                        Textfield(unitHeightValue, subTextSmall,
-                            type: TextInputType.number,
-                            textCapitalization: TextCapitalization.none,
-                            hintText: 'MobileNo',
-                            controller: mobileno,
-                            returnText: 'Please Enter Mobile Number',
-                            icon: Icon(Icons.phone_iphone,
-                                color: HexColor('#3F3F3F'))),
+                        Textfield(
+                          unitHeightValue,
+                          subTextSmall,
+                          type: TextInputType.number,
+                          textCapitalization: TextCapitalization.none,
+                          hintText: 'MobileNo',
+                          controller: mobileno,
+                          returnText: 'Please Enter Mobile Number',
+                          icon: Icon(Icons.phone_iphone,
+                              color: HexColor('#3F3F3F')),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Enter a valid Mobile Number';
+                            }
+                            return null;
+                          },
+                        ),
                         SizedBox(
                           height: ((height - status)) * 0.03,
                         ),
-                        Textfield(unitHeightValue, subTextSmall,
-                            read: widget.googleuser != null ? true : false,
-                            type: TextInputType.emailAddress,
-                            textCapitalization: TextCapitalization.none,
-                            hintText: 'Email',
-                            controller: email,
-                            icon:
-                                Icon(Icons.email, color: HexColor('#3F3F3F'))),
+                        Textfield(
+                          unitHeightValue,
+                          subTextSmall,
+                          read: widget.googleuser != null ? true : false,
+                          type: TextInputType.emailAddress,
+                          textCapitalization: TextCapitalization.none,
+                          hintText: 'Email',
+                          controller: email,
+                          icon: Icon(Icons.email, color: HexColor('#3F3F3F')),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Enter a valid Email';
+                            }
+                            return null;
+                          },
+                        ),
                         SizedBox(
                           height: ((height - status)) * 0.03,
                         ),
@@ -705,13 +729,13 @@ class _RegisterState extends State<Register> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(40.0)),
                                     borderSide: BorderSide(
-                                        color: Colors.teal, width: 1),
+                                        color: Color(0xF2FFFFFF), width: 1),
                                   ),
                                   border: OutlineInputBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(40.0)),
                                     borderSide: BorderSide(
-                                        color: Colors.teal, width: 1),
+                                        color: Color(0xF227DEBF), width: 1),
                                   ),
                                   // contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
                                   enabledBorder: OutlineInputBorder(
@@ -758,6 +782,12 @@ class _RegisterState extends State<Register> {
                                   controller: password,
                                   icon: Icon(Icons.lock,
                                       color: HexColor('#3F3F3F')),
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Enter a valid Password';
+                                    }
+                                    return null;
+                                  },
                                 ),
                                 SizedBox(
                                   height: ((height - status)) * 0.03,

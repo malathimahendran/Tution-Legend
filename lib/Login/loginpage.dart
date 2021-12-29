@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
   String? deviceId, finalDeviceId;
   GoogleSignInAccount? googleUser;
   bool isPressed = false;
-
+  var _formKey = GlobalKey<FormState>();
   void handleRemeberme(bool value) {
     print("Handle Rember Me");
     isChecked = value;
@@ -347,21 +347,21 @@ class _LoginPageState extends State<LoginPage> {
         //             fit: BoxFit.fill)),
         //   ),
         // ),
-        body: SingleChildScrollView(
-          child: Form(
-            // autovalidate: true, //check for validation while typing
-            // key: formkey,
-            child: Container(
-              height: height,
-              // padding: EdgeInsets.only(top: 100),
-              decoration: BoxDecoration(
-                // color: Colors.pink,
-                image: DecorationImage(
-                    image: AssetImage(
-                        "assets/RegisterPage/registerbackground.png"),
-                    fit: BoxFit.fill),
-              ),
-              child: Stack(
+        body: Form(
+          // autovalidate: true, //check for validation while typing
+          key: formKey,
+          child: Container(
+            height: height,
+            // padding: EdgeInsets.only(top: 100),
+            decoration: BoxDecoration(
+              // color: Colors.pink,
+              image: DecorationImage(
+                  image:
+                      AssetImage("assets/RegisterPage/registerbackground.png"),
+                  fit: BoxFit.fill),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
                   Container(
                     height: (height - status) * 0.20,
@@ -372,229 +372,241 @@ class _LoginPageState extends State<LoginPage> {
                             image: AssetImage("assets/LoginPage/logintop.png"),
                             fit: BoxFit.fill)),
                   ),
-                  Positioned(
-                    top: 150,
-                    child: Column(
-                      children: [
-                        Container(
-                            height: (height - status) * 0.80,
-                            width: width,
-                            // color: Colors.black,
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  "assets/LoginPage/logincenter.png",
-                                  height: height * 0.2,
-                                  width: width * 1,
-                                ),
-                                SizedBox(height: 4),
-                                Text("Welcome",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize:
-                                            unitHeightValue * subTextWelcome)),
-                                SizedBox(height: 4),
-                                Text(
-                                  "Login to your existing Account",
+                  Column(
+                    children: [
+                      Container(
+                          height: (height - status) * 0.80,
+                          width: width,
+                          // color: Colors.black,
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                "assets/LoginPage/logincenter.png",
+                                height: height * 0.2,
+                                width: width * 1,
+                              ),
+                              SizedBox(height: 4),
+                              Text("Welcome",
                                   style: TextStyle(
-                                      fontSize: unitHeightValue *
-                                          subTextExistAccount),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          unitHeightValue * subTextWelcome)),
+                              SizedBox(height: 4),
+                              Text(
+                                "Login to your existing Account",
+                                style: TextStyle(
+                                    fontSize:
+                                        unitHeightValue * subTextExistAccount),
+                              ),
+                              SizedBox(height: 20),
+                              customContainerTextField(
+                                height,
+                                width,
+                                unitHeightValue,
+                                subTextSmall,
+                                hintText = "UserName or Email",
+                                icon = Icon(Icons.person),
+                                controller = email,
+                                validator1: (value) {
+                                  if (value.isEmpty ||
+                                      !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(value)) {
+                                    return 'Enter a valid email!';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 7),
+                              customContainerTextField(
+                                height,
+                                width,
+                                unitHeightValue,
+                                subTextSmall,
+                                hintText = "Password",
+                                icon = Icon(Icons.lock),
+                                controller = password,
+                                obscureText: secureText,
+                                suffixIcon: IconButton(
+                                  color: HexColor('#3F3F3F'),
+                                  icon: secureText
+                                      ? Icon(Icons.visibility_off)
+                                      : Icon(Icons.visibility),
+                                  onPressed: () {
+                                    setState(() {
+                                      secureText = !secureText;
+                                    });
+                                  },
                                 ),
-                                SizedBox(height: 7),
-                                customContainerTextField(
-                                  height,
-                                  width,
-                                  unitHeightValue,
-                                  subTextSmall,
-                                  hintText = "UserName or Email",
-                                  icon = Icon(Icons.person),
-                                  controller = email,
-                                ),
-                                SizedBox(height: 7),
-                                customContainerTextField(
-                                  height,
-                                  width,
-                                  unitHeightValue,
-                                  subTextSmall,
-                                  hintText = "Password",
-                                  icon = Icon(Icons.lock),
-                                  controller = password,
-                                  obscureText: secureText,
-                                  suffixIcon: IconButton(
-                                    color: HexColor('#3F3F3F'),
-                                    icon: secureText
-                                        ? Icon(Icons.visibility_off)
-                                        : Icon(Icons.visibility),
-                                    onPressed: () {
-                                      setState(() {
-                                        secureText = !secureText;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                // SizedBox(height: 5),
-                                Container(
-                                  width: width * 0.8,
-                                  child: Row(
-                                    children: [
-                                      Flexible(
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Theme(
-                                            data: ThemeData(
-                                              unselectedWidgetColor:
-                                                  Colors.black,
-                                            ),
-                                            child: CheckboxListTile(
-                                                activeColor:
-                                                    HexColor('#FF465C'),
-                                                checkColor: Colors.white,
-                                                contentPadding: EdgeInsets.zero,
-                                                controlAffinity:
-                                                    ListTileControlAffinity
-                                                        .leading,
-                                                title: Text('Remember me  ',
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize:
-                                                            unitHeightValue *
-                                                                subTextSmall)),
-                                                value: isChecked,
-                                                onChanged: (value) =>
-                                                    setState(() {
-                                                      isChecked = value!;
-                                                      handleRemeberme(value);
-
-                                                      // signInButtonEnable = !signInButtonEnable;
-                                                    })),
+                                validator1: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Enter a valid password!';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              // SizedBox(height: 5),
+                              Container(
+                                width: width * 0.8,
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Theme(
+                                          data: ThemeData(
+                                            unselectedWidgetColor: Colors.black,
                                           ),
+                                          child: CheckboxListTile(
+                                              activeColor: HexColor('#FF465C'),
+                                              checkColor: Colors.white,
+                                              contentPadding: EdgeInsets.zero,
+                                              controlAffinity:
+                                                  ListTileControlAffinity
+                                                      .leading,
+                                              title: Text('Remember me  ',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize:
+                                                          unitHeightValue *
+                                                              subTextSmall)),
+                                              value: isChecked,
+                                              onChanged: (value) =>
+                                                  setState(() {
+                                                    isChecked = value!;
+                                                    handleRemeberme(value);
+
+                                                    // signInButtonEnable = !signInButtonEnable;
+                                                  })),
                                         ),
                                       ),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Passwordscreen1()));
-                                        },
-                                        child: Text("Forgot Password?",
-                                            style: GoogleFonts.poppins(
-                                                textStyle: TextStyle(
-                                                    fontSize: unitHeightValue *
-                                                        subTextSmall))),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // SizedBox(height: 5),
-                                Container(
-                                  width: width * 0.8,
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          primary: HexColor("#243665"),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20))),
-                                      onPressed: () {
-                                        loginApi();
-                                        // if (formkey.currentState!.validate()) {
-                                        //   Text("ERERere");
-                                        //   print("Validated");
-                                        // } else {
-                                        //   print("Not Validated");
-                                        // }
-                                      },
-                                      child: Text("Log In",
-                                          style: GoogleFonts.poppins(
-                                            textStyle: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: unitHeightValue *
-                                                    subTextLogin),
-                                          ))),
-                                ),
-                                SizedBox(height: 2),
-                                Text(
-                                  "OR",
-                                  style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
-                                          fontSize:
-                                              unitHeightValue * subTextLogin)),
-                                ),
-                                SizedBox(height: 2),
-                                Container(
-                                  width: width * 0.4,
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        signInWithGoogle();
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20))),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            child: Image.asset(
-                                              'assets/LoginPage/google.jpeg',
-                                              height: 20,
-                                              width: 30,
-                                            ),
-                                          ),
-                                          Container(
-                                              // color: HexColor('#0077FF'),
-                                              // height: height * 0.04,
-                                              width: width * 0.2,
-                                              child: Text("Login",
-                                                  style: GoogleFonts.poppins(
-                                                    textStyle: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize:
-                                                            unitHeightValue *
-                                                                subTextLogin),
-                                                  ))),
-                                        ],
-                                      )),
-                                ),
-                                SizedBox(height: 3),
-                                Container(
-                                  width: width * 0.6,
-                                  child: Row(children: [
-                                    Text(
-                                      "Don't have an account?",
-                                      style: TextStyle(
-                                          fontSize:
-                                              unitHeightValue * subTextSmall),
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        Navigator.popAndPushNamed(
-                                            context, AllRouteNames.registerpage,
-                                            arguments: ArgumentPass(
-                                              deviceId: finalDeviceId,
-                                              googleUser: null,
-                                            ));
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Passwordscreen1()));
                                       },
-                                      child: Text(
-                                        "Sign Up",
-                                        style: GoogleFonts.poppins(
-                                            textStyle: TextStyle(
-                                                decoration:
-                                                    TextDecoration.underline,
-                                                fontSize: unitHeightValue *
-                                                    subTextSignup,
-                                                color: HexColor('#514880'))),
-                                      ),
+                                      child: Text("Forgot Password?",
+                                          style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                  fontSize: unitHeightValue *
+                                                      subTextSmall))),
                                     )
-                                  ]),
-                                )
-                              ],
-                            ))
-                      ],
-                    ),
+                                  ],
+                                ),
+                              ),
+                              // SizedBox(height: 5),
+                              Container(
+                                width: width * 0.8,
+                                child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: HexColor("#243665"),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20))),
+                                    onPressed: () {
+                                      if (formKey.currentState!.validate()) {
+                                        loginApi();
+                                      }
+
+                                      // if (formkey.currentState!.validate()) {
+                                      //   Text("ERERere");
+                                      //   print("Validated");
+                                      // } else {
+                                      //   print("Not Validated");
+                                      // }
+                                    },
+                                    child: Text("Log In",
+                                        style: GoogleFonts.poppins(
+                                          textStyle: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: unitHeightValue *
+                                                  subTextLogin),
+                                        ))),
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                "OR",
+                                style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize:
+                                            unitHeightValue * subTextLogin)),
+                              ),
+                              SizedBox(height: 2),
+                              Container(
+                                width: width * 0.4,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      signInWithGoogle();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20))),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          child: Image.asset(
+                                            'assets/LoginPage/google.jpeg',
+                                            height: 20,
+                                            width: 30,
+                                          ),
+                                        ),
+                                        Container(
+                                            // color: HexColor('#0077FF'),
+                                            // height: height * 0.04,
+                                            width: width * 0.2,
+                                            child: Text("Login",
+                                                style: GoogleFonts.poppins(
+                                                  textStyle: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize:
+                                                          unitHeightValue *
+                                                              subTextLogin),
+                                                ))),
+                                      ],
+                                    )),
+                              ),
+                              SizedBox(height: 3),
+                              Container(
+                                width: width * 0.6,
+                                child: Row(children: [
+                                  Text(
+                                    "Don't have an account?",
+                                    style: TextStyle(
+                                        fontSize:
+                                            unitHeightValue * subTextSmall),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.popAndPushNamed(
+                                          context, AllRouteNames.registerpage,
+                                          arguments: ArgumentPass(
+                                            deviceId: finalDeviceId,
+                                            googleUser: null,
+                                          ));
+                                    },
+                                    child: Text(
+                                      "Sign Up",
+                                      style: GoogleFonts.poppins(
+                                          textStyle: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              fontSize: unitHeightValue *
+                                                  subTextSignup,
+                                              color: HexColor('#514880'))),
+                                    ),
+                                  )
+                                ]),
+                              )
+                            ],
+                          ))
+                    ],
                   ),
                 ],
               ),
@@ -605,9 +617,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Container customContainerTextField(double height, double width,
-      double unitHeightValue, double subTextSmall, hintText, icon, controller,
-      {obscureText = false, suffixIcon}) {
+  customContainerTextField(double height, double width, double unitHeightValue,
+      double subTextSmall, hintText, icon, controller,
+      {obscureText = false, suffixIcon, validator1}) {
     return Container(
       height: height * 0.075,
       width: width * 0.8,
@@ -615,12 +627,9 @@ class _LoginPageState extends State<LoginPage> {
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,
-        // validator: MultiValidator([
-        //   RequiredValidator(errorText: "* Required"),
-        //   EmailValidator(errorText: "Enter valid email id"),
-        // ]),
+        validator: validator1,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.all(height * 0.004),
           suffixIcon: suffixIcon,
           hintText: hintText,
           hintStyle: GoogleFonts.poppins(
@@ -637,7 +646,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  valid({val}) {
-    if (val == 'email') {}
-  }
+  // valid({val}) {
+  //   if (val == 'email') {}
+  // }
 }

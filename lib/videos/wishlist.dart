@@ -118,12 +118,12 @@ class _VideowishlistState extends State<Videowishlist> {
                                           children: [
                                             Icon(
                                               Icons.search,
-                                              size: height * 0.1,
+                                              size: height * 0.07,
                                             ),
                                             Text(
                                               'No Results Found',
                                               style: TextStyle(
-                                                fontSize: 20,
+                                                fontSize: 13,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
