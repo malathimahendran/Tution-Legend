@@ -584,7 +584,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      Navigator.popAndPushNamed(
+                                      Navigator.pushNamed(
                                           context, AllRouteNames.registerpage,
                                           arguments: ArgumentPass(
                                             deviceId: finalDeviceId,

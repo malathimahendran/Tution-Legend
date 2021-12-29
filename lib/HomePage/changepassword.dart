@@ -63,7 +63,7 @@ class _PasswordchangeState extends State<Passwordchange> {
         final snackBar = SnackBar(
           backgroundColor: Colors.red,
           content: Text(
-              'Please use registered mail Id & Please Check your current password'),
+              'Please check your password & Please use registered mail id'),
           duration: Duration(seconds: 1),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
