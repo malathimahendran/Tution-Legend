@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/Live/live.dart';
@@ -12,6 +15,7 @@ import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
 
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
+import 'package:tutionmaster/paymentPlansApiIsExpiredOrNot/getPlanDetailsApi.dart';
 import 'package:tutionmaster/videos/likeandunlikeapi.dart';
 import 'package:tutionmaster/videos/videomainscreen.dart';
 
@@ -19,6 +23,7 @@ import 'package:tutionmaster/videos/wishlist.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
 
 import 'DRAWER FOLDER/drawer_page.dart';
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   static var scaffoldkey1 = GlobalKey<ScaffoldState>();
@@ -40,6 +45,7 @@ class IconAndText {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
+  @override
   final l = Logger();
   List<IconAndText> iconAndText = [
     IconAndText(icon: Icons.home, text: 'Home', index: 0),
@@ -47,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen>
     IconAndText(icon: Icons.home, text: 'Home', index: 2),
     IconAndText(icon: Icons.home, text: 'Home', index: 3),
   ];
-
+  var numberOfDaysLeft;
   int selectedItem = 0;
   int _page = 0;
   var k;
@@ -68,9 +74,10 @@ class _HomeScreenState extends State<HomeScreen>
   ];
   List<String> iconname = ['Home', 'Videos', 'Wishlist', 'Profile'];
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  @override
   void initState() {
     super.initState();
-
+    Provider.of<GetPlanDetails>(context, listen: false).getPlanDetails();
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
       // var token = userDetails[5];
@@ -86,6 +93,7 @@ class _HomeScreenState extends State<HomeScreen>
         print("$userEmail,$userEmail");
       });
     });
+    // getPlanDetails();
   }
 
   @override

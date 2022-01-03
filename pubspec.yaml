@@ -65,6 +65,7 @@ dependencies:
   otp_text_field: ^1.1.1
   sms_autofill: ^2.2.0
   telephony: ^0.1.4
+  flutter_local_notifications: ^9.1.5
   
   
 

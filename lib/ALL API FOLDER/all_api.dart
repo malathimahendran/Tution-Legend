@@ -14,6 +14,7 @@ final String unLikeVideoCall = baseUrl + 'home/dislike';
 final String allVideoApiCall = baseUrl + 'home/class_wise_lectures/title/All';
 final String getPlanDetailsCall = baseUrl + 'home/get_payment';
 final String profileUpdateApiCall = baseUrl + 'home/update_user_profile';
+final String planUpdateApiIsExpiredOrNot = baseUrl + 'home/update_active';
 final String paymentPostApiCall = baseUrl + 'home/payment';
 final String getPaymentApiCall = baseUrl + 'home/get_subscription';
 // final String getPlanDetailsCall = baseUrl + 'home/get_payment';

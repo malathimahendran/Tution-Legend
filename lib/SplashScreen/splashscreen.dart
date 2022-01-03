@@ -7,9 +7,11 @@ import 'package:shimmer/shimmer.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
+import 'package:tutionmaster/Notifications/notification_class.dart';
 import 'package:tutionmaster/Slider/carosalSlider.dart';
 import 'package:tutionmaster/SplashScreen/constants.dart';
 import '../SHARED PREFERENCES/shared_preferences.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -24,6 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
   var checkloggedfirsttime;
   @override
   void initState() {
+    firebaseNotification();
+
     SharedPreferences.getInstance().then(
       (prefs) {
         checkloggedfirsttime = prefs.getBool("checkingGetstarted");
@@ -44,6 +48,45 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.popAndPushNamed(context, AllRouteNames.homescreen);
       });
     });
+  }
+
+  gettingToken() async {
+    var tokens = await FirebaseMessaging.instance.getToken();
+    return tokens;
+  }
+
+  firebaseNotification() async {
+    await MessageNotification.initialize();
+    var m = FirebaseMessaging.instance.isAutoInitEnabled;
+    l.wtf(m);
+    var k = FirebaseMessaging.instance.requestPermission();
+    l.wtf(k);
+    //when app is not openend and we receive notification and then we will touch it
+    //then the app is openend
+    // FcmToken(token: gettingToken());
+
+    FirebaseMessaging.instance.getInitialMessage().then((value) {
+      l.wtf('inside firebase messaging getInitialMessage');
+      if (value != null) {
+        l.i(value);
+      }
+    });
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      l.wtf('inside firebase messaging onMessageListen');
+      if (message.notification != null) {
+        l.i(message.notification!.title);
+        l.i(message.notification!.body);
+        MessageNotification.messageDisplay(message);
+      }
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      l.wtf('inside firebase messaging onMessageOpenedApp');
+      if (message.data != null) {
+        l.i(message.data);
+        l.i(message.notification);
+      }
+    });
+    ;
   }
 
   Future selectingHere() async {
