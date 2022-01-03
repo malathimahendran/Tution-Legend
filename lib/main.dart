@@ -28,6 +28,7 @@ import 'ProfilePage/profilepage.dart';
 import 'Register/register.dart';
 import 'Slider/carosalSlider.dart';
 import 'StartingLearningPage/startlearning.dart';
+import 'paymentPlansApiIsExpiredOrNot/getPlanDetailsApi.dart';
 import 'videos/vlc.dart';
 import 'package:telephony/telephony.dart';
 import 'package:logger/logger.dart';
@@ -41,16 +42,21 @@ import 'package:logger/logger.dart';
 //     print(message.data.toString());
 //   }
 // }
-onBackgroundMessage(SmsMessage message) {
+Future onBackgroundMessageHandling(RemoteMessage message) async {
   final l = Logger();
-  l.w("onBackgroundMessage called");
-  l.wtf('inside void main');
+  if (message != null) {
+    l.i(message.notification!.title);
+    l.i(message.data.toString());
+    print(message.notification!.body);
+    print(message.data.toString());
+  }
 }
 
-main() {
+main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(onBackgroundMessageHandling);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(new MyApp());
@@ -88,6 +94,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: GetVideoduration(),
+        ),
+        ChangeNotifierProvider.value(
+          value: GetPlanDetails(),
         ),
         ChangeNotifierProvider(create: (context) {
           return GetPaymentDetails();

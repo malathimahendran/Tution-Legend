@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/HomePage/changepassword.dart';
@@ -15,6 +16,7 @@ import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 import 'package:tutionmaster/ProfilePage/logout.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
+import 'package:tutionmaster/paymentPlansApiIsExpiredOrNot/getPlanDetailsApi.dart';
 import 'package:tutionmaster/view/navigation_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'profile_edit_page.dart';
@@ -37,25 +39,25 @@ class _ProfileState extends State<Profile> {
       academicYear,
       googleId,
       token,
-      decodeDetailsData,
+      // decodeDetailsData,
       profileDetailsData,
       decodeDetails,
-      result,
-      amount,
+      // result,
+      // amount,
       data,
-      status,
-      standardClass,
-      subscribed_id;
+      // status,
+      standardClass;
+  // subscribed_id;
   var board;
   var imageFile;
   bool isLoading = false;
-  var subscribedDate;
-  var endingDate, numberOfDaysLeft;
+  // var subscribedDate;
+  // var endingDate, numberOfDaysLeft;
   void initState() {
     super.initState();
     // LogOutForAll.outTemporary(context);
     getUserName();
-    getPlanDetails();
+    Provider.of<GetPlanDetails>(context, listen: false).getPlanDetails();
     getProfileDetails();
     print(29);
   }
@@ -98,53 +100,68 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  getPlanDetails() async {
-    Shared().shared().then((value) async {
-      var userDetails = await value.getStringList('storeData');
-      // setState(() {
-      token = userDetails[5];
-      print("$token" + "51 line");
+  // getPlanDetails() async {
+  //   Shared().shared().then((value) async {
+  //     var userDetails = await value.getStringList('storeData');
+  //     token = userDetails[5];
+  //     print("$token" + "51 line");
+  //     var url = Uri.parse(getPlanDetailsCall);
+  //     var response = await http.get(url, headers: {'Authorization': token});
+  //     decodeDetailsData = json.decode(response.body);
+  //     l.e(decodeDetailsData);
+  //     var decode = response.body;
+  //     l.e(decode);
+  //     result = decodeDetailsData['result'];
+  //     l.wtf("$result,jjresult");
+  //     var status1 = decodeDetailsData['status'];
+  //     l.v("$status1,status from profile page");
+  //     // if (result != null) {
+  //     //   status = true;
+  //     //   l.i("SDFSFSFSDF");
+  //     // } else {
+  //     //   status = false;
+  //     //   l.i("EEEE");
+  //     // }
+  //     setState(() {
+  //       subscribedDate =
+  //           result[0]['subscribed_date'].toString().substring(0, 10);
+  //       l.wtf(subscribedDate);
 
-      var url = Uri.parse(getPlanDetailsCall);
+  //       endingDate = DateTime.parse(
+  //           result[0]['ending_date'].toString().substring(0, 10));
 
-      var response = await http.get(url, headers: {'Authorization': token});
-      decodeDetailsData = json.decode(response.body);
-      l.e(decodeDetailsData);
-      var decode = response.body;
-      l.e(decode);
-      result = decodeDetailsData['result'];
-      l.wtf("$result,jjresult");
-      var status1 = decodeDetailsData['status'];
-      l.v(status1);
-      if (result != null) {
-        status = true;
-        l.i("SDFSFSFSDF");
-      } else {
-        status = false;
-        l.i("EEEE");
-      }
+  //       l.v(endingDate);
+  //       // var bus = DateTime(int.parse(endingDate));
 
-      setState(() {
-        subscribedDate =
-            result[0]['subscribed_date'].toString().substring(0, 10);
-        l.wtf(subscribedDate);
-        endingDate = DateTime.parse(
-            result[0]['ending_date'].toString().substring(0, 10));
+  //       var cu = DateTime.parse(DateTime.now().toString().substring(0, 10));
 
-        l.v(endingDate);
-        // var bus = DateTime(int.parse(endingDate));
+  //       var k = endingDate.difference(cu).inDays;
+  //       l.e("$k,days left in profile page");
+  //       // var k = 0;
+  //       if (k == 0) {
+  //         print("updateapi");
+  //         updatePlanApiIsExpiredOrNot();
+  //       } else {
+  //         numberOfDaysLeft = k;
+  //         l.wtf("$numberOfDaysLeft,141 line plan details");
+  //         amount = result[0]['amount'];
 
-        var cu = DateTime.parse(DateTime.now().toString().substring(0, 10));
-        setState(() {
-          numberOfDaysLeft = endingDate.difference(cu).inDays;
-        });
-        l.wtf(numberOfDaysLeft);
-        amount = result[0]['amount'];
-        subscribed_id = result[0]['subscribed_id'];
-        l.wtf(amount);
-      });
-    });
-  }
+  //         subscribed_id = result[0]['subscribed_id'];
+  //         l.wtf(amount);
+  //       }
+  //     });
+  //   });
+  // }
+
+  // updatePlanApiIsExpiredOrNot() async {
+  //   var url = Uri.parse(planUpdateApiIsExpiredOrNot);
+  //   print(token);
+  //   print("$url,156line");
+  //   var response = await http.put(url,
+  //       body: {"expired": 0.toString()}, headers: {'Authorization': token});
+  //   print(response.body);
+  //   print("159line profile page");
+  // }
 
   Future<void> logOut() async {
     return showDialog<void>(
@@ -182,6 +199,7 @@ class _ProfileState extends State<Profile> {
   getUserName() {
     Shared().shared().then((value) async {
       var userDetails = await value.getStringList('storeData');
+
       print("${userDetails.length},25lineprofile");
       setState(() {
         userName = userDetails[0];
@@ -217,7 +235,7 @@ class _ProfileState extends State<Profile> {
   @override
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   Widget build(BuildContext context) {
-    l.e(subscribedDate);
+    // l.e(subscribedDate);
     // getUserName();
     // print(widget.indexnumber);
     print(43);
@@ -689,7 +707,10 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
                                 SizedBox(height: height * 0.005),
-                                amount == null
+                                Provider.of<GetPlanDetails>(context,
+                                                listen: true)
+                                            .amount ==
+                                        null
                                     ? Container(
                                         child: isLoading == false
                                             ? TweenAnimationBuilder(
@@ -792,7 +813,7 @@ class _ProfileState extends State<Profile> {
                                                   width: width * 0.03,
                                                 ),
                                                 Text(
-                                                  "Rs.$amount",
+                                                  "Rs.${Provider.of<GetPlanDetails>(context, listen: true).amount}",
                                                   style:
                                                       TextStyle(fontSize: 12),
                                                 ),
@@ -813,7 +834,8 @@ class _ProfileState extends State<Profile> {
                                                   width: width * 0.03,
                                                 ),
                                                 Text(
-                                                  "$subscribedDate",
+                                                  // "$subscribedDate",
+                                                  "${Provider.of<GetPlanDetails>(context, listen: true).subscribedDate}",
                                                   style:
                                                       TextStyle(fontSize: 12),
                                                 ),
@@ -834,7 +856,7 @@ class _ProfileState extends State<Profile> {
                                                   width: width * 0.03,
                                                 ),
                                                 Text(
-                                                  "$numberOfDaysLeft left",
+                                                  "${Provider.of<GetPlanDetails>(context, listen: true).numberOfDaysLeft} left",
                                                   style:
                                                       TextStyle(fontSize: 12),
                                                 ),
