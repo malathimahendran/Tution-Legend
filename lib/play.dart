@@ -28,6 +28,7 @@ class _PlayState extends State<Play> {
   bool? status;
   @override
   void initState() {
+    Provider.of<GetPlanDetails>(context, listen: false).getPlanDetails();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
     ]);

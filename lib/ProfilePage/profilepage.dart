@@ -13,6 +13,7 @@ import 'package:tutionmaster/ALLROUTES/routesname.dart';
 import 'package:tutionmaster/HomePage/changepassword.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/HomePage/homescreen.dart';
+import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 import 'package:tutionmaster/ProfilePage/logout.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
@@ -57,7 +58,7 @@ class _ProfileState extends State<Profile> {
     super.initState();
     // LogOutForAll.outTemporary(context);
     getUserName();
-    Provider.of<GetPlanDetails>(context, listen: false).getPlanDetails();
+    // Provider.of<GetPlanDetails>(context, listen: false).getPlanDetails();
     getProfileDetails();
     print(29);
   }

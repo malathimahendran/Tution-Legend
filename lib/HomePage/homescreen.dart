@@ -11,7 +11,6 @@ import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/HomePage/homeTestScreen.dart';
 import 'package:tutionmaster/Live/live.dart';
 
-import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/ProfilePage/profilepage.dart';
 
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';

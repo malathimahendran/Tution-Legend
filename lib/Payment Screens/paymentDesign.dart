@@ -37,7 +37,7 @@
 //   Razorpay? razorpay;
 //   void initState() {
 //     super.initState();
-//     getPaymentPlanApi();
+//     // getPaymentPlanApi();
 //     formattedDate = formatter.format(now);
 //     print("$formattedDate,date");
 //     razorpay = new Razorpay();

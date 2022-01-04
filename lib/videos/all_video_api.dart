@@ -6,6 +6,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
+import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/play.dart';
