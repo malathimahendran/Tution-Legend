@@ -112,8 +112,8 @@ class _DrawerPageState extends State<DrawerPage> {
             InkWell(
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => PaymentDesign()));
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => PaymentDesign()));
               },
               child: Container(
                 width: widget.width! * 0.65,

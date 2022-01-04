@@ -9,6 +9,7 @@ import 'package:tutionmaster/ALL%20API%20FOLDER/all_api.dart';
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
 import 'package:tutionmaster/Control/getvideoduration.dart';
 import 'package:tutionmaster/Control/videoduration.dart';
+import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 import 'package:tutionmaster/Register/register.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
@@ -391,9 +392,9 @@ class _customTextState extends State<customText> {
 
   gets() async {
     var k = await yt.videos.get(widget.getText);
-    setState(() {
-      dura = k.duration.toString();
-    });
+    // setState(() {
+    dura = k.duration.toString();
+    // });
   }
 
   @override

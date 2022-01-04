@@ -12,6 +12,7 @@ import 'package:tutionmaster/Control/continuewating.dart';
 import 'package:tutionmaster/Control/getdata.dart';
 
 import 'package:tutionmaster/Control/getselectedsubject_videoslink.dart';
+import 'package:tutionmaster/Payment%20Screens/paymentDesign.dart';
 import 'package:tutionmaster/Payment%20Screens/paymenttry.dart';
 import 'package:tutionmaster/SHARED%20PREFERENCES/shared_preferences.dart';
 import 'package:tutionmaster/videos/all_video_api.dart';
