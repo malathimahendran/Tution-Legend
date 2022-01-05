@@ -10,6 +10,7 @@ import 'package:tutionmaster/HomePage/homescreen.dart';
 import 'package:tutionmaster/Notifications/notification_class.dart';
 import 'package:tutionmaster/Slider/carosalSlider.dart';
 import 'package:tutionmaster/SplashScreen/constants.dart';
+import 'package:tutionmaster/paymentPlansApiIsExpiredOrNot/getPlanDetailsApi.dart';
 import '../SHARED PREFERENCES/shared_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -27,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     firebaseNotification();
-
+    Provider.of<GetPlanDetails>(context, listen: false).getPlanDetails();
     SharedPreferences.getInstance().then(
       (prefs) {
         checkloggedfirsttime = prefs.getBool("checkingGetstarted");

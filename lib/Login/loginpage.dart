@@ -128,6 +128,7 @@ class _LoginPageState extends State<LoginPage> {
     initPlatformState();
     getToken();
     loadUserEmailPassword();
+    print("deviceID:$finalDeviceId");
   }
 
   getToken() async {
